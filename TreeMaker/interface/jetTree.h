@@ -94,6 +94,8 @@ class jetTree  : public baseTree{
 
   //Branches common to all the jets.
   Int_t nJet_;
+  std::vector<Float_t> jetRawFactor_;
+
   std::vector<Float_t> jetPt_;
   std::vector<Float_t> jetEta_;
   std::vector<Float_t> jetPhi_;
@@ -104,6 +106,32 @@ class jetTree  : public baseTree{
   std::vector<Int_t>   jetCharge_;
   std::vector<Int_t>   jetPartonFlavor_;
   std::vector<Int_t>   jetPassID_;
+
+//Energy Fraction and Multiplicity 
+  std::vector<Float_t> jetHFHadEF_;
+  std::vector<Float_t> jetHFEMEF_;
+  std::vector<Int_t>   jetCHHadMultiplicity_;
+  std::vector<Int_t>   jetNHadMulplicity_;
+  std::vector<Int_t>   jetPhMultiplicity_;
+  std::vector<Int_t>   jetEleMultiplicity_;
+  std::vector<Int_t>   jetHFHadMultiplicity_;
+  std::vector<Int_t>   jetHFEMMultiplicity_;
+  std::vector<Float_t> jetChMuEF_;
+  std::vector<Int_t>   jetNMultiplicity_;
+  std::vector<Float_t> jetHOEnergy_;
+  std::vector<Float_t> jetHOEF_;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   std::vector<Float_t> genjetPx_;

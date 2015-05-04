@@ -2,6 +2,7 @@
 // This class need a new version
 // Take care of gen Jets from configuation 
 // take care of subjets
+// Tau variables now Fixed
 // take care of tau variables : access using new methods. 
 // add additional info related to soft drop (??) 
 // remove branches which are not needed. 
@@ -121,17 +122,31 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     nJet_++;
     //Stuff common for all jets.
 
-    jetTau1_.push_back(jet->userFloat("tau1"));
-    jetTau2_.push_back(jet->userFloat("tau2"));
-    jetTau3_.push_back(jet->userFloat("tau3"));
-    jetTau4_.push_back(jet->userFloat("tau4"));
-    
-    // this is old way and not correct now 
-    std::cout<<" tau variables = "<<jet->userFloat("tau1")
-	     <<", "<<jet->userFloat("tau2")
-	     <<", "<<jet->userFloat("tau3")
-	     <<", "<<jet->userFloat("tau4")
+
+    jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
+    jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
+    jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
+    jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+    std::cout<<" i jet = "<< nJet_
 	     <<std::endl;
+    std::cout<<" tau 1 = "<<jet->userFloat("NjettinessAK8:tau1")
+	     <<" tau 2 = "<<jet->userFloat("NjettinessAK8:tau2")
+	     <<" tau 3 = "<<jet->userFloat("NjettinessAK8:tau3")
+	     <<" nsubjets= "<<jet->nSubjetCollections()
+              <<std::endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     // now making correction of jet energy
     // reco::Candidate::LorentzVector uncorrJet;
@@ -205,6 +220,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       genjetPz_.push_back(-999.9);
       genjetEn_.push_back(-999.9);
     }
+    jetRawFactor_.push_back(jet->jecFactor("Uncorrected"));
     jetPt_.push_back(jet->pt());
     jetEta_.push_back(jet->eta());
     jetPhi_.push_back(jet->phi());
@@ -251,7 +267,53 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetNEmEF_.push_back(jet->neutralEmEnergyFraction());
     jetNHadEF_.push_back(jet->neutralHadronEnergyFraction());
     jetCMulti_.push_back(jet->chargedMultiplicity());
-    
+ 
+
+ if(false) std::cout<<"jetHFHadEF_ = "<<(jet->HFHadronEnergyFraction())
+	     <<"  jetHFEMEF_ = "<<(jet->HFEMEnergyFraction())
+	     <<"  jetCHHadMultiplicity_ = "<<(jet->chargedHadronMultiplicity())
+	     <<"  jetNHadMulplicity_ = "<<(jet->neutralHadronMultiplicity())
+	     <<"  jetPhMultiplicity_ = "<<(jet->photonMultiplicity())
+	     <<"  jetEleMultiplicity_ = "<<(jet->electronMultiplicity())
+	     <<"  jetHFHadMultiplicity_ = "<<(jet->HFHadronMultiplicity())
+	     <<"  jetHFEMMultiplicity_ = "<<(jet->HFEMMultiplicity())
+	     <<"  jetChMuEF_ = "<<(jet->chargedMuEnergyFraction())
+	     <<"  jetNMultiplicity_ = "<<(jet->neutralMultiplicity())
+	     <<"  jetHOEnergy_ = "<<(jet->hoEnergy())
+	     <<"  jetHOEF_ = "<<(jet->hoEnergyFraction())
+	     <<std::endl;
+
+
+    jetHFHadEF_.push_back(jet->HFHadronEnergyFraction());
+    jetHFEMEF_.push_back(jet->HFEMEnergyFraction());
+    jetCHHadMultiplicity_.push_back(jet->chargedHadronMultiplicity());
+    jetNHadMulplicity_.push_back(jet->neutralHadronMultiplicity());
+    jetPhMultiplicity_.push_back(jet->photonMultiplicity());
+    jetEleMultiplicity_.push_back(jet->electronMultiplicity());
+    jetHFHadMultiplicity_.push_back(jet->HFHadronMultiplicity());
+    jetHFEMMultiplicity_.push_back(jet->HFEMMultiplicity());
+    jetChMuEF_.push_back(jet->chargedMuEnergyFraction());
+    jetNMultiplicity_.push_back(jet->neutralMultiplicity());
+    jetHOEnergy_.push_back(jet->hoEnergy());
+    jetHOEF_.push_back(jet->hoEnergyFraction());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
     // Raman Testing starts 
     //jetPrunedM_.push_back(jet->userFloat("ak8PFJetsCHSPrunedLinks"));
     //jetPrunedM_.push_back(jet->userFloat("ak8PFJetsCHSPrunedMass"));
