@@ -2,13 +2,37 @@
 #define __JET_TREE_H_
 
 
+
+
+
 #include <memory>
 #include <string>
 #include <iostream>
 #include <vector>
 #include "TTree.h"
-#include "FWCore/Framework/interface/Event.h"
+
 #include "FWCore/Framework/interface/Frameworkfwd.h"
+#include "FWCore/Framework/interface/EDAnalyzer.h"
+
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/MakerMacros.h"
+
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+
+
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
+
+
+
+
+
+
+
+
+
+
+
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
@@ -23,17 +47,21 @@
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
 #include <boost/shared_ptr.hpp>
-
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
+#include "FWCore/Framework/interface/MakerMacros.h"
+#include "DataFormats/Common/interface/ValueMap.h"
+//#include "FWCore/Framework/interface/ConsumesCollector.h"
+#include "FWCore/Utilities/interface/InputTag.h"
 
 using namespace std;
 using namespace edm;
 
 
-
 class jetTree  : public baseTree{
 
  public:
-  jetTree(std::string name, TTree* tree, const edm::ParameterSet& cfg);//name=patJetAk05
+  jetTree(std::string name, TTree* tree, const edm::ParameterSet& cfg );//name=patJetAk05
   ~jetTree();
   void Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup) ; 
   void SetBranches();
@@ -45,10 +73,15 @@ class jetTree  : public baseTree{
   bool isCA8Jet_;
 
   edm::InputTag JetLabel_;
-  edm::InputTag PrunedJetLabel_;
+  //edm::InputTag PrunedJetLabel_;
   edm::InputTag rhoSrc_;
   edm::InputTag pvSrc_;
-  
+  //edm::EDGetTokenT<reco::VertexCollection> vtxToken_;  
+  edm::InputTag vtxLabel_;
+
+//  edm::EDGetTokenT<pat::JetCollection> fatjetToken_;
+//  edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
+
 
   std::vector<std::string> jecPayloadNames_;
   std::string              jecUncName_;
@@ -62,8 +95,7 @@ class jetTree  : public baseTree{
   //Branches common to all the jets.
   Int_t nJet_;
   std::vector<Float_t> jetRawFactor_;
-  
-  
+
   std::vector<Float_t> jetPt_;
   std::vector<Float_t> jetEta_;
   std::vector<Float_t> jetPhi_;
@@ -74,6 +106,32 @@ class jetTree  : public baseTree{
   std::vector<Int_t>   jetCharge_;
   std::vector<Int_t>   jetPartonFlavor_;
   std::vector<Int_t>   jetPassID_;
+
+//Energy Fraction and Multiplicity 
+  std::vector<Float_t> jetHFHadEF_;
+  std::vector<Float_t> jetHFEMEF_;
+  std::vector<Int_t>   jetCHHadMultiplicity_;
+  std::vector<Int_t>   jetNHadMulplicity_;
+  std::vector<Int_t>   jetPhMultiplicity_;
+  std::vector<Int_t>   jetEleMultiplicity_;
+  std::vector<Int_t>   jetHFHadMultiplicity_;
+  std::vector<Int_t>   jetHFEMMultiplicity_;
+  std::vector<Float_t> jetChMuEF_;
+  std::vector<Int_t>   jetNMultiplicity_;
+  std::vector<Float_t> jetHOEnergy_;
+  std::vector<Float_t> jetHOEF_;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   std::vector<Float_t> genjetPx_;
@@ -109,22 +167,6 @@ class jetTree  : public baseTree{
   std::vector<Float_t> jetNEmEF_;
   std::vector<Float_t> jetNHadEF_;
   std::vector<Float_t> jetCMulti_;
-  
-  //Energy Fraction and Multiplicity 
-  std::vector<Float_t> jetHFHadEF_;
-  std::vector<Float_t> jetHFEMEF_;
-  std::vector<Int_t>   jetCHHadMultiplicity_;
-  std::vector<Int_t>   jetNHadMulplicity_;
-  std::vector<Int_t>   jetPhMultiplicity_;
-  std::vector<Int_t>   jetEleMultiplicity_;
-  std::vector<Int_t>   jetHFHadMultiplicity_;
-  std::vector<Int_t>   jetHFEMMultiplicity_;
-  std::vector<Float_t> jetChMuEF_;
-  std::vector<Int_t>   jetNMultiplicity_;
-  std::vector<Float_t> jetHOEnergy_;
-  std::vector<Float_t> jetHOEF_;
-
-  
 
   // pruned information
 
@@ -146,9 +188,50 @@ class jetTree  : public baseTree{
   std::vector<Float_t> jetPrunedJP_;
   std::vector<Float_t> jetPrunedJBP_;
 
-  // subjet of pruned jets
-  Int_t nSubPrunedJet_;
+ //ak8jet mass
+ 
+ //
+    
+    std::vector<float>  jetSDmass_; 
+    std::vector<float>  jetTRmass_;
+    std::vector<float>  jetPRmass_;
+    std::vector<float>  jetFimass_;
   
+
+
+
+
+  // subjet of pruned jets
+
+
+
+ // subjet of pruned jets
+    std::vector<Int_t>   nSubSDJet_;
+//      std::vector<std::vector<Int_t>>   subjetMotherIndex_;
+    std::vector<std::vector<float> > subjetSDPt_;
+    std::vector<std::vector<float> > subjetSDEta_;
+    std::vector<std::vector<float> > subjetSDPhi_;
+    std::vector<std::vector<float> > subjetSDM_;
+    std::vector<std::vector<float> > subjetSDEn_;
+    std::vector<std::vector<int> >   subjetSDCharge_;
+    std::vector<std::vector<int> >   subjetSDPartonFlavor_;
+    std::vector<std::vector<float> > subjetSDCSV_;        
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+  Int_t nSubPrunedJet_;
+    
   std::vector<Float_t> subjetPrunedPt_;
   std::vector<Float_t> subjetPrunedEta_;
   std::vector<Float_t> subjetPrunedPhi_;
@@ -158,14 +241,14 @@ class jetTree  : public baseTree{
   std::vector<Int_t>   subjetPrunedPartonFlavor_;
 
 
-  //  std::vector<Float_t> subjetPrunedSSV_;
+    std::vector<Float_t> subjetPrunedSSV_;
   std::vector<Float_t> subjetPrunedCSV_;        
-  //  std::vector<Float_t> subjetPrunedTCHP_;
-  //  std::vector<Float_t> subjetPrunedTCHE_;
-  //  std::vector<Float_t> subjetPrunedJP_;
-  //  std::vector<Float_t> subjetPrunedJBP_;
+    std::vector<Float_t> subjetPrunedTCHP_;
+    std::vector<Float_t> subjetPrunedTCHE_;
+    std::vector<Float_t> subjetPrunedJP_;
+    std::vector<Float_t> subjetPrunedJBP_;
   
-
+*/
 };
 
 #endif
