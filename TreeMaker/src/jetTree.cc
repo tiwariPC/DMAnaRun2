@@ -220,24 +220,29 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetPassID_.push_back(passOrNot);
 
 
-    jetSSV_.push_back(jet->bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
-    jetSSVHE_.push_back(jet->bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
+    jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+    jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
     jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));        
     jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
     jetTCHE_.push_back(jet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
     jetJP_.push_back(jet->bDiscriminator("pfJetProbabilityBJetTags"));
     jetJBP_.push_back(jet->bDiscriminator("pfJetBProbabilityBJetTags"));
     jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
-    
+   /* 
     std::cout<<" pt of jet = "<<jet->pt()
-	     <<" csv  = "<<jet->bDiscriminator("combinedSecondaryVertexBJetTags")
-	     <<"simpleSecondaryVertexHighPurBJetTags "<<jet->bDiscriminator("simpleSecondaryVertexHighPurBJetTags")
-	     <<" trackCountingHighPurBJetTags = "<<jet->bDiscriminator("trackCountingHighPurBJetTags")
-	     <<" simpleSecondaryVertexHighEffBJetTags = "<<jet->bDiscriminator("simpleSecondaryVertexHighEffBJetTags")
-	     <<" combinedInclusiveSecondaryVertexV2BJetTags = "<<jet->bDiscriminator("combinedInclusiveSecondaryVertexV2BJetTags")
-	     <<" CombinedSecondaryVertexIVFV2 = "<<jet->bDiscriminator("combinedSecondaryVertexIVFV2")
+	     <<" pfSimpleSecondaryVertexHighPurBJetTags = "<<jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags")
+             
+             <<"pfSimpleSecondaryVertexHighEffBJetTags "<<jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags")
+	     
+             <<" csv  = "<<jet->bDiscriminator("combinedSecondaryVertexBJetTags")
+	     <<" pfTrackCountingHighPurBJetTags = "<<jet->bDiscriminator("pfTrackCountingHighPurBJetTags")
+	     <<" pfTrackCountingHighEffBJetTags = "<<jet->bDiscriminator("pfTrackCountingHighEffBJetTags")
+	     <<" pfJetProbabilityBJetTags = "<<jet->bDiscriminator("pfJetProbabilityBJetTags")
+	     <<" pfJetBProbabilityBJetTags = "<<jet->bDiscriminator("pfJetBProbabilityBJetTags")
+	     <<" pfCombinedInclusiveSecondaryVertexV2BJetTags = "<<jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")
+
 	     <<std::endl;
-    
+    */
     
     jetMuEF_.push_back(jet->muonEnergyFraction());
     jetPhoEF_.push_back(jet->photonEnergyFraction());
