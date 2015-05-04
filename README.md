@@ -30,3 +30,5 @@ mv AddModules/redo*  ExoDiBosonResonances/EDBRJets/python/
 scramv1 b clean
 
 scramv1 b
+
+cmsRun DelPanj/TreeMaker/test/MVA-MET-PFUncorrectedMET-Jet_cfg_yunju.py 
