@@ -13,9 +13,9 @@ git cms-init
 
 git clone -b Phys14 git@github.com:cms-edbr/ExoDiBosonResonancesRun2.git ExoDiBosonResonances
 
-git clone git@github.com:yunju/DMAnaRun2.git DelPanj
+git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
-git clone git@github.com:yunju/DMAnaRun2_AddModules.git AddModules
+git clone git@github.com:syuvivida/DMAnaRun2_AddModules.git AddModules
 
 mv AddModules/EGamma/ .
 
@@ -31,4 +31,4 @@ scramv1 b clean
 
 scramv1 b
 
-cmsRun DelPanj/TreeMaker/test/MVA-MET-PFUncorrectedMET-Jet_cfg_yunju.py 
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/MVA-MET-PFUncorrectedMET-Jet_cfg_yunju.py 
