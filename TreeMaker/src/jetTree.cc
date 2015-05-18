@@ -70,7 +70,7 @@ void
 jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   Clear();
 
-  cout<<isCA8Jet_<<" jet Event loop start"<<endl;
+  cout<<isCA8Jet_<<"----------------- jet Event loop start------------------"<<endl;
   cout<<JetLabel_<<"............................................"<<endl; 
  
  
@@ -127,6 +127,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
     jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
     jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+ 
+/*
     std::cout<<" i jet = "<< nJet_
 	     <<std::endl;
     std::cout<<" tau 1 = "<<jet->userFloat("NjettinessAK8:tau1")
@@ -134,7 +136,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	     <<" tau 3 = "<<jet->userFloat("NjettinessAK8:tau3")
 	     <<" nsubjets= "<<jet->nSubjetCollections()
               <<std::endl;
-
+*/
 
 
 
@@ -443,7 +445,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
         for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
 	  const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*constituents[ida]);
-	  printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
+//	  printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
 	}
 
 
@@ -480,8 +482,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
        for ( auto const & iw : wSubjets ) 
        {
-	  printf("   w subjet with pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f ungroomed\n",
-		 iw->pt(), iw->pt()*iw->jecFactor("Uncorrected"), iw->eta(), iw->mass() );
+	 // printf("   w subjet with pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f ungroomed\n",
+	//	 iw->pt(), iw->pt()*iw->jecFactor("Uncorrected"), iw->eta(), iw->mass() );
 	  nSubSoftDropjets++;
 
           
@@ -499,8 +501,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
         subjetSDPhi.push_back(iw->phi());
         subjetSDM.push_back(iw->mass());
        // subjetSDEn.push_back(iw->e());
-        subjetSDCSV.push_back(iw->bDiscriminator("combinedSecondaryVertexBJetTags"));   
-
+          subjetSDCSV.push_back(iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
+          // cout<<"Test Subjet:"<<iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
 
 		}
 
@@ -523,6 +525,32 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
 }//jet loop
+
+
+
+
+// take remake jets
+
+
+   // define a jet handle
+   edm::Handle<std::vector<pat::Jet> > rejets;
+   //     // get jets from the event
+   iEvent.getByLabel("selectedPatJetsAK5PFCHS", rejets);
+
+//         // loop over jets
+   for( auto jet = rejets->begin(); jet != rejets->end(); ++jet )
+   {
+              
+           cout<<"selectedPatJetsAK5PFCHS: "<< jet->pt()<<endl;                       // fill discriminator histograms
+                  
+   }
+
+
+
+
+
+
+
 
 
 
@@ -651,7 +679,7 @@ for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
 
 */
 
-  cout<<"jet Event loop end"<<endl;
+  cout<<"------------- jettree Event loop end ----------------"<<endl;
 
 
 
