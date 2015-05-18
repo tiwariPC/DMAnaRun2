@@ -79,6 +79,7 @@ class jetTree  : public baseTree{
   //edm::EDGetTokenT<reco::VertexCollection> vtxToken_;  
   edm::InputTag vtxLabel_;
 
+  edm::InputTag AK8AddC_;
 //  edm::EDGetTokenT<pat::JetCollection> fatjetToken_;
 //  edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
 
