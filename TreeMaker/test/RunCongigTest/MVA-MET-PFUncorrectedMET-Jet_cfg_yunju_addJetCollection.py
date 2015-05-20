@@ -305,7 +305,7 @@ addJetCollection(
 
 ## Establish references between PATified fat jets and subjets using the BoostedJetMerger
 
-process.selectedPatJetsPFCHSPacked = cms.EDProducer("BoostedJetMerger",
+process.selectedPatJetsPrunedPFCHSPacked = cms.EDProducer("BoostedJetMerger",
     jetSrc=cms.InputTag("selectedPatJetsPrunedPFCHS"+postfix),
     subjetSrc=cms.InputTag("selectedPatJetsPrunedSubjetsPFCHS"+postfix)
 )
@@ -318,6 +318,10 @@ process.packedPatJetsPFCHS = cms.EDProducer("JetSubstructurePacker",
             algoLabels = cms.vstring(),
             fixDaughters = cms.bool(False)
 )
+
+
+process.packedPatJetsPFCHS.algoTags.append( cms.InputTag('selectedPatJetsPrunedPFCHSPacked') )
+process.packedPatJetsPFCHS.algoLabels.append( 'Pruned' )
 
 
 ## Filter for good primary vertex
@@ -346,7 +350,7 @@ adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 
 
 
-process.addjetSequence = cms.Sequence(process.selectedPatJetsPFCHSPacked+process.packedPatJetsPFCHS)
+#process.addjetSequence = cms.Sequence(process.selectedPatJetsPFCHSPacked+process.packedPatJetsPFCHS)
 
 
 
@@ -418,6 +422,7 @@ process.tree = cms.EDAnalyzer(
     #patMetRaw=cms.InputTag("slimmedMETs"),
     
     AK8AddPY= cms.InputTag("packedPatJetsPFCHS"),
+    SubJetsPY= cms.InputTag('selectedPatJetsSoftDropPFCHSPacked','SubJets'),
     outFileName=cms.string('outputFileName.root')
     )
 
@@ -431,7 +436,7 @@ process.TFileService = cms.Service("TFileService",
 
 process.analysis = cms.Path(process.leptonSequence+
                             process.jetSequence+                            
-                            process.addjetSequence+
+                            #process.addjetSequence+
                             process.pfMVAMEtSequence+
                             process.pfMet+
                             process.tree

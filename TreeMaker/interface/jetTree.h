@@ -82,6 +82,7 @@ class jetTree  : public baseTree{
   edm::InputTag AK8AddC_;
 //  edm::EDGetTokenT<pat::JetCollection> fatjetToken_;
 //  edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
+  edm::InputTag SubJetCollectionC_;
 
 
   std::vector<std::string> jecPayloadNames_;

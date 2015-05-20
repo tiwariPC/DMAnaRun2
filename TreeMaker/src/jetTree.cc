@@ -29,7 +29,8 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   rhoSrc_   (iConfig.getParameter<edm::InputTag>("rhoSrc") ),                     
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
   AK8AddC_  (iConfig.getParameter<edm::InputTag>("AK8AddPY") ),  
-  jecPayloadNames_( iConfig.getParameter<std::vector<std::string> >(Form("%sjecPayloadNames",desc.data()) )), 
+  SubJetCollectionC_ ( iConfig.getParameter<edm::InputTag>("SubJetsPY") ),  
+jecPayloadNames_( iConfig.getParameter<std::vector<std::string> >(Form("%sjecPayloadNames",desc.data()) )), 
   jecUncName_( iConfig.getParameter<std::string>(Form("%sjecUncName",desc.data())) ),	
   jet2012ID_()
 {
@@ -538,12 +539,32 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
         // get jets from the event
    iEvent.getByLabel(AK8AddC_, rejets);
 
+   //get subjet
+
+   edm::Handle<pat::JetCollection>  subjetColls;
+   iEvent.getByLabel(SubJetCollectionC_, subjetColls);
+
          // loop over jets
    for( auto jet = rejets->begin(); jet != rejets->end(); ++jet )
    {
               
            cout<<"selectedPatJetsPFCHSPFlow: "<< jet->pt()<<endl;                       // fill discriminator histograms
-                  
+   
+          auto ReSubjets  = jet->subjets("Pruned");
+          cout<<"Here"<<endl; 
+          for ( auto const & resub : ReSubjets ) 
+          {
+            cout<<"Subjets : "<<resub->pt()<<endl;
+
+          }
+//         for( int sj = 0; sj < (int)subjets.size(); ++sj )
+//          {
+//           cout<<"Subjets : "<<subjets->pt()<<endl;
+ 
+//          }  
+
+
+               
    }
 
 
