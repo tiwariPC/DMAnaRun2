@@ -108,14 +108,14 @@ TrigFilter::~TrigFilter()
 bool
 TrigFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-
-   edm::Handle<edm::TriggerResults> trigResults;
-     //edm::InputTag trigTag("TriggerResults::HLT");
-     if (not iEvent.getByLabel(trigTag_, trigResults)) {
-       std::cout << ">>> TRIGGER collection does not exist !!!\n";
-       return false;
-     } 
-     
+  
+  edm::Handle<edm::TriggerResults> trigResults;
+  //edm::InputTag trigTag("TriggerResults::HLT");
+  if (not iEvent.getByLabel(trigTag_, trigResults)) {
+    std::cout << ">>> TRIGGER collection does not exist !!!\n";
+    return false;
+  } 
+  
      const edm::TriggerNames & trigNames 
        = iEvent.triggerNames(*trigResults);
      bool decision = false;
