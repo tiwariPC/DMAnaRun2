@@ -85,7 +85,8 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecEta_.push_back(ele->eta());
     patElecPhi_.push_back(ele->phi());
     patElecM_.push_back(ele->mass());
-
+    patElecCharge_.push_back(ele->charge());
+    
     Float_t supercluster_eta =-999;    
     supercluster_eta = ele->superCluster()->eta();
     patElecScEta_.push_back(supercluster_eta);
@@ -169,6 +170,7 @@ patElecTree::SetBranches(){
   AddBranch(&patElecEta_, "eleEta");
   AddBranch(&patElecPhi_, "elePhi");
   AddBranch(&patElecM_, "eleM");
+  AddBranch(&patElecCharge_,"eleCharge");
   AddBranch(&patElecScEta_, "eleScEta");
   AddBranch(&patElecSigIhIh_, "eleSigIhIh");
   AddBranch(&patElecDelEtaIn_, "eleDelEtaIn");
@@ -211,6 +213,7 @@ patElecTree::Clear(){
   patElecEta_.clear();
   patElecPhi_.clear();
   patElecM_.clear();
+  patElecCharge_.clear();
   patElecScEta_.clear();
   patElecSigIhIh_.clear();
   patElecDelEtaIn_.clear();

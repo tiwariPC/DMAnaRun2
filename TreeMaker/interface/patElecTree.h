@@ -56,6 +56,7 @@ class patElecTree : public baseTree {
   std::vector<Float_t> patElecEta_;
   std::vector<Float_t> patElecPhi_;
   std::vector<Float_t> patElecM_;
+  std::vector<Float_t> patElecCharge_;
   std::vector<Float_t> patElecScEta_;
   std::vector<Float_t> patElecSigIhIh_;
   std::vector<Float_t> patElecDelEtaIn_;

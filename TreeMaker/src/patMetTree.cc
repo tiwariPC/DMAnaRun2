@@ -60,7 +60,7 @@ patMetTree::Fill(const edm::Event& iEvent){
              <<std::endl; exit(0);}
   
   reco::PFMETCollection::const_iterator recmet=recomethandle.product()->begin();
-  std::cout<<" -------------------- MVA MET = "<<recmet->et()<<std::endl;
+  //std::cout<<" -------------------- MVA MET = "<<recmet->et()<<std::endl;
   
   mvaMetPt_ = recmet->et();
   mvaMetPhi_ = recmet->phi();
@@ -68,14 +68,14 @@ patMetTree::Fill(const edm::Event& iEvent){
   mvaMetSig_   = recmet->significance() < 1.e10 ? recmet->significance() : 0;
   // adding of mva met ends here 
   
-
+  if(false){
   std::cout<<"met = "<<met->et()
 	   <<" phit = "<<met->phi()
 	   <<" sum pt = "<<met->sumEt()
 	   <<" raw met = "<<metraw->et()
 	   << "raw phi = "<<metraw->phi()
 	   <<std::endl;
-  
+  }
 
 
 } 

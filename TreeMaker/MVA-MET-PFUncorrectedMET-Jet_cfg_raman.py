@@ -76,41 +76,43 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-                                #'/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
-                                #'file:step3_miniAOD_M1500_9.root'
-                              #  'root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root'
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_1.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_10.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_11.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_12.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_13.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_14.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_15.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_16.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_17.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_18.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_19.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_2.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_20.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_21.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_22.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_23.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_24.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_25.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_26.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_27.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_28.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_29.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_3.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_30.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_4.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_5.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_6.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_7.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_8.root",
-                                "root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root"
-                            ),
-                            skipEvents = cms.untracked.uint32(0)         
+        '/store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/0432E62A-7A6C-E411-87BB-002590DB92A8.root'
+        #'/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
+        #'file:step3_miniAOD_M1500_9.root'
+        #  'root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root'
+        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_1.root",
+        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_10.root",
+        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_11.root",
+        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_12.root",
+        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_13.root"
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_14.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_15.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_16.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_17.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_18.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_19.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_2.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_20.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_21.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_22.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_23.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_24.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_25.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_26.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_27.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_28.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_29.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_3.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_30.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_4.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_5.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_6.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_7.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_8.root",
+        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root"
+        ),
+                            skipEvents = cms.untracked.uint32(0),
+                            duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
                             )
 
 

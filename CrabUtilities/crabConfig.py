@@ -6,7 +6,7 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'MiniAOD_DYJets_HT-100to200'
-config.General.workArea = 'crab_projects_METFixed1'
+config.General.workArea = 'crab_projects_20150603'
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
@@ -23,7 +23,7 @@ config.Data.unitsPerJob = 5
 #config.Data.publication = True
 #config.Data.publishDbsUrl = 'phys03'
 #config.Data.publishDataName = 'CRAB3_CSA_DYJets'
-config.JobType.allowNonProductionCMSSW=True
+config.JobType.allowUndistributedCMSSW=True
 
 #maxtarballsize = 50 
 config.section_("Site")

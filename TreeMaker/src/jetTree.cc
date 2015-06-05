@@ -1,4 +1,4 @@
-
+ 
 // This class need a new version
 // Take care of gen Jets from configuation 
 // take care of subjets
@@ -69,10 +69,11 @@ jetTree::~jetTree(){
 void
 jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   Clear();
-
+  
+  if(false){
   cout<<isCA8Jet_<<" jet Event loop start"<<endl;
   cout<<JetLabel_<<"............................................"<<endl; 
- 
+  }
  
 
 
@@ -127,25 +128,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
     jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
     jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
-    std::cout<<" i jet = "<< nJet_
-	     <<std::endl;
-    std::cout<<" tau 1 = "<<jet->userFloat("NjettinessAK8:tau1")
-	     <<" tau 2 = "<<jet->userFloat("NjettinessAK8:tau2")
-	     <<" tau 3 = "<<jet->userFloat("NjettinessAK8:tau3")
-	     <<" nsubjets= "<<jet->nSubjetCollections()
-              <<std::endl;
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
     
     // now making correction of jet energy
@@ -339,6 +322,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     
     if(!isCA8Jet_)continue; // stop looking for Prunedjets and subjets
 
+    if(false){
     jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
     jetTRmass_.push_back(jet->userFloat("ak8PFJetsCHSTrimmedMass")); 
     jetPRmass_.push_back(jet->userFloat("ak8PFJetsCHSPrunedMass"));
@@ -520,7 +504,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	
 //	}
 
-
+    }//if(false) 
 
 }//jet loop
 
@@ -603,7 +587,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
 
-
+  
 
 
 
