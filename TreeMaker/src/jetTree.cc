@@ -130,7 +130,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   for(;jet!=jets.end();jet++){
     nJet_++;
     //Stuff common for all jets.
-
+    if(isADDJet_) continue;
 
     jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
     jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
@@ -348,8 +348,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     */
     // look for pruned jet
     
-    if(!isFATJet_)continue; // stop looking for Prunedjets and subjets
-
+    if(isFATJet_) // only run with FATjet
+    {
     jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
     jetTRmass_.push_back(jet->userFloat("ak8PFJetsCHSTrimmedMass")); 
     jetPRmass_.push_back(jet->userFloat("ak8PFJetsCHSPrunedMass"));
@@ -528,6 +528,9 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
        subjetSDCSV_.push_back(subjetSDCSV); 
        subjetSDCharge_.push_back(subjetSDCharge);
 
+      }//if is Fat jet
+
+
 //	auto tSubjets = jetptr->subjets("CMSTopTag");
 //	for ( auto const & it : tSubjets ) {
 //	  printf("   t subjet with pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f ungroomed\n",
@@ -572,7 +575,26 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       for( auto jet = rejets->begin(); jet != rejets->end(); ++jet )
       {
              
-           cout<<"selectedPatJetsPFCHSPFlow: "<< jet->pt()<<endl;                       // fill discriminator histograms
+
+           cout<<"selectedPatJetsPFCHSPFlow: "<< jet->pt()<<endl;  
+
+           jetPt_.push_back(jet->pt());
+           jetEta_.push_back(jet->eta());
+           jetPhi_.push_back(jet->phi());
+           jetM_.push_back(jet->mass());
+           jetEn_.push_back(jet->energy());
+           jetCharge_.push_back(jet->charge());
+           jetPartonFlavor_.push_back(jet->partonFlavour()); 
+           std::map<std::string, bool> Pass = jet2012ID_.MergedJetCut(*jet);
+           Int_t passOrNot = PassAll(Pass); 
+           jetPassID_.push_back(passOrNot);
+
+
+
+
+
+
+                     // fill discriminator histograms
      //     const reco::VertexCompositePtrCandidate *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());        
          
        //   const reco::Vertex *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());
