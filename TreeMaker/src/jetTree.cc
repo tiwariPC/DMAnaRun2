@@ -589,7 +589,51 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
            Int_t passOrNot = PassAll(Pass); 
            jetPassID_.push_back(passOrNot);
 
+           jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+           jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+           jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));        
+           jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
+           jetTCHE_.push_back(jet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
+           jetJP_.push_back(jet->bDiscriminator("pfJetProbabilityBJetTags"));
+           jetJBP_.push_back(jet->bDiscriminator("pfJetBProbabilityBJetTags"));
+           jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
 
+           jetMuEF_.push_back(jet->muonEnergyFraction());
+           jetPhoEF_.push_back(jet->photonEnergyFraction());
+           jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
+           jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
+           jetNEmEF_.push_back(jet->neutralEmEnergyFraction());
+           jetNHadEF_.push_back(jet->neutralHadronEnergyFraction());
+           jetCMulti_.push_back(jet->chargedMultiplicity());
+ 
+
+            if(false) std::cout<<"jetHFHadEF_ = "<<(jet->HFHadronEnergyFraction())
+	     <<"  jetHFEMEF_ = "<<(jet->HFEMEnergyFraction())
+	     <<"  jetCHHadMultiplicity_ = "<<(jet->chargedHadronMultiplicity())
+	     <<"  jetNHadMulplicity_ = "<<(jet->neutralHadronMultiplicity())
+	     <<"  jetPhMultiplicity_ = "<<(jet->photonMultiplicity())
+	     <<"  jetEleMultiplicity_ = "<<(jet->electronMultiplicity())
+	     <<"  jetHFHadMultiplicity_ = "<<(jet->HFHadronMultiplicity())
+	     <<"  jetHFEMMultiplicity_ = "<<(jet->HFEMMultiplicity())
+	     <<"  jetChMuEF_ = "<<(jet->chargedMuEnergyFraction())
+	     <<"  jetNMultiplicity_ = "<<(jet->neutralMultiplicity())
+	     <<"  jetHOEnergy_ = "<<(jet->hoEnergy())
+	     <<"  jetHOEF_ = "<<(jet->hoEnergyFraction())
+	     <<std::endl;
+
+
+           jetHFHadEF_.push_back(jet->HFHadronEnergyFraction());
+           jetHFEMEF_.push_back(jet->HFEMEnergyFraction());
+           jetCHHadMultiplicity_.push_back(jet->chargedHadronMultiplicity());
+           jetNHadMulplicity_.push_back(jet->neutralHadronMultiplicity());
+           jetPhMultiplicity_.push_back(jet->photonMultiplicity());
+           jetEleMultiplicity_.push_back(jet->electronMultiplicity());
+           jetHFHadMultiplicity_.push_back(jet->HFHadronMultiplicity());
+           jetHFEMMultiplicity_.push_back(jet->HFEMMultiplicity());
+           jetChMuEF_.push_back(jet->chargedMuEnergyFraction());
+           jetNMultiplicity_.push_back(jet->neutralMultiplicity());
+           jetHOEnergy_.push_back(jet->hoEnergy());
+           jetHOEF_.push_back(jet->hoEnergyFraction());
 
 
 
