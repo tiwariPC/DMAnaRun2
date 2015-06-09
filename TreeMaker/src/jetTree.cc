@@ -635,7 +635,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
            jetHOEnergy_.push_back(jet->hoEnergy());
            jetHOEF_.push_back(jet->hoEnergyFraction());
 
-
+          
+          //HBB tagger
+           jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
+          // cout<<"pfBoostedDoubleSecondaryVertexAK8BJetTags:"<<jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags")<<endl;
+           
 
 
                      // fill discriminator histograms
@@ -992,6 +996,8 @@ jetTree::SetBranches(){
     AddBranch(&jetPRmass_, "jetPRmass");
     AddBranch(&jetFimass_, "jetFimass");
 
+    AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+
 
 
   AddBranch(&nSubSDJet_,"nSubSDJet");
@@ -1118,7 +1124,7 @@ jetTree::Clear(){
   jetFimass_.clear();  
 
 
-
+  jet_DoubleSV_.clear();
 
 
 

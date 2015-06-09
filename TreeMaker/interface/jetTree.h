@@ -182,12 +182,9 @@ class jetTree  : public baseTree{
 
 
 
+  //jet  Hbb tagger for fat and add jet
 
-
-
-
-
-
+  std::vector<Float_t> jet_DoubleSV_;
 
 
   // pruned information

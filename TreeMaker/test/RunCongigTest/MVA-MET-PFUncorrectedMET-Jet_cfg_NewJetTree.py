@@ -42,6 +42,7 @@ if option == 'RECO':
 if option == 'RECO':
     process.goodMuons.src = "slimmedMuons"
     process.goodElectrons.src = "isolatedElectrons"
+    #process.goodJets.src = "patJetsTESTAK8PFCHS"
     process.goodJets.src = "slimmedJetsAK8"
     #process.goodJets.src ="packedPatJetsPFCHSAK8" 
     process.goodAK4Jets.src = "slimmedJets"
@@ -97,6 +98,9 @@ process.source = cms.Source("PoolSource",
   '/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
  # '/store/relval/CMSSW_7_4_0_pre8/RelValZpTT_1500_13TeV/MINIAODSIM/MCRUN2_74_V7-v1/00000/9008F5B0-54BD-E411-96FB-0025905A6110.root'
 #  '/store/relval/CMSSW_7_4_0_pre7/RelValTTbar_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/B62A3865-39B7-E411-B76A-002618943880.root'
+#test aod
+#'/store/relval/CMSSW_7_4_0_pre8/RelValProdTTbar_13/AODSIM/MCRUN2_74_V7-v1/00000/44    E1E4BA-50BD-E411-A57A-002618943949.root'
+
   ),
                             skipEvents = cms.untracked.uint32(0)         
                             )
@@ -130,6 +134,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 from RecoMET.METProducers.PFMET_cfi import pfMet
 process.pfMet = pfMet.clone(src = "packedPFCandidates")
 process.pfMet.calculateSignificance = False # this can't be easily implemented on packed PF candidates at the moment
+
+
 
 
 
@@ -248,6 +254,8 @@ from PhysicsTools.PatAlgos.tools.jetTools import *
 #    postfix = postfix
 #)
 
+NOTADDHBBTag=False
+
 # add PFJetsCHSAK8
 
 addJetCollection(
@@ -262,7 +270,8 @@ addJetCollection(
         muSource = cms.InputTag(muSource),
         elSource = cms.InputTag(elSource),
         btagInfos = bTagInfos,
-        btagDiscriminators = bTagDiscriminators,
+        #btagDiscriminators = bTagDiscriminators,
+        btagDiscriminators = (bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
         jetCorrections = jetCorrectionsAK8,
         genJetCollection = cms.InputTag('genJetsNoNuAK8'),
         genParticles = cms.InputTag(genParticles),
@@ -445,19 +454,6 @@ from PhysicsTools.PatAlgos.tools.pfTools import *
 adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 process.miniAODjetSequence = cms.Sequence(
                              process.selectedPatJetsPFCHSAK8PFlow+
                              process.selectedPatJetsPrunedPFCHSAK8Packed +
@@ -470,6 +466,26 @@ process.miniAODjetSequence = cms.Sequence(
 
 
 ###end of add jet collection
+
+
+### FOR adding new hbb b-tags in miniaod?
+
+#process.load("PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff")
+#process.load("PhysicsTools.PatAlgos.selectionLayer1.selectedPatCandidates_cff")
+
+#from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHS
+
+#addJetCollection(
+#   process,
+#   labelName = 'TESTAK8PFCHS',
+#   jetSource = cms.InputTag('ak8PFJetsCHS'),
+#   #jetSource = cms.InputTag('slimmedJetsAK8'),
+#   jetCorrections = ('AK8PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'Type-2'),
+#   algo = 'AK',
+#   rParam = 0.8,
+#   btagDiscriminators = ['pfBoostedDoubleSecondaryVertexAK8BJetTags']
+#)
+#process.patJetsTESTAK8PFCHS.addTagInfos = True
 
 
 
