@@ -725,7 +725,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
           int nSubSoftDropjets=0;
 
  
-          auto ReSubjets  = jet->subjets("Pruned");
+         auto ReSubjets  = jet->subjets("SoftDrop");
+       //  auto ReSubjets  = jet->subjets("Pruned"); 
           cout<<"Here"<<endl; 
           for ( auto const & resub : ReSubjets ) 
           {

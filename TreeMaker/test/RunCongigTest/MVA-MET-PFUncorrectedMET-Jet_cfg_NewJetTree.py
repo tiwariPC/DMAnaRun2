@@ -183,6 +183,44 @@ process.PFJetsCHSPrunedAK8 = ak4PFJetsPruned.clone(
     jetPtMin = cms.double(150.0)
 )
 
+
+## Produce SoftDrop ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
+process.genJetsNoNuSoftDrop = ak4GenJets.clone(
+    jetAlgorithm = cms.string('AntiKt'),
+    rParam = cms.double(0.8),
+    src = cms.InputTag("packedGenParticlesForJetsNoNu"),
+    useSoftDrop = cms.bool(True),
+    zcut = cms.double(0.1),
+    beta = cms.double(0.0),
+    R0 = cms.double(0.8),
+    writeCompound = cms.bool(True),
+    jetCollInstanceName=cms.string("SubJets")
+)
+from RecoJets.JetProducers.ak4PFJetsSoftDrop_cfi import ak4PFJetsSoftDrop
+process.PFJetsCHSSoftDrop = ak4PFJetsSoftDrop.clone(
+    jetAlgorithm = cms.string('AntiKt'),
+    rParam = cms.double(0.8),
+    R0 = cms.double(0.8),
+    src = getattr(process,"ak4PFJets").src,
+    srcPVs = getattr(process,"ak4PFJets").srcPVs,
+    doAreaFastjet = cms.bool(True),
+    writeCompound = cms.bool(True),
+    jetCollInstanceName=cms.string("SubJets"),
+    jetPtMin = cms.double(150.0)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
 postfix = "PFlow"
 pfCandidates = 'packedPFCandidates'
 jetSource = 'ak4PFJets'
@@ -280,8 +318,57 @@ addJetCollection(
         postfix = postfix
     )
 
-# used pat selector on PFCHSiAK8
+# used pat selector on PFCHSAK8
 getattr(process,'selectedPatJetsPFCHSAK8'+postfix).cut = cms.string('abs(eta) < 2.5')
+
+
+# Add SoftDrop jet
+addJetCollection(
+        process,
+        labelName='SoftDropPFCHS',
+        jetSource=cms.InputTag('PFJetsCHSSoftDrop'),
+        algo='AK',
+        btagInfos=['None'],
+        btagDiscriminators=['None'],
+        jetCorrections=jetCorrectionsAK8,
+        genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+        genParticles = cms.InputTag(genParticles),
+        getJetMCFlavour = False, # jet flavor disabled
+        postfix = postfix
+    )
+
+# Add SoftDrop subjet
+addJetCollection(
+        process,
+        labelName='SoftDropSubjetsPFCHS',
+        jetSource=cms.InputTag('PFJetsCHSSoftDrop','SubJets'),
+        algo='AK',           # needed for subjet flavor clustering
+        rParam=0.8, # needed for subjet flavor clustering
+        pfCandidates = cms.InputTag(pfCandidates),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        btagInfos = bTagInfos,
+        btagDiscriminators = bTagDiscriminators,
+        jetCorrections = jetCorrectionsAK4,
+        genJetCollection = cms.InputTag('genJetsNoNuSoftDrop','SubJets'),
+        genParticles = cms.InputTag(genParticles),
+        explicitJTA = True,  # needed for subjet b tagging
+        svClustering = True, # needed for subjet b tagging
+        fatJets = cms.InputTag('PFJetsCHSAK8'),              # needed for subjet flavor clustering
+        groomedFatJets = cms.InputTag('PFJetsCHSSoftDrop'), # needed for subjet flavor clustering
+        runIVF = False,
+        postfix = postfix
+    )
+
+## Softdrop  Establish references between PATified fat jets and subjets using the BoostedJetMerger
+process.selectedPatJetsSoftDropPFCHSPacked = cms.EDProducer("BoostedJetMerger",
+        jetSrc=cms.InputTag("selectedPatJetsSoftDropPFCHS"+postfix),
+        subjetSrc=cms.InputTag("selectedPatJetsSoftDropSubjetsPFCHS"+postfix)
+)
+
+
 
 #add pruned PFJetsCHSAK8
 addJetCollection(
@@ -336,6 +423,8 @@ process.selectedPatJetsPrunedPFCHSAK8Packed = cms.EDProducer("BoostedJetMerger",
     subjetSrc=cms.InputTag("selectedPatJetsPrunedSubjetsPFCHSAK8"+postfix)
 )
 
+
+
 ## Pack fat jets with subjets
 process.packedPatJetsPFCHSAK8 = cms.EDProducer("JetSubstructurePacker",
             jetSrc = cms.InputTag('selectedPatJetsPFCHSAK8'+postfix),
@@ -345,9 +434,19 @@ process.packedPatJetsPFCHSAK8 = cms.EDProducer("JetSubstructurePacker",
             fixDaughters = cms.bool(False)
 )
 
+SaveSoftDrop=True;
 
-process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsPrunedPFCHSAK8Packed') )
-process.packedPatJetsPFCHSAK8.algoLabels.append( 'Pruned' )
+if SaveSoftDrop:
+        process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsSoftDropPFCHSPacked') )
+        process.packedPatJetsPFCHSAK8.algoLabels.append( 'SoftDrop' )
+else:
+        process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsPrunedPFCHSAK8Packed') )
+        process.packedPatJetsPFCHSAK8.algoLabels.append( 'Pruned' )
+
+
+
+#process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsPrunedPFCHSAK8Packed') )
+#process.packedPatJetsPFCHSAK8.algoLabels.append( 'Pruned' )
 
 
 for m in ['patJets'+postfix, 'patJetsPFCHSAK8'+postfix, 'patJetsSoftDropSubjetsPFCHS'+postfix, 'patJetsPrunedSubjetsPFCHSAK8'+postfix]:
