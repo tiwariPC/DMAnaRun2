@@ -97,10 +97,10 @@ process.source = cms.Source("PoolSource",
    #'/store/mc/Phys14DR/DYJetsToEEMuMu_M-1400To2300_13TeV-madgraph/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/12B916AF-CE73-E411-8419-002590747DE2.root' 
   '/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
  # '/store/relval/CMSSW_7_4_0_pre8/RelValZpTT_1500_13TeV/MINIAODSIM/MCRUN2_74_V7-v1/00000/9008F5B0-54BD-E411-96FB-0025905A6110.root'
-#  '/store/relval/CMSSW_7_4_0_pre7/RelValTTbar_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/B62A3865-39B7-E411-B76A-002618943880.root'
+  #'/store/relval/CMSSW_7_4_0_pre7/RelValTTbar_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/B62A3865-39B7-E411-B76A-002618943880.root'
 #test aod
 #'/store/relval/CMSSW_7_4_0_pre8/RelValProdTTbar_13/AODSIM/MCRUN2_74_V7-v1/00000/44    E1E4BA-50BD-E411-A57A-002618943949.root'
-
+#'root://eos/cms/store/user/khurana/MonoHStep3/step3_M1200_2.root'
   ),
                             skipEvents = cms.untracked.uint32(0)         
                             )
@@ -660,7 +660,7 @@ process.tree = cms.EDAnalyzer(
     )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("mvamet_QCD.root")
+                                   fileName = cms.string("TreeMaker_ttbar.root")
                                    )
 
 
