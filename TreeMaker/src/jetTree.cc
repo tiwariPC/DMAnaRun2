@@ -126,10 +126,12 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   std::sort(jets.begin(),jets.end(),PtGreater());
 
   std::vector<pat::Jet>::const_iterator jet =jets.begin();   
+    cout<<"start Fatjet loop"<<endl; 
 
   for(;jet!=jets.end();jet++){
     nJet_++;
     //Stuff common for all jets.
+
     if(isADDJet_) continue;
 
     jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
@@ -544,6 +546,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 }//jet loop
 
+    cout<<"######## end Fatjet loop "<<endl;
 
 
 
@@ -558,7 +561,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     if(runAddJet_&&isADDJet_)
     {
-     cout<<"star"<<endl; 
+     cout<<"star add jet loop"<<endl; 
      edm::Handle<pat::JetCollection> rejets; 
      // get jets from the event
      iEvent.getByLabel(JetLabel_, rejets);
@@ -766,7 +769,7 @@ nSubSDJet_.push_back(nSubSoftDropjets);
 //          }  
                
       }//add jet loop
-
+ cout<<"#############end add jet loop"<<endl;
  }//if run addjet
 
 
