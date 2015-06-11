@@ -47,22 +47,6 @@ process.leptonSequence = cms.Sequence(process.muSequence +
 process.jetSequence = cms.Sequence(process.fatJetsSequence + process.ak4JetsSequence)
 
 
-
-
-CA8jecUnc='jec/START53_V23_Uncertainty_AK7PFchs.txt'
-CA8jecLevels = [
-    'jec/START53_V23_L1FastJet_AK7PFchs.txt',
-    'jec/START53_V23_L2Relative_AK7PFchs.txt',
-    'jec/START53_V23_L3Absolute_AK7PFchs.txt'
-    ]
-AK5jecUnc='jec/START53_V23_Uncertainty_AK5PFchs.txt'
-AK5jecLevels = [
-    'jec/START53_V23_L1FastJet_AK5PFchs.txt',
-    'jec/START53_V23_L2Relative_AK5PFchs.txt',
-    'jec/START53_V23_L3Absolute_AK5PFchs.txt'
-    ]
-
-
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(1000)
 )
@@ -107,40 +91,12 @@ process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+process.load("DelPanj.TreeMaker.TreeMaker_cfi")
 
-process.tree = cms.EDAnalyzer(
-    'TreeMaker',
-    fillPUweightInfo_ = cms.bool(True),
-    fillEventInfo_ = cms.bool(True),
-    fillGenInfo_   = cms.bool(True),
-    fillMuonInfo_  = cms.bool(True),
-    fillElecInfo_  = cms.bool(True),
-    fillJetInfo_   = cms.bool(True), ## Raman switched it off
-    fillMetInfo_   = cms.bool(True),
-    fillTrigInfo_  = cms.bool(True),
-    fillPhotInfo_  = cms.bool(False),
-    fillTauInfo_   = cms.bool(True),
-    genPartLabel=cms.InputTag("prunedGenParticles"),
-    genJetLabel=cms.InputTag("slimmedGenJets"),
-    maxNumGenPar  =  cms.uint32(30),
-    patMuons=cms.InputTag("slimmedMuons"),
-    patElectrons = cms.InputTag("slimmedElectrons"),
-    PrunedJets=cms.InputTag("ak8PFJetsCHSPrunedLinks"),
-    pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
-    tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
-    rhoSrc = cms.InputTag('kt6PFJets','rho'),
-    ### CA8Jet
-    CA8Jets=cms.InputTag("cleanJets"),
-    CA8jecPayloadNames = cms.vstring( CA8jecLevels ),
-    CA8jecUncName = cms.string(CA8jecUnc),    
-    ### AK5Jet
-    AK5Jets=cms.InputTag("cleanAK4Jets"),
-    AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
-    AK5jecUncName = cms.string(AK5jecUnc),    
-    patMetRaw=cms.InputTag("slimmedMETs"),
-    patMet = cms.InputTag("slimmedMETs"),
-    outFileName=cms.string('outputFileName.root')
-    )
+process.tree.CA8Jets=cms.InputTag("cleanJets")
+process.tree.AK5Jets=cms.InputTag("cleanAK4Jets")
+process.tree.patMetRaw=cms.InputTag("slimmedMETs")
+process.tree.patMet = cms.InputTag("slimmedMETs")
 
 process.TFileService = cms.Service("TFileService",
                                    fileName = cms.string("mvamet.root")
