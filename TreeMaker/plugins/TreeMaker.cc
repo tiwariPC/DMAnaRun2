@@ -51,7 +51,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   ;
   //tree_ = new TTree("tree","tree");
 
-  tree_ = fs->make<TTree>("tree","tree");
+  tree_ = fs->make<TTree>("treeMaker","tree");
   if( fillPUweightInfo_) puweight_=new puweight("pu_",tree_);
   if( fillEventInfo_) eventInfo_=new eventInfo("info_",tree_); 
   if( fillGenInfo_)   genInfoTree_ = new genInfoTree("",tree_,iConfig);

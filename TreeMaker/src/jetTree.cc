@@ -502,25 +502,18 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  nSubSoftDropjets++;
 
           
-
-
-
-
-
-
-        //  float thept=0.0;
-        //  thept= float(iw->pt()); 
-        //  cout<<thept<<endl;
-        subjetSDPt.push_back(iw->pt());
-        subjetSDEta.push_back(iw->eta());
-        subjetSDPhi.push_back(iw->phi());
-        subjetSDM.push_back(iw->mass());
-        subjetSDCharge.push_back(iw->charge());
+          //  float thept=0.0;
+          //  thept= float(iw->pt()); 
+          //  cout<<thept<<endl;
+          subjetSDPt.push_back(iw->pt());
+          subjetSDEta.push_back(iw->eta());
+          subjetSDPhi.push_back(iw->phi());
+          subjetSDM.push_back(iw->mass());
+          subjetSDCharge.push_back(iw->charge());
           subjetSDCSV.push_back(iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
           // cout<<"Test Subjet:"<<iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
 
-		}
-
+       }//subjet loop
        nSubSDJet_.push_back(nSubSoftDropjets); 
        subjetSDPt_.push_back(subjetSDPt); 
        subjetSDEta_.push_back(subjetSDEta);
@@ -705,62 +698,53 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
          }
 
 
-      std::vector<Float_t> subjetSDPt;
-      std::vector<Float_t> subjetSDEta;
-      std::vector<Float_t> subjetSDPhi;
-      std::vector<Float_t> subjetSDM;
-      std::vector<Float_t> subjetSDEn;
-      std::vector<Int_t>   subjetSDCharge;
-      std::vector<Int_t>   subjetSDPartonFlavor;
-      std::vector<Float_t> subjetSDCSV; 
+         std::vector<Float_t> subjetSDPt;
+         std::vector<Float_t> subjetSDEta;
+         std::vector<Float_t> subjetSDPhi;
+         std::vector<Float_t> subjetSDM;
+         std::vector<Float_t> subjetSDEn;
+         std::vector<Int_t>   subjetSDCharge;
+         std::vector<Int_t>   subjetSDPartonFlavor;
+         std::vector<Float_t> subjetSDCSV; 
 
- //     subjetMotherIndex.clear();
-      subjetSDPt.clear();
-      subjetSDEta.clear();
-      subjetSDPhi.clear();
-      subjetSDM.clear();
-      subjetSDEn.clear();
-      subjetSDCharge.clear();
-      subjetSDPartonFlavor.clear();
-      subjetSDCSV.clear(); 
-
-
-          int nSubSoftDropjets=0;
-
+  //     subjetMotherIndex.clear();
+         subjetSDPt.clear();
+         subjetSDEta.clear();
+         subjetSDPhi.clear();
+         subjetSDM.clear();
+         subjetSDEn.clear();
+         subjetSDCharge.clear();
+         subjetSDPartonFlavor.clear();
+         subjetSDCSV.clear(); 
  
+         int nSubSoftDropjets=0;
+
          auto ReSubjets  = jet->subjets("SoftDrop");
        //  auto ReSubjets  = jet->subjets("Pruned"); 
-          cout<<"Here"<<endl; 
-          for ( auto const & resub : ReSubjets ) 
-          {
+         cout<<"Here"<<endl; 
+         for ( auto const & resub : ReSubjets ) 
+         {
             cout<<"Subjets : "<<resub->pt()<<endl;
             cout<<"Subjets btag: "<<resub->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
 
-        subjetSDPt.push_back(resub->pt());
-        subjetSDEta.push_back(resub->eta());
-        subjetSDPhi.push_back(resub->phi());
-        subjetSDM.push_back(resub->mass());
-        subjetSDCharge.push_back(resub->charge());
-          subjetSDCSV.push_back(resub->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
- 
+            subjetSDPt.push_back(resub->pt());
+            subjetSDEta.push_back(resub->eta());
+            subjetSDPhi.push_back(resub->phi());
+            subjetSDM.push_back(resub->mass());
+            subjetSDCharge.push_back(resub->charge());
+            subjetSDCSV.push_back(resub->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
+            nSubSoftDropjets++;
+          
 
-        
-       subjetSDPt_.push_back(subjetSDPt); 
-       subjetSDEta_.push_back(subjetSDEta);
-       subjetSDPhi_.push_back(subjetSDPhi);
-       subjetSDM_.push_back(subjetSDM);
-      // subjetSDEn_.push_back(subjetSDEn);
-       subjetSDCSV_.push_back(subjetSDCSV); 
-       subjetSDCharge_.push_back(subjetSDCharge);
-
-
-
-
-
-          nSubSoftDropjets++;
-
-          }
-nSubSDJet_.push_back(nSubSoftDropjets);
+          }//subjet loop  
+            subjetSDPt_.push_back(subjetSDPt); 
+            subjetSDEta_.push_back(subjetSDEta);
+            subjetSDPhi_.push_back(subjetSDPhi);
+            subjetSDM_.push_back(subjetSDM);
+           // subjetSDEn_.push_back(subjetSDEn);
+            subjetSDCSV_.push_back(subjetSDCSV); 
+            subjetSDCharge_.push_back(subjetSDCharge);
+            nSubSDJet_.push_back(nSubSoftDropjets);
         
 //         for( int sj = 0; sj < (int)subjets.size(); ++sj )
 //          {
