@@ -443,7 +443,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
         for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
 	  const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*constituents[ida]);
-	  printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
+	  // printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
 	}
 
 
@@ -480,8 +480,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
        for ( auto const & iw : wSubjets ) 
        {
-	  printf("   w subjet with pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f ungroomed\n",
-		 iw->pt(), iw->pt()*iw->jecFactor("Uncorrected"), iw->eta(), iw->mass() );
+	  // printf("   w subjet with pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f ungroomed\n",
+	  // 	 iw->pt(), iw->pt()*iw->jecFactor("Uncorrected"), iw->eta(), iw->mass() );
 	  nSubSoftDropjets++;
 
           

@@ -3,10 +3,11 @@
 
 genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
-  MAXNGENPAR_(iConfig.getParameter<UInt_t>("maxNumGenPar"))
+  genPartLabel_ (iConfig.getParameter<edm::InputTag>("genPartLabel")),
+  genJetLabel_ (iConfig.getParameter<edm::InputTag>("genJetLabel")),
+  MAXNGENPAR_(iConfig.getParameter<UInt_t>("maxNumGenPar")),
+  applyStatusSelection_(iConfig.getParameter<Bool_t>("applyStatusSelection"))
 {
-  genPartLabel_ = iConfig.getParameter<edm::InputTag>("genPartLabel");
-  genJetLabel_  = iConfig.getParameter<edm::InputTag>("genJetLabel");
   SetBranches();
 }
 
@@ -46,41 +47,41 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   }
 
-  unsigned int genIndex=0;
-  const reco::GenParticleCollection* genColl= &(*genParticleHandle);
 
   // first save the vector of candidates
   std::vector<const reco::Candidate*> cands;
-  std::vector<const reco::Candidate*>::const_iterator found = cands.begin();
+  std::vector<std::vector<reco::GenParticle>::const_iterator> myParticles;
   for( std::vector<reco::GenParticle>::const_iterator 
 	 it_gen = genParticleHandle->begin(); 
        it_gen != genParticleHandle->end(); it_gen++ ) 
-    cands.push_back(&*it_gen);
+    {
+      reco::GenParticle gen = *it_gen;
+      if(gen.status()>=30 && applyStatusSelection_)continue; // only save beam particle, hard scattering and stable particles
+      cands.push_back(&*it_gen);
+      myParticles.push_back(it_gen);
+    }
 
   // now loop
-  reco::GenParticleCollection::const_iterator geni = genColl->begin();
-  for(; geni!=genColl->end() && genIndex < MAXNGENPAR_ ;geni++){
-    reco::GenParticle gen = *geni;
+  std::vector<const reco::Candidate*>::const_iterator found = cands.begin();
+  for(unsigned int genIndex=0; genIndex < MAXNGENPAR_; genIndex++){
     
-    genIndex++;
+    std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
     nGenPar_++;
 
-
-
-    genParE_.push_back(gen.energy());
-    genParPt_.push_back(gen.pt());
-    genParEta_.push_back(gen.eta());
-    genParPhi_.push_back(gen.phi());
-    genParM_.push_back(gen.mass());
-    genParQ_.push_back(gen.charge());
-    genParId_.push_back(gen.pdgId());
-    genParSt_.push_back(gen.status());
+    genParE_.push_back(geni->energy());
+    genParPt_.push_back(geni->pt());
+    genParEta_.push_back(geni->eta());
+    genParPhi_.push_back(geni->phi());
+    genParM_.push_back(geni->mass());
+    genParQ_.push_back(geni->charge());
+    genParId_.push_back(geni->pdgId());
+    genParSt_.push_back(geni->status());
 
     int mompid = -9999;
-    if( gen.numberOfMothers() ==1 ) 
-      mompid = gen.mother()->pdgId();
+    if( geni->numberOfMothers() ==1 ) 
+      mompid = geni->mother()->pdgId();
     else
-      mompid = 10000+gen.numberOfMothers();
+      mompid = 10000+geni->numberOfMothers();
 
     genMomParId_.push_back(mompid);
 
