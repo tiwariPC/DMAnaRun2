@@ -74,7 +74,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500)
+    input = cms.untracked.int32(-1)
 )
 
 
@@ -91,16 +91,26 @@ process.source = cms.Source("PoolSource",
        #'/store/relval/CMSSW_7_4_0/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/C0B7E3DE-6FDD-E411-A127-0025905B85EE.root' 
        #'file:C0B7E3DE-6FDD-E411-A127-0025905B85EE.root' 
       # '/store/relval/CMSSW_7_4_0_pre7/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/10661B83-43B7-E411-ADEA-0025905B8582.root'
-#       '/store/relval/CMSSW_7_4_0/RelValProdTTbar_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/1E12B842-93DD-E411-AF4F-0025905A48D0.root'
+       #'/store/relval/CMSSW_7_4_0/RelValProdTTbar_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/1E12B842-93DD-E411-AF4F-0025905A48D0.root'
        #'/store/mc/Phys14DR/TTJets_MSDecaysCKM_central_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/00C90EFC-3074-E411-A845-002590DB9262.root'
-#     '/store/relval/CMSSW_7_4_1/RelValTTbar_13_unsch/MINIAODSIM/MCRUN2_74_V9-v1/00000/EA076017-DCEC-E411-BE66-0025905A60F2.root'  
    #'/store/mc/Phys14DR/DYJetsToEEMuMu_M-1400To2300_13TeV-madgraph/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/12B916AF-CE73-E411-8419-002590747DE2.root' 
-  '/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
  # '/store/relval/CMSSW_7_4_0_pre8/RelValZpTT_1500_13TeV/MINIAODSIM/MCRUN2_74_V7-v1/00000/9008F5B0-54BD-E411-96FB-0025905A6110.root'
   #'/store/relval/CMSSW_7_4_0_pre7/RelValTTbar_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/B62A3865-39B7-E411-B76A-002618943880.root'
 #test aod
 #'/store/relval/CMSSW_7_4_0_pre8/RelValProdTTbar_13/AODSIM/MCRUN2_74_V7-v1/00000/44    E1E4BA-50BD-E411-A57A-002618943949.root'
-#'root://eos/cms/store/user/khurana/MonoHStep3/step3_M1200_2.root'
+#QCD test
+#  '/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
+#TTbar test
+#'/store/relval/CMSSW_7_4_1/RelValTTbar_13_unsch/MINIAODSIM/MCRUN2_74_V9-v1/00000/EA076017-DCEC-E411-BE66-0025905A60F2.root'  
+
+
+
+
+#signal test
+'xroot://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M700_5.root'
+
+
+
   ),
                             skipEvents = cms.untracked.uint32(0)         
                             )
@@ -612,14 +622,14 @@ process.miniAODjetSequence = cms.Sequence(
 process.tree = cms.EDAnalyzer(
     'TreeMaker',
     fillPUweightInfo_ = cms.bool(False),
-    fillEventInfo_ = cms.bool(False),
+    fillEventInfo_ = cms.bool(True),
     fillGenInfo_   = cms.bool(False),
     fillMuonInfo_  = cms.bool(False),
     fillElecInfo_  = cms.bool(False),
     fillFATJetInfo_   = cms.bool(True), 
     fillJetInfo_   = cms.bool(True), ## Raman switched it off
     fillAddJetInfo_   = cms.bool(True),
-    fillMetInfo_   = cms.bool(False),
+    fillMetInfo_   = cms.bool(True),
     fillTrigInfo_  = cms.bool(False),
     fillPhotInfo_  = cms.bool(False),
     fillTauInfo_   = cms.bool(False),
@@ -660,8 +670,10 @@ process.tree = cms.EDAnalyzer(
     )
 
 process.TFileService = cms.Service("TFileService",
-                                   fileName = cms.string("TreeMaker_ttbar.root")
-                                   )
+                                   #fileName = cms.string("TreeMaker_TTbar.root")
+                                   #fileName = cms.string("TreeMaker_QCD.root") 
+                                    fileName = cms.string("TreeMaker_M700.root")          
+                                  )
 
 
 
