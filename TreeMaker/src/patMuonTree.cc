@@ -1,216 +1,239 @@
+//****************************************//
+//  Code for Muons for Run II    //
+//    Monika Mittal Khurana      // 
+// Wed May 27 09:51:24 CEST 2015 //
+//***************************************//
+
 #include "DelPanj/TreeMaker/interface/patMuonTree.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
 #include "Math/VectorUtil.h"
-
 
 patMuonTree::patMuonTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
-  patMuonLabel_ ( iConfig.getParameter<edm::InputTag>("patMuons"))
-{
-  SetBranches();
-}
+  
+  patMuonLabel_ (iConfig.getParameter<edm::InputTag>("patMuons")){
+  SetBranches();}
 
-
-patMuonTree::~patMuonTree(){
-
-} 
-
-
+patMuonTree::~patMuonTree(){ }
 void
+
 patMuonTree::Fill(const edm::Event& iEvent){
   Clear();
-
+  
   edm::Handle<pat::MuonCollection> patMuonHandle;
   if(not iEvent.getByLabel(patMuonLabel_,patMuonHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
 	     <<patMuonLabel_<<std::endl; exit(0);}
-
+  
   pat::MuonCollection muColl(*(patMuonHandle.product()));
   std::sort(muColl.begin(),muColl.end(),PtGreater());
-
-
+  
+  bool isAOD = 0; 
+ 
+  edm::Handle<reco::VertexCollection> vtxHandle;
+  iEvent.getByLabel("offlineSlimmedPrimaryVertices", vtxHandle);
+  //best-known primary vertex coordinates
+    math::XYZPoint pv(0, 0, 0);
+  for (vector<reco::Vertex>::const_iterator v = vtxHandle->begin(); v != vtxHandle->end(); ++v) {
+    //replace isFake() for miniAOD since it requires tracks while miniAOD vertices don't have tracks:
+    // Vertex.h: bool isFake() const {return (chi2_==0 && ndof_==0 && tracks_.empty());}
+    bool isFake = isAOD ? v->isFake() : (v->chi2() == 0 && v->ndof() == 0);
+    if (!isFake) {
+      pv.SetXYZ(v->x(), v->y(), v->z());
+      break;
+    }
+  }
+  
+  
   pat::MuonCollection::const_iterator mu;
-
+  
   for(mu=muColl.begin(); mu!=muColl.end(); mu++){
-
+    // for finding shared segments reason not known
     int muonIndex=-1;
     int tempTrackIndex=-1;
     int tempSegIndex=-1;
     int nSegments=-1;
     for(pat::MuonCollection::const_iterator jm=muColl.begin(); jm!=muColl.end(); jm++){
-
       muonIndex++;
-
       if(mu->innerTrack()==jm->innerTrack() && tempTrackIndex==-1)
 	tempTrackIndex=muonIndex;
-      if(jm->isTrackerMuon() && mu->isTrackerMuon() && 
-	 muon::sharedSegments(*jm,*mu)>0 &&  tempSegIndex==-1)
+      if(jm->isTrackerMuon() && mu->isTrackerMuon() &&
+	 muon::sharedSegments(*jm,*mu)>0 && tempSegIndex==-1)
 	{
-	  tempSegIndex  =muonIndex;
-	  nSegments     =muon::sharedSegments(*jm,*mu);
+	  tempSegIndex =muonIndex;
+	  nSegments =muon::sharedSegments(*jm,*mu);
 	}
-
-
     } // loop over jmuon
-    
+    if(mu->pt() < 5.) continue;
     nMu_++;
-
     patMuonType_.push_back(mu->type());
     patMuonPt_.push_back(mu->pt());
     patMuonEta_.push_back(mu->eta());
     patMuonPhi_.push_back(mu->phi());
     patMuonM_.push_back(mu->mass());
-    patMuonTrkIso_.push_back(mu->trackIso());
-    patMuonHcalIso_.push_back(mu->hcalIso());
-    patMuonEcalIso_.push_back(mu->ecalIso());
     patMuonCharge_.push_back(mu->charge());
     
-    //--------------------------------------------------------//
-    // new added variables
-
+    //id global tracker and PF
     isGlobalMuon_.push_back(mu->isGlobalMuon());
     isTrackerMuon_.push_back(mu->isTrackerMuon());
+    isPFMuon_.push_back(mu->isPFMuon());
+    
     patMuonITrkIndex_.push_back(tempTrackIndex);
     patMuonSegIndex_.push_back(tempSegIndex);
     patMuonNSeg_.push_back(nSegments);
     patMuonGood_.push_back(muon::isGoodMuon(*mu, muon::TrackerMuonArbitrated)? 1:0);
-    // reco::TrackRef cktTrack = globalMuonID_.GetBestTrack(*mu);
-    // patMuonPtErrx_.push_back(cktTrack->ptError()/cktTrack->pt());
-    // patMuondxy_.push_back(cktTrack->dxy(myPv.position()));
-    // patMuondz_.push_back(cktTrack->dz(myPv.position()));
+    patMuonIsGood_.push_back((int) mu->isGood("TMOneStationTight"));
     
-    if(!mu->isTrackerMuon() && !mu->isGlobalMuon()){
-      patMuonTrkLayers_.push_back(-1);
-      patMuonPixelHits_.push_back(-1);
-      patMuonMatches_.push_back(-1);
-
-    }else{
-      patMuonTrkLayers_.push_back(mu->innerTrack()->hitPattern().trackerLayersWithMeasurement());
-      patMuonPixelHits_.push_back(mu->innerTrack()->hitPattern().numberOfValidPixelHits());
-      patMuonMatches_.push_back(mu->numberOfMatchedStations());
-
+    patMuonTrkPt_.push_back(mu->muonBestTrack()->pt());  
+    patMuonTrkPtErr_.push_back(mu->muonBestTrack()->ptError());
+    patMuondxy_.push_back(mu->muonBestTrack()->dxy(pv));
+    patMuondz_.push_back(mu->muonBestTrack()->dz(pv));
+     
+    patMuonsegmentCompatibility_.push_back(mu->segmentCompatibility());
+    patMuonchi2LocalPosition_.push_back(mu->combinedQuality().chi2LocalPosition);
+    patMuontrkKink_.push_back(mu->combinedQuality().trkKink);
+    
+    const reco::TrackRef glbmu = mu->globalTrack();
+    const reco::TrackRef trkmu = mu->innerTrack();
+    
+    if(trkmu.isNull()){
+      patMuonInnerdxy_.push_back(-999);
+      patMuonInnerdz_.push_back(-999);
+      patMuonTrkLayers_.push_back(-999);
+      patMuonPixelLayers_.push_back(-999);
+      patMuonPixelHits_.push_back(-999);
+      patMuonTrkQuality_.push_back(-999);
+      patMuonInnervalidFraction_.push_back(-999);
+    }else{ 
+      patMuonInnerdxy_.push_back(trkmu->dxy(pv));
+      patMuonInnerdz_.push_back(trkmu->dz(pv));
+      patMuonTrkLayers_.push_back(trkmu->hitPattern().trackerLayersWithMeasurement());
+      patMuonPixelLayers_.push_back(trkmu->hitPattern().pixelLayersWithMeasurement());
+      patMuonPixelHits_.push_back(trkmu->hitPattern().numberOfValidPixelHits());
+      patMuonTrkQuality_.push_back(trkmu->quality(reco::TrackBase::highPurity));
+      patMuonInnervalidFraction_.push_back(trkmu->validFraction());
     }
-
-    if(!mu->isGlobalMuon())
-      patMuonHits_.push_back(-1);
-    else
-      patMuonHits_.push_back(mu->globalTrack()->hitPattern().numberOfValidMuonHits());
     
-    //--------------------------------------------------------//
-
-    Float_t iso1 = 999.;
-    Float_t iso2 = 999.;
-    Float_t iso3 = 999.;
-    Float_t isoPU = -999.; 
-  
-    iso1  =  mu->pfIsolationR04().sumChargedHadronPt;
-    iso2  =  mu->pfIsolationR04().sumNeutralHadronEt;
-    iso3  =  mu->pfIsolationR04().sumPhotonEt;
-    isoPU =  mu->pfIsolationR04().sumPUPt;    
-
+    if(glbmu.isNull()){
+      patMuonHits_.push_back(-999);
+      patMuonChi2NDF_.push_back(-999);
+    }else{
+      patMuonHits_.push_back(glbmu->hitPattern().numberOfValidMuonHits());
+      patMuonChi2NDF_.push_back(glbmu->normalizedChi2());
+    } 
+    
+    patMuonMatches_.push_back(mu->numberOfMatchedStations());
+    
+ //isolation variables //
+    
+    patMuonTrkIso_.push_back(mu->trackIso());
+    patMuonHcalIso_.push_back(mu->hcalIso());
+    patMuonEcalIso_.push_back(mu->ecalIso());
+    Float_t iso1   = -999.;
+    Float_t iso2   = -999.;
+    Float_t iso3   = -999.;
+    Float_t isoPU  = -999.;
+    iso1 = mu->pfIsolationR04().sumChargedHadronPt;
+    iso2 = mu->pfIsolationR04().sumNeutralHadronEt;
+    iso3 = mu->pfIsolationR04().sumPhotonEt;
+    isoPU = mu->pfIsolationR04().sumPUPt;
     patMuonChHadIso_.push_back(iso1);
     patMuonNeHadIso_.push_back(iso2);
     patMuonGamIso_.push_back(iso3);
-    patMuonPUPt_.push_back(isoPU);
-
-    Float_t corrPfIso = iso1 + std::max(0.0, iso2 + iso3 - 0.5*isoPU );
-    patMuonCorrPfIso_.push_back(corrPfIso);
-      
-    Float_t rawTrackIso = mu->trackIso();
-
-    Float_t corrTrackIso = rawTrackIso;
-    // remove the contribution of global muons in the track isolation
-    for(pat::MuonCollection::const_iterator jmu=muColl.begin(); 
-	jmu!=muColl.end(); jmu++){
-
-      if(jmu==mu)continue;
-
-      Float_t dR = ROOT::Math::VectorUtil::DeltaR(mu->p4(),jmu->p4());
-      Float_t thisMuPt = jmu->pt();
-      if(dR<0.3)corrTrackIso -= thisMuPt;
-
-    } // loop over jmu  
+    patMuonPUPt_.push_back(isoPU); 
     
-    patMuonCorrTrkIso_.push_back(corrTrackIso);
-
   }
 }
-
-
-void 
+void
 patMuonTree::SetBranches(){
+ AddBranch(&nMu_,"nMu");
+ AddBranch(&patMuonType_, "muType");
+ AddBranch(&patMuonPt_, "muPt");
+ AddBranch(&patMuonEta_, "muEta");
+ AddBranch(&patMuonPhi_, "muPhi");
+ AddBranch(&patMuonM_, "muM");
+ AddBranch(&patMuonCharge_, "muCharge");
+ AddBranch(&isGlobalMuon_, "isGlobalMuon");
+ AddBranch(&isTrackerMuon_, "isTrackerMuon");
+ AddBranch(&isPFMuon_,"isPFMuon");
 
-  AddBranch(&nMu_,"nMu");
-  AddBranch(&patMuonType_, "muType");
-  AddBranch(&patMuonPt_, "muPt");
-  AddBranch(&patMuonEta_, "muEta");
-  AddBranch(&patMuonPhi_, "muPhi");
-  AddBranch(&patMuonM_, "muM");
-  AddBranch(&patMuonTrkIso_, "muTrkIso");
-  AddBranch(&patMuonCorrTrkIso_, "muCorrTrkIso");
-  AddBranch(&patMuonHcalIso_, "muHcalIso");
-  AddBranch(&patMuonEcalIso_, "muEcalIso");
-  AddBranch(&patMuonCharge_, "muCharge");
+ AddBranch(&patMuonTrkPt_,"muTrkPt");
+ AddBranch(&patMuonTrkPtErr_, "muTrkPtErr");
+ AddBranch(&patMuondxy_, "mudxy");
+ AddBranch(&patMuondz_, "mudz");
+ AddBranch(&patMuonsegmentCompatibility_, "musegmentCompatibility");
+ AddBranch(&patMuonchi2LocalPosition_, "muchi2LocalPosition"); 
+ AddBranch(&patMuontrkKink_, "mutrkKink");
+ 
+ AddBranch(&patMuonInnerdxy_, "muInnerdxy_"); 
+ AddBranch(&patMuonInnerdz_, "muInnerdxy_");
+ AddBranch(&patMuonTrkLayers_, "muTrkLayers");
+ AddBranch(&patMuonPixelLayers_,"muPixelLayers");
+ AddBranch(&patMuonPixelHits_, "muPixelHits");
+ AddBranch(&patMuonTrkQuality_,"muTrkQuality_");
+ AddBranch(&patMuonHits_, "muHits");
+ AddBranch(&patMuonChi2NDF_,"muChi2NDF");
+ AddBranch(&patMuonInnervalidFraction_,"MuInnervalidFraction_");
+ AddBranch(&patMuonMatches_, "muMatches");
 
-  AddBranch(&patMuonChHadIso_, "muChHadIso");
-  AddBranch(&patMuonNeHadIso_, "muNeHadIso");
-  AddBranch(&patMuonGamIso_, "muGamIso");
-  AddBranch(&patMuonPUPt_, "muPUPt");
-  AddBranch(&patMuonCorrPfIso_, "muCorrPfIso");
+ AddBranch(&patMuonITrkIndex_, "muITrkID");
+ AddBranch(&patMuonSegIndex_, "muSegID");
+ AddBranch(&patMuonNSeg_, "muNSegs");
+ AddBranch(&patMuonGood_, "muGood");
+ AddBranch(&patMuonIsGood_,"patMuonIsGood");
 
-
-  // new added
-  AddBranch(&isGlobalMuon_, "isGlobalMuon");
-  AddBranch(&isTrackerMuon_, "isTrackerMuon");
-  AddBranch(&patMuonPtErrx_, "muPtErrx");
-  AddBranch(&patMuondxy_, "mudxy");
-  AddBranch(&patMuondz_, "mudz");
-  AddBranch(&patMuonTrkLayers_, "muTrkLayers");
-  AddBranch(&patMuonPixelHits_, "muPixelHits");
-  AddBranch(&patMuonHits_, "muHits");
-  AddBranch(&patMuonMatches_, "muMatches");
-  AddBranch(&patMuonITrkIndex_, "muITrkID");
-  AddBranch(&patMuonSegIndex_, "muSegID");
-  AddBranch(&patMuonNSeg_, "muNSegs");
-  AddBranch(&patMuonGood_, "muGood");
+ AddBranch(&patMuonTrkIso_, "muTrkIso");
+ AddBranch(&patMuonHcalIso_, "muHcalIso");
+ AddBranch(&patMuonEcalIso_, "muEcalIso");
+ AddBranch(&patMuonChHadIso_, "muChHadIso");
+ AddBranch(&patMuonNeHadIso_, "muNeHadIso");
+ AddBranch(&patMuonGamIso_, "muGamIso");
+ AddBranch(&patMuonPUPt_, "muPUPt");
 }
-
-
 void
 patMuonTree::Clear(){
-
   nMu_ =0;
   patMuonType_.clear();
   patMuonPt_.clear();
   patMuonEta_.clear();
   patMuonPhi_.clear();
   patMuonM_.clear();
+  patMuonCharge_.clear();
+  
   patMuonTrkIso_.clear();
-  patMuonCorrTrkIso_.clear();
   patMuonHcalIso_.clear();
   patMuonEcalIso_.clear();
-  patMuonCharge_.clear();
-
   patMuonChHadIso_.clear();
   patMuonNeHadIso_.clear();
   patMuonGamIso_.clear();
   patMuonPUPt_.clear();
-  patMuonCorrPfIso_.clear();
-
-
-  // new added
+  
   isGlobalMuon_.clear();
   isTrackerMuon_.clear();
-  patMuonPtErrx_.clear();
+  isPFMuon_.clear();
+  
+  patMuonTrkPt_.clear();
+  patMuonTrkPtErr_.clear();
   patMuondxy_.clear();
   patMuondz_.clear();
+  patMuonsegmentCompatibility_.clear();
+  patMuonchi2LocalPosition_.clear();
+  patMuontrkKink_.clear();
+  
+  patMuonInnerdxy_.clear();
+  patMuonInnerdz_.clear();
   patMuonTrkLayers_.clear();
+  patMuonPixelLayers_.clear();
   patMuonPixelHits_.clear();
+  patMuonTrkQuality_.clear();
   patMuonHits_.clear();
+  patMuonChi2NDF_.clear();
+  patMuonInnervalidFraction_.clear();
   patMuonMatches_.clear();
   patMuonITrkIndex_.clear();
   patMuonSegIndex_.clear();
   patMuonNSeg_.clear();
   patMuonGood_.clear();
-
+  patMuonIsGood_.clear();
 }

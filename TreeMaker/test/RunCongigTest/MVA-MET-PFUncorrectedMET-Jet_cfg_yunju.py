@@ -67,7 +67,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
 )
 
 
@@ -76,20 +76,10 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        #'file:ZPrimeToTTBarMiniAOD.root'
-#        'file:/afs/cern.ch/work/k/khurana/RunIIDelPanj/CMSSW_7_2_3_patch1/DYJetsMiniAOD/DYJets_100-200_1.root'
-        # 'file:0432E62A-7A6C-E411-87BB-002590DB92A8.root' 
-        #'file:58462360-8C07-E411-BCE4-008CFA007B98.root'
-        #'file:0C3E1051-ED71-E411-B8C9-002590DB91CE.root'
-       #'/store/relval/CMSSW_7_4_0/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/C0B7E3DE-6FDD-E411-A127-0025905B85EE.root' 
-       #'file:C0B7E3DE-6FDD-E411-A127-0025905B85EE.root' 
-      # '/store/relval/CMSSW_7_4_0_pre7/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/10661B83-43B7-E411-ADEA-0025905B8582.root'
-#       '/store/relval/CMSSW_7_4_0/RelValProdTTbar_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/1E12B842-93DD-E411-AF4F-0025905A48D0.root'
-       #'/store/mc/Phys14DR/TTJets_MSDecaysCKM_central_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/00C90EFC-3074-E411-A845-002590DB9262.root'
-#     '/store/relval/CMSSW_7_4_1/RelValTTbar_13_unsch/MINIAODSIM/MCRUN2_74_V9-v1/00000/EA076017-DCEC-E411-BE66-0025905A60F2.root'  
-   #'/store/mc/Phys14DR/DYJetsToEEMuMu_M-1400To2300_13TeV-madgraph/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/12B916AF-CE73-E411-8419-002590747DE2.root' 
-  '/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
-  ),
+        #'/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
+        #'file:step3_miniAOD_M1500_9.root'
+        'root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root'
+        ),
                             skipEvents = cms.untracked.uint32(0)         
                             )
 

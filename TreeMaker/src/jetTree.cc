@@ -1,4 +1,4 @@
-
+ 
 // This class need a new version
 // Take care of gen Jets from configuation 
 // take care of subjets
@@ -79,6 +79,7 @@ void
 jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   Clear();
 
+
   cout<<isFATJet_<<"----------------- jet Event loop start------------------"<<endl;
   cout<<"mini AOD Lable:"<<JetLabel_<<"............................................"<<endl; 
   cout<<"add jet  Lable:"<<AddjetlabelC_<<"............................................"<<endl;  
@@ -138,6 +139,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
     jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
     jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+
  
 /*
     std::cout<<" i jet = "<< nJet_
@@ -148,15 +150,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	     <<" nsubjets= "<<jet->nSubjetCollections()
               <<std::endl;
 */
-
-
-
-
-
-
-
-
-
 
 
 
@@ -350,6 +343,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     */
     // look for pruned jet
     
+
     if(isFATJet_) // only run with FATjet
     {
     jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
@@ -534,9 +528,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	
 //	}
 
+
 //turn off subjet for not patified now
 
  
+
 
 }//jet loop
 
@@ -841,7 +837,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
 
-
+  
 
 
 
