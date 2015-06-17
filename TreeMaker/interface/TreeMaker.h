@@ -47,6 +47,8 @@ class TreeMaker : public edm::EDAnalyzer {
       Bool_t fillElecInfo_;
       Bool_t fillMetInfo_;
       Bool_t fillJetInfo_;
+      Bool_t fillFATJetInfo_;
+      Bool_t fillAddJetInfo_; 
       Bool_t fillPhotInfo_;
       Bool_t fillTauInfo_;
       
@@ -57,9 +59,10 @@ class TreeMaker : public edm::EDAnalyzer {
       patElecTree *patElecTree_;
 
       patMetTree  *patMetTree_;
-      jetTree     *CA8jetTree_;
-      jetTree     *AK5jetTree_;
-      
+      jetTree     *FATjetTree_;
+      jetTree     *THINjetTree_;
+      jetTree     *ADDjetTree_;     
+ 
       genjetTree  *genjetTree_;
       
       photonTree  *photonTree_;

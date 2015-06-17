@@ -25,6 +25,8 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillMuonInfo_=0;
   fillElecInfo_=0;
   fillJetInfo_=0;
+  fillFATJetInfo_=0;
+  fillAddJetInfo_=0;
   fillMetInfo_=0;
   fillPhotInfo_=0; 
 
@@ -35,11 +37,13 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillMuonInfo_  = iConfig.getParameter<Bool_t>("fillMuonInfo_");
   fillElecInfo_  = iConfig.getParameter<Bool_t>("fillElecInfo_");
   fillJetInfo_   = iConfig.getParameter<Bool_t>("fillJetInfo_");
+  fillFATJetInfo_= iConfig.getParameter<Bool_t>("fillFATJetInfo_"); 
+  fillAddJetInfo_=iConfig.getParameter<Bool_t>("fillAddJetInfo_");
   fillMetInfo_   = iConfig.getParameter<Bool_t>("fillMetInfo_");
   fillTrigInfo_  = iConfig.getParameter<Bool_t>("fillTrigInfo_");
   fillPhotInfo_  = iConfig.getParameter<Bool_t>("fillPhotInfo_");
   fillTauInfo_   = iConfig.getParameter<Bool_t>("fillTauInfo_");
-  
+   
   
   edm::Service<TFileService> fs;
 
@@ -47,7 +51,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   ;
   //tree_ = new TTree("tree","tree");
 
-  tree_ = fs->make<TTree>("tree","tree");
+  tree_ = fs->make<TTree>("treeMaker","tree");
   if( fillPUweightInfo_) puweight_=new puweight("pu_",tree_);
   if( fillEventInfo_) eventInfo_=new eventInfo("info_",tree_); 
   if( fillGenInfo_)   genInfoTree_ = new genInfoTree("",tree_,iConfig);
@@ -55,9 +59,10 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   if( fillElecInfo_)  patElecTree_ = new patElecTree("",tree_,iConfig);
 
   if( fillMetInfo_)   patMetTree_= new patMetTree("pf",tree_,iConfig);
-  if( fillJetInfo_)   CA8jetTree_=new jetTree("CA8",tree_,iConfig);
-  if( fillJetInfo_)   AK5jetTree_=new jetTree("AK5",tree_,iConfig);
-  
+  if( fillFATJetInfo_)FATjetTree_=new jetTree("FAT",tree_,iConfig);
+  if( fillJetInfo_)   THINjetTree_=new jetTree("THIN",tree_,iConfig);
+  if( fillAddJetInfo_)   ADDjetTree_=new jetTree("ADD",tree_,iConfig); 
+ 
   if( true)           genjetTree_=new genjetTree("genjet",tree_,iConfig);
   
   if( fillTrigInfo_)  patHltTree_ = new patHltTree("hlt_",tree_); 
@@ -83,9 +88,9 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillElecInfo_)  patElecTree_ ->Fill(iEvent);
 
   if( fillMuonInfo_)  patMuTree_   ->Fill(iEvent);
-  if( fillJetInfo_)   CA8jetTree_  ->Fill(iEvent, iSetup);
-  if( fillJetInfo_)   AK5jetTree_  ->Fill(iEvent, iSetup);
-  
+  if( fillFATJetInfo_)   FATjetTree_  ->Fill(iEvent, iSetup);
+  if( fillJetInfo_)   THINjetTree_  ->Fill(iEvent, iSetup);
+   if( fillAddJetInfo_)   ADDjetTree_  ->Fill(iEvent, iSetup);  
   genjetTree_->Fill(iEvent,iSetup);
   
   if( fillMetInfo_)   patMetTree_  ->Fill(iEvent);

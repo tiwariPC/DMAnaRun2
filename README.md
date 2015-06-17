@@ -19,6 +19,10 @@ git clone git@github.com:syuvivida/DMAnaRun2_AddModules.git AddModules
 
 mv AddModules/EGamma/ .
 
+mv PhysicsTools/PatAlgos/ .
+
+mv RecoBTag/ . 
+
 mv AddModules/goodAK4Jets_cff.py ExoDiBosonResonances/EDBRCommon/python/
 
 mv AddModules/prod/jec/ .

@@ -54,7 +54,7 @@ genjetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
   ngenMuons = nmu;  
   for(;genjets!=h_genjets->end();genjets++){
-    std::cout<<" genjet info = "<<genjets->px()<<std::endl;
+  //  std::cout<<" genjet info = "<<genjets->px()<<std::endl;
     
     TLorentzVector p4(genjets->px(),genjets->py(),genjets->pz(),genjets->energy());
     new( (*GenJets_4Momentum)[genjet_n] )  TLorentzVector(p4);

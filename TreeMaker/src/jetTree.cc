@@ -18,27 +18,36 @@
 #include "TMath.h"
 #include "Math/VectorUtil.h"
 
+#include "DataFormats/BTauReco/interface/SecondaryVertexTagInfo.h"
+
+
 typedef math::XYZTLorentzVector LorentzVector;
+const math::XYZPoint & position(const reco::Vertex & sv) {return sv.position();}
+const math::XYZPoint & position(const reco::VertexCompositePtrCandidate & sv) {return sv.vertex();}
 
 jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(desc, tree),
-   
-  isCA8Jet_(true),
+  isFATJet_(true),
   JetLabel_(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data()))),
 //  PrunedJetLabel_ ( iConfig.getParameter<edm::InputTag>("PrunedJets")),
+  AddjetlabelC_  (iConfig.getParameter<edm::InputTag>("AddjetlabelPY") ),
   rhoSrc_   (iConfig.getParameter<edm::InputTag>("rhoSrc") ),                     
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
-  jecPayloadNames_( iConfig.getParameter<std::vector<std::string> >(Form("%sjecPayloadNames",desc.data()) )), 
-  jecUncName_( iConfig.getParameter<std::string>(Form("%sjecUncName",desc.data())) ),	
+  SubJetCollectionC_ ( iConfig.getParameter<edm::InputTag>("SubJetsPY") ),  
+  svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
+//jecPayloadNames_( iConfig.getParameter<std::vector<std::string> >(Form("%sjecPayloadNames",desc.data()) )), 
+ // jecUncName_( iConfig.getParameter<std::string>(Form("%sjecUncName",desc.data())) ),	
   jet2012ID_()
 {
   
-  std::size_t found = desc.find("CA8");
+  std::size_t found = desc.find("FAT");
   if (found!=std::string::npos)
-    isCA8Jet_=true;
+    isFATJet_=true;
   else
-    isCA8Jet_=false;
-
+    isFATJet_=false;
+  if(strcmp(desc.data(),"ADD")==0) isADDJet_=true;
+  else isADDJet_=false; 
+  runAddJet_ = iConfig.getParameter<Bool_t>("runAddjetPY");
   SetBranches();
 
 
@@ -70,9 +79,9 @@ void
 jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   Clear();
 
-  cout<<isCA8Jet_<<" jet Event loop start"<<endl;
-  cout<<JetLabel_<<"............................................"<<endl; 
- 
+  cout<<isFATJet_<<"----------------- jet Event loop start------------------"<<endl;
+  cout<<"mini AOD Lable:"<<JetLabel_<<"............................................"<<endl; 
+  cout<<"add jet  Lable:"<<AddjetlabelC_<<"............................................"<<endl;  
  
 
 
@@ -117,16 +126,20 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   std::sort(jets.begin(),jets.end(),PtGreater());
 
   std::vector<pat::Jet>::const_iterator jet =jets.begin();   
+    cout<<"start Fatjet loop"<<endl; 
 
   for(;jet!=jets.end();jet++){
     nJet_++;
     //Stuff common for all jets.
 
+    if(isADDJet_) continue;
 
     jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
     jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
     jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
     jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+ 
+/*
     std::cout<<" i jet = "<< nJet_
 	     <<std::endl;
     std::cout<<" tau 1 = "<<jet->userFloat("NjettinessAK8:tau1")
@@ -134,7 +147,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	     <<" tau 3 = "<<jet->userFloat("NjettinessAK8:tau3")
 	     <<" nsubjets= "<<jet->nSubjetCollections()
               <<std::endl;
-
+*/
 
 
 
@@ -337,8 +350,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     */
     // look for pruned jet
     
-    if(!isCA8Jet_)continue; // stop looking for Prunedjets and subjets
-
+    if(isFATJet_) // only run with FATjet
+    {
     jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
     jetTRmass_.push_back(jet->userFloat("ak8PFJetsCHSTrimmedMass")); 
     jetPRmass_.push_back(jet->userFloat("ak8PFJetsCHSPrunedMass"));
@@ -443,12 +456,16 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
         for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
 	  const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*constituents[ida]);
-	  // printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
+//	  printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
 	}
 
 
+      //   const reco::SecondaryVertexTagInfo *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());        
+      
+       //   const reco::SecondaryVertexTagInfo *svTagInfo =   jet->tagInfoSecondaryVertex("secondaryVertex");
+        //  cout<<"numbers of 2nd vtx "<<svTagInfo->nVertices()<<endl;               
 
-
+//turn off subjet for not patified now 
         pat::Jet const *jetptr = &*jet;  
         
       
@@ -480,30 +497,24 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
        for ( auto const & iw : wSubjets ) 
        {
+
 	  // printf("   w subjet with pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f ungroomed\n",
 	  // 	 iw->pt(), iw->pt()*iw->jecFactor("Uncorrected"), iw->eta(), iw->mass() );
 	  nSubSoftDropjets++;
 
           
+          //  float thept=0.0;
+          //  thept= float(iw->pt()); 
+          //  cout<<thept<<endl;
+          subjetSDPt.push_back(iw->pt());
+          subjetSDEta.push_back(iw->eta());
+          subjetSDPhi.push_back(iw->phi());
+          subjetSDM.push_back(iw->mass());
+          subjetSDCharge.push_back(iw->charge());
+          subjetSDCSV.push_back(iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
+          // cout<<"Test Subjet:"<<iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
 
-
-
-
-
-
-        //  float thept=0.0;
-        //  thept= float(iw->pt()); 
-        //  cout<<thept<<endl;
-        subjetSDPt.push_back(iw->pt());
-        subjetSDEta.push_back(iw->eta());
-        subjetSDPhi.push_back(iw->phi());
-        subjetSDM.push_back(iw->mass());
-       // subjetSDEn.push_back(iw->e());
-        subjetSDCSV.push_back(iw->bDiscriminator("combinedSecondaryVertexBJetTags"));   
-
-
-		}
-
+       }//subjet loop
        nSubSDJet_.push_back(nSubSoftDropjets); 
        subjetSDPt_.push_back(subjetSDPt); 
        subjetSDEta_.push_back(subjetSDEta);
@@ -511,6 +522,9 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
        subjetSDM_.push_back(subjetSDM);
       // subjetSDEn_.push_back(subjetSDEn);
        subjetSDCSV_.push_back(subjetSDCSV); 
+       subjetSDCharge_.push_back(subjetSDCharge);
+
+      }//if is Fat jet
 
 
 //	auto tSubjets = jetptr->subjets("CMSTopTag");
@@ -520,9 +534,233 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	
 //	}
 
+//turn off subjet for not patified now
 
+ 
 
 }//jet loop
+
+    cout<<"######## end Fatjet loop "<<endl;
+
+
+
+// take remake jets
+
+
+   // define a jet handle
+//   edm::Handle<std::vector<pat::Jet> > rejets;
+
+
+
+
+    if(runAddJet_&&isADDJet_)
+    {
+     cout<<"star add jet loop"<<endl; 
+     edm::Handle<pat::JetCollection> rejets; 
+     // get jets from the event
+     iEvent.getByLabel(JetLabel_, rejets);
+
+     //get subjet
+
+     edm::Handle<pat::JetCollection>  subjetColls;
+     iEvent.getByLabel(SubJetCollectionC_, subjetColls);
+
+         // loop over jets
+         
+         
+         
+      for( auto jet = rejets->begin(); jet != rejets->end(); ++jet )
+      {
+             
+
+           cout<<"selectedPatJetsPFCHSPFlow: "<< jet->pt()<<endl;  
+
+           jetPt_.push_back(jet->pt());
+           jetEta_.push_back(jet->eta());
+           jetPhi_.push_back(jet->phi());
+           jetM_.push_back(jet->mass());
+           jetEn_.push_back(jet->energy());
+           jetCharge_.push_back(jet->charge());
+           jetPartonFlavor_.push_back(jet->partonFlavour()); 
+           std::map<std::string, bool> Pass = jet2012ID_.MergedJetCut(*jet);
+           Int_t passOrNot = PassAll(Pass); 
+           jetPassID_.push_back(passOrNot);
+
+           jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
+           jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
+           jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));        
+           jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
+           jetTCHE_.push_back(jet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
+           jetJP_.push_back(jet->bDiscriminator("pfJetProbabilityBJetTags"));
+           jetJBP_.push_back(jet->bDiscriminator("pfJetBProbabilityBJetTags"));
+           jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+
+           jetMuEF_.push_back(jet->muonEnergyFraction());
+           jetPhoEF_.push_back(jet->photonEnergyFraction());
+           jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
+           jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
+           jetNEmEF_.push_back(jet->neutralEmEnergyFraction());
+           jetNHadEF_.push_back(jet->neutralHadronEnergyFraction());
+           jetCMulti_.push_back(jet->chargedMultiplicity());
+ 
+
+            if(false) std::cout<<"jetHFHadEF_ = "<<(jet->HFHadronEnergyFraction())
+	     <<"  jetHFEMEF_ = "<<(jet->HFEMEnergyFraction())
+	     <<"  jetCHHadMultiplicity_ = "<<(jet->chargedHadronMultiplicity())
+	     <<"  jetNHadMulplicity_ = "<<(jet->neutralHadronMultiplicity())
+	     <<"  jetPhMultiplicity_ = "<<(jet->photonMultiplicity())
+	     <<"  jetEleMultiplicity_ = "<<(jet->electronMultiplicity())
+	     <<"  jetHFHadMultiplicity_ = "<<(jet->HFHadronMultiplicity())
+	     <<"  jetHFEMMultiplicity_ = "<<(jet->HFEMMultiplicity())
+	     <<"  jetChMuEF_ = "<<(jet->chargedMuEnergyFraction())
+	     <<"  jetNMultiplicity_ = "<<(jet->neutralMultiplicity())
+	     <<"  jetHOEnergy_ = "<<(jet->hoEnergy())
+	     <<"  jetHOEF_ = "<<(jet->hoEnergyFraction())
+	     <<std::endl;
+
+
+           jetHFHadEF_.push_back(jet->HFHadronEnergyFraction());
+           jetHFEMEF_.push_back(jet->HFEMEnergyFraction());
+           jetCHHadMultiplicity_.push_back(jet->chargedHadronMultiplicity());
+           jetNHadMulplicity_.push_back(jet->neutralHadronMultiplicity());
+           jetPhMultiplicity_.push_back(jet->photonMultiplicity());
+           jetEleMultiplicity_.push_back(jet->electronMultiplicity());
+           jetHFHadMultiplicity_.push_back(jet->HFHadronMultiplicity());
+           jetHFEMMultiplicity_.push_back(jet->HFEMMultiplicity());
+           jetChMuEF_.push_back(jet->chargedMuEnergyFraction());
+           jetNMultiplicity_.push_back(jet->neutralMultiplicity());
+           jetHOEnergy_.push_back(jet->hoEnergy());
+           jetHOEF_.push_back(jet->hoEnergyFraction());
+
+          
+          //HBB tagger
+           jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
+          // cout<<"pfBoostedDoubleSecondaryVertexAK8BJetTags:"<<jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags")<<endl;
+           
+
+
+                     // fill discriminator histograms
+     //     const reco::VertexCompositePtrCandidate *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());        
+         
+       //   const reco::Vertex *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());
+       //   cout<<"numbers of 2nd vtx "<<svTagInfo->nVertices()<<endl;               
+  
+//         const reco::TemplatedSecondaryVertexTagInfo<reco::TrackIPTagInfo,reco::Vertex> *SecondaryVertexTagInfo=jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());
+  //       const reco::SecondaryVertexTagInfo &svTagInfo =*jet->tagInfoSecondaryVertex("secondaryVertex");  
+    
+         //cout<<" has tag info: "<<jet->hasTagInfo("pfInclusiveSecondaryVertexFinder") <<endl;
+         if(jet->hasTagInfo(svTagInfosCstr_.data()))
+         {
+         const reco::CandSecondaryVertexTagInfo *candSVTagInfo = jet->tagInfoCandSecondaryVertex("pfInclusiveSecondaryVertexFinder");
+         //const reco::SecondaryVertexTagInfo &svTagInfo =*jet->tagInfoSecondaryVertex(svTagInfosCstr_.data());
+         
+           cout<<"numbers of 2nd vtx "<<candSVTagInfo->nVertices()<<endl;
+           
+            jet_nSV_.push_back(candSVTagInfo->nVertices());  
+                       
+
+            std::vector<Float_t> jet_SVMass_float;
+            std::vector<Float_t> jet_SVEnergyRatio_float;
+
+           //     subjetMotherIndex.clear();
+            jet_SVMass_float.clear();
+            jet_SVEnergyRatio_float.clear();
+            
+
+            for(unsigned int n_2ndvtx=0;n_2ndvtx<candSVTagInfo->nVertices();n_2ndvtx++)
+            {
+
+              jet_SVMass_float.push_back(candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass());
+              cout<<"2nd vtx mass :"<<" "<<candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass()<<endl;  
+
+            }
+            jet_SVMass_.push_back(jet_SVMass_float);
+ 
+
+ 
+            if(candSVTagInfo->nVertices()>0)
+            {
+              cout<<"mass:"<< candSVTagInfo->secondaryVertex(0).p4().mass()<<endl;
+              cout<<"1 th 2nd vtx x :"<<" "<<position(candSVTagInfo->secondaryVertex(0)).x()<<endl;
+             
+            }
+            else
+            {
+
+
+            }
+
+
+
+         }
+         else
+         {
+         cout<<svTagInfosCstr_.data()<<" : "<<jet->hasTagInfo(svTagInfosCstr_.data()) <<endl;
+         }
+
+
+         std::vector<Float_t> subjetSDPt;
+         std::vector<Float_t> subjetSDEta;
+         std::vector<Float_t> subjetSDPhi;
+         std::vector<Float_t> subjetSDM;
+         std::vector<Float_t> subjetSDEn;
+         std::vector<Int_t>   subjetSDCharge;
+         std::vector<Int_t>   subjetSDPartonFlavor;
+         std::vector<Float_t> subjetSDCSV; 
+
+  //     subjetMotherIndex.clear();
+         subjetSDPt.clear();
+         subjetSDEta.clear();
+         subjetSDPhi.clear();
+         subjetSDM.clear();
+         subjetSDEn.clear();
+         subjetSDCharge.clear();
+         subjetSDPartonFlavor.clear();
+         subjetSDCSV.clear(); 
+ 
+         int nSubSoftDropjets=0;
+
+         auto ReSubjets  = jet->subjets("SoftDrop");
+       //  auto ReSubjets  = jet->subjets("Pruned"); 
+         cout<<"Here"<<endl; 
+         for ( auto const & resub : ReSubjets ) 
+         {
+            cout<<"Subjets : "<<resub->pt()<<endl;
+            cout<<"Subjets btag: "<<resub->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
+
+            subjetSDPt.push_back(resub->pt());
+            subjetSDEta.push_back(resub->eta());
+            subjetSDPhi.push_back(resub->phi());
+            subjetSDM.push_back(resub->mass());
+            subjetSDCharge.push_back(resub->charge());
+            subjetSDCSV.push_back(resub->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
+            nSubSoftDropjets++;
+          
+
+          }//subjet loop  
+            subjetSDPt_.push_back(subjetSDPt); 
+            subjetSDEta_.push_back(subjetSDEta);
+            subjetSDPhi_.push_back(subjetSDPhi);
+            subjetSDM_.push_back(subjetSDM);
+           // subjetSDEn_.push_back(subjetSDEn);
+            subjetSDCSV_.push_back(subjetSDCSV); 
+            subjetSDCharge_.push_back(subjetSDCharge);
+            nSubSDJet_.push_back(nSubSoftDropjets);
+        
+//         for( int sj = 0; sj < (int)subjets.size(); ++sj )
+//          {
+//           cout<<"Subjets : "<<subjets->pt()<<endl;
+ 
+//          }  
+               
+      }//add jet loop
+ cout<<"#############end add jet loop"<<endl;
+ }//if run addjet
+
+
+
+
+
 
 
 
@@ -651,7 +889,7 @@ for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
 
 */
 
-  cout<<"jet Event loop end"<<endl;
+  cout<<"------------- jettree Event loop end ----------------"<<endl;
 
 
 
@@ -687,6 +925,19 @@ jetTree::SetBranches(){
   AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
   AddBranch(&jetPassID_, "jetPassID");
 
+
+  AddBranch(&jet_nSV_, "jet_nSV");
+  AddBranch(&jet_SVMass_, "jet_SVMass");
+  AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
+
+
+
+
+
+
+
+
+
   AddBranch(&jetSSV_, "jetSSV");
   AddBranch(&jetSSVHE_,"jetSSVHE");
   AddBranch(&jetCSV_, "jetCSV");        
@@ -709,7 +960,7 @@ jetTree::SetBranches(){
   AddBranch(&jetNHadEF_, "jetNHadEF");
   AddBranch(&jetCMulti_, "jetCMulti");
   
-  if(isCA8Jet_){
+  if(isFATJet_||isADDJet_){
     AddBranch(&jetPrunedPt_, "jetPrunedPt");
     AddBranch(&jetPrunedEta_, "jetPrunedEta");
     AddBranch(&jetPrunedPhi_, "jetPrunedPhi");
@@ -733,6 +984,8 @@ jetTree::SetBranches(){
     AddBranch(&jetTRmass_, "jetTRmass");
     AddBranch(&jetPRmass_, "jetPRmass");
     AddBranch(&jetFimass_, "jetFimass");
+
+    AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
 
 
 
@@ -799,6 +1052,21 @@ jetTree::Clear(){
   genjetAUX_.clear();
   matchedDR_.clear();
 
+
+
+  jet_nSV_.clear();
+  jet_SVMass_.clear();  
+  jet_SVEnergyRatio_.clear();
+  
+
+
+
+
+
+
+
+
+
   jetSSV_.clear();
   jetSSVHE_.clear();
   jetCSV_.clear();        
@@ -845,7 +1113,7 @@ jetTree::Clear(){
   jetFimass_.clear();  
 
 
-
+  jet_DoubleSV_.clear();
 
 
 
