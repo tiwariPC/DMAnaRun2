@@ -47,12 +47,11 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundPFMET170NoiseClean         = trigName.find("HLT_PFMET170_NoiseCleaned");
       size_t foundDiCEntralPFJet70PFMET120   = trigName.find("HLT_DiCentralPFJet70_PFMET120_NoiseCleaned");
       size_t foundPFHT350_PFMET120           = trigName.find("HLT_PFHT350_PFMET120_NoiseCleaned");
-
-      if(false) std::cout<<" trigName = "<<trigName
-	       <<" : "<<trigResults->accept(i)
-	       <<" : "<<foundEle00
-	       <<" : "<<(foundEle00==std::string::npos)
-	       <<std::endl;
+      
+      if(true) std::cout<<" trigName = "<<trigName
+			<<" : "<<trigResults->accept(i)
+			<<" : "<<(foundEle00==std::string::npos)
+			<<std::endl;
       if ( foundEle00==std::string::npos &&
        	   foundMuo00==std::string::npos && 
        	   foundMuo01==std::string::npos && 
