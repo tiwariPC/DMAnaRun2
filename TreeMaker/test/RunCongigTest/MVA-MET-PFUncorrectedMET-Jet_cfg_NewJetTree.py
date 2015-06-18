@@ -624,13 +624,13 @@ process.tree = cms.EDAnalyzer(
     fillPUweightInfo_ = cms.bool(False),
     fillEventInfo_ = cms.bool(True),
     fillGenInfo_   = cms.bool(True),
-    fillMuonInfo_  = cms.bool(False),
-    fillElecInfo_  = cms.bool(False),
+    fillMuonInfo_  = cms.bool(True),
+    fillElecInfo_  = cms.bool(True),
     fillFATJetInfo_   = cms.bool(True), 
     fillJetInfo_   = cms.bool(True), ## Raman switched it off
     fillAddJetInfo_   = cms.bool(True),
     fillMetInfo_   = cms.bool(True),
-    fillTrigInfo_  = cms.bool(False),
+    fillTrigInfo_  = cms.bool(True),
     fillPhotInfo_  = cms.bool(False),
     fillTauInfo_   = cms.bool(False),
     

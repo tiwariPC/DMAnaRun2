@@ -47,7 +47,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   }
 
-
+  unsigned int NmyParticles=0;
   // first save the vector of candidates
   std::vector<const reco::Candidate*> cands;
   std::vector<std::vector<reco::GenParticle>::const_iterator> myParticles;
@@ -59,12 +59,18 @@ genInfoTree::Fill(const edm::Event& iEvent)
       if(gen.status()>=30 && applyStatusSelection_)continue; // only save beam particle, hard scattering and stable particles
       cands.push_back(&*it_gen);
       myParticles.push_back(it_gen);
+      NmyParticles++;
     }
 
+  unsigned int NGentoLoop=0;
+  if(MAXNGENPAR_>= NmyParticles) NGentoLoop=NmyParticles;
+  else NGentoLoop=MAXNGENPAR_;
+ 
+//  std::cout<<NmyParticles<<" NGentoLoop:"<<NGentoLoop<<std::endl;
   // now loop
   std::vector<const reco::Candidate*>::const_iterator found = cands.begin();
-  for(unsigned int genIndex=0; genIndex < MAXNGENPAR_; genIndex++){
-    
+  for(unsigned int genIndex=0; genIndex < NGentoLoop; genIndex++){
+//    std::cout<<"genIndex:"<<genIndex<<std::endl;
     std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
     nGenPar_++;
 
