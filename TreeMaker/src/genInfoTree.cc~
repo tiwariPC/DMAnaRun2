@@ -63,7 +63,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   // now loop
   std::vector<const reco::Candidate*>::const_iterator found = cands.begin();
-  for(unsigned int genIndex=0; genIndex < MAXNGENPAR_ && genIndex < myParticles.size(); genIndex++){
+  for(unsigned int genIndex=0; genIndex < MAXNGENPAR_; genIndex++){
     
     std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
     nGenPar_++;
