@@ -623,7 +623,7 @@ process.tree = cms.EDAnalyzer(
     'TreeMaker',
     fillPUweightInfo_ = cms.bool(False),
     fillEventInfo_ = cms.bool(True),
-    fillGenInfo_   = cms.bool(False),
+    fillGenInfo_   = cms.bool(True),
     fillMuonInfo_  = cms.bool(False),
     fillElecInfo_  = cms.bool(False),
     fillFATJetInfo_   = cms.bool(True), 
@@ -637,6 +637,12 @@ process.tree = cms.EDAnalyzer(
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
+    applyStatusSelection = cms.bool(True),
+
+
+
+
+
     patMuons=cms.InputTag("slimmedMuons"),
     patElectrons = cms.InputTag("slimmedElectrons"),
     
