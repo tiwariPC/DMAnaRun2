@@ -63,8 +63,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   if( fillJetInfo_)   THINjetTree_=new jetTree("THIN",tree_,iConfig);
   if( fillAddJetInfo_)   ADDjetTree_=new jetTree("ADD",tree_,iConfig); 
  
-  if( true)           genjetTree_=new genjetTree("genjet",tree_,iConfig);
-  
   if( fillTrigInfo_)  patHltTree_ = new patHltTree("hlt_",tree_); 
   if( fillPhotInfo_)  photonTree_ = new photonTree("", tree_, iConfig); 
   
@@ -90,9 +88,8 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillMuonInfo_)  patMuTree_   ->Fill(iEvent);
   if( fillFATJetInfo_)   FATjetTree_  ->Fill(iEvent, iSetup);
   if( fillJetInfo_)   THINjetTree_  ->Fill(iEvent, iSetup);
-   if( fillAddJetInfo_)   ADDjetTree_  ->Fill(iEvent, iSetup);  
-  genjetTree_->Fill(iEvent,iSetup);
-  
+  if( fillAddJetInfo_)   ADDjetTree_  ->Fill(iEvent, iSetup);  
+
   if( fillMetInfo_)   patMetTree_  ->Fill(iEvent);
   if( fillTrigInfo_)  patHltTree_  ->Fill(iEvent);
   if( fillPhotInfo_)  photonTree_  ->Fill(iEvent);

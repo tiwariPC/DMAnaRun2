@@ -17,7 +17,6 @@
 #include "DelPanj/TreeMaker/interface/patHltTree.h"
 #include "DelPanj/TreeMaker/interface/jetTree.h"
 
-#include "DelPanj/TreeMaker/interface/genjetTree.h"
 
 #include "DelPanj/TreeMaker/interface/photonTree.h"
 #include "hpstauInfo.h"
@@ -63,7 +62,6 @@ class TreeMaker : public edm::EDAnalyzer {
       jetTree     *THINjetTree_;
       jetTree     *ADDjetTree_;     
  
-      genjetTree  *genjetTree_;
       
       photonTree  *photonTree_;
       patHltTree  *patHltTree_;      
