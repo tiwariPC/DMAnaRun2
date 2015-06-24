@@ -13,11 +13,19 @@
 // -- fix the initial values for isolation
 
 patElecTree::patElecTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
-baseTree(name,tree),
-  pvSrc_ (iConfig.getParameter<edm::InputTag>("pvSrc") ),
-  patElecLabel_ ( iConfig.getParameter<edm::InputTag>("patElectrons"))
+  baseTree(name,tree),
+  patElecLabel_( iConfig.getParameter<edm::InputTag>("patElectrons")),
+  eleVetoIdMapToken_( iConfig.getParameter<edm::InputTag>("eleVetoIdMap")),
+  eleLooseIdMapToken_( iConfig.getParameter<edm::InputTag>("eleLooseIdMap")),
+  eleMediumIdMapToken_(iConfig.getParameter<edm::InputTag>("eleMediumIdMap")),
+  eleTightIdMapToken_(iConfig.getParameter<edm::InputTag>("eleTightIdMap")),
+  eleHEEPIdMapToken_(iConfig.getParameter<edm::InputTag>("eleHEEPIdMap"))
+  
+  
 {
+  patElecP4 =   new TClonesArray("TLorentzVector");
   SetBranches();
+  
 }
 patElecTree::~patElecTree(){
 }
@@ -25,60 +33,58 @@ patElecTree::~patElecTree(){
 void
 patElecTree::Fill(const edm::Event& iEvent){
   Clear();
-  edm::Handle<pat::ElectronCollection> patElecHandle;
-    if(not iEvent.getByLabel(patElecLabel_,patElecHandle)){
-    std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
-	     <<patElecLabel_<<std::endl; exit(0);}
   
-  edm::Handle<reco::VertexCollection> recVtxs_;
-  reco::Vertex myPv;
-  Int_t nVtx=0;
-  Int_t ngoodVtx=0;
-  if ( iEvent.getByLabel( pvSrc_, recVtxs_ )) {
-    for (size_t i=0; i<recVtxs_->size(); ++i) {
-      if (!((*recVtxs_)[i].isFake())){
-	nVtx++;
-	if(nVtx==1)myPv = (*recVtxs_)[i]; // minimum requirement, not a fake
-	// further quality requirement
-	if(((*recVtxs_)[i].ndof() >= 4 && fabs((*recVtxs_)[i].z()) <= 24 && fabs((*recVtxs_)[i].position().rho()) <= 2) )
-	  {
-	    ngoodVtx++;
-	    if(ngoodVtx==1)myPv = (*recVtxs_)[i];
-	  }
-      }
-      if(ngoodVtx<1 && nVtx<1 && recVtxs_->size()>0)
-	myPv = (*recVtxs_)[0];
-    } // loop over vertex collections
-  } // if vertex handle is valid
-  
-  
-  // Get rho value
-  //
-  //
 
+  
+  //edm::Handle<pat::ElectronCollection> patElecHandle;
+  
+  //if(not iEvent.getByLabel(patElecLabel_,patElecHandle)){
+  //std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
+  //	     <<patElecLabel_<<std::endl; exit(0);}
+  
+  edm::Handle<edm::View<pat::Electron> > electronHandle;
+  iEvent.getByLabel(patElecLabel_,electronHandle);
+  //id boolean
+
+  std::cout<<" ele tree = "<<std::endl;
+  edm::Handle<edm::ValueMap<bool> > veto_id_decisions;
+  edm::Handle<edm::ValueMap<bool> > loose_id_decisions;
+  edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
+  edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
+  edm::Handle<edm::ValueMap<bool> > heep_id_decisions;
+  iEvent.getByLabel(eleVetoIdMapToken_ ,veto_id_decisions);
+  iEvent.getByLabel(eleLooseIdMapToken_ ,loose_id_decisions);
+  iEvent.getByLabel(eleMediumIdMapToken_,medium_id_decisions);
+  iEvent.getByLabel(eleTightIdMapToken_,tight_id_decisions);
+  iEvent.getByLabel(eleHEEPIdMapToken_ ,heep_id_decisions);
+  std::cout<<" veto size  ---------------- "<<veto_id_decisions->size()<<std::endl;
+  std::cout<<" ele size  ---------------- "<<electronHandle->size()<<std::endl;
+
+    
+  // Get rho value
   edm::Handle<double> rhoH;
   iEvent.getByLabel("fixedGridRhoAll",rhoH);
-  //patElecRho_ = *rhoH;
-  std::cout<<" ------------ rho value = "<<(*rhoH)<<std::endl;
-
-  pat::ElectronCollection eleColl(*(patElecHandle.product()));
-  std::sort(eleColl.begin(),eleColl.end(),PtGreater());
-
-  pat::ElectronCollection::const_iterator ele;
-  for(ele=eleColl.begin(); ele!=eleColl.end(); ele++){
+  patElecRho_ = *rhoH;
+  
+  for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {
     nEle_++;
     
     patElecCharge_.push_back(ele->charge());
     patElecChargeConsistent_.push_back(ele->isGsfCtfScPixChargeConsistent());
     
-    // Add TClonesArray instead of this
+    
+    TLorentzVector p4(ele->px(),ele->py(),ele->pz(),ele->energy());
+    new( (*patElecP4)[nEle_-1]) TLorentzVector(p4);
+    // Added TClonesArray instead of this
+    /*
     patElecEt_.push_back(ele->et());
     patElecEnergy_.push_back(ele->energy());
     patElecPt_.push_back(ele->pt());
     patElecEta_.push_back(ele->eta());
     patElecPhi_.push_back(ele->phi());
     patElecM_.push_back(ele->mass());
-    
+    */
+    //std::cout<<" ele id = "<<ele->electronID("trigMVAid")<<std::endl;
     patElecR9_.push_back(ele->r9());
     patElecHoverE_.push_back(ele->hcalOverEcal());
     
@@ -116,7 +122,14 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecE1x5_.push_back(ele->e1x5());
     patElecE2x5_.push_back(ele->e2x5Max());
     patElecE5x5_.push_back(ele->e5x5());
-    
+
+
+    //To include in anlyzer code 
+/*    edm::FileInPath eaConstantsFile("EgammaAnalysis/ElectronTools/data/PHYS14/effAreaElectrons_cone03_pfNeuHadronsAndPhotons.txt");
+    EffectiveAreas effectiveAreas(eaConstantsFile.fullPath());
+    float eA = effectiveAreas.getEffectiveArea(fabs(ele->superCluster()->eta()));
+    patElecEffArea_.push_back(eA);    */
+
     //fix the initial value
     Float_t iso1 = 999.;
     Float_t iso2 = 999.;
@@ -126,12 +139,10 @@ patElecTree::Fill(const edm::Event& iEvent){
     iso2 = ele->pfIsolationVariables().sumNeutralHadronEt;
     iso3 = ele->pfIsolationVariables().sumPhotonEt;
     isoPU = ele->pfIsolationVariables().sumPUPt;
-    Float_t corrPfIso = iso1 + std::max(0.0, iso2 + iso3 - 0.5*isoPU );
     patElecChHadIso_.push_back(iso1);
     patElecNeHadIso_.push_back(iso2);
     patElecGamIso_.push_back(iso3);
     patElecPUPt_.push_back(isoPU);
-    patElecCorrPfIso_.push_back(corrPfIso);
     // this variable is for debugging
     patElecaloEnergy_.push_back(ele->caloEnergy());
 
@@ -157,6 +168,18 @@ patElecTree::Fill(const edm::Event& iEvent){
        }*/
     patElecInBarrel_.push_back(ele->isEB());
     patElecInEndcap_.push_back(ele->isEE());
+    
+    const auto el = electronHandle->ptrAt(nEle_-1);
+    std::cout<<" veto id = "<<(*veto_id_decisions)[el]<<std::endl;
+    
+    isPassVeto.push_back( (*veto_id_decisions)[el]);
+    isPassLoose.push_back( (*loose_id_decisions)[el]);
+    isPassMedium.push_back( (*medium_id_decisions)[el]);
+    isPassTight.push_back( (*tight_id_decisions)[el]);
+    isPassHEEP.push_back( (*heep_id_decisions)[el]);
+    
+    
+    
   }
 }
 
@@ -164,15 +187,23 @@ patElecTree::Fill(const edm::Event& iEvent){
   void
     patElecTree::SetBranches(){
     AddBranch(&nEle_, "nEle");
+    
+    AddBranch(&isPassVeto,"isPassVeto");
+    AddBranch(&isPassLoose,"isPassLoose");
+    AddBranch(&isPassMedium,"isPassMedium");
+    AddBranch(&isPassTight,"isPassTight");
+    AddBranch(&isPassHEEP,"isPassHEEP");
+    AddBranch(&patElecP4,"patElecP4");
     AddBranch(&patElecRho_, "eleRho");
+    AddBranch(&patElecEffArea_,"eleEffArea");
     AddBranch(&patElecCharge_, "eleCharge");
     AddBranch(&patElecChargeConsistent_,"eleChargeConsistent");
-    AddBranch(&patElecEt_, "eleEt");
-    AddBranch(&patElecEnergy_, "eleEnergy");
-    AddBranch(&patElecPt_, "elePt");
-    AddBranch(&patElecEta_, "eleEta");
-    AddBranch(&patElecPhi_, "elePhi");
-    AddBranch(&patElecM_, "eleM");
+    //AddBranch(&patElecEt_, "eleEt");
+    //AddBranch(&patElecEnergy_, "eleEnergy");
+    //AddBranch(&patElecPt_, "elePt");
+    //AddBranch(&patElecEta_, "eleEta");
+    //AddBranch(&patElecPhi_, "elePhi");
+    //AddBranch(&patElecM_, "eleM");
     AddBranch(&patElecR9_,"eleR9");
     AddBranch(&patElecHoverE_,"eleHoverE");
     AddBranch(&patElecD0_,"eleD0");
@@ -202,7 +233,6 @@ patElecTree::Fill(const edm::Event& iEvent){
     AddBranch(&patElecNeHadIso_, "eleNeHadIso");
     AddBranch(&patElecGamIso_, "eleGamIso");
     AddBranch(&patElecPUPt_, "elePUPt");
-    AddBranch(&patElecCorrPfIso_, "eleCorrPfIso");
     AddBranch(&patElecaloEnergy_,"elecaloEnergy");
     AddBranch(&patElecSigmaIEtaIEtaFull5x5_,"eleSigmaIEtaIEtaFull5x5");
     AddBranch(&patElecE1x5Full5x5_,"eleE1x5Full5x5");
@@ -219,19 +249,30 @@ patElecTree::Fill(const edm::Event& iEvent){
     AddBranch(&patElecTrkdxytrackref_,"eleTrkdxytrackref");
     AddBranch(&patElecInBarrel_,"eleInBarrel");
     AddBranch(&patElecInEndcap_,"eleInEndcap");
+
   }
   void
     patElecTree::Clear(){
+    
+    
     nEle_ =0;
     patElecRho_ =-999;
+    
+    isPassVeto.clear();
+    isPassLoose.clear();
+    isPassMedium.clear();
+    isPassTight.clear();
+    isPassHEEP.clear();
+    patElecP4->Clear();
+    patElecEffArea_.clear();
     patElecCharge_.clear();
     patElecChargeConsistent_.clear();
-    patElecEt_.clear();
-    patElecEnergy_.clear();
-    patElecPt_.clear();
-    patElecEta_.clear();
-    patElecPhi_.clear();
-    patElecM_.clear();
+    //patElecEt_.clear();
+    //patElecEnergy_.clear();
+    //patElecPt_.clear();
+    //patElecEta_.clear();
+    //patElecPhi_.clear();
+    //patElecM_.clear();
     patElecR9_.clear();
     patElecHoverE_.clear();
     patElecD0_.clear();
@@ -257,10 +298,11 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecE1x5_.clear();
     patElecE2x5_.clear();
     patElecE5x5_.clear();
+    patElecChHadIso_.clear();
     patElecNeHadIso_.clear();
     patElecGamIso_.clear();
     patElecPUPt_.clear();
-
+    patElecaloEnergy_.clear();
     patElecSigmaIEtaIEtaFull5x5_.clear();
     patElecE1x5Full5x5_.clear();
     patElecE2x5Full5x5_.clear();

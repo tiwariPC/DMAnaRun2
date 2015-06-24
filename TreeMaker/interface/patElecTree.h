@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 #include "TTree.h"
+#include "TClonesArray.h"
+#include <bitset>
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -14,6 +16,47 @@
 #include "DataFormats/Math/interface/LorentzVector.h"
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 #include "DelPanj/TreeMaker/interface/utils.h"
+
+#include "FWCore/Framework/interface/Frameworkfwd.h"
+#include "FWCore/Framework/interface/EDAnalyzer.h"
+
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/MakerMacros.h"
+
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+
+#include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
+#include "DataFormats/PatCandidates/interface/Electron.h"
+
+#include "DataFormats/Candidate/interface/Candidate.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+
+#include "DataFormats/Common/interface/ValueMap.h"
+
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
+
+#include "DataFormats/EgammaCandidates/interface/ConversionFwd.h"
+#include "DataFormats/EgammaCandidates/interface/Conversion.h"
+#include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
+
+
+
+#include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
+#include "DataFormats/Common/interface/RefToPtr.h"
+#include "DataFormats/Common/interface/Ref.h"
+#include "DataFormats/Common/interface/RefVector.h"
+#include "DataFormats/Common/interface/RefHolder.h"
+#include "DataFormats/Common/interface/RefVectorHolder.h"
+
+#include "FWCore/Utilities/interface/InputTag.h"
+
+#include "FWCore/Common/interface/TriggerNames.h"
+#include "DataFormats/Common/interface/TriggerResults.h"
+
+#include "TTree.h"
+#include "Math/VectorUtil.h"
+
 using namespace std;
 using namespace edm;
 class patElecTree : public baseTree {
@@ -29,22 +72,34 @@ class patElecTree : public baseTree {
   //Dont Allow User to Call the Default Constructor.
 
   patElecTree();
-  edm::InputTag pvSrc_;
   edm::InputTag patElecLabel_;
- 
-  std::vector<Int_t> patElecType;
-
+  edm::InputTag eleVetoDecisionsMapToken_;
+  
+  edm::InputTag eleVetoIdMapToken_;
+  edm::InputTag eleLooseIdMapToken_;
+  edm::InputTag eleMediumIdMapToken_;
+  edm::InputTag eleTightIdMapToken_;
+  edm::InputTag eleHEEPIdMapToken_;
+  
+  std::vector<Bool_t> isPassVeto;
+  std::vector<Bool_t> isPassLoose;
+  std::vector<Bool_t> isPassMedium;
+  std::vector<Bool_t> isPassTight;
+  std::vector<Bool_t> isPassHEEP;
+  
+  
   Float_t patElecRho_;
   Int_t nEle_;
-
+  TClonesArray *patElecP4;
+  std::vector<Float_t> patElecEffArea_;
   std::vector<Float_t> patElecCharge_;
   std::vector<Float_t> patElecChargeConsistent_;
-  std::vector<Float_t> patElecEt_;
-  std::vector<Float_t> patElecEnergy_;
-  std::vector<Float_t> patElecPt_;
-  std::vector<Float_t> patElecEta_;
-  std::vector<Float_t> patElecPhi_;
-  std::vector<Float_t> patElecM_;
+  //std::vector<Float_t> patElecEt_;
+  //std::vector<Float_t> patElecEnergy_;
+  //std::vector<Float_t> patElecPt_;
+  //std::vector<Float_t> patElecEta_;
+  //std::vector<Float_t> patElecPhi_;
+  //std::vector<Float_t> patElecM_;
   std::vector<Float_t> patElecR9_;
   std::vector<Float_t> patElecHoverE_;
   std::vector<Float_t> patElecD0_;
@@ -73,7 +128,6 @@ class patElecTree : public baseTree {
   std::vector<Float_t> patElecNeHadIso_;
   std::vector<Float_t> patElecGamIso_;
   std::vector<Float_t> patElecPUPt_;
-  std::vector<Float_t> patElecCorrPfIso_;
   std::vector<Float_t> patElecaloEnergy_;
   std::vector<Float_t> patElecChHadIso_;
   std::vector<Float_t> patElecSigmaIEtaIEtaFull5x5_;
