@@ -34,11 +34,14 @@ class baseTree{
   void AddBranch(Float_t* x, std::string name);
   void AddBranch(Int_t* x, std::string name);
   void AddBranch(std::vector<Float_t>* vec, std::string name);
+  void AddBranch(std::vector<ULong64_t>* vec, std::string name);
+  void AddBranch(std::vector<UChar_t>* vec, std::string name);
   void AddBranch(std::vector<Int_t>* vec, std::string name);
   void AddBranch(std::vector<std::string>* vec, std::string name);
 
   
   void AddBranch(double* x, std::string name);
+  void AddBranch(UChar_t* x, std::string name);
   //void AddBranch(int* x, std::string name);
   void AddBranch(unsigned int* x, std::string name);
   //void AddBranch(float* x, std::string name);

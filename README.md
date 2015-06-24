@@ -9,6 +9,16 @@ cd CMSSW_7_4_1/src/
 
 cmsenv
 
+## For Electron IDs. Taken from twiki https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+```
+git cms-merge-topic 9003 
+rm -rf RecoEgamma/ElectronIdentification/data
+git clone https://github.com/cms-data/RecoEgamma-ElectronIdentification.git RecoEgamma/ElectronIdentification/data
+rm -rf RecoEgamma/PhotonIdentification/data
+git clone https://github.com/cms-data/RecoEgamma-PhotonIdentification.git RecoEgamma/PhotonIdentification/data
+## For electron testing use following after adding remaining packages. 
+cmsRun MVA-MET-PFUncorrectedMET-Jet_cfg_raman.py
+```
 git cms-init
 
 git clone -b Phys14 git@github.com:cms-edbr/ExoDiBosonResonancesRun2.git ExoDiBosonResonances
