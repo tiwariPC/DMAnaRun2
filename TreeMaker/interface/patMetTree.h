@@ -1,13 +1,14 @@
 #ifndef __MET_TREE_H_
 #define __MET_TREE_H_
 /*
-  Author: Anil P Singh
-   Panjab University
+  Updated By: Raman Khurana 
+  Date      : 24 June 2015.
+
+ -- it can save three types of MET now : 
+   = PFMET uncorrected
+   = PFMET corrected
+   = MVA MET
 */
-
-
-
-
 
 #include <memory>
 #include <string>
@@ -40,9 +41,10 @@ class patMetTree : public baseTree{
  private:
   patMetTree();
   
-  edm::InputTag patMetRawLabel_;
-  edm::InputTag patMetLabel_;
-
+  edm::InputTag pfMetRawLabel_;
+  edm::InputTag pfMetLabel_;
+  edm::InputTag pfMVAMETLabel_;
+  
   Float_t patMetCorrPt_;  
   Float_t patMetCorrPhi_; 
   Float_t patMetCorrSumEt_;

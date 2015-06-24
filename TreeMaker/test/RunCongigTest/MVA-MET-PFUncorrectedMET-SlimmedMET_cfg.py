@@ -16,7 +16,6 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 process.GlobalTag.globaltag = cms.string("PHYS14_25_V2")
 
-
 option = 'RECO' # 'GEN' or 'RECO'
 
 ### GEN level studies
@@ -38,7 +37,7 @@ if option == 'RECO':
 # Updates
 if option == 'RECO':
     process.goodMuons.src = "slimmedMuons"
-    process.goodElectrons.src = "isolatedElectrons"
+    process.goodElectrons.src = "slimmedElectrons"
     process.goodJets.src = "slimmedJetsAK8"
     process.goodAK4Jets.src = "slimmedJets"
 
@@ -67,7 +66,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(500)
 )
 
 
@@ -76,43 +75,14 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        '/store/mc/Phys14DR/DYJetsToLL_M-50_13TeV-madgraph-pythia8/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/0432E62A-7A6C-E411-87BB-002590DB92A8.root'
+        '/store/mc/Phys14DR/ZZTo4L_Tune4C_13TeV-powheg-pythia8/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/04CD96C9-E269-E411-9D64-00266CF9ADA0.root'
         #'/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
         #'file:step3_miniAOD_M1500_9.root'
-        #  'root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root'
-        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_1.root",
-        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_10.root",
-        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_11.root",
-        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_12.root",
-        #"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_13.root"
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_14.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_15.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_16.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_17.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_18.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_19.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_2.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_20.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_21.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_22.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_23.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_24.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_25.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_26.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_27.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_28.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_29.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_3.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_30.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_4.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_5.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_6.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_7.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_8.root",
-        ##"root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root"
+        #'root://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M1500_9.root'
+        #'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_5.root'
+        #'/store/mc/Phys14DR/DYJetsToMuMu_PtZ-180_M-50_13TeV-madgraph/MINIAODSIM/PU20bx25_tsg_PHYS14_25_V1-v3/00000/7899CF79-3F7A-E411-B2E7-1CC1DE04FFB8.root'
         ),
-                            skipEvents = cms.untracked.uint32(0),
-                            duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
+                            skipEvents = cms.untracked.uint32(0)         
                             )
 
 
@@ -122,6 +92,7 @@ process.options = cms.untracked.PSet(
 
 
 
+## For MVA MET
 process.load("RecoJets.JetProducers.ak4PFJets_cfi")
 process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
 
@@ -137,17 +108,20 @@ process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
 process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
 process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 
+## End MVA MET
 
 
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
-#process.GlobalTag = GlobalTag(process.GlobalTag, 'PHYS14_25_V1', 'All')
 
+
+## this is to get the uncorrected PFMET
+## By default the slimmed MET is Type-1 corrected MET
 from RecoMET.METProducers.PFMET_cfi import pfMet
 process.pfMet = pfMet.clone(src = "packedPFCandidates")
 process.pfMet.calculateSignificance = False # this can't be easily implemented on packed PF candidates at the moment
-
+## End PFMET
 
 process.tree = cms.EDAnalyzer(
     'TreeMaker',
@@ -156,18 +130,28 @@ process.tree = cms.EDAnalyzer(
     fillGenInfo_   = cms.bool(True),
     fillMuonInfo_  = cms.bool(True),
     fillElecInfo_  = cms.bool(True),
-    fillJetInfo_   = cms.bool(True), ## Raman switched it off
-    fillMetInfo_   = cms.bool(True),
+    fillFATJetInfo_   = cms.bool(False),
+    fillAddJetInfo_   = cms.bool(False),
+    fillJetInfo_   = cms.bool(False), ## Raman switched it off
+    fillMetInfo_   = cms.bool(False),
     fillTrigInfo_  = cms.bool(True),
     fillPhotInfo_  = cms.bool(False),
     fillTauInfo_   = cms.bool(True),
+    applyStatusSelection = cms.bool(True),
     
-    genPartLabel=cms.InputTag("prunedGenParticles"),
+
+        genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
     patMuons=cms.InputTag("slimmedMuons"),
     patElectrons = cms.InputTag("slimmedElectrons"),
-    
+    FATJets=cms.InputTag("cleanJets"),
+    AddjetlabelPY= cms.InputTag("cleanaddJets"),
+    SubJetsPY= cms.InputTag('selectedPatJetsSoftDropPFCHSPacked','SubJets'),
+    svTagInfosPY = cms.string('pfInclusiveSecondaryVertexFinder'),
+    runAddjetPY=cms.bool(True),
+    THINJets=cms.InputTag("cleanAK4Jets"),
+    ADDJets= cms.InputTag("cleanaddJets"),
     #PrunedJets=cms.InputTag("ak8PFJetsCHSPrunedLinks"),
     #PrunedJets=cms.InputTag("slimmedJetsAK8"),
     
@@ -182,13 +166,21 @@ process.tree = cms.EDAnalyzer(
     #AK5Jets=cms.InputTag("ak8PFJetsCHS"),
     AK5Jets=cms.InputTag("slimmedJets"),
     AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
-    AK5jecUncName = cms.string(AK5jecUnc),    
+    AK5jecUncName = cms.string(AK5jecUnc),  
+
     
-    patMetRaw=cms.InputTag("pfMet"),
-    patMet = cms.InputTag("slimmedMETs"),
-    #patMet = cms.InputTag("pfMet"),
-    #patMetRaw=cms.InputTag("slimmedMETs"),
+    pfMetRaw   = cms.InputTag("pfMet"),
+    pfType1Met = cms.InputTag("slimmedMETs"),
+    pfMVAMET   = cms.InputTag("pfMVAMEt"),
+        
+    eleVetoIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto"),
+    eleLooseIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose"),
+    eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium"),
+    eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight"),
+    eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV51"),
+    
     outFileName=cms.string('outputFileName.root')
+
     )
 
 process.TFileService = cms.Service("TFileService",
@@ -198,11 +190,40 @@ process.TFileService = cms.Service("TFileService",
 
 
 
+## add value maps for electron IDs
+useAOD  = False
+from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
+# turn on VID producer, indicate data format to be
+# DataFormat.AOD or DataFormat.MiniAOD, as appropriate
+if useAOD == True :
+    dataFormat = DataFormat.AOD
+else :
+    dataFormat = DataFormat.MiniAOD
+    
+switchOnVIDElectronIdProducer(process, dataFormat)
+switchOnVIDPhotonIdProducer(process, dataFormat)
+# define which IDs we want to produce
+my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
+                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
+
+#add them to the VID producer
+for idmod in my_id_modules:
+    setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+
+my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_PHYS14_PU20bx25_V2_cff']
+#add them to the VID producer
+for idmod in my_phoid_modules:
+	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
+
+    
 
 process.analysis = cms.Path(process.leptonSequence+
+                            process.egmGsfElectronIDSequence+
+                            process.egmPhotonIDSequence+
                             process.jetSequence+                            
                             process.pfMVAMEtSequence+
                             process.pfMet+
+                            #process.mvaNonTrigV025nsPHYS14+
                             process.tree
                             )
 
