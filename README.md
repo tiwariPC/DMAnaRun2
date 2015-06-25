@@ -35,6 +35,10 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 git clone git@github.com:syuvivida/DMAnaRun2_AddModules.git AddModules
 
+rm -rf PhysicsTools/PatAlgos/ 
+
+mv AddModules/PhysicsTools/PatAlgos PhysicsTools/PatAlgos
+
 mv AddModules/EGamma/ .
 
 mv AddModules/RecoBTag/ . 

@@ -600,6 +600,32 @@ process.miniAODjetSequence = cms.Sequence(
 
 
 
+## add value maps for electron IDs
+useAOD  = False
+from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
+# turn on VID producer, indicate data format to be
+# DataFormat.AOD or DataFormat.MiniAOD, as appropriate
+if useAOD == True :
+    dataFormat = DataFormat.AOD
+else :
+    dataFormat = DataFormat.MiniAOD
+    
+switchOnVIDElectronIdProducer(process, dataFormat)
+switchOnVIDPhotonIdProducer(process, dataFormat)
+# define which IDs we want to produce
+my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
+                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
+
+#add them to the VID producer
+for idmod in my_id_modules:
+    setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+
+my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_PHYS14_PU20bx25_V2_cff']
+#add them to the VID producer
+for idmod in my_phoid_modules:
+	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
+
+    
 
 
 
@@ -664,14 +690,26 @@ process.tree = cms.EDAnalyzer(
     patMetRaw=cms.InputTag("pfMet"),
     patMet = cms.InputTag("slimmedMETs"),
     #patMet = cms.InputTag("pfMet"),
-    #patMetRaw=cms.InputTag("slimmedMETs"),
-        
+    #patMetRaw=cms.InputTag("pfMet"),
+    pfMetRaw   = cms.InputTag("pfMet"),
+    pfType1Met = cms.InputTag("slimmedMETs"),
+    pfMVAMET   = cms.InputTag("pfMVAMEt"),
+    
     runAddjetPY=cms.bool(True),
     ADDJets= cms.InputTag("cleanaddJets"),
     AddjetlabelPY= cms.InputTag("cleanaddJets"),
     #AddjetlabelPY= cms.InputTag("packedPatJetsPFCHSAK8"),
     SubJetsPY= cms.InputTag('selectedPatJetsPrunedSubjetsPFCHSAK8','SubJets'),
     svTagInfosPY  = cms.string('pfInclusiveSecondaryVertexFinder'),
+
+        
+    eleVetoIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto"),
+    eleLooseIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose"),
+    eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium"),
+    eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight"),
+    eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV51"),
+    
+
     outFileName=cms.string('outputFileName.root')
     )
 
