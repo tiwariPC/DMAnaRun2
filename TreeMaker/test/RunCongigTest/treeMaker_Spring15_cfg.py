@@ -730,9 +730,13 @@ process.TFileService = cms.Service("TFileService",
 
 
 
+process.allEventsCounter = cms.EDFilter(
+    "EventCounter"
+    )
 
 
 process.analysis = cms.Path(
+    process.allEventsCounter+
     process.leptonSequence+                                               
     process.egmGsfElectronIDSequence+
     process.egmPhotonIDSequence+
