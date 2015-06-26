@@ -74,7 +74,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(1000)
 )
 
 
@@ -106,7 +106,7 @@ process.source = cms.Source("PoolSource",
 
 
 #electron test
-'/store/mc/Phys14DR/ZZTo4L_Tune4C_13TeV-powheg-pythia8/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/04CD96C9-E269-E411-9D64-00266CF9ADA0.root'
+'/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
 
 #signal test
 #'xroot://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M700_5.root'
@@ -201,7 +201,7 @@ process.genJetsNoNuSoftDrop = ak4GenJets.clone(
     jetAlgorithm = cms.string('AntiKt'),
     rParam = cms.double(0.8),
     src = cms.InputTag("packedGenParticlesForJetsNoNu"),
-    useSoftDrop = cms.bool(True),
+    useSoftDrop = cms.bool(False),# because it crashes for PHYS14 samples
     zcut = cms.double(0.1),
     beta = cms.double(0.0),
     R0 = cms.double(0.8),
@@ -708,7 +708,9 @@ process.tree = cms.EDAnalyzer(
     #AddjetlabelPY= cms.InputTag("packedPatJetsPFCHSAK8"),
     SubJetsPY= cms.InputTag('selectedPatJetsPrunedSubjetsPFCHSAK8','SubJets'),
     svTagInfosPY  = cms.string('pfInclusiveSecondaryVertexFinder'),
-
+    # boolean to switch off part of the subjets which doesn't work in PHYS14 samples
+    # True for Spring15 and False for PHYS14
+    isSpring15    = cms.bool(True),
         
     eleVetoIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto"),
     eleLooseIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose"),
@@ -723,7 +725,7 @@ process.tree = cms.EDAnalyzer(
 process.TFileService = cms.Service("TFileService",
                                    #fileName = cms.string("TreeMaker_TTbar.root")
                                    #fileName = cms.string("TreeMaker_QCD.root") 
-                                    fileName = cms.string("TreeMaker_M700.root")          
+                                    fileName = cms.string("NCUGlobalTuples.root")          
                                   )
 
 
@@ -731,16 +733,16 @@ process.TFileService = cms.Service("TFileService",
 
 
 process.analysis = cms.Path(
-                            process.leptonSequence+                                               
-                            process.egmGsfElectronIDSequence+
-                            process.egmPhotonIDSequence+
-                            process.pfMVAMEtSequence+
-                            process.pfMet+
-                            process.miniAODjetSequence+                        
-                            #process.selectedPatJetsPFCHSAK8PFlow + 
-                            #process.selectedPatJetsPrunedPFCHSAK8Packed +
-                            process.tree
-                            )
+    process.leptonSequence+                                               
+    process.egmGsfElectronIDSequence+
+    process.egmPhotonIDSequence+
+    process.pfMVAMEtSequence+
+    process.pfMet+
+    process.miniAODjetSequence+                        
+    #process.selectedPatJetsPFCHSAK8PFlow + 
+    #process.selectedPatJetsPrunedPFCHSAK8Packed +
+    process.tree
+    )
 
 
 #print process.dumpPython()

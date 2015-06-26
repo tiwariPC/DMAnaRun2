@@ -140,7 +140,7 @@ process.tree = cms.EDAnalyzer(
     applyStatusSelection = cms.bool(True),
     
 
-        genPartLabel=cms.InputTag("prunedGenParticles"),
+    genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
     patMuons=cms.InputTag("slimmedMuons"),

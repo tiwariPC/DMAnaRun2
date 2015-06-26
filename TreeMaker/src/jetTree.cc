@@ -35,6 +35,7 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
   SubJetCollectionC_ ( iConfig.getParameter<edm::InputTag>("SubJetsPY") ),  
   svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
+  isSpring15_(iConfig.getParameter<bool>("isSpring15")),
 //jecPayloadNames_( iConfig.getParameter<std::vector<std::string> >(Form("%sjecPayloadNames",desc.data()) )), 
  // jecUncName_( iConfig.getParameter<std::string>(Form("%sjecUncName",desc.data())) ),	
   jet2012ID_()
@@ -462,11 +463,13 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 //turn off subjet for not patified now 
         pat::Jet const *jetptr = &*jet;  
         
-      
+	std::cout<<" working before SoftDrop "<<std::endl;
+	
+	if(isSpring15_) { // this is commented because subjet doesn't work with PHYS14 samples.
         auto wSubjets = jetptr->subjets("SoftDrop");
- 
+	std::cout<<" working after SoftDrop "<<std::endl;
         int nSubSoftDropjets=0;	
-       
+	
       std::vector<Float_t> subjetSDPt;
       std::vector<Float_t> subjetSDEta;
       std::vector<Float_t> subjetSDPhi;
@@ -488,10 +491,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
 
-
+      std::cout<<" working before wSubjets "<<std::endl;
        for ( auto const & iw : wSubjets ) 
        {
 
+	 std::cout<<" in wSubjets loop"<<std::endl;
 	  // printf("   w subjet with pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f ungroomed\n",
 	  // 	 iw->pt(), iw->pt()*iw->jecFactor("Uncorrected"), iw->eta(), iw->mass() );
 	  nSubSoftDropjets++;
@@ -517,8 +521,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       // subjetSDEn_.push_back(subjetSDEn);
        subjetSDCSV_.push_back(subjetSDCSV); 
        subjetSDCharge_.push_back(subjetSDCharge);
+       
+	}
+       
 
-      }//if is Fat jet
+    }//if is Fat jet
 
 
 //	auto tSubjets = jetptr->subjets("CMSTopTag");
@@ -557,10 +564,12 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
      iEvent.getByLabel(JetLabel_, rejets);
 
      //get subjet
-
+     
+     
      edm::Handle<pat::JetCollection>  subjetColls;
      iEvent.getByLabel(SubJetCollectionC_, subjetColls);
-
+     
+     
          // loop over jets
          
          

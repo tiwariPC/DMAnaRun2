@@ -82,6 +82,7 @@ class jetTree  : public baseTree{
 
   bool isFATJet_;
   bool isADDJet_;
+  
   edm::InputTag JetLabel_;
   edm::InputTag AddjetlabelC_;
   
@@ -95,7 +96,7 @@ class jetTree  : public baseTree{
 //  edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
   edm::InputTag SubJetCollectionC_;
   std::string  svTagInfosCstr_;
-
+  bool isSpring15_;
 
 
 
