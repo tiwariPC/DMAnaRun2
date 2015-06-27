@@ -167,7 +167,7 @@ patMuonTree::SetBranches(){
  AddBranch(&patMuontrkKink_, "mutrkKink");
  
  AddBranch(&patMuonInnerdxy_, "muInnerdxy_"); 
- AddBranch(&patMuonInnerdz_, "muInnerdxy_");
+ AddBranch(&patMuonInnerdz_, "muInnerdz_");
  AddBranch(&patMuonTrkLayers_, "muTrkLayers");
  AddBranch(&patMuonPixelLayers_,"muPixelLayers");
  AddBranch(&patMuonPixelHits_, "muPixelHits");
