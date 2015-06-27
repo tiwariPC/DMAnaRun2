@@ -128,7 +128,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   std::sort(jets.begin(),jets.end(),PtGreater());
 
   std::vector<pat::Jet>::const_iterator jet =jets.begin();   
-    cout<<"start Fatjet loop"<<endl; 
+   // cout<<"start Fatjet loop"<<endl; 
 
   for(;jet!=jets.end();jet++){
     nJet_++;
@@ -463,11 +463,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 //turn off subjet for not patified now 
         pat::Jet const *jetptr = &*jet;  
         
-	std::cout<<" working before SoftDrop "<<std::endl;
+//	std::cout<<" working before SoftDrop "<<std::endl;
 	
 	if(isSpring15_) { // this is commented because subjet doesn't work with PHYS14 samples.
         auto wSubjets = jetptr->subjets("SoftDrop");
-	std::cout<<" working after SoftDrop "<<std::endl;
+//	std::cout<<" working after SoftDrop "<<std::endl;
         int nSubSoftDropjets=0;	
 	
       std::vector<Float_t> subjetSDPt;
@@ -543,7 +543,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 }//jet loop
 
-    cout<<"######## end Fatjet loop "<<endl;
+ //   cout<<"######## end Fatjet loop "<<endl;
 
 
 
@@ -558,7 +558,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     if(runAddJet_&&isADDJet_)
     {
-     cout<<"star add jet loop"<<endl; 
+//     cout<<"star add jet loop"<<endl; 
      edm::Handle<pat::JetCollection> rejets; 
      // get jets from the event
      iEvent.getByLabel(JetLabel_, rejets);
@@ -578,7 +578,14 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       {
              
 
-           cout<<"selectedPatJetsPFCHSPFlow: "<< jet->pt()<<endl;  
+           //cout<<"selectedPatJetsPFCHSPFlow: "<< jet->pt()<<endl;  
+           
+           jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
+           jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
+           jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
+           jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+
+
 
            jetPt_.push_back(jet->pt());
            jetEta_.push_back(jet->eta());
@@ -590,6 +597,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
            std::map<std::string, bool> Pass = jet2012ID_.MergedJetCut(*jet);
            Int_t passOrNot = PassAll(Pass); 
            jetPassID_.push_back(passOrNot);
+           
+           //cout<<"tau1:"<<jet->userFloat("NjettinessAK8CHS:tau1")<<" tau2:"<<jet->userFloat("NjettinessAK8:tau2")<<" tal3:"<<jet->userFloat("NjettinessAK8:tau3")<<" id: "<<passOrNot<<" old tau1"<<jet->userFloat("tau1")<<endl; 
 
            jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
            jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
@@ -659,7 +668,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
          const reco::CandSecondaryVertexTagInfo *candSVTagInfo = jet->tagInfoCandSecondaryVertex("pfInclusiveSecondaryVertexFinder");
          //const reco::SecondaryVertexTagInfo &svTagInfo =*jet->tagInfoSecondaryVertex(svTagInfosCstr_.data());
          
-           cout<<"numbers of 2nd vtx "<<candSVTagInfo->nVertices()<<endl;
+//           cout<<"numbers of 2nd vtx "<<candSVTagInfo->nVertices()<<endl;
            
             jet_nSV_.push_back(candSVTagInfo->nVertices());  
                        
@@ -676,7 +685,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
             {
 
               jet_SVMass_float.push_back(candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass());
-              cout<<"2nd vtx mass :"<<" "<<candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass()<<endl;  
+  //            cout<<"2nd vtx mass :"<<" "<<candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass()<<endl;  
 
             }
             jet_SVMass_.push_back(jet_SVMass_float);
@@ -685,8 +694,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
  
             if(candSVTagInfo->nVertices()>0)
             {
-              cout<<"mass:"<< candSVTagInfo->secondaryVertex(0).p4().mass()<<endl;
-              cout<<"1 th 2nd vtx x :"<<" "<<position(candSVTagInfo->secondaryVertex(0)).x()<<endl;
+//              cout<<"mass:"<< candSVTagInfo->secondaryVertex(0).p4().mass()<<endl;
+//              cout<<"1 th 2nd vtx x :"<<" "<<position(candSVTagInfo->secondaryVertex(0)).x()<<endl;
              
             }
             else
@@ -727,11 +736,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
          auto ReSubjets  = jet->subjets("SoftDrop");
        //  auto ReSubjets  = jet->subjets("Pruned"); 
-         cout<<"Here"<<endl; 
+//         cout<<"Here"<<endl; 
          for ( auto const & resub : ReSubjets ) 
          {
-            cout<<"Subjets : "<<resub->pt()<<endl;
-            cout<<"Subjets btag: "<<resub->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
+//            cout<<"Subjets : "<<resub->pt()<<endl;
+//            cout<<"Subjets btag: "<<resub->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")<<endl;
 
             subjetSDPt.push_back(resub->pt());
             subjetSDEta.push_back(resub->eta());
@@ -759,7 +768,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 //          }  
                
       }//add jet loop
- cout<<"#############end add jet loop"<<endl;
+// cout<<"#############end add jet loop"<<endl;
  }//if run addjet
 
 

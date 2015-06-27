@@ -68,13 +68,15 @@ void baseTree::AddBranch(std::vector<bool>* vec, std::string name){
 //
 
 void baseTree::AddBranch(std::vector<std::vector<float> >* vec, std::string name){
-  std::string brName = name;
-  tree_->Branch(brName.c_str(), vec);
+  //std::string brName = name;
+    std::string brName = identifier_+name;
+   tree_->Branch(brName.c_str(), vec);
 }
 
 void baseTree::AddBranch(std::vector<std::vector<int> >* vec, std::string name){
-  std::string brName = name;
-  tree_->Branch(brName.c_str(), vec);
+  //std::string brName = name;
+   std::string brName = identifier_+name;
+   tree_->Branch(brName.c_str(), vec);
 }
 
 
