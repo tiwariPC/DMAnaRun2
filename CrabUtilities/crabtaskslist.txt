@@ -1,3 +1,4 @@
-crab_DYJetsToLL_M-50_13TeV-madgraph-pythia8_20150603
-crab_TT_Tune4C_13TeV-pythia8-tauola_20150603
-crab_ZH_HToBB_ZToNuNu_M-125_13TeV_powheg-herwigpp_20150603
+crab_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8
+crab_TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8
+crab_TT_TuneCUETP8M1_13TeV-powheg-pythia8
+crab_WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8
