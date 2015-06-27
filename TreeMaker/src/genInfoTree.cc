@@ -96,7 +96,10 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     found = find(cands.begin(), cands.end(), geni->mother(0));
     if(found != cands.end()) iMo1 = found - cands.begin() ;
-
+    std::cout<<" genparticle: found = "
+	     <<" pdgid = "<<
+	     <<iMo1<<std::endl;
+    
     found = find(cands.begin(), cands.end(), geni->mother(1));
     if(found != cands.end()) iMo2 = found - cands.begin() ;
 
@@ -105,7 +108,8 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     found = find(cands.begin(), cands.end(), geni->daughter(1));
     if(found != cands.end()) iDa2 = found - cands.begin() ;
-
+    
+    
     genNMo_.push_back(NMo);
     genNDa_.push_back(NDa);
     genMo1_.push_back(iMo1);
