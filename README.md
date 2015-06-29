@@ -1,24 +1,20 @@
 
 # DMAnaRun2
-For organized the NCU DM repo
 
+# For CMSSW_7_4_5
+```
 setenv SCRAM_ARCH slc6_amd64_gcc491
-
-cmsrel CMSSW_7_4_1
-
-cd CMSSW_7_4_1/src/
-
+cmsrel CMSSW_7_4_5
+cd CMSSW_7_4_5/src/
 cmsenv
+```
 
 ## For Electron IDs. Taken from twiki https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
 ```
-git cms-merge-topic 9003 
-rm -rf RecoEgamma/ElectronIdentification/data
-git clone https://github.com/cms-data/RecoEgamma-ElectronIdentification.git RecoEgamma/ElectronIdentification/data
-rm -rf RecoEgamma/PhotonIdentification/data
-git clone https://github.com/cms-data/RecoEgamma-PhotonIdentification.git RecoEgamma/PhotonIdentification/data
-## For electron testing use following after adding remaining packages. 
-cmsRun MVA-MET-PFUncorrectedMET-Jet_cfg_raman.py
+
+# Get the CMSSW implementation of the MVA
+git cms-merge-topic ikrav:egm_id_74X_v2
+scram build -j 10
 ```
 
 ## For EXO VV dependence 
@@ -58,5 +54,8 @@ scramv1 b clean
 
 scramv1 b
 
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/MVA-MET-PFUncorrectedMET-Jet_cfg_yunju.py 
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_cfg.py
+ for PHYS14 samples use : 
+ isSpring15    = cms.bool(False),
+ 
 ```
