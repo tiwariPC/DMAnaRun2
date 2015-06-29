@@ -35,6 +35,9 @@ patHltTree::Fill(const edm::Event& iEvent)
       std::string trigName = trigNames.triggerName(i);
       
       size_t foundEle00=trigName.find("HLT_DoubleEle33");
+      size_t foundEle01=trigName.find("HLT_Ele23_Ele12_CaloId_TrackId_Iso");
+      size_t foundEle02=trigName.find("HLT_Ele17_Ele12_Ele10_CaloId_TrackId");
+
       size_t foundMuo00=trigName.find("HLT_Mu17_Mu8");
       size_t foundMuo01=trigName.find("HLT_Mu17_TkMu8");
       size_t foundMuo02=trigName.find("HLT_Mu30_TkMu11");
@@ -53,6 +56,8 @@ patHltTree::Fill(const edm::Event& iEvent)
 			<<" : "<<(foundEle00==std::string::npos)
 			<<std::endl;
       if ( foundEle00==std::string::npos &&
+	   foundEle01==std::string::npos &&
+	   foundEle02==std::string::npos &&
        	   foundMuo00==std::string::npos && 
        	   foundMuo01==std::string::npos && 
        	   foundMuo02==std::string::npos &&
