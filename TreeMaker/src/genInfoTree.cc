@@ -60,7 +60,10 @@ genInfoTree::Fill(const edm::Event& iEvent)
       cands.push_back(&*it_gen);
       myParticles.push_back(it_gen);
     }
-
+  
+  std::cout<<" size of cands = "<<cands.size()
+	   <<" size of myParticles = "<<myParticles.size()
+	   <<std::endl;
   // now loop
   std::vector<const reco::Candidate*>::const_iterator found = cands.begin();
   for(unsigned int genIndex=0; genIndex < MAXNGENPAR_ && genIndex < myParticles.size(); genIndex++){
@@ -96,9 +99,6 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     found = find(cands.begin(), cands.end(), geni->mother(0));
     if(found != cands.end()) iMo1 = found - cands.begin() ;
-    std::cout<<" genparticle: found = "
-	     <<" pdgid = "<<
-	     <<iMo1<<std::endl;
     
     found = find(cands.begin(), cands.end(), geni->mother(1));
     if(found != cands.end()) iMo2 = found - cands.begin() ;

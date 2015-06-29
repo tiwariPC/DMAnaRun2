@@ -8,13 +8,13 @@ fout = open("datasetdetails_Spring15.txt","w")
 ## cfg.py is configurable because data and MC will have different configurations.
 ## And number of files canbe used as number of lumis in that case. 
 
-#fout.write("WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8 treeMaker_Spring15_cfg.py /WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/MINIAODSIM 1 \n")
+fout.write("WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8 treeMaker_Spring15_cfg.py /WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/MINIAODSIM 1 \n")
 
-#fout.write("DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8 treeMaker_Spring15_cfg.py /DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v3/MINIAODSIM 1 \n")
+fout.write("DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8 treeMaker_Spring15_cfg.py /DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v3/MINIAODSIM 1 \n")
 
-#fout.write("TT_TuneCUETP8M1_13TeV-powheg-pythia8 treeMaker_Spring15_cfg.py /TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v4/MINIAODSIM 1 \n")
+fout.write("TT_TuneCUETP8M1_13TeV-powheg-pythia8 treeMaker_Spring15_cfg.py /TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v4/MINIAODSIM 1 \n")
 
-fout.write("TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Spring15_cfg.py /TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/MINIAODSIM 1 \n")
+#fout.write("TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Spring15_cfg.py /TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/MINIAODSIM 1 \n")
 fout.close()
 
 
