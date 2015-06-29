@@ -81,11 +81,27 @@ class patElecTree : public baseTree {
   edm::InputTag eleTightIdMapToken_;
   edm::InputTag eleHEEPIdMapToken_;
   
+  // ID decisions objects
+  edm::InputTag eleMVAMediumIdMapToken_;
+  edm::InputTag eleMVATightIdMapToken_;
+  
+  // MVA values and categories (optional)
+  edm::InputTag mvaValuesMapToken_;
+  edm::InputTag mvaCategoriesMapToken_;
+  
+  
   std::vector<Bool_t> isPassVeto;
   std::vector<Bool_t> isPassLoose;
   std::vector<Bool_t> isPassMedium;
   std::vector<Bool_t> isPassTight;
   std::vector<Bool_t> isPassHEEP;
+  std::vector<Bool_t> isPassMVAMedium;
+  std::vector<Bool_t> isPassMVATight;
+  
+
+  std::vector<Float_t> mvaValue_;
+  std::vector<Int_t>   mvaCategory_;
+  
   
   
   Float_t patElecRho_;

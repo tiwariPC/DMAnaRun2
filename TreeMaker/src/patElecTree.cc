@@ -19,8 +19,12 @@ patElecTree::patElecTree(std::string name, TTree* tree, const edm::ParameterSet&
   eleLooseIdMapToken_( iConfig.getParameter<edm::InputTag>("eleLooseIdMap")),
   eleMediumIdMapToken_(iConfig.getParameter<edm::InputTag>("eleMediumIdMap")),
   eleTightIdMapToken_(iConfig.getParameter<edm::InputTag>("eleTightIdMap")),
-  eleHEEPIdMapToken_(iConfig.getParameter<edm::InputTag>("eleHEEPIdMap"))
+  eleHEEPIdMapToken_(iConfig.getParameter<edm::InputTag>("eleHEEPIdMap")),
   
+  eleMVAMediumIdMapToken_(iConfig.getParameter<edm::InputTag>("eleMVAMediumIdMap")),
+  eleMVATightIdMapToken_(iConfig.getParameter<edm::InputTag>("eleMVATightIdMap")),
+  mvaValuesMapToken_(iConfig.getParameter<edm::InputTag>("mvaValuesMap")),
+  mvaCategoriesMapToken_(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"))
   
 {
   patElecP4 =   new TClonesArray("TLorentzVector");
@@ -52,14 +56,23 @@ patElecTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
   edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
   edm::Handle<edm::ValueMap<bool> > heep_id_decisions;
+  edm::Handle<edm::ValueMap<bool> > medium_MVAid_decisions;
+  edm::Handle<edm::ValueMap<bool> > tight_MVAid_decisions; 
   iEvent.getByLabel(eleVetoIdMapToken_ ,veto_id_decisions);
   iEvent.getByLabel(eleLooseIdMapToken_ ,loose_id_decisions);
   iEvent.getByLabel(eleMediumIdMapToken_,medium_id_decisions);
   iEvent.getByLabel(eleTightIdMapToken_,tight_id_decisions);
   iEvent.getByLabel(eleHEEPIdMapToken_ ,heep_id_decisions);
+  iEvent.getByLabel(eleMediumIdMapToken_,medium_MVAid_decisions);
+  iEvent.getByLabel(eleTightIdMapToken_,tight_MVAid_decisions);
   std::cout<<" veto size  ---------------- "<<veto_id_decisions->size()<<std::endl;
   std::cout<<" ele size  ---------------- "<<electronHandle->size()<<std::endl;
 
+  // Get MVA values and categories (optional)
+  edm::Handle<edm::ValueMap<float> > mvaValues;
+  edm::Handle<edm::ValueMap<int> > mvaCategories;
+  iEvent.getByLabel(mvaValuesMapToken_,mvaValues);
+  iEvent.getByLabel(mvaCategoriesMapToken_,mvaCategories);
     
   // Get rho value
   edm::Handle<double> rhoH;
@@ -178,7 +191,11 @@ patElecTree::Fill(const edm::Event& iEvent){
     isPassTight.push_back( (*tight_id_decisions)[el]);
     isPassHEEP.push_back( (*heep_id_decisions)[el]);
     
+    isPassMVAMedium.push_back( (*medium_MVAid_decisions)[el]);
+    isPassMVATight.push_back( (*tight_MVAid_decisions)[el]);
     
+    mvaValue_.push_back( (*mvaValues)[el] );
+    mvaCategory_.push_back( (*mvaCategories)[el] );
     
   }
 }
@@ -193,6 +210,10 @@ patElecTree::Fill(const edm::Event& iEvent){
     AddBranch(&isPassMedium,"isPassMedium");
     AddBranch(&isPassTight,"isPassTight");
     AddBranch(&isPassHEEP,"isPassHEEP");
+    AddBranch(&isPassMVAMedium,"isPassMVAMedium");
+    AddBranch(&isPassMVATight,"isPassMVATight");
+    AddBranch(&mvaValue_,"mvaValue");
+    AddBranch(&mvaCategory_,"mvaCategory");
     AddBranch(&patElecP4,"patElecP4");
     AddBranch(&patElecRho_, "eleRho");
     AddBranch(&patElecEffArea_,"eleEffArea");

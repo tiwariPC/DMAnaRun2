@@ -106,10 +106,10 @@ process.source = cms.Source("PoolSource",
 
 
 #electron test
-#'/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
+'/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
 
-#signal test
-'xroot://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M700_5.root'
+        #signal test
+
 
 
 
@@ -616,7 +616,8 @@ switchOnVIDElectronIdProducer(process, dataFormat)
 switchOnVIDPhotonIdProducer(process, dataFormat)
 # define which IDs we want to produce
 my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
-                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
+                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff',
+                 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_PHYS14_PU20bx25_nonTrig_V1_cff']
 
 #add them to the VID producer
 for idmod in my_id_modules:
@@ -626,17 +627,6 @@ my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhot
 #add them to the VID producer
 for idmod in my_phoid_modules:
 	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
-
-    
-
-
-
-
-
-
-
-
-
 
 
 
@@ -718,7 +708,17 @@ process.tree = cms.EDAnalyzer(
     eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight"),
     eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV51"),
     
-
+    #
+    # ID decisions (common to all formats)
+    #
+    eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp80"),
+    eleMVATightIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp90"),
+    #
+    # ValueMaps with MVA results
+    #
+    mvaValuesMap     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues"),
+    mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigCategories"),
+    
     outFileName=cms.string('outputFileName.root')
     )
 
