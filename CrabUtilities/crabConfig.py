@@ -5,8 +5,8 @@ config = Configuration()
 """  Once the Configuration object is created, it is possible to add new sections into it with corresponding parameters."""
 
 config.section_("General")
-config.General.requestName = 'MiniAOD_DYJets_HT-100to200'
-config.General.workArea = 'crab_projects_20150603'
+config.General.requestName = 'MonoHMiniAODSpring15'
+config.General.workArea = 'crab_projects_20150626TTBar'
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
