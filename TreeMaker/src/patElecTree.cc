@@ -73,10 +73,39 @@ patElecTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<int> > mvaCategories;
   iEvent.getByLabel(mvaValuesMapToken_,mvaValues);
   iEvent.getByLabel(mvaCategoriesMapToken_,mvaCategories);
-    
+
+  edm::Handle<reco::VertexCollection> recVtxs;
+  iEvent.getByLabel("offlineSlimmedPrimaryVertices", recVtxs);
+   
+  if (recVtxs->empty()) return; // skip the event if no PV found                                                                               
+  //const reco::Vertex &pv = recVtxs->front();                                                                                                 
+  // Find the first vertex in the collection that passes  good quality criteria                                                                 
+  vector<reco::Vertex>::const_iterator firstGoodVertex = recVtxs->end(); 
+  //VertexCollection::const_iterator firstGoodVertex = recVtxs->end();
+  int firstGoodVertexIdx = 0;
+  //  for (VertexCollection::const_iterator vtx = recVtxs->begin(); vtx != recVtxs->end(); ++vtx, ++firstGoodVertexIdx) {
+  for (vector<reco::Vertex>::const_iterator vtx = recVtxs->begin(); vtx != recVtxs->end(); ++vtx, ++firstGoodVertexIdx) {
+ 
+    // Replace isFake() for miniAOD because it requires tracks and miniAOD recVtxs don't have tracks:                                          
+    // Vertex.h: bool isFake() const {return (chi2_==0 && ndof_==0 && tracks_.empty());}                                                        
+    // bool isFake = vtx->isFake();
+    //if( !isAOD ) //we are here for MINIAOD only 
+      bool isFake = (vtx->chi2()==0 && vtx->ndof()==0);
+    // Check the goodness                                          
+      if ( !isFake &&  vtx->ndof()>=4. && vtx->position().Rho()<=2.0 && fabs(vtx->position().Z())<=24.0) {
+      firstGoodVertex = vtx;
+      break;
+    }
+  }
+
+  if ( firstGoodVertex==recVtxs->end() )
+    return; // skip event if there are no good PVs                  
+
+
+ 
   // Get rho value
   edm::Handle<double> rhoH;
-  iEvent.getByLabel("fixedGridRhoFastjetAll",rhoH);
+  iEvent.getByLabel("fixedGridRhoAll",rhoH);
   patElecRho_ = *rhoH;
   
   for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {
@@ -102,8 +131,12 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecHoverE_.push_back(ele->hcalOverEcal());
     
     // fix this 
-    //patElecD0_.push_back(ele->gsfTrack()->dxy(myPv));
-    //patElecDz_.push_back(ele->gsfTrack()->dz(myPv));
+    patElecD0_.push_back(ele->gsfTrack()->dxy(firstGoodVertex->position()));
+    patElecDz_.push_back(ele->gsfTrack()->dz(firstGoodVertex->position()));
+    double R = sqrt(ele->superCluster()->x()*ele->superCluster()->x() + ele->superCluster()->y()*ele->superCluster()->y() +ele->superCluster()->z()*ele->superCluster()->z());
+    double Rt = sqrt(ele->superCluster()->x()*ele->superCluster()->x() + ele->superCluster()->y()*ele->superCluster()->y());
+    patElecScEt_.push_back( (ele->superCluster()->energy())*(Rt/R) );
+
     patElecScEn_.push_back(ele->superCluster()->energy());
     patElecScPreEn_.push_back(ele->superCluster()->preshowerEnergy());
     patElecScEta_.push_back(ele->superCluster()->eta());
@@ -204,7 +237,7 @@ patElecTree::Fill(const edm::Event& iEvent){
   void
     patElecTree::SetBranches(){
     AddBranch(&nEle_, "nEle");
-    
+   
     AddBranch(&isPassVeto,"isPassVeto");
     AddBranch(&isPassLoose,"isPassLoose");
     AddBranch(&isPassMedium,"isPassMedium");
@@ -226,6 +259,7 @@ patElecTree::Fill(const edm::Event& iEvent){
     //AddBranch(&patElecPhi_, "elePhi");
     //AddBranch(&patElecM_, "eleM");
     AddBranch(&patElecR9_,"eleR9");
+    AddBranch(&patElecScEt_,"eleScEt"); 
     AddBranch(&patElecHoverE_,"eleHoverE");
     AddBranch(&patElecD0_,"eleD0");
     AddBranch(&patElecDz_,"eleDz");
@@ -266,8 +300,8 @@ patElecTree::Fill(const edm::Event& iEvent){
     AddBranch(&patElecDr03HcalDepth2TowerSumEt_,"eleDr03HcalDepth2TowerSumEt");
     AddBranch(&patElecDr03HcalTowerSumEt_,"eleDr03HcalTowerSumEt");
     AddBranch(&patElecDr03TkSumPt_,"eleDr03TkSumPt");
-    AddBranch(&patElecTrkdztrackref_,"eleTrkdztrackref");
-    AddBranch(&patElecTrkdxytrackref_,"eleTrkdxytrackref");
+    //AddBranch(&patElecTrkdztrackref_,"eleTrkdztrackref");
+    //AddBranch(&patElecTrkdxytrackref_,"eleTrkdxytrackref");
     AddBranch(&patElecInBarrel_,"eleInBarrel");
     AddBranch(&patElecInEndcap_,"eleInEndcap");
 
@@ -294,6 +328,7 @@ patElecTree::Fill(const edm::Event& iEvent){
     //patElecEta_.clear();
     //patElecPhi_.clear();
     //patElecM_.clear();
+    patElecScEt_.clear();
     patElecR9_.clear();
     patElecHoverE_.clear();
     patElecD0_.clear();
@@ -335,22 +370,8 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecDr03HcalDepth2TowerSumEt_.clear();
     patElecDr03HcalTowerSumEt_.clear();
     patElecDr03TkSumPt_.clear();
-    patElecTrkdztrackref_.clear();
-    patElecTrkdxytrackref_.clear();
-    patElecInBarrel_.clear();
-    patElecInEndcap_.clear();
-    patElecE1x5Full5x5_.clear();
-    patElecE2x5Full5x5_.clear();
-    patElecE5x5Full5x5_.clear();
-    patElecR9Full5x5_.clear();
-    patElecEcalDrivenSeed_.clear();
-    patElecDr03EcalRecHitSumEt_.clear();
-    patElecDr03HcalDepth1TowerSumEt_.clear();
-    patElecDr03HcalDepth2TowerSumEt_.clear();
-    patElecDr03HcalTowerSumEt_.clear();
-    patElecDr03TkSumPt_.clear();
-    patElecTrkdztrackref_.clear();
-    patElecTrkdxytrackref_.clear();
+    //    patElecTrkdztrackref_.clear();
+    // patElecTrkdxytrackref_.clear();
     patElecInBarrel_.clear();
     patElecInEndcap_.clear();
 

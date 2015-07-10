@@ -116,6 +116,8 @@ class patElecTree : public baseTree {
   //std::vector<Float_t> patElecEta_;
   //std::vector<Float_t> patElecPhi_;
   //std::vector<Float_t> patElecM_;
+  // 
+  std::vector<Float_t> patElecScEt_;
   std::vector<Float_t> patElecR9_;
   std::vector<Float_t> patElecHoverE_;
   std::vector<Float_t> patElecD0_;
@@ -157,8 +159,8 @@ class patElecTree : public baseTree {
   std::vector<Float_t> patElecDr03HcalDepth2TowerSumEt_;
   std::vector<Float_t> patElecDr03HcalTowerSumEt_;
   std::vector<Float_t> patElecDr03TkSumPt_;
-  std::vector<Float_t> patElecTrkdztrackref_;
-  std::vector<Float_t> patElecTrkdxytrackref_;
+  ///std::vector<Float_t> patElecTrkdztrackref_;
+  //std::vector<Float_t> patElecTrkdxytrackref_;
   std::vector<Float_t> patElecInBarrel_;
   std::vector<Float_t> patElecInEndcap_;
 
