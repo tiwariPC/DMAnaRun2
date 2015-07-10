@@ -30,6 +30,7 @@ class eventInfo : public baseTree {
   int bunchX_;
 
   int nVtx_;
+  
   std::vector<Float_t> vertexX_;
   std::vector<Float_t> vertexY_;
   std::vector<Float_t> vertexZ_;		

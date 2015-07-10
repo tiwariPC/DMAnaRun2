@@ -1,5 +1,6 @@
 //****************************************//
 //  Code for Muons for Run II    //
+//    Raman Khurana              //
 //    Monika Mittal Khurana      // 
 // Wed May 27 09:51:24 CEST 2015 //
 //***************************************//
@@ -7,6 +8,7 @@
 #include "DelPanj/TreeMaker/interface/patMuonTree.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
+#include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "Math/VectorUtil.h"
 
 patMuonTree::patMuonTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
@@ -74,6 +76,7 @@ patMuonTree::Fill(const edm::Event& iEvent){
     patMuonM_.push_back(mu->mass());
     patMuonCharge_.push_back(mu->charge());
     
+
     //id global tracker and PF
     isGlobalMuon_.push_back(mu->isGlobalMuon());
     isTrackerMuon_.push_back(mu->isTrackerMuon());

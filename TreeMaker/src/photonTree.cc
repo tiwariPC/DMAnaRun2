@@ -3,7 +3,7 @@
 
 photonTree::photonTree(std::string name, TTree* tree, const pset& iConfig):baseTree(name,tree){
   photonLabel_  = iConfig.getParameter<edm::InputTag> ("photonLabel");
-  usePFObjects_ = iConfig.getParameter<bool> ("usePFlow");
+  //usePFObjects_ = iConfig.getParameter<bool> ("usePFlow");
   SetBranches();
 }
 

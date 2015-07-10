@@ -12,7 +12,7 @@ std::map<std::string, Bool_t>  jetSelector::MergedJetCut(const pat::Jet& jet){
   Float_t eta = jet.eta();
 
   //Kinematic and Fiducial Acceptance
-  cuts["etax"]        = fabs(eta) < 2.4;
+  cuts["etax"]        = fabs(eta) < 2.5;
   cuts["muEF"]        = jet.muonEnergyFraction() < 0.99;
   cuts["phoEF"]       = jet.photonEnergyFraction() < 0.99;
   cuts["cEmEF"]       = jet.chargedEmEnergyFraction() < 0.99;
@@ -31,12 +31,17 @@ std::map<std::string, Bool_t>  jetSelector::LooseJetCut(const pat::Jet& jet){
   
   std::map<std::string, Bool_t> cuts;
   Float_t eta = jet.eta();
-
+  
   //Kinematic and Fiducial Acceptance
-  cuts["etax"]        = fabs(eta) < 2.4;
+  cuts["etax"]        = fabs(eta) < 2.5;
   cuts["nHadEF"]      = jet.neutralHadronEnergyFraction() < 0.99;
   cuts["nEmHF"]       = jet.neutralEmEnergyFraction() < 0.99;
-
+  cuts["muEF"]        = jet.muonEnergyFraction() < 0.80;
+  
+  // following are for abs(eta) < 2.4 
+  // do something for eta : 2.4 to 2.5 
+  
+  cuts["eta24"]       =  (jet.chargedHadronEnergyFraction() > 0.0) &&  (jet.chargedMultiplicity() > 0. ) &&  (jet.chargedEmEnergyFraction() < 0.99) ;
   
   return cuts;
 }
@@ -49,11 +54,12 @@ std::map<std::string, Bool_t>  jetSelector::TightJetCut(const pat::Jet& jet){
   Float_t eta = jet.eta();
 
   //Kinematic and Fiducial Acceptance
-  cuts["etax"]        = fabs(eta) < 2.4;
-  cuts["nHadEF"]      = jet.neutralHadronEnergyFraction() < 0.99;
-  cuts["nEmHF"]       = jet.neutralEmEnergyFraction() < 0.99;
+  cuts["etax"]        = fabs(eta) < 2.5;
+  cuts["nHadEF"]      = jet.neutralHadronEnergyFraction() < 0.90;
+  cuts["nEmHF"]       = jet.neutralEmEnergyFraction() < 0.90;
+  cuts["muEF"]        = jet.muonEnergyFraction() < 0.80;
   cuts["cHadEF"]      = jet.chargedHadronEnergyFraction() > 0.0;
-  cuts["cEmEF"]       = jet.chargedEmEnergyFraction() < 0.99;
+  cuts["cEmEF"]       = jet.chargedEmEnergyFraction() < 0.90;
   cuts["cMulti"]      = jet.chargedMultiplicity() > 0;
 
   return cuts;

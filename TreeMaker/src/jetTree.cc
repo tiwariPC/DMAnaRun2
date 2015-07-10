@@ -237,10 +237,46 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     jetCharge_.push_back(jet->charge());
     jetPartonFlavor_.push_back(jet->partonFlavour());
+
+    float jpumva=0.;
+    jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
+    //std::cout<<" jpumva = "<<jpumva<<std::endl;
+    PUJetID_.push_back(jpumva);
     
-    std::map<std::string, bool> Pass = jet2012ID_.MergedJetCut(*jet);
+    float jpt = jet->pt();
+    float jeta = jet->eta();
+    
+    bool passPU = false;
+    if(jpt>20){
+      if(jeta>3.){
+	if(jpumva<=-0.45)passPU=false;
+      }else if(jeta>2.75){
+	if(jpumva<=-0.55)passPU=false;
+      }else if(jeta>2.5){
+	if(jpumva<=-0.6)passPU=false;
+      }else if(jpumva<=-0.63)passPU=false;
+    }else{
+      if(jeta>3.){
+	if(jpumva<=-0.95)passPU=false;
+      }else if(jeta>2.75){
+	if(jpumva<=-0.94)passPU=false;
+      }else if(jeta>2.5){
+	if(jpumva<=-0.96)passPU=false;
+      }else if(jpumva<=-0.95)passPU=false;
+    }
+    
+    isPUJetID_.push_back(passPU);
+    
+    std::map<std::string, bool> Pass = jet2012ID_.LooseJetCut(*jet);
     Int_t passOrNot = PassAll(Pass); 
-    jetPassID_.push_back(passOrNot);
+    jetPassIDLoose_.push_back(passOrNot);
+
+
+    std::map<std::string, bool> PassT = jet2012ID_.TightJetCut(*jet);
+    Int_t passOrNotT = PassAll(PassT); 
+    jetPassIDTight_.push_back(passOrNotT);
+
+
 
 
     jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
@@ -594,9 +630,48 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
            jetEn_.push_back(jet->energy());
            jetCharge_.push_back(jet->charge());
            jetPartonFlavor_.push_back(jet->partonFlavour()); 
-           std::map<std::string, bool> Pass = jet2012ID_.MergedJetCut(*jet);
-           Int_t passOrNot = PassAll(Pass); 
-           jetPassID_.push_back(passOrNot);
+           
+	   
+	   float jpumva=0.;
+	   jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
+	   //std::cout<<" jpumva = "<<jpumva<<std::endl;
+	   PUJetID_.push_back(jpumva);
+	   
+	   float jpt = jet->pt();
+	   float jeta = jet->eta();
+	   
+	   bool passPU = false;
+	   if(jpt>20){
+	     if(jeta>3.){
+	       if(jpumva<=-0.45)passPU=false;
+	     }else if(jeta>2.75){
+	       if(jpumva<=-0.55)passPU=false;
+	     }else if(jeta>2.5){
+	       if(jpumva<=-0.6)passPU=false;
+	     }else if(jpumva<=-0.63)passPU=false;
+	   }else{
+	     if(jeta>3.){
+	       if(jpumva<=-0.95)passPU=false;
+	     }else if(jeta>2.75){
+	       if(jpumva<=-0.94)passPU=false;
+	     }else if(jeta>2.5){
+	       if(jpumva<=-0.96)passPU=false;
+	     }else if(jpumva<=-0.95)passPU=false;
+	   }
+	   
+	   isPUJetID_.push_back(passPU);
+	   
+	   std::map<std::string, bool> Pass = jet2012ID_.LooseJetCut(*jet);
+	   Int_t passOrNot = PassAll(Pass); 
+	   jetPassIDLoose_.push_back(passOrNot);
+	   
+	   
+	   std::map<std::string, bool> PassT = jet2012ID_.TightJetCut(*jet);
+	   Int_t passOrNotT = PassAll(PassT); 
+	   jetPassIDTight_.push_back(passOrNotT);
+	   //std::map<std::string, bool> Pass = jet2012ID_.MergedJetCut(*jet);
+           //Int_t passOrNot = PassAll(Pass); 
+           //jetPassID_.push_back(passOrNot);
            
            //cout<<"tau1:"<<jet->userFloat("NjettinessAK8CHS:tau1")<<" tau2:"<<jet->userFloat("NjettinessAK8:tau2")<<" tal3:"<<jet->userFloat("NjettinessAK8:tau3")<<" id: "<<passOrNot<<" old tau1"<<jet->userFloat("tau1")<<endl; 
 
@@ -937,8 +1012,10 @@ jetTree::SetBranches(){
   AddBranch(&jetCorrUncDown_, "jetCorrUncDown");
   AddBranch(&jetCharge_, "jetCharge");
   AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
-  AddBranch(&jetPassID_, "jetPassID");
-
+  AddBranch(&jetPassIDLoose_, "jetPassIDLoose");
+  AddBranch(&jetPassIDTight_, "jetPassIDTight");
+  AddBranch(&PUJetID_,"PUJetID");
+  AddBranch(&isPUJetID_,"isPUJetID");
 
   AddBranch(&jet_nSV_, "jet_nSV");
   AddBranch(&jet_SVMass_, "jet_SVMass");
@@ -1052,8 +1129,10 @@ jetTree::Clear(){
   jetCorrUncDown_.clear();
   jetCharge_.clear();
   jetPartonFlavor_.clear();
-  jetPassID_.clear();
-
+  jetPassIDLoose_.clear();
+  jetPassIDTight_.clear();
+  isPUJetID_.clear();
+  PUJetID_.clear();
 
   genjetPx_.clear();
   genjetPy_.clear();

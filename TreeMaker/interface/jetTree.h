@@ -123,7 +123,12 @@ class jetTree  : public baseTree{
   std::vector<Float_t> jetCorrUncDown_;
   std::vector<Int_t>   jetCharge_;
   std::vector<Int_t>   jetPartonFlavor_;
-  std::vector<Int_t>   jetPassID_;
+  //std::vector<Int_t>   jetPassID_;
+  //std::vector<Int_t>   jetPassIDT_;
+  std::vector<Int_t>   jetPassIDLoose_;
+  std::vector<Int_t>   jetPassIDTight_;
+  std::vector<Float_t> PUJetID_;
+  std::vector<Bool_t>  isPUJetID_;
 
 //Energy Fraction and Multiplicity 
   std::vector<Float_t> jetHFHadEF_;

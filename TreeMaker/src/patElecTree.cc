@@ -76,7 +76,7 @@ patElecTree::Fill(const edm::Event& iEvent){
     
   // Get rho value
   edm::Handle<double> rhoH;
-  iEvent.getByLabel("fixedGridRhoAll",rhoH);
+  iEvent.getByLabel("fixedGridRhoFastjetAll",rhoH);
   patElecRho_ = *rhoH;
   
   for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {

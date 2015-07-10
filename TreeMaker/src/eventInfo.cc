@@ -35,10 +35,12 @@ eventInfo::Fill(const edm::Event& iEvent){
 
   edm::Handle<reco::VertexCollection> recVtxs_;
 
-  if (iEvent.getByLabel("goodOfflinePrimaryVertices", recVtxs_)) {
+  if (iEvent.getByLabel("offlineSlimmedPrimaryVertices", recVtxs_)) {
     for (size_t i=0; i<recVtxs_->size(); ++i) {
+      
+      //bool isFake = ((*recVtxs_)[i].chi2()==0 && (*recVtxs_)[i].ndof()==0);
       if((*recVtxs_)[i].ndof() >= 4 && fabs((*recVtxs_)[i].z()) <= 24 && fabs((*recVtxs_)[i].position().rho()) <= 2
-	 && !((*recVtxs_)[i].isFake())
+	 //&& !(isFake)
 	 )
 	{
 	  nVtx_++;
