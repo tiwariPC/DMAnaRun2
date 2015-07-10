@@ -74,47 +74,35 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000)
+    input = cms.untracked.int32(-1)
 )
 
 
 
+inputpath='/store/user/khurana/MonoHStep3/'
+filename1=inputpath+'step3_miniAOD_M1500_1.root'
+filename2=inputpath+'step3_miniAOD_M1500_2.root'
+filename3=inputpath+'step3_miniAOD_M1500_3.root'
+filename4=inputpath+'step3_miniAOD_M1500_4.root'
+filename5=inputpath+'step3_miniAOD_M1500_5.root'
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        #'file:ZPrimeToTTBarMiniAOD.root'
-#        'file:/afs/cern.ch/work/k/khurana/RunIIDelPanj/CMSSW_7_2_3_patch1/DYJetsMiniAOD/DYJets_100-200_1.root'
-        # 'file:0432E62A-7A6C-E411-87BB-002590DB92A8.root' 
-        #'file:58462360-8C07-E411-BCE4-008CFA007B98.root'
-        #'file:0C3E1051-ED71-E411-B8C9-002590DB91CE.root'
-       #'/store/relval/CMSSW_7_4_0/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/C0B7E3DE-6FDD-E411-A127-0025905B85EE.root' 
-       #'file:C0B7E3DE-6FDD-E411-A127-0025905B85EE.root' 
-      # '/store/relval/CMSSW_7_4_0_pre7/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/10661B83-43B7-E411-ADEA-0025905B8582.root'
-       #'/store/relval/CMSSW_7_4_0/RelValProdTTbar_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/1E12B842-93DD-E411-AF4F-0025905A48D0.root'
-       #'/store/mc/Phys14DR/TTJets_MSDecaysCKM_central_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/00C90EFC-3074-E411-A845-002590DB9262.root'
-   #'/store/mc/Phys14DR/DYJetsToEEMuMu_M-1400To2300_13TeV-madgraph/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/12B916AF-CE73-E411-8419-002590747DE2.root' 
- # '/store/relval/CMSSW_7_4_0_pre8/RelValZpTT_1500_13TeV/MINIAODSIM/MCRUN2_74_V7-v1/00000/9008F5B0-54BD-E411-96FB-0025905A6110.root'
-  #'/store/relval/CMSSW_7_4_0_pre7/RelValTTbar_13/MINIAODSIM/MCRUN2_74_V7-v1/00000/B62A3865-39B7-E411-B76A-002618943880.root'
-#test aod
-#'/store/relval/CMSSW_7_4_0_pre8/RelValProdTTbar_13/AODSIM/MCRUN2_74_V7-v1/00000/44    E1E4BA-50BD-E411-A57A-002618943949.root'
-#QCD test
-#  '/store/relval/CMSSW_7_4_0/RelValProdQCD_Pt_3000_3500_13/MINIAODSIM/MCRUN2_74_V7_GENSIM_7_1_15-v1/00000/08D1D655-7BDE-E411-8402-0025905A6060.root'   
-#TTbar test
-#'/store/relval/CMSSW_7_4_1/RelValTTbar_13_unsch/MINIAODSIM/MCRUN2_74_V9-v1/00000/EA076017-DCEC-E411-BE66-0025905A60F2.root'  
+        filename1,
+        filename2,
+        filename3,
+        filename4,
+        filename5
 
-
-
-#electron test
-'/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
-
-#signal test
-#'xroot://eoscms.cern.ch//eos/cms/store/user/khurana/MonoHStep3/step3_miniAOD_M700_5.root'
-
-
-
-  ),
-                            skipEvents = cms.untracked.uint32(0)         
+        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_1.root',
+        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_2.root',
+        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_3.root',
+        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_4.root',
+        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_5.root'
+        ),
+                            skipEvents = cms.untracked.uint32(0)         ,
+                            duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
                             )
 
 
@@ -616,7 +604,8 @@ switchOnVIDElectronIdProducer(process, dataFormat)
 switchOnVIDPhotonIdProducer(process, dataFormat)
 # define which IDs we want to produce
 my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
-                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
+                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff',
+                 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_PHYS14_PU20bx25_nonTrig_V1_cff']
 
 #add them to the VID producer
 for idmod in my_id_modules:
@@ -626,17 +615,6 @@ my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhot
 #add them to the VID producer
 for idmod in my_phoid_modules:
 	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
-
-    
-
-
-
-
-
-
-
-
-
 
 
 
@@ -718,14 +696,24 @@ process.tree = cms.EDAnalyzer(
     eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight"),
     eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV51"),
     
-
+    #
+    # ID decisions (common to all formats)
+    #
+    eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp80"),
+    eleMVATightIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-PHYS14-PU20bx25-nonTrig-V1-wp90"),
+    #
+    # ValueMaps with MVA results
+    #
+    mvaValuesMap     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues"),
+    mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigCategories"),
+    
     outFileName=cms.string('outputFileName.root')
     )
 
 process.TFileService = cms.Service("TFileService",
                                    #fileName = cms.string("TreeMaker_TTbar.root")
                                    #fileName = cms.string("TreeMaker_QCD.root") 
-                                    fileName = cms.string("NCUGlobalTuples.root")          
+                                    fileName = cms.string("NCUGlobalTuples_M1500.root")          
                                   )
 
 

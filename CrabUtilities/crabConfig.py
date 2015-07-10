@@ -6,7 +6,7 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'MonoHMiniAODSpring15'
-config.General.workArea = 'crab_projects_20150626TTBar'
+config.General.workArea = 'crab_projects_20150702V2'
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
