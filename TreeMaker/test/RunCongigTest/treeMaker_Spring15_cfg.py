@@ -51,9 +51,6 @@ process.leptonSequence = cms.Sequence(process.muSequence +
                                       process.eleSequence)
 
 
-
-
-
 #process.jetSequence = cms.Sequence(process.fatJetsSequence + process.substructureSequence + process.redoPatJets + process.ak4JetsSequence)
 
 
@@ -74,7 +71,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(1)
 )
 
 
@@ -83,14 +80,14 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        #'/store/relval/CMSSW_7_4_1/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V9_gensim71X-v1/00000/80CF5456-B9EC-E411-93DA-002618FDA248.root'
-        'file:009D49A5-7314-E511-84EF-0025905A605E.root'
+#        '/store/relval/CMSSW_7_4_1/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V9_gensim71X-v1/00000/80CF5456-B9EC-E411-93DA-002618FDA248.root'
         #electron test
-        #'/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
+        '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
 
         #signal test
 
-
+#'/store/user/khurana/ExpressPhysics/crab_ExpressPhysics01/150710_185250/0000/MINIAOD_10.root'
+        #$inputFileNames
 
 
   ),
@@ -121,6 +118,8 @@ process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+#GR_P_V56
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'PHYS14_25_V1', 'All')
 
 from RecoMET.METProducers.PFMET_cfi import pfMet
@@ -689,6 +688,11 @@ process.tree = cms.EDAnalyzer(
     eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight"),
     eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV51"),
     
+    phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-loose"),
+    phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-medium"),
+    phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-tight"),
+
+    
     #
     # ID decisions (common to all formats)
     #
@@ -706,7 +710,8 @@ process.tree = cms.EDAnalyzer(
 process.TFileService = cms.Service("TFileService",
                                    #fileName = cms.string("TreeMaker_TTbar.root")
                                    #fileName = cms.string("TreeMaker_QCD.root") 
-                                    fileName = cms.string("NCUGlobalTuples.root")          
+                                  fileName = cms.string("NCUGlobalTuples.root")          
+                                  # fileName = cms.string('$outputFileName')          
                                   )
 
 

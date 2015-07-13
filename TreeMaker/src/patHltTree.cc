@@ -7,6 +7,8 @@
 #include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "DataFormats/HLTReco/interface/TriggerObject.h"
 #include "FWCore/Common/interface/TriggerNames.h" 
+#include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
+ #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
 
 patHltTree::patHltTree(std::string name,TTree* tree):baseTree(name,tree),
 						     nTrigs_(0)						     
@@ -21,7 +23,8 @@ patHltTree::Fill(const edm::Event& iEvent)
   using namespace edm;
   
   edm::Handle<edm::TriggerResults> trigResults;
-
+  edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
+  iEvent.getByLabel("patTrigger",triggerPrescales);
   edm::InputTag trigTag("TriggerResults::HLT");
   if (not iEvent.getByLabel(trigTag, trigResults)) {
     std::cout << ">>> TRIGGER collection does not exist !!!\n";
@@ -29,14 +32,22 @@ patHltTree::Fill(const edm::Event& iEvent)
   }
 
   const edm::TriggerNames & trigNames = iEvent.triggerNames(*trigResults);
+  
+  //const std::vector<std::string> & triggerNames_ = trigNames.triggerNames();
 
   for (unsigned int i=0; i<trigResults->size(); i++)
     {
       std::string trigName = trigNames.triggerName(i);
-      
-      size_t foundEle00=trigName.find("HLT_DoubleEle33");
-      size_t foundEle01=trigName.find("HLT_Ele23_Ele12_CaloId_TrackId_Iso");
-      size_t foundEle02=trigName.find("HLT_Ele17_Ele12_Ele10_CaloId_TrackId");
+      //const std::pair<int,int> prescales(hltConfig_.prescaleValues(iEvent,iSetup,triggerNames_[i]));
+      size_t foundEle00=trigName.find("HLT_DoubleEle24_22_eta2p1_WPLoose_Gsf");
+      size_t foundEle01=trigName.find("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW"); 
+      size_t foundEle02=trigName.find("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL"); 
+      size_t foundEle03=trigName.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"); 
+      size_t foundEle04=trigName.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ");
+      size_t foundEle05=trigName.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL");
+      size_t foundEle06=trigName.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL");
+
+
 
       size_t foundMuo00=trigName.find("HLT_Mu17_Mu8");
       size_t foundMuo01=trigName.find("HLT_Mu17_TkMu8");
@@ -53,11 +64,16 @@ patHltTree::Fill(const edm::Event& iEvent)
       
       if(false) std::cout<<" trigName = "<<trigName
 			<<" : "<<trigResults->accept(i)
+			 <<" : "<<triggerPrescales->getPrescaleForIndex(i)
 			<<" : "<<(foundEle00==std::string::npos)
 			<<std::endl;
       if ( foundEle00==std::string::npos &&
 	   foundEle01==std::string::npos &&
 	   foundEle02==std::string::npos &&
+           foundEle03==std::string::npos &&
+           foundEle04==std::string::npos &&
+           foundEle05==std::string::npos &&
+           foundEle06==std::string::npos &&
        	   foundMuo00==std::string::npos && 
        	   foundMuo01==std::string::npos && 
        	   foundMuo02==std::string::npos &&
@@ -76,6 +92,7 @@ patHltTree::Fill(const edm::Event& iEvent)
       trigName_.push_back(trigName);
       int trigResult = trigResults->accept(i); //bool not to use
       trigResult_.push_back(trigResult);
+      trigPrescale_.push_back(triggerPrescales->getPrescaleForIndex(i));
       nTrigs_++;
     }
 }
@@ -85,6 +102,7 @@ void patHltTree::SetBranches(){
   AddBranch(&nTrigs_,"nTrigs");
   AddBranch(&trigResult_,"trigResult");
   AddBranch(&trigName_,"trigName");
+  AddBranch(&trigPrescale_,"trigPrescale");
 
 
 }
@@ -94,6 +112,7 @@ patHltTree::Clear(){
   nTrigs_ = 0;
   trigResult_.clear();
   trigName_.clear();
+  trigPrescale_.clear();
 }
 
 

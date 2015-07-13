@@ -87,7 +87,7 @@ process.source = cms.Source("PoolSource",
         #signal test
 
 #'/store/user/khurana/ExpressPhysics/crab_ExpressPhysics01/150710_185250/0000/MINIAOD_10.root'
-        '$inputFileNames'
+        $inputFileNames
 
 
   ),

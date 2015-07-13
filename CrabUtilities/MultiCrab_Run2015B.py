@@ -8,7 +8,10 @@ fout = open("datasetdetails_Spring15.txt","w")
 ## cfg.py is configurable because data and MC will have different configurations.
 ## And number of files canbe used as number of lumis in that case. 
 
-fout.write("DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_HLT treeMaker_Spring15_cfg.py /DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v2/MINIAODSIM 1 \n")
+#fout.write("MET-Run2015B-PromptReco-v1_1 treeMaker_Run2015B_cfg.py /MET/Run2015B-PromptReco-v1/MINIAOD 5 \n")
+fout.write("SingleElectron_Run2015B-PromptReco-v1 treeMaker_Run2015B_cfg.py /SingleElectron/Run2015B-PromptReco-v1/MINIAOD  5 \n")
+fout.write("DoubleEG_Run2015B-PromptReco-v1 treeMaker_Run2015B_cfg.py /DoubleEG/Run2015B-PromptReco-v1/MINIAOD 5 \n")
+
 ##
 ##fout.write("DYToEE_M-50_Tune4C_13TeV-pythia8 treeMaker_Spring15_cfg.py /DYToEE_M-50_Tune4C_13TeV-pythia8/Phys14DR-PU20bx25_tsg_castor_PHYS14_25_V1-v1/MINIAODSIM 1 \n")
 ##
@@ -68,7 +71,7 @@ def submit():
         a,b,c,d = line.split()
         datasetdetail=[a,b,c,d]
         print datasetdetail
-        os.system('crab submit General.requestName='+datasetdetail[0]+' JobType.psetName='+datasetdetail[1]+' Data.inputDataset='+datasetdetail[2]+' Data.unitsPerJob='+datasetdetail[3])
+        os.system('crab submit -c crabConfig_data.py General.requestName='+datasetdetail[0]+' JobType.psetName='+datasetdetail[1]+' Data.inputDataset='+datasetdetail[2]+' Data.unitsPerJob='+datasetdetail[3])
     #name =  'crab submit General.requestName='+datasetdetail[0]+' JobType.psetName='+datasetdetail[1]+' Data.inputDataset='+datasetdetail[2]+' Data.unitsPerJob='+datasetdetail[3]
     #print name 
         

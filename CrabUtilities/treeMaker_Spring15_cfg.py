@@ -51,9 +51,6 @@ process.leptonSequence = cms.Sequence(process.muSequence +
                                       process.eleSequence)
 
 
-
-
-
 #process.jetSequence = cms.Sequence(process.fatJetsSequence + process.substructureSequence + process.redoPatJets + process.ak4JetsSequence)
 
 
@@ -79,30 +76,22 @@ process.maxEvents = cms.untracked.PSet(
 
 
 
-inputpath='/store/user/khurana/MonoHStep3/'
-filename1=inputpath+'step3_miniAOD_M1500_1.root'
-filename2=inputpath+'step3_miniAOD_M1500_2.root'
-filename3=inputpath+'step3_miniAOD_M1500_3.root'
-filename4=inputpath+'step3_miniAOD_M1500_4.root'
-filename5=inputpath+'step3_miniAOD_M1500_5.root'
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        filename1,
-        filename2,
-        filename3,
-        filename4,
-        filename5
+#        '/store/relval/CMSSW_7_4_1/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V9_gensim71X-v1/00000/80CF5456-B9EC-E411-93DA-002618FDA248.root'
+        #electron test
+        '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
 
-        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_1.root',
-        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_2.root',
-        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_3.root',
-        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_4.root',
-        ##'/store/user/khurana/MonoHStep3/step3_miniAOD_M700_5.root'
-        ),
-                            skipEvents = cms.untracked.uint32(0)         ,
-                            duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
+        #signal test
+
+#'/store/user/khurana/ExpressPhysics/crab_ExpressPhysics01/150710_185250/0000/MINIAOD_10.root'
+        #$inputFileNames
+
+
+  ),
+                            skipEvents = cms.untracked.uint32(0)         
                             )
 
 
@@ -129,6 +118,8 @@ process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+#GR_P_V56
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'PHYS14_25_V1', 'All')
 
 from RecoMET.METProducers.PFMET_cfi import pfMet
@@ -633,13 +624,14 @@ process.tree = cms.EDAnalyzer(
     fillMuonInfo_  = cms.bool(True),
     fillElecInfo_  = cms.bool(True),
     fillFATJetInfo_   = cms.bool(True), 
-    fillJetInfo_   = cms.bool(True), ## Raman switched it off
+    fillJetInfo_   = cms.bool(True), 
     fillAddJetInfo_   = cms.bool(True),
     fillMetInfo_   = cms.bool(True),
     fillTrigInfo_  = cms.bool(True),
-    fillPhotInfo_  = cms.bool(False),
-    fillTauInfo_   = cms.bool(False),
+    fillPhotInfo_  = cms.bool(True),
+    fillTauInfo_   = cms.bool(True),
     
+    photonLabel    = cms.InputTag("slimmedPhotons"),
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
@@ -696,6 +688,11 @@ process.tree = cms.EDAnalyzer(
     eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight"),
     eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV51"),
     
+    phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-loose"),
+    phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-medium"),
+    phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-tight"),
+
+    
     #
     # ID decisions (common to all formats)
     #
@@ -713,7 +710,8 @@ process.tree = cms.EDAnalyzer(
 process.TFileService = cms.Service("TFileService",
                                    #fileName = cms.string("TreeMaker_TTbar.root")
                                    #fileName = cms.string("TreeMaker_QCD.root") 
-                                    fileName = cms.string("NCUGlobalTuples_M1500.root")          
+                                  fileName = cms.string("NCUGlobalTuples.root")          
+                                  # fileName = cms.string('$outputFileName')          
                                   )
 
 

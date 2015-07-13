@@ -24,6 +24,7 @@ class patHltTree : public baseTree{
   Int_t nTrigs_;
   std::vector<Int_t> trigResult_;
   std::vector<std::string> trigName_;
+  std::vector<Int_t> trigPrescale_;
 };
 
 #endif
