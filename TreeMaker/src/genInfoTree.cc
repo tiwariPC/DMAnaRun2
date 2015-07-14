@@ -1,5 +1,7 @@
 #include "DelPanj/TreeMaker/interface/genInfoTree.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
+#include <bitset>
+#include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 
 genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
@@ -60,10 +62,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
       cands.push_back(&*it_gen);
       myParticles.push_back(it_gen);
     }
-  
-  std::cout<<" size of cands = "<<cands.size()
-	   <<" size of myParticles = "<<myParticles.size()
-	   <<std::endl;
+
   // now loop
   std::vector<const reco::Candidate*>::const_iterator found = cands.begin();
   for(unsigned int genIndex=0; genIndex < MAXNGENPAR_ && genIndex < myParticles.size(); genIndex++){
@@ -99,7 +98,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     found = find(cands.begin(), cands.end(), geni->mother(0));
     if(found != cands.end()) iMo1 = found - cands.begin() ;
-    
+
     found = find(cands.begin(), cands.end(), geni->mother(1));
     if(found != cands.end()) iMo2 = found - cands.begin() ;
 
@@ -108,17 +107,23 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     found = find(cands.begin(), cands.end(), geni->daughter(1));
     if(found != cands.end()) iDa2 = found - cands.begin() ;
-    
-    
+
     genNMo_.push_back(NMo);
     genNDa_.push_back(NDa);
     genMo1_.push_back(iMo1);
     genMo2_.push_back(iMo2);
     genDa1_.push_back(iDa1);
     genDa2_.push_back(iDa2);
-
+    const reco::GenStatusFlags& cmsswStatus = geni->statusFlags();
+    int status=0;
+    for(unsigned int ist=0; ist<cmsswStatus.flags_.size(); ist++)
+      {
+	if(cmsswStatus.flags_[ist])
+	  status |= (0x1 << (ist+1)); 
+      }
+    genStFlag_.push_back(status);
       
-  }
+  } // end of loop over particles
 
   edm::Handle<reco::GenJetCollection> genJetsHandle;
   if( not iEvent.getByLabel(genJetLabel_,genJetsHandle)){ 
@@ -170,6 +175,7 @@ genInfoTree::SetBranches(){
   AddBranch(&genMo2_,"genMo2");
   AddBranch(&genDa1_,"genDa1");
   AddBranch(&genDa2_,"genDa2");
+  AddBranch(&genStFlag_,"genStFlag");
   
   AddBranch(&nGenJet_, "nGenJet");
   AddBranch(&genJetE_, "genJetE");
@@ -205,6 +211,7 @@ genInfoTree::Clear(){
   genMo2_.clear();
   genDa1_.clear();
   genDa2_.clear();
+  genStFlag_.clear();
 
   nGenJet_=0;
   genJetE_.clear();

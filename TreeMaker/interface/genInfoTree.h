@@ -60,6 +60,7 @@ class genInfoTree : public baseTree{
   std::vector<Int_t>    genMo2_;
   std::vector<Int_t>    genDa1_;
   std::vector<Int_t>    genDa2_;
+  std::vector<Int_t>    genStFlag_;
 
   Int_t nGenJet_;
   std::vector<Float_t> genJetE_;
