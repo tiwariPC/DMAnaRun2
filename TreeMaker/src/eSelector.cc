@@ -2,34 +2,34 @@
 
 
 eSelector::eSelector(const edm::ParameterSet ps):      
-  ptX_  (ps.getParameter<Double_t>("ptx")),
-  etaX_ (ps.getParameter<Double_t>("etax")),
+  ptX_  (ps.getParameter<double>("ptx")),
+  etaX_ (ps.getParameter<double>("etax")),
   //identification parameters
   idBrl_(ps.getParameter<edm::ParameterSet> ("idBrl")),   
   idEcp_(ps.getParameter<edm::ParameterSet> ("idEcp"))
 {     
-  detainBrlX_= (idBrl_.getParameter<Double_t>("detain"));
-  delphiBrlX_= (idBrl_.getParameter<Double_t>("delphi"));  
-  sieieBrlX_ = (idBrl_.getParameter<Double_t>("sieie"));
-  hoeBrlX_   = (idBrl_.getParameter<Double_t>("hoe"));
-  d0vtxBrlX_ = (idBrl_.getParameter<Double_t>("d0vtx"));
-  dzvtxBrlX_ = (idBrl_.getParameter<Double_t>("dzvtx"));
-  ooemoopBrlX_= (idBrl_.getParameter<Double_t>("ooemoop"));
-  passConvBrlX_= (idBrl_.getParameter<Double_t>("passConv"));
-  nmisHitBrlX_= (idBrl_.getParameter<Double_t>("nmisHit"));
-  isoRelBrlX_ = (idBrl_.getParameter<Double_t>("isoRel"));
+  detainBrlX_= (idBrl_.getParameter<double>("detain"));
+  delphiBrlX_= (idBrl_.getParameter<double>("delphi"));  
+  sieieBrlX_ = (idBrl_.getParameter<double>("sieie"));
+  hoeBrlX_   = (idBrl_.getParameter<double>("hoe"));
+  d0vtxBrlX_ = (idBrl_.getParameter<double>("d0vtx"));
+  dzvtxBrlX_ = (idBrl_.getParameter<double>("dzvtx"));
+  ooemoopBrlX_= (idBrl_.getParameter<double>("ooemoop"));
+  passConvBrlX_= (idBrl_.getParameter<double>("passConv"));
+  nmisHitBrlX_= (idBrl_.getParameter<double>("nmisHit"));
+  isoRelBrlX_ = (idBrl_.getParameter<double>("isoRel"));
 
 
-  detainEcpX_= (idEcp_.getParameter<Double_t>("detain"));
-  delphiEcpX_= (idEcp_.getParameter<Double_t>("delphi"));  
-  sieieEcpX_ = (idEcp_.getParameter<Double_t>("sieie"));
-  hoeEcpX_   = (idEcp_.getParameter<Double_t>("hoe"));
-  d0vtxEcpX_ = (idEcp_.getParameter<Double_t>("d0vtx"));
-  dzvtxEcpX_ = (idEcp_.getParameter<Double_t>("dzvtx"));
-  ooemoopEcpX_= (idEcp_.getParameter<Double_t>("ooemoop"));
-  passConvEcpX_= (idEcp_.getParameter<Double_t>("passConv"));
-  nmisHitEcpX_= (idEcp_.getParameter<Double_t>("nmisHit"));
-  isoRelEcpX_ = (idEcp_.getParameter<Double_t>("isoRel"));
+  detainEcpX_= (idEcp_.getParameter<double>("detain"));
+  delphiEcpX_= (idEcp_.getParameter<double>("delphi"));  
+  sieieEcpX_ = (idEcp_.getParameter<double>("sieie"));
+  hoeEcpX_   = (idEcp_.getParameter<double>("hoe"));
+  d0vtxEcpX_ = (idEcp_.getParameter<double>("d0vtx"));
+  dzvtxEcpX_ = (idEcp_.getParameter<double>("dzvtx"));
+  ooemoopEcpX_= (idEcp_.getParameter<double>("ooemoop"));
+  passConvEcpX_= (idEcp_.getParameter<double>("passConv"));
+  nmisHitEcpX_= (idEcp_.getParameter<double>("nmisHit"));
+  isoRelEcpX_ = (idEcp_.getParameter<double>("isoRel"));
   
   
   isData_ = true;
@@ -38,16 +38,16 @@ eSelector::eSelector(const edm::ParameterSet ps):
 }
 
 
-std::map<std::string, Bool_t> 
+std::map<std::string, bool> 
 eSelector::CutRecord(const pat::Electron& e){
 
-  std::map<std::string, Bool_t> cuts;
+  std::map<std::string, bool> cuts;
 
        
   //good idea to call the eta and pt methods for once.
-  Double_t pt = e.pt();
-  Double_t eta = e.superCluster()->eta();
-  Bool_t ingap= fabs(eta)>1.4442 && fabs(eta)< 1.566;
+  double pt = e.pt();
+  double eta = e.superCluster()->eta();
+  bool ingap= fabs(eta)>1.4442 && fabs(eta)< 1.566;
 
 
   if(ingap)
@@ -69,8 +69,8 @@ eSelector::CutRecord(const pat::Electron& e){
   
   
  
-  Double_t iso4 = 999.;
-  iso4 = GetCorrElecPfIso(e)/TMath::Max((Double_t)0.1,pt);
+  double iso4 = 999.;
+  iso4 = GetCorrElecPfIso(e)/TMath::Max((double)0.1,pt);
  
 
 
@@ -78,9 +78,9 @@ eSelector::CutRecord(const pat::Electron& e){
   cuts["ptx"]    = pt > ptX_;
   cuts["etax"]   = !(ingap)&&fabs(eta) < etaX_;
 
-  Double_t ooemoop = fabs(
-			  1.0/TMath::Max((Double_t)1e-3,(Double_t)e.ecalEnergy()) -
-			  1.0/TMath::Max((Double_t)1e-3,(Double_t)sqrt(e.trackMomentumAtVtx().mag2()))
+  double ooemoop = fabs(
+			  1.0/TMath::Max((double)1e-3,(double)e.ecalEnergy()) -
+			  1.0/TMath::Max((double)1e-3,(double)sqrt(e.trackMomentumAtVtx().mag2()))
 			  );
 
   if(e.isEB()){

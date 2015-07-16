@@ -12,7 +12,8 @@ hpstauInfo::hpstauInfo(std::string name, TTree* tree, bool debug, const pset& iC
 }
 
 hpstauInfo::~hpstauInfo(){
-  delete tree_;
+  delete HPSTau_4Momentum;
+  delete HPSTau_Vposition;
 }
 
 void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
@@ -104,7 +105,6 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     
     disc_decayModeFinding.push_back(tau->tauID("decayModeFinding"));
     disc_decayModeFindingNewDMs.push_back(tau->tauID("decayModeFindingNewDMs"));
-    //disc_decayModeFindingOldDMs.push_back(tau->tauID("decayModeFindingOldDMs"));
     
     disc_chargedIsoPtSum.push_back(tau->tauID("chargedIsoPtSum"));
     disc_neutralIsoPtSum.push_back(tau->tauID("neutralIsoPtSum"));
@@ -151,7 +151,7 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     //std::cout<<"other  pt = "<<tau->pt()<<"  :  new vz = "<<newvz<<std::endl;
     HPSTau_n++;
   }//end of for loop
-  std::cout<<" -------------------------- HPSTau_n = "<<HPSTau_n<<std::endl;
+  // std::cout<<" -------------------------- HPSTau_n = "<<HPSTau_n<<std::endl;
   if(debug_)    std::cout<<"got HPS Tau discriminators info"<<std::endl;
 }
 
@@ -230,7 +230,6 @@ void hpstauInfo::SetBranches(){
 
   AddBranch(&disc_decayModeFinding ,"disc_decayModeFinding");
   AddBranch(&disc_decayModeFindingNewDMs ,"disc_decayModeFindingNewDMs");
-  //AddBranch(&disc_decayModeFindingOldDMs ,"disc_decayModeFindingOldDMs");
   
   AddBranch(&disc_chargedIsoPtSum ,"disc_chargedIsoPtSum");
   AddBranch(&disc_neutralIsoPtSum ,"disc_neutralIsoPtSum");
@@ -317,8 +316,7 @@ void hpstauInfo::Clear(){
   
   disc_decayModeFinding.clear();
   disc_decayModeFindingNewDMs.clear();
-  //disc_decayModeFindingOldDMs.clear();
-  
+
   disc_chargedIsoPtSum.clear();
   disc_neutralIsoPtSum.clear();
   disc_puCorrPtSum.clear(); 

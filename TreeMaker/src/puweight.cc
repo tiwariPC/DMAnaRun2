@@ -37,12 +37,12 @@ puweight::Fill(const edm::Event& iEvent){
     std::vector<PileupSummaryInfo>::const_iterator PVI;
 
 
-    Float_t npT=-1.;
-    Int_t npIT=-1.;
+    float npT=-1.;
+    int npIT=-1.;
 
     for(PVI = PupInfo->begin(); PVI != PupInfo->end(); ++PVI) {
 
-      Int_t BX = PVI->getBunchCrossing();
+      int BX = PVI->getBunchCrossing();
 //       std::cout << "BX = " << BX << std::endl;
       if(BX == 0) {
 	npT = PVI->getTrueNumInteractions();

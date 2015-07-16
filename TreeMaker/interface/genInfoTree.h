@@ -35,40 +35,28 @@ class genInfoTree : public baseTree{
   
   
   edm::InputTag genPartLabel_;
-  edm::InputTag genJetLabel_;
-  UInt_t MAXNGENPAR_;
-  Bool_t applyStatusSelection_;
+  unsigned int MAXNGENPAR_;
+  bool applyStatusSelection_;
 
 
-  Float_t ptHat_;      // added by Eiko
-  Float_t mcWeight_;   // added by Eiko
+  float ptHat_;      // added by Eiko
+  float mcWeight_;   // added by Eiko
 
-  Int_t nGenPar_;
-  std::vector<Float_t> genParE_;
-  std::vector<Float_t> genParPt_;
-  std::vector<Float_t> genParEta_;
-  std::vector<Float_t> genParPhi_;
-  std::vector<Float_t> genParM_;
-  std::vector<Int_t>    genParQ_;
-  std::vector<Int_t>    genParId_;
-  std::vector<Int_t>    genParSt_;
-  std::vector<Int_t>    genMomParId_; // added by Eiko
-  std::vector<Int_t>    genParIndex_;    // added by Eiko
-  std::vector<Int_t>    genNMo_;
-  std::vector<Int_t>    genNDa_;
-  std::vector<Int_t>    genMo1_;
-  std::vector<Int_t>    genMo2_;
-  std::vector<Int_t>    genDa1_;
-  std::vector<Int_t>    genDa2_;
-  std::vector<Int_t>    genStFlag_;
+  int nGenPar_;
+  TClonesArray       *genParP4_;
+  std::vector<int>   genParQ_;
+  std::vector<int>   genParId_;
+  std::vector<int>   genParSt_;
+  std::vector<int>   genMomParId_; // added by Eiko
+  std::vector<int>   genParIndex_;    // added by Eiko
+  std::vector<int>   genNMo_;
+  std::vector<int>   genNDa_;
+  std::vector<int>   genMo1_;
+  std::vector<int>   genMo2_;
+  std::vector<int>   genDa1_;
+  std::vector<int>   genDa2_;
+  std::vector<int>   genStFlag_;
 
-  Int_t nGenJet_;
-  std::vector<Float_t> genJetE_;
-  std::vector<Float_t> genJetPt_;
-  std::vector<Float_t> genJetEta_; 
-  std::vector<Float_t> genJetPhi_; 
-  std::vector<Float_t> genJetEM_;
-  std::vector<Float_t> genJetHAD_;
   
 };
 

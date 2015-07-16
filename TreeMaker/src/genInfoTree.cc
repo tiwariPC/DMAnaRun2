@@ -2,20 +2,22 @@
 #include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
 #include <bitset>
 #include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
+#include "TLorentzVector.h"
 
 genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
   genPartLabel_ (iConfig.getParameter<edm::InputTag>("genPartLabel")),
-  genJetLabel_ (iConfig.getParameter<edm::InputTag>("genJetLabel")),
-  MAXNGENPAR_(iConfig.getParameter<UInt_t>("maxNumGenPar")),
-  applyStatusSelection_(iConfig.getParameter<Bool_t>("applyStatusSelection"))
+  MAXNGENPAR_(iConfig.getParameter<unsigned int>("maxNumGenPar")),
+  applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection"))
 {
+  genParP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
 }
 
 
 genInfoTree::~genInfoTree()
 {
+  delete genParP4_;
 }
 
 
@@ -70,11 +72,9 @@ genInfoTree::Fill(const edm::Event& iEvent)
     std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
     nGenPar_++;
 
-    genParE_.push_back(geni->energy());
-    genParPt_.push_back(geni->pt());
-    genParEta_.push_back(geni->eta());
-    genParPhi_.push_back(geni->phi());
-    genParM_.push_back(geni->mass());
+   TLorentzVector p4(geni->px(),geni->py(),geni->pz(),geni->energy());
+    new( (*genParP4_)[nGenPar_-1]) TLorentzVector(p4);
+
     genParQ_.push_back(geni->charge());
     genParId_.push_back(geni->pdgId());
     genParSt_.push_back(geni->status());
@@ -125,28 +125,6 @@ genInfoTree::Fill(const edm::Event& iEvent)
       
   } // end of loop over particles
 
-  edm::Handle<reco::GenJetCollection> genJetsHandle;
-  if( not iEvent.getByLabel(genJetLabel_,genJetsHandle)){ 
-    edm::LogInfo("GenAnalyzer") << "genJets not found, "
-      "skipping event"; 
-    return;
-  }
-  const reco::GenJetCollection* genJetColl = &(*genJetsHandle);
-  reco::GenJetCollection::const_iterator gjeti = genJetColl->begin();
-   
-  for(; gjeti!=genJetColl->end();gjeti++){
-    reco::GenParticle gjet = *gjeti;
-    if(gjet.pt()<=20)continue;
-    if(fabs(gjet.eta())>3.0)continue;
-    nGenJet_++;
-    genJetE_.push_back(gjet.energy()); 
-    genJetPt_.push_back(gjet.pt());
-    genJetEta_.push_back(gjet.eta());
-    genJetPhi_.push_back(gjet.phi());
-    //genJetEM_.push_back(gjet.emEnergy());
-    //genJetHAD_.push_back(gjet.hadEnergy());
-    
-  }
    
 }
 
@@ -157,12 +135,9 @@ genInfoTree::SetBranches(){
 
   AddBranch(&ptHat_, "ptHat");
   AddBranch(&mcWeight_, "mcWeight");
+
   AddBranch(&nGenPar_, "nGenPar");
-  AddBranch(&genParE_, "genParE");
-  AddBranch(&genParPt_, "genParPt");
-  AddBranch(&genParEta_,"genParEta");
-  AddBranch(&genParPhi_,"genParPhi");
-  AddBranch(&genParM_,"genParM");
+  AddBranch(&genParP4_, "genParP4");
   AddBranch(&genParQ_,"genParQ");
   AddBranch(&genParId_,"genParId");
   AddBranch(&genParSt_,"genParSt");
@@ -177,13 +152,6 @@ genInfoTree::SetBranches(){
   AddBranch(&genDa2_,"genDa2");
   AddBranch(&genStFlag_,"genStFlag");
   
-  AddBranch(&nGenJet_, "nGenJet");
-  AddBranch(&genJetE_, "genJetE");
-  AddBranch(&genJetPt_,"genJetPt");
-  AddBranch(&genJetEta_,"genJetEta");
-  AddBranch(&genJetPhi_,"genJetPhi");
-  AddBranch(&genJetEM_, "genJetEM");
-  AddBranch(&genJetHAD_, "genJetHAD");
   
 }
 
@@ -195,11 +163,8 @@ genInfoTree::Clear(){
   mcWeight_ = -9999.0; 
 
   nGenPar_ =0;
-  genParE_.clear();
-  genParPt_.clear();
-  genParEta_.clear();
-  genParPhi_.clear();
-  genParM_.clear();
+  genParP4_->Clear();
+
   genParQ_.clear();
   genParId_.clear();
   genParSt_.clear();
@@ -213,13 +178,6 @@ genInfoTree::Clear(){
   genDa2_.clear();
   genStFlag_.clear();
 
-  nGenJet_=0;
-  genJetE_.clear();
-  genJetPt_.clear();
-  genJetEta_.clear(); 
-  genJetPhi_.clear(); 
-  genJetEM_.clear();
-  genJetHAD_.clear();
   
 }
 

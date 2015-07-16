@@ -23,8 +23,8 @@ class puweight : public baseTree {
   void SetBranches();
 
 
-  Float_t nTrueInt_;
-  Int_t   nPUVert_;
+  float nTrueInt_;
+  int   nPUVert_;
 
 };
 

@@ -6,10 +6,10 @@ jetSelector::jetSelector()
 }
 
 
-std::map<std::string, Bool_t>  jetSelector::MergedJetCut(const pat::Jet& jet){
+std::map<std::string, bool>  jetSelector::MergedJetCut(const pat::Jet& jet){
   
-  std::map<std::string, Bool_t> cuts;
-  Float_t eta = jet.eta();
+  std::map<std::string, bool> cuts;
+  float eta = jet.eta();
 
   //Kinematic and Fiducial Acceptance
   cuts["etax"]        = fabs(eta) < 2.5;
@@ -23,14 +23,14 @@ std::map<std::string, Bool_t>  jetSelector::MergedJetCut(const pat::Jet& jet){
   // // not sure if this is needed
   cuts["trkSWBug"]    = !(fabs(eta)>1.0 && fabs(eta)<1.5 && 
     			  jet.chargedMultiplicity()/
-			  (TMath::Max((Float_t)0.1,(Float_t)jet.neutralMultiplicity()))>2.0);
+			  (TMath::Max((float)0.1,(float)jet.neutralMultiplicity()))>2.0);
   return cuts;
 }
 
-std::map<std::string, Bool_t>  jetSelector::LooseJetCut(const pat::Jet& jet){
+std::map<std::string, bool>  jetSelector::LooseJetCut(const pat::Jet& jet){
   
-  std::map<std::string, Bool_t> cuts;
-  Float_t eta = jet.eta();
+  std::map<std::string, bool> cuts;
+  float eta = jet.eta();
   
   //Kinematic and Fiducial Acceptance
   cuts["etax"]        = fabs(eta) < 2.5;
@@ -48,10 +48,10 @@ std::map<std::string, Bool_t>  jetSelector::LooseJetCut(const pat::Jet& jet){
 
 
 
-std::map<std::string, Bool_t>  jetSelector::TightJetCut(const pat::Jet& jet){
+std::map<std::string, bool>  jetSelector::TightJetCut(const pat::Jet& jet){
 
-  std::map<std::string, Bool_t> cuts;
-  Float_t eta = jet.eta();
+  std::map<std::string, bool> cuts;
+  float eta = jet.eta();
 
   //Kinematic and Fiducial Acceptance
   cuts["etax"]        = fabs(eta) < 2.5;

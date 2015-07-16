@@ -22,7 +22,7 @@ class eventInfo : public baseTree {
   eventInfo(){};//Don't allow user
   void SetBranches();
 
-  int isData_;
+  bool isData_;
 
   int nEvt_;
   int nRun_;
@@ -31,9 +31,7 @@ class eventInfo : public baseTree {
 
   int nVtx_;
   
-  std::vector<Float_t> vertexX_;
-  std::vector<Float_t> vertexY_;
-  std::vector<Float_t> vertexZ_;		
+  TClonesArray *vertexP3_;
 
 };
 

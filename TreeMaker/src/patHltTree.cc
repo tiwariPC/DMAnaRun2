@@ -90,7 +90,7 @@ patHltTree::Fill(const edm::Event& iEvent)
 
       
       trigName_.push_back(trigName);
-      int trigResult = trigResults->accept(i); //bool not to use
+      bool trigResult = trigResults->accept(i); //bool not to use
       trigResult_.push_back(trigResult);
       trigPrescale_.push_back(triggerPrescales->getPrescaleForIndex(i));
       nTrigs_++;

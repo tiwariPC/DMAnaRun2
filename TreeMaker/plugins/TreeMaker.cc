@@ -18,55 +18,57 @@
 TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
 
 {
-  fillPUweightInfo_=0;
-  fillEventInfo_=0;
-  fillGenInfo_=0;
-  fillTrigInfo_=0;
-  fillMuonInfo_=0;
-  fillElecInfo_=0;
-  fillJetInfo_=0;
-  fillFATJetInfo_=0;
-  fillAddJetInfo_=0;
-  fillMetInfo_=0;
-  fillPhotInfo_=0; 
+  fillPUweightInfo_=false;
+  fillEventInfo_=false;
+  fillGenInfo_=false;
+  fillTrigInfo_=false;
+  fillElecInfo_=false;
+  fillMuonInfo_=false;
+  fillTauInfo_=false;
+  fillPhotInfo_=false; 
+  fillMetInfo_=false;
+  fillJetInfo_=false;
+  fillFATJetInfo_=false;
+  fillAddJetInfo_=false;
 
 
-  fillPUweightInfo_ = iConfig.getParameter<Bool_t>("fillPUweightInfo_");
-  fillEventInfo_ = iConfig.getParameter<Bool_t>("fillEventInfo_");
-  fillGenInfo_   = iConfig.getParameter<Bool_t>("fillGenInfo_");
-  fillMuonInfo_  = iConfig.getParameter<Bool_t>("fillMuonInfo_");
-  fillElecInfo_  = iConfig.getParameter<Bool_t>("fillElecInfo_");
-  fillJetInfo_   = iConfig.getParameter<Bool_t>("fillJetInfo_");
-  fillFATJetInfo_= iConfig.getParameter<Bool_t>("fillFATJetInfo_"); 
-  fillAddJetInfo_=iConfig.getParameter<Bool_t>("fillAddJetInfo_");
-  fillMetInfo_   = iConfig.getParameter<Bool_t>("fillMetInfo_");
-  fillTrigInfo_  = iConfig.getParameter<Bool_t>("fillTrigInfo_");
-  fillPhotInfo_  = iConfig.getParameter<Bool_t>("fillPhotInfo_");
-  fillTauInfo_   = iConfig.getParameter<Bool_t>("fillTauInfo_");
+  fillPUweightInfo_ = iConfig.getParameter<bool>("fillPUweightInfo_");
+  fillEventInfo_ = iConfig.getParameter<bool>("fillEventInfo_");
+  fillGenInfo_   = iConfig.getParameter<bool>("fillGenInfo_");
+  fillTrigInfo_  = iConfig.getParameter<bool>("fillTrigInfo_");
+  fillElecInfo_  = iConfig.getParameter<bool>("fillElecInfo_");
+  fillMuonInfo_  = iConfig.getParameter<bool>("fillMuonInfo_");
+  fillTauInfo_   = iConfig.getParameter<bool>("fillTauInfo_");
+  fillPhotInfo_  = iConfig.getParameter<bool>("fillPhotInfo_");
+  fillMetInfo_   = iConfig.getParameter<bool>("fillMetInfo_");
+  fillJetInfo_   = iConfig.getParameter<bool>("fillJetInfo_");
+  fillFATJetInfo_= iConfig.getParameter<bool>("fillFATJetInfo_"); 
+  fillAddJetInfo_=iConfig.getParameter<bool>("fillAddJetInfo_");
    
   
   edm::Service<TFileService> fs;
 
-  //file = new TFile(outFileName_.c_str(),"recreate");
-  ;
-  //tree_ = new TTree("tree","tree");
 
   tree_ = fs->make<TTree>("treeMaker","tree");
   if( fillPUweightInfo_) puweight_=new puweight("pu_",tree_);
-  if( fillEventInfo_) eventInfo_=new eventInfo("info_",tree_); 
-  if( fillGenInfo_)   genInfoTree_ = new genInfoTree("",tree_,iConfig);
-  if( fillMuonInfo_)  patMuTree_= new patMuonTree("",tree_,iConfig);
-  if( fillElecInfo_)  patElecTree_ = new patElecTree("",tree_,iConfig);
+  if( fillEventInfo_ )   eventInfo_=new eventInfo("",tree_); 
 
-  if( fillMetInfo_)   patMetTree_= new patMetTree("pf",tree_,iConfig);
-  if( fillFATJetInfo_)FATjetTree_=new jetTree("FAT",tree_,iConfig);
-  if( fillJetInfo_)   THINjetTree_=new jetTree("THIN",tree_,iConfig);
+  if( fillGenInfo_ )     genInfoTree_ = new genInfoTree("",tree_,iConfig);
+
+  if( fillTrigInfo_ )    patHltTree_ = new patHltTree("hlt_",tree_); 
+
+  if( fillElecInfo_ )    patElecTree_ = new patElecTree("",tree_,iConfig);
+  if( fillMuonInfo_ )    patMuTree_= new patMuonTree("",tree_,iConfig);
+  if( fillTauInfo_ )     tauTree_ = new hpstauInfo("",tree_, false, iConfig);
+  if( fillPhotInfo_)     photonTree_ = new photonTree("", tree_, iConfig); 
+
+  if( fillMetInfo_ )     patMetTree_= new patMetTree("pf",tree_,iConfig);
+
+  if( fillJetInfo_ )     THINjetTree_=new jetTree("THIN",tree_,iConfig);
+  if( fillFATJetInfo_ )  FATjetTree_=new jetTree("FAT",tree_,iConfig);
   if( fillAddJetInfo_)   ADDjetTree_=new jetTree("ADD",tree_,iConfig); 
  
-  if( fillTrigInfo_)  patHltTree_ = new patHltTree("hlt_",tree_); 
-  if( fillPhotInfo_)  photonTree_ = new photonTree("", tree_, iConfig); 
   
-  if(fillTauInfo_)    tauTree_ = new hpstauInfo("",tree_, false, iConfig);
   
 }
 

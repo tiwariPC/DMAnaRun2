@@ -31,24 +31,17 @@ class baseTree{
   TTree* tree_;
   std::string identifier_; //eg. "pat"/"reco"
 
-  void AddBranch(Float_t* x, std::string name);
-  void AddBranch(Int_t* x, std::string name);
-  void AddBranch(std::vector<Float_t>* vec, std::string name);
-  void AddBranch(std::vector<ULong64_t>* vec, std::string name);
-  void AddBranch(std::vector<UChar_t>* vec, std::string name);
-  void AddBranch(std::vector<Int_t>* vec, std::string name);
+  void AddBranch(bool* x, std::string name);
+  void AddBranch(int* x, std::string name);
+  void AddBranch(unsigned int* x, std::string name);
+  void AddBranch(float* x, std::string name);
+
+  void AddBranch(std::vector<bool>* vec, std::string name);
+  void AddBranch(std::vector<int>* vec, std::string name);
+  void AddBranch(std::vector<float>* vec, std::string name);
   void AddBranch(std::vector<std::string>* vec, std::string name);
 
   
-  void AddBranch(double* x, std::string name);
-  void AddBranch(UChar_t* x, std::string name);
-  //void AddBranch(int* x, std::string name);
-  void AddBranch(unsigned int* x, std::string name);
-  //void AddBranch(float* x, std::string name);
-  void AddBranch(bool* x, std::string name);
-  void AddBranch(std::vector<bool>* vec, std::string name);
-  //void AddBranch(std::vector<float>* vec, std::string name);
-  //void AddBranch(std::vector<int>* vec, std::string name);
   void AddBranch(TClonesArray** vec, std::string name);
   void AddBranch(std::vector<std::vector<int> >* vec, std::string name);
   void AddBranch(std::vector<std::vector<float> >* vec, std::string name);

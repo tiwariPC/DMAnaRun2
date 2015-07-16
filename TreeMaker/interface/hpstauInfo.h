@@ -37,13 +37,13 @@ class hpstauInfo : public baseTree{
   edm::InputTag tauLabel_;
   //variables which would become branches
   
-  
-  std::vector<float> HPSTau_NewVz;
+  int HPSTau_n;
+  TClonesArray *HPSTau_4Momentum, *HPSTau_Vposition ;
   std::vector<float> taupt;
-  
+
   std::vector<bool>  HPSTau_leadPFChargedHadrCand;
   std::vector<bool> HPSTau_leadPFChargedHadrCand_trackRef;
-  
+
   std::vector<bool> disc_againstElectronLoose;                                 
   std::vector<bool> disc_againstElectronMedium;
   std::vector<bool> disc_againstElectronTight;
@@ -63,12 +63,13 @@ class hpstauInfo : public baseTree{
   std::vector<bool> disc_againstMuonTightMVA;
   std::vector<bool> disc_againstMuonLoose3;
   std::vector<bool> disc_againstMuonTight3;
-  		    
+
   std::vector<bool> disc_byVLooseCombinedIsolationDeltaBetaCorr;
   std::vector<bool> disc_byLooseCombinedIsolationDeltaBetaCorr;
   std::vector<bool> disc_byMediumCombinedIsolationDeltaBetaCorr;
   std::vector<bool> disc_byTightCombinedIsolationDeltaBetaCorr;
-  		    
+
+
   std::vector<bool> disc_byLooseIsolation;
   		    
   std::vector<bool> disc_byVLooseIsolationMVA3newDMwLT;
@@ -105,15 +106,20 @@ class hpstauInfo : public baseTree{
   		    
   std::vector<bool> disc_decayModeFinding;
   std::vector<bool> disc_decayModeFindingNewDMs;
-  std::vector<bool> disc_decayModeFindingOldDMs;
   
   std::vector<float> disc_chargedIsoPtSum;
   std::vector<float> disc_neutralIsoPtSum;
   std::vector<float> disc_puCorrPtSum; 
-  
-  int HPSTau_n;
+
+
+  std::vector<float> HPSTau_NewVz;
   std::vector<int> HPSTau_charge;
-  TClonesArray *HPSTau_4Momentum, *HPSTau_Vposition ;
+  
+  
+  
+  		    
+  		    
+  
 };
 
 #endif

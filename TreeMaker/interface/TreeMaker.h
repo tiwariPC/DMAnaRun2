@@ -37,35 +37,43 @@ class TreeMaker : public edm::EDAnalyzer {
       TTree* tree_;
       std::string outFileName_ ;
 
-      Bool_t fillPUweightInfo_; 
-      Bool_t fillEventInfo_;
+      bool fillPUweightInfo_; 
+      bool fillEventInfo_;
 
-      Bool_t fillGenInfo_;
-      Bool_t fillTrigInfo_;
-      Bool_t fillMuonInfo_;
-      Bool_t fillElecInfo_;
-      Bool_t fillMetInfo_;
-      Bool_t fillJetInfo_;
-      Bool_t fillFATJetInfo_;
-      Bool_t fillAddJetInfo_; 
-      Bool_t fillPhotInfo_;
-      Bool_t fillTauInfo_;
+      bool fillGenInfo_;
+
+      bool fillTrigInfo_;
+
+      bool fillElecInfo_;
+      bool fillMuonInfo_;
+      bool fillTauInfo_;
+      bool fillPhotInfo_;
+
+      bool fillMetInfo_;
+
+      bool fillJetInfo_;
+      bool fillFATJetInfo_;
+      bool fillAddJetInfo_; 
       
       puweight *puweight_;
       eventInfo   *eventInfo_;
+
       genInfoTree *genInfoTree_;    
-      patMuonTree *patMuTree_;
+
+      patHltTree  *patHltTree_;      
+
       patElecTree *patElecTree_;
+      patMuonTree *patMuTree_;
+      hpstauInfo  *tauTree_;
+      photonTree  *photonTree_;
 
       patMetTree  *patMetTree_;
-      jetTree     *FATjetTree_;
+
       jetTree     *THINjetTree_;
+      jetTree     *FATjetTree_;
       jetTree     *ADDjetTree_;     
  
       
-      photonTree  *photonTree_;
-      patHltTree  *patHltTree_;      
-      hpstauInfo  *tauTree_;
 
 };
 

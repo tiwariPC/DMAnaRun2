@@ -2,6 +2,7 @@
 #define __UTILS_H_
 #include "TLorentzVector.h"
 #include "DataFormats/RecoCandidate/interface/RecoCandidate.h"
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -14,8 +15,11 @@ class PtGreater {
 
 
 TLorentzVector Part2LorVec(reco::Candidate& cand);
-int PassAll(std::map<std::string, Bool_t> cutrecd);
-int PassAllBut(std::string, std::map<std::string, Bool_t>);
+bool PassAll(std::map<std::string, bool> cutrecd);
+bool PassAllBut(std::string, std::map<std::string, bool>);
+
+double getPFIsolation(edm::Handle<pat::PackedCandidateCollection>,
+		      const reco::Candidate*, double, double, double, bool);
 
 #endif
 

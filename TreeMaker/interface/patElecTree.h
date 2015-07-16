@@ -72,97 +72,114 @@ class patElecTree : public baseTree {
   //Dont Allow User to Call the Default Constructor.
 
   patElecTree();
+
+  edm::InputTag pvSrc_;
   edm::InputTag patElecLabel_;
-  edm::InputTag eleVetoDecisionsMapToken_;
+  edm::InputTag eleVetoDecisionsMapLabel_;
   
-  edm::InputTag eleVetoIdMapToken_;
-  edm::InputTag eleLooseIdMapToken_;
-  edm::InputTag eleMediumIdMapToken_;
-  edm::InputTag eleTightIdMapToken_;
-  edm::InputTag eleHEEPIdMapToken_;
+  edm::InputTag eleVetoIdMapLabel_;
+  edm::InputTag eleLooseIdMapLabel_;
+  edm::InputTag eleMediumIdMapLabel_;
+  edm::InputTag eleTightIdMapLabel_;
+  edm::InputTag eleHEEPIdMapLabel_;
   
   // ID decisions objects
-  edm::InputTag eleMVAMediumIdMapToken_;
-  edm::InputTag eleMVATightIdMapToken_;
+  edm::InputTag eleMVAMediumIdMapLabel_;
+  edm::InputTag eleMVATightIdMapLabel_;
   
   // MVA values and categories (optional)
-  edm::InputTag mvaValuesMapToken_;
-  edm::InputTag mvaCategoriesMapToken_;
-  
-  
-  std::vector<Bool_t> isPassVeto;
-  std::vector<Bool_t> isPassLoose;
-  std::vector<Bool_t> isPassMedium;
-  std::vector<Bool_t> isPassTight;
-  std::vector<Bool_t> isPassHEEP;
-  std::vector<Bool_t> isPassMVAMedium;
-  std::vector<Bool_t> isPassMVATight;
+  edm::InputTag mvaValuesMapLabel_;
+  edm::InputTag mvaCategoriesMapLabel_;
+
+  // for mini-isolation, same input as that in patMuonTree
+  edm::InputTag pfCandLabel_;
+  double r_iso_min_;
+  double r_iso_max_;
+  double kt_scale_;
+  bool charged_only_;
+
+  // ntuple variables 
+  float patElecRho_;
+  int nEle_;
+
+  TClonesArray *patElecP4_;
+
+  std::vector<bool> patElecInBarrel_;
+  std::vector<bool> patElecInEndcap_;
+
+  std::vector<int> patElecCharge_;
+  std::vector<int> patElecChargeConsistent_;
+
+  std::vector<float> patElecaloEnergy_;
+
+  std::vector<float> patElecScEt_;
+  std::vector<float> patElecScEn_;
+  std::vector<float> patElecScPreEn_;
+  std::vector<float> patElecScEta_;
+  std::vector<float> patElecScPhi_;
+  std::vector<float> patElecScRawEn_;
+  std::vector<float> patElecScEtaWidth_;
+  std::vector<float> patElecScPhiWidth_;
+
+  std::vector<float> patElecR9_;
+  std::vector<float> patElecHoverE_;
+
+  std::vector<float> patElecD0_;
+  std::vector<float> patElecDz_;
+
+  std::vector<float> patElecEoverP_;
+  std::vector<float> patElecBrem_;
+  std::vector<float> patElecdEtaAtVtx_;
+  std::vector<float> patElecdPhiAtVtx_;
+  std::vector<float> patElecSigmaIEtaIEta_;
+  std::vector<float> patElecSigmaIEtaIPhi_;
+  std::vector<float> patElecSigmaIPhiIPhi_;
+
+  std::vector<bool> patElecConvVeto_;
+  std::vector<int> patElecMissHits_;
+  std::vector<float> patElecEoverPInv_;
+
+  std::vector<float> patElecdEtaseedAtVtx_;
+  std::vector<float> patElecE1x5_;
+  std::vector<float> patElecE2x5_;
+  std::vector<float> patElecE5x5_;
+
+  std::vector<float> patElecSigmaIEtaIEtaFull5x5_;
+  std::vector<float> patElecE1x5Full5x5_;
+  std::vector<float> patElecE2x5Full5x5_;
+  std::vector<float> patElecE5x5Full5x5_;
+  std::vector<float> patElecR9Full5x5_;
+
+  std::vector<float> patElecChHadIso_;
+  std::vector<float> patElecNeHadIso_;
+  std::vector<float> patElecGamIso_;
+  std::vector<float> patElecPUPt_;
+  std::vector<float> patElecMiniIso_;
+
+
+  std::vector<float> patElecEcalDrivenSeed_;
+  std::vector<float> patElecDr03EcalRecHitSumEt_;
+  std::vector<float> patElecDr03HcalDepth1TowerSumEt_;
+  std::vector<float> patElecDr03HcalDepth2TowerSumEt_;
+  std::vector<float> patElecDr03HcalTowerSumEt_;
+  std::vector<float> patElecDr03TkSumPt_;
+
+
+
+  std::vector<bool> isPassVeto_;
+  std::vector<bool> isPassLoose_;
+  std::vector<bool> isPassMedium_;
+  std::vector<bool> isPassTight_;
+  std::vector<bool> isPassHEEP_;
+  std::vector<bool> isPassMVAMedium_;
+  std::vector<bool> isPassMVATight_;
   
 
-  std::vector<Float_t> mvaValue_;
-  std::vector<Int_t>   mvaCategory_;
+  std::vector<float> mvaValue_;
+  std::vector<int>   mvaCategory_;
   
   
-  
-  Float_t patElecRho_;
-  Int_t nEle_;
-  TClonesArray *patElecP4;
-  std::vector<Float_t> patElecEffArea_;
-  std::vector<Float_t> patElecCharge_;
-  std::vector<Float_t> patElecChargeConsistent_;
-  //std::vector<Float_t> patElecEt_;
-  //std::vector<Float_t> patElecEnergy_;
-  //std::vector<Float_t> patElecPt_;
-  //std::vector<Float_t> patElecEta_;
-  //std::vector<Float_t> patElecPhi_;
-  //std::vector<Float_t> patElecM_;
-  // 
-  std::vector<Float_t> patElecScEt_;
-  std::vector<Float_t> patElecR9_;
-  std::vector<Float_t> patElecHoverE_;
-  std::vector<Float_t> patElecD0_;
-  std::vector<Float_t> patElecDz_;
-  std::vector<Float_t> patElecScEn_;
-  std::vector<Float_t> patElecScPreEn_;
-  std::vector<Float_t> patElecScEta_;
-  std::vector<Float_t> patElecScPhi_;
-  std::vector<Float_t> patElecScRawEn_;
-  std::vector<Float_t> patElecScEtaWidth_;
-  std::vector<Float_t> patElecScPhiWidth_;
-  std::vector<Float_t> patElecEoverP_;
-  std::vector<Float_t> patElecBrem_;
-  std::vector<Float_t> patElecdEtaAtVtx_;
-  std::vector<Float_t> patElecdPhiAtVtx_;
-  std::vector<Float_t> patElecSigmaIEtaIEta_;
-  std::vector<Float_t> patElecSigmaIEtaIPhi_;
-  std::vector<Float_t> patElecSigmaIPhiIPhi_;
-  std::vector<Float_t> patElecConvVeto_;
-  std::vector<Float_t> patElecMissHits_;
-  std::vector<Float_t> patElecEoverPInv_;
-  std::vector<Float_t> patElecdEtaseedAtVtx_;
-  std::vector<Float_t> patElecE1x5_;
-  std::vector<Float_t> patElecE2x5_;
-  std::vector<Float_t> patElecE5x5_;
-  std::vector<Float_t> patElecNeHadIso_;
-  std::vector<Float_t> patElecGamIso_;
-  std::vector<Float_t> patElecPUPt_;
-  std::vector<Float_t> patElecaloEnergy_;
-  std::vector<Float_t> patElecChHadIso_;
-  std::vector<Float_t> patElecSigmaIEtaIEtaFull5x5_;
-  std::vector<Float_t> patElecE1x5Full5x5_;
-  std::vector<Float_t> patElecE2x5Full5x5_;
-  std::vector<Float_t> patElecE5x5Full5x5_;
-  std::vector<Float_t> patElecR9Full5x5_;
-  std::vector<Float_t> patElecEcalDrivenSeed_;
-  std::vector<Float_t> patElecDr03EcalRecHitSumEt_;
-  std::vector<Float_t> patElecDr03HcalDepth1TowerSumEt_;
-  std::vector<Float_t> patElecDr03HcalDepth2TowerSumEt_;
-  std::vector<Float_t> patElecDr03HcalTowerSumEt_;
-  std::vector<Float_t> patElecDr03TkSumPt_;
-  ///std::vector<Float_t> patElecTrkdztrackref_;
-  //std::vector<Float_t> patElecTrkdxytrackref_;
-  std::vector<Float_t> patElecInBarrel_;
-  std::vector<Float_t> patElecInEndcap_;
+
 
 };
 #endif

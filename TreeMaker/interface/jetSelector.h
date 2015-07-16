@@ -24,9 +24,9 @@ class jetSelector{
    
  public:
   jetSelector();
-  std::map<std::string, Bool_t> MergedJetCut(const pat::Jet& jet);
-  std::map<std::string, Bool_t> LooseJetCut(const pat::Jet& jet);
-  std::map<std::string, Bool_t> TightJetCut(const pat::Jet& jet);
+  std::map<std::string, bool> MergedJetCut(const pat::Jet& jet);
+  std::map<std::string, bool> LooseJetCut(const pat::Jet& jet);
+  std::map<std::string, bool> TightJetCut(const pat::Jet& jet);
   ~jetSelector(){}
 
 };

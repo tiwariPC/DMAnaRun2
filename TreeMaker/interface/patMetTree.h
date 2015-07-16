@@ -45,23 +45,23 @@ class patMetTree : public baseTree{
   edm::InputTag pfMetLabel_;
   edm::InputTag pfMVAMETLabel_;
   
-  Float_t patMetCorrPt_;  
-  Float_t patMetCorrPhi_; 
-  Float_t patMetCorrSumEt_;
-  Float_t patMetCorrSig_;
-  Float_t patMetRawPt_;
-  Float_t patMetRawPhi_;
-  Float_t patMetRawSumEt_;
-  Float_t patMetRawCov00_;
-  Float_t patMetRawCov01_;
-  Float_t patMetRawCov10_;
-  Float_t patMetRawCov11_;
+  float patMetCorrPt_;  
+  float patMetCorrPhi_; 
+  float patMetCorrSumEt_;
+  float patMetCorrSig_;
+  float patMetRawPt_;
+  float patMetRawPhi_;
+  float patMetRawSumEt_;
+  float patMetRawCov00_;
+  float patMetRawCov01_;
+  float patMetRawCov10_;
+  float patMetRawCov11_;
 
 
-  Float_t mvaMetPt_;
-  Float_t mvaMetPhi_;
-  Float_t mvaMetSumEt_;
-  Float_t mvaMetSig_;
+  float mvaMetPt_;
+  float mvaMetPhi_;
+  float mvaMetSumEt_;
+  float mvaMetSig_;
   
 
 };

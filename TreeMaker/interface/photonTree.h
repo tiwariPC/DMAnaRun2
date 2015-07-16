@@ -33,7 +33,7 @@ class photonTree : public baseTree{
 
  private:
   photonTree(){};
-  Bool_t usePFObjects_;
+  bool usePFObjects_;
   edm::InputTag photonLabel_;
   edm::InputTag phoLooseIdMapToken_;
   edm::InputTag phoMediumIdMapToken_;
@@ -41,14 +41,12 @@ class photonTree : public baseTree{
 
 
   //variables which would become branches
-  Int_t nPho_;
-  std::vector<Float_t> photonPt_;
-  std::vector<Float_t> photonEta_;
-  std::vector<Float_t> photonPhi_;
-  std::vector<Float_t> photonE_;
-  std::vector<Bool_t> isPassLoose;
-  std::vector<Bool_t> isPassMedium;
-  std::vector<Bool_t> isPassTight;
+  int nPho_;
+  TClonesArray *photonP4_;
+
+  std::vector<bool> isPassLoose;
+  std::vector<bool> isPassMedium;
+  std::vector<bool> isPassTight;
 
 
 };

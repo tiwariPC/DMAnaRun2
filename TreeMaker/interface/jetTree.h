@@ -67,8 +67,8 @@ class jetTree  : public baseTree{
   void SetBranches();
   void Clear();
   
-   // typedef IPTI IPTagInfo;
-   // typedef typename IPTI::input_container Tracks;
+  // typedef IPTI IPTagInfo;
+  // typedef typename IPTI::input_container Tracks;
   //  typedef typename IPTI::input_container::value_type TrackRef;
   //  typedef VTX Vertex;
   //  typedef reco::TemplatedSecondaryVertexTagInfo<IPTI,VTX> SVTagInfo;
@@ -86,14 +86,12 @@ class jetTree  : public baseTree{
   edm::InputTag JetLabel_;
   edm::InputTag AddjetlabelC_;
   
-//edm::InputTag PrunedJetLabel_;
+  //edm::InputTag PrunedJetLabel_;
   edm::InputTag rhoSrc_;
   edm::InputTag pvSrc_;
-  //edm::EDGetTokenT<reco::VertexCollection> vtxToken_;  
-  edm::InputTag vtxLabel_;
 
-//  edm::EDGetTokenT<pat::JetCollection> fatjetToken_;
-//  edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
+  //  edm::EDGetTokenT<pat::JetCollection> fatjetToken_;
+  //  edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
   edm::InputTag SubJetCollectionC_;
   std::string  svTagInfosCstr_;
   bool isSpring15_;
@@ -108,160 +106,128 @@ class jetTree  : public baseTree{
   boost::shared_ptr<JetCorrectionUncertainty> jecUnc_;
   boost::shared_ptr<FactorizedJetCorrector> jec_;
   
-  Bool_t runAddJet_;
+  bool runAddJet_;
 
   //Branches common to all the jets.
-  Int_t nJet_;
-  std::vector<Float_t> jetRawFactor_;
+  int nJet_;
 
-  std::vector<Float_t> jetPt_;
-  std::vector<Float_t> jetEta_;
-  std::vector<Float_t> jetPhi_;
-  std::vector<Float_t> jetM_;
-  std::vector<Float_t> jetEn_;
-  std::vector<Float_t> jetCorrUncUp_;
-  std::vector<Float_t> jetCorrUncDown_;
-  std::vector<Int_t>   jetCharge_;
-  std::vector<Int_t>   jetPartonFlavor_;
-  //std::vector<Int_t>   jetPassID_;
-  //std::vector<Int_t>   jetPassIDT_;
-  std::vector<Int_t>   jetPassIDLoose_;
-  std::vector<Int_t>   jetPassIDTight_;
-  std::vector<Float_t> PUJetID_;
-  std::vector<Bool_t>  isPUJetID_;
+  TClonesArray*      genjetP4_;
+  std::vector<float> genjetEM_;
+  std::vector<float> genjetHAD_;
+  std::vector<float> genjetINV_;
+  std::vector<float> genjetAUX_;
+  std::vector<float> matchedDR_;
 
-//Energy Fraction and Multiplicity 
-  std::vector<Float_t> jetHFHadEF_;
-  std::vector<Float_t> jetHFEMEF_;
-  std::vector<Int_t>   jetCHHadMultiplicity_;
-  std::vector<Int_t>   jetNHadMulplicity_;
-  std::vector<Int_t>   jetPhMultiplicity_;
-  std::vector<Int_t>   jetEleMultiplicity_;
-  std::vector<Int_t>   jetHFHadMultiplicity_;
-  std::vector<Int_t>   jetHFEMMultiplicity_;
-  std::vector<Float_t> jetChMuEF_;
-  std::vector<Int_t>   jetNMultiplicity_;
-  std::vector<Float_t> jetHOEnergy_;
-  std::vector<Float_t> jetHOEF_;
+  std::vector<float> jetRawFactor_;
+
+  TClonesArray *jetP4_;
+
+  std::vector<float> jetCorrUncUp_;
+  std::vector<float> jetCorrUncDown_;
+  std::vector<int>   jetCharge_;
+  std::vector<int>   jetPartonFlavor_;
+  std::vector<bool>  jetPassIDLoose_;
+  std::vector<bool>  jetPassIDTight_;
+  std::vector<float> PUJetID_;
+  std::vector<bool>  isPUJetID_;
+
+  //Energy Fraction and Multiplicity 
+
+  std::vector<float> jetCEmEF_;
+  std::vector<float> jetCHadEF_;
+  std::vector<float> jetPhoEF_;
+  std::vector<float> jetNEmEF_;
+  std::vector<float> jetNHadEF_;
+
+  std::vector<float> jetMuEF_;
+  std::vector<float> jetChMuEF_;
+
+  std::vector<float> jetHFHadEF_;
+  std::vector<float> jetHFEMEF_;
+  std::vector<float> jetHOEnergy_;
+  std::vector<float> jetHOEF_;
 
 
+  std::vector<int>   jetCMulti_;
+  std::vector<int>   jetEleMultiplicity_;
+  std::vector<int>   jetCHHadMultiplicity_;
+  std::vector<int>   jetPhMultiplicity_;
+  std::vector<int>   jetNMultiplicity_;
+  std::vector<int>   jetNHadMulplicity_;
+  std::vector<int>   jetHFHadMultiplicity_;
+  std::vector<int>   jetHFEMMultiplicity_;
 
-  std::vector<Float_t> genjetPx_;
-  std::vector<Float_t> genjetPy_;
-  std::vector<Float_t> genjetPz_;
-  std::vector<Float_t> genjetEn_;
-  std::vector<Float_t> genjetEM_;
-  std::vector<Float_t> genjetHAD_;
-  std::vector<Float_t> genjetINV_;
-  std::vector<Float_t> genjetAUX_;
-  std::vector<Float_t> matchedDR_;
 
   // btag information
-  std::vector<Float_t> jetSSV_;
-  std::vector<Float_t> jetCSV_;
-  std::vector<Float_t> jetSSVHE_;
-  std::vector<Float_t> jetCISVV2_;
-  std::vector<Float_t> jetTCHP_;
-  std::vector<Float_t> jetTCHE_;
-  std::vector<Float_t> jetJP_;
-  std::vector<Float_t> jetJBP_;
+  std::vector<float> jetSSV_;
+  std::vector<float> jetCSV_;
+  std::vector<float> jetSSVHE_;
+  std::vector<float> jetCISVV2_;
+  std::vector<float> jetTCHP_;
+  std::vector<float> jetTCHE_;
+  std::vector<float> jetJP_;
+  std::vector<float> jetJBP_;
 
-  //  std::vector<Bool_t>  ; 
-  std::vector<Float_t> jetTau1_;
-  std::vector<Float_t> jetTau2_;
-  std::vector<Float_t> jetTau3_;
-  std::vector<Float_t> jetTau4_;
 
-  std::vector<Float_t> jetMuEF_;
-  std::vector<Float_t> jetPhoEF_;
-  std::vector<Float_t> jetCEmEF_;
-  std::vector<Float_t> jetCHadEF_;
-  std::vector<Float_t> jetNEmEF_;
-  std::vector<Float_t> jetNHadEF_;
-  std::vector<Float_t> jetCMulti_;
+  std::vector<float> jetTau1_;
+  std::vector<float> jetTau2_;
+  std::vector<float> jetTau3_;
+  std::vector<float> jetTau4_;
+
+
+
+
+  // pruned information, not filled now
+  TClonesArray *jetPrunedP4_;
+  std::vector<float> jetPrunedCorrUncUp_;
+  std::vector<float> jetPrunedCorrUncDown_;
+  std::vector<int>   jetPrunedCharge_;
+  std::vector<int>   jetPrunedPartonFlavor_;
+
+
+  std::vector<float> jetPrunedSSV_;
+  std::vector<float> jetPrunedCSV_;        
+  std::vector<float> jetPrunedTCHP_;
+  std::vector<float> jetPrunedTCHE_;
+  std::vector<float> jetPrunedJP_;
+  std::vector<float> jetPrunedJBP_;
+
+
+  //ak8jet mass
+ 
+  //
+    
+  std::vector<float>  jetSDmass_; 
+  std::vector<float>  jetTRmass_;
+  std::vector<float>  jetPRmass_;
+  std::vector<float>  jetFimass_;
+  
+  //jet  Hbb tagger for fat and add jet
+
+  std::vector<float> jet_DoubleSV_;
 
   //jet secondary vtx
 
-  std::vector<Int_t>   jet_nSV_;
+  std::vector<int>   jet_nSV_;
   std::vector<std::vector<float> > jet_SVMass_;
   std::vector<std::vector<float> > jet_SVEnergyRatio_;
 
 
 
-  //jet  Hbb tagger for fat and add jet
+  // subjet of jets
 
-  std::vector<Float_t> jet_DoubleSV_;
-
-
-  // pruned information
-
-  std::vector<Float_t> jetPrunedPt_;
-  std::vector<Float_t> jetPrunedEta_;
-  std::vector<Float_t> jetPrunedPhi_;
-  std::vector<Float_t> jetPrunedM_;
-  std::vector<Float_t> jetPrunedEn_;
-  std::vector<Float_t> jetPrunedCorrUncUp_;
-  std::vector<Float_t> jetPrunedCorrUncDown_;
-  std::vector<Int_t>   jetPrunedCharge_;
-  std::vector<Int_t>   jetPrunedPartonFlavor_;
-
-
-  std::vector<Float_t> jetPrunedSSV_;
-  std::vector<Float_t> jetPrunedCSV_;        
-  std::vector<Float_t> jetPrunedTCHP_;
-  std::vector<Float_t> jetPrunedTCHE_;
-  std::vector<Float_t> jetPrunedJP_;
-  std::vector<Float_t> jetPrunedJBP_;
-
- //ak8jet mass
- 
- //
-    
-    std::vector<Float_t>  jetSDmass_; 
-    std::vector<Float_t>  jetTRmass_;
-    std::vector<Float_t>  jetPRmass_;
-    std::vector<Float_t>  jetFimass_;
-  
+  std::vector<int>   nSubSDJet_;
+  std::vector<std::vector<float> > subjetSDPx_;
+  std::vector<std::vector<float> > subjetSDPy_;
+  std::vector<std::vector<float> > subjetSDPz_;
+  std::vector<std::vector<float> > subjetSDE_;
+  std::vector<std::vector<int> >   subjetSDCharge_;
+  std::vector<std::vector<int> >   subjetSDPartonFlavor_;
+  std::vector<std::vector<float> > subjetSDCSV_;        
 
 
 
 
-// subjet of jets
-
-
-    std::vector<Int_t>   nSubSDJet_;
-//      std::vector<std::vector<Int_t>>   subjetMotherIndex_;
-    std::vector<std::vector<float> > subjetSDPt_;
-    std::vector<std::vector<float> > subjetSDEta_;
-    std::vector<std::vector<float> > subjetSDPhi_;
-    std::vector<std::vector<float> > subjetSDM_;
-    std::vector<std::vector<float> > subjetSDEn_;
-    std::vector<std::vector<int> >   subjetSDCharge_;
-    std::vector<std::vector<int> >   subjetSDPartonFlavor_;
-    std::vector<std::vector<float> > subjetSDCSV_;        
-
-
-
-/*
-  Int_t nSubPrunedJet_;
-    
-  std::vector<Float_t> subjetPrunedPt_;
-  std::vector<Float_t> subjetPrunedEta_;
-  std::vector<Float_t> subjetPrunedPhi_;
-  std::vector<Float_t> subjetPrunedM_;
-  std::vector<Float_t> subjetPrunedEn_;
-  std::vector<Int_t>   subjetPrunedCharge_;
-  std::vector<Int_t>   subjetPrunedPartonFlavor_;
-
-
-    std::vector<Float_t> subjetPrunedSSV_;
-  std::vector<Float_t> subjetPrunedCSV_;        
-    std::vector<Float_t> subjetPrunedTCHP_;
-    std::vector<Float_t> subjetPrunedTCHE_;
-    std::vector<Float_t> subjetPrunedJP_;
-    std::vector<Float_t> subjetPrunedJBP_;
-  
-*/
 };
 
 #endif

@@ -7,37 +7,37 @@
 
 
 muSelector::muSelector(const edm::ParameterSet ps):      
-  ptX_  (ps.getParameter<Double_t>("pt")),
-  ptErrX_(ps.getParameter<Double_t>("ptErr")),
-  etaX_ (ps.getParameter<Double_t>("eta")),
-  phiX_ (ps.getParameter<Double_t>("phi")),
-  reqTrigMatch_ (ps.getParameter<Bool_t>("requireTrigMatch")),
-  highPtID_(ps.getParameter<Bool_t>("highPtID")),
-  trackerMuID_(ps.getParameter<Bool_t>("trackerMuID")),
+  ptX_  (ps.getParameter<double>("pt")),
+  ptErrX_(ps.getParameter<double>("ptErr")),
+  etaX_ (ps.getParameter<double>("eta")),
+  phiX_ (ps.getParameter<double>("phi")),
+  reqTrigMatch_ (ps.getParameter<bool>("requireTrigMatch")),
+  highPtID_(ps.getParameter<bool>("highPtID")),
+  trackerMuID_(ps.getParameter<bool>("trackerMuID")),
   idPar_(ps.getParameter<edm::ParameterSet> ("idPar"))
 {
-  normalizedChi2X_=(idPar_.getParameter<Double_t>("normalizedChi2"));
-  muonHitsX_=(idPar_.getParameter<Double_t>("muonHits"));
-  nMatchesX_=(idPar_.getParameter<Double_t>("nMatches"));
-  dxyX_ =(idPar_.getParameter<Double_t>("dxy"));
-  dzX_ =(idPar_.getParameter<Double_t>("dz"));
-  trackerHitsX_=(idPar_.getParameter<Double_t>("trackerHits"));
-  pixelHitsX_=(idPar_.getParameter<Double_t>("pixelHits"));
-  isoX_ =(idPar_.getParameter<Double_t>("isoRel"));
+  normalizedChi2X_=(idPar_.getParameter<double>("normalizedChi2"));
+  muonHitsX_=(idPar_.getParameter<double>("muonHits"));
+  nMatchesX_=(idPar_.getParameter<double>("nMatches"));
+  dxyX_ =(idPar_.getParameter<double>("dxy"));
+  dzX_ =(idPar_.getParameter<double>("dz"));
+  trackerHitsX_=(idPar_.getParameter<double>("trackerHits"));
+  pixelHitsX_=(idPar_.getParameter<double>("pixelHits"));
+  isoX_ =(idPar_.getParameter<double>("isoRel"));
 
 
 
 }
 
 
-std::map<std::string, Bool_t>  muSelector::CutRecord(const pat::Muon& mu){
+std::map<std::string, bool>  muSelector::CutRecord(const pat::Muon& mu){
   
-  std::map<std::string, Bool_t> cuts;
+  std::map<std::string, bool> cuts;
   reco::TrackRef cktTrack = GetBestTrack(mu); // new Tune if high pt ID
-  Double_t pt  = highPtID_? cktTrack->pt() : mu.pt();
-  Double_t eta = highPtID_? cktTrack->eta(): mu.eta();
-  Double_t phi = highPtID_? cktTrack->phi(): mu.phi();
-  Double_t pterr = cktTrack->pt()>1e-3? cktTrack->ptError()/cktTrack->pt():-999;
+  double pt  = highPtID_? cktTrack->pt() : mu.pt();
+  double eta = highPtID_? cktTrack->eta(): mu.eta();
+  double phi = highPtID_? cktTrack->phi(): mu.phi();
+  double pterr = cktTrack->pt()>1e-3? cktTrack->ptError()/cktTrack->pt():-999;
 
   //Kinematic and Fiducial Acceptance
   cuts["ptx"]         = pt > ptX_;
@@ -49,8 +49,8 @@ std::map<std::string, Bool_t>  muSelector::CutRecord(const pat::Muon& mu){
   cuts["dz"]          = fabs(cktTrack->dz( pv_.position())) < dzX_;
 
 
-  Bool_t isTrackMuon   = mu.isTrackerMuon();
-  Bool_t isGlobalMuon  = mu.isGlobalMuon();
+  bool isTrackMuon   = mu.isTrackerMuon();
+  bool isGlobalMuon  = mu.isGlobalMuon();
 
   
   if(isTrackMuon && trackerMuID_)
@@ -78,8 +78,8 @@ std::map<std::string, Bool_t>  muSelector::CutRecord(const pat::Muon& mu){
   
 
   //Muon Isolation... configurable.
-  Double_t iso4 = 999.;
-  iso4 = GetCorrMuonPfIso(mu)/TMath::Max((Double_t)0.1,pt);
+  double iso4 = 999.;
+  iso4 = GetCorrMuonPfIso(mu)/TMath::Max((double)0.1,pt);
 
   cuts["isoX"]   = iso4 < isoX_;
   

@@ -67,10 +67,10 @@ patMetTree::Fill(const edm::Event& iEvent){
   mvaMetSig_   = recmet->significance() < 1.e10 ? recmet->significance() : 0;
     
 
-  std::cout<<"met = "<<met->et()
-	   <<" raw met = "<<metraw->et()
-	   << "correct met = "<<met->et()
-	   <<std::endl;
+  // std::cout<<"met = "<<met->et()
+  // 	   <<" raw met = "<<metraw->et()
+  // 	   << "correct met = "<<met->et()
+  // 	   <<std::endl;
   
 
 
@@ -103,7 +103,7 @@ patMetTree::SetBranches(){
 void
 patMetTree::Clear(){
 
-  Float_t dummy = -99999;
+  float dummy = -99999;
   patMetCorrPt_= dummy;  
   patMetCorrPhi_= dummy; 
   patMetCorrSumEt_= dummy;

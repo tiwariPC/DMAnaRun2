@@ -1,19 +1,19 @@
 
 #include "DelPanj/TreeMaker/interface/photonTree.h"
 
-  photonTree::photonTree(std::string name, TTree* tree, const pset& iConfig):baseTree(name,tree){
-  photonLabel_  = iConfig.getParameter<edm::InputTag> ("photonLabel");
-  phoLooseIdMapToken_  =iConfig.getParameter<edm::InputTag>("phoLooseIdMap"),
-  phoMediumIdMapToken_ =iConfig.getParameter<edm::InputTag>("phoMediumIdMap"),
-  phoTightIdMapToken_  =iConfig.getParameter<edm::InputTag>("phoTightIdMap"),
-  
-
-  //usePFObjects_ = iConfig.getParameter<bool> ("usePFlow");
+photonTree::photonTree(std::string name, TTree* tree, const pset& iConfig):
+  baseTree(name,tree),
+  photonLabel_(iConfig.getParameter<edm::InputTag> ("photonLabel")),
+  phoLooseIdMapToken_(iConfig.getParameter<edm::InputTag>("phoLooseIdMap")),
+  phoMediumIdMapToken_(iConfig.getParameter<edm::InputTag>("phoMediumIdMap")),
+  phoTightIdMapToken_(iConfig.getParameter<edm::InputTag>("phoTightIdMap"))
+{
+  photonP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
 }
 
 photonTree::~photonTree(){
-
+  delete photonP4_;
 }
 
 void photonTree::Fill(const edm::Event& iEvent){
@@ -47,13 +47,15 @@ void photonTree::Fill(const edm::Event& iEvent){
   //pat::PhotonCollection::const_iterator ph;
   for(ph=photonHandle->begin(); ph!=photonHandle->end(); ph++){
     nPho_++;
-    photonPt_.push_back(ph->pt());
-    photonEta_.push_back(ph->eta());
-    photonPhi_.push_back(ph->eta());
-    photonE_.push_back(ph->energy());
+    new( (*photonP4_)[nPho_-1]) TLorentzVector(
+					       ph->p4().px(),
+					       ph->p4().py(),
+					       ph->p4().pz(),
+					       ph->p4().energy()
+					       );
     //Ids
     const auto pho = photonHandle->ptrAt(nPho_-1);
-    std::cout<<" loose id = "<<(*loose_id_decisions)[pho]<<std::endl;
+    // std::cout<<" loose id = "<<(*loose_id_decisions)[pho]<<std::endl;
 
     isPassLoose.push_back((*loose_id_decisions)[pho]);
     isPassMedium.push_back((*medium_id_decisions)[pho]);
@@ -66,10 +68,7 @@ void photonTree::Fill(const edm::Event& iEvent){
 
 void photonTree::SetBranches(){
   AddBranch(&nPho_  ,"nPho");
-  AddBranch(&photonPt_ ,"phoPt");
-  AddBranch(&photonEta_,"phoEta");
-  AddBranch(&photonPhi_,"phoPhi");
-  AddBranch(&photonE_,"phoE");
+  AddBranch(&photonP4_, "phoP4");
   AddBranch(&isPassTight,"isPassTight");
   AddBranch(&isPassLoose,"isPassLoose");
   AddBranch(&isPassMedium,"isPassMedium");
@@ -78,10 +77,7 @@ void photonTree::SetBranches(){
 
 void photonTree::Clear(){
   nPho_ = 0; 
-  photonPt_.clear();
-  photonEta_.clear();
-  photonPhi_.clear();
-  photonE_.clear();
+  photonP4_->Clear();
   isPassLoose.clear();
   isPassMedium.clear();
   isPassTight.clear();
