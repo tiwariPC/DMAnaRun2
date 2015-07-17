@@ -93,10 +93,10 @@ patMetTree::SetBranches(){
   AddBranch(&patMetRawCov10_, "MetRawCov10");
   AddBranch(&patMetRawCov11_, "MetRawCov11");
 
-  AddBranch(&mvaMetPt_,     "mvaMetPt_");
-  AddBranch(&mvaMetPhi_,    "mvaMetPhi_");
-  AddBranch(&mvaMetSumEt_,  "mvaMetSumEt_");
-  AddBranch(&mvaMetSig_,    "mvaMetSig_");
+  AddBranch(&mvaMetPt_,     "mvaMetPt");
+  AddBranch(&mvaMetPhi_,    "mvaMetPhi");
+  AddBranch(&mvaMetSumEt_,  "mvaMetSumEt");
+  AddBranch(&mvaMetSig_,    "mvaMetSig");
 }
 
 
