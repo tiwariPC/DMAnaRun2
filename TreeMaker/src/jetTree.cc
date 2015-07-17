@@ -247,7 +247,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     // b-tagging
 
     jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
-    jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));      jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));      
+    jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));      
+    jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));      
     jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
     jetTCHE_.push_back(jet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
