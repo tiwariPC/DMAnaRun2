@@ -246,7 +246,7 @@ patElecTree::SetBranches(){
   AddBranch(&patElecRho_, "eleRho");
   AddBranch(&nEle_, "nEle");
 
-  AddBranch(&patElecP4_,"patElecP4");
+  AddBranch(&patElecP4_,"eleP4");
 
   AddBranch(&patElecInBarrel_,"eleInBarrel");
   AddBranch(&patElecInEndcap_,"eleInEndcap");

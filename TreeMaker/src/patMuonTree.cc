@@ -178,7 +178,7 @@ void
 patMuonTree::SetBranches(){
 
   AddBranch(&nMu_,"nMu");
-  AddBranch(&patMuonP4_,"patMuonP4");
+  AddBranch(&patMuonP4_,"muP4");
   AddBranch(&patMuonType_, "muType");
   AddBranch(&patMuonCharge_, "muCharge");
 
