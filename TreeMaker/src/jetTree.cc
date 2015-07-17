@@ -149,7 +149,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       genjetINV_.push_back(-999.0);
       genjetAUX_.push_back(-999.0);
       matchedDR_.push_back(-999.0);
-      new( (*genjetP4_)[nJet_-1]) TLorentzVector(0,0,0,0);
+      new( (*genjetP4_)[nJet_-1]) TLorentzVector(-999.,-999.,-999.,-999.);
     }
 
     jetRawFactor_.push_back(jet->jecFactor("Uncorrected"));
@@ -460,13 +460,6 @@ jetTree::SetBranches(){
   AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
 
 
-  AddBranch(&jetTau1_, "jetTau1");
-  AddBranch(&jetTau2_, "jetTau2");
-  AddBranch(&jetTau3_, "jetTau3");
-  AddBranch(&jetTau4_, "jetTau4");
-
-
-
   
   if(isFATJet_){
     AddBranch(&jetSDmass_, "jetSDmass");
@@ -481,6 +474,11 @@ jetTree::SetBranches(){
 
   if(isFATJet_ || (runAddJet_&&isADDJet_))
     {
+      AddBranch(&jetTau1_, "jetTau1");
+      AddBranch(&jetTau2_, "jetTau2");
+      AddBranch(&jetTau3_, "jetTau3");
+      AddBranch(&jetTau4_, "jetTau4");
+
       AddBranch(&nSubSDJet_,"nSubSDJet");
       AddBranch(&subjetSDPx_, "subjetSDPx");     
       AddBranch(&subjetSDPy_, "subjetSDPy");     
