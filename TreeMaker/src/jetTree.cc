@@ -278,7 +278,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
            
 
-
 	  // fill discriminator histograms
 	  //     const reco::VertexCompositePtrCandidate *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());        
          
@@ -289,33 +288,24 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  //       const reco::SecondaryVertexTagInfo &svTagInfo =*jet->tagInfoSecondaryVertex("secondaryVertex");  
     
 	  //cout<<" has tag info: "<<jet->hasTagInfo("pfInclusiveSecondaryVertexFinder") <<endl;
+
+	  std::vector<float> jet_SVMass_float;
+	  
+	  jet_SVMass_float.clear();
+          unsigned int nSV=0;  
+
 	  if(jet->hasTagInfo(svTagInfosCstr_.data()))
 	    {
 	      const reco::CandSecondaryVertexTagInfo *candSVTagInfo = jet->tagInfoCandSecondaryVertex("pfInclusiveSecondaryVertexFinder");
-	      //const reco::SecondaryVertexTagInfo &svTagInfo =*jet->tagInfoSecondaryVertex(svTagInfosCstr_.data());
-         
-	      //           cout<<"numbers of 2nd vtx "<<candSVTagInfo->nVertices()<<endl;
-           
-	      jet_nSV_.push_back(candSVTagInfo->nVertices());  
-                       
-
-	      std::vector<float> jet_SVMass_float;
-	      std::vector<float> jet_SVEnergyRatio_float;
-
-	      jet_SVMass_float.clear();
-	      jet_SVEnergyRatio_float.clear();
-            
+	      nSV = candSVTagInfo->nVertices();                       
 
 	      for(unsigned int n_2ndvtx=0;n_2ndvtx<candSVTagInfo->nVertices();n_2ndvtx++)
-		{
-
-		  jet_SVMass_float.push_back(candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass());
-		  //            cout<<"2nd vtx mass :"<<" "<<candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass()<<endl;  
-
-		}
-	      jet_SVMass_.push_back(jet_SVMass_float);
+		jet_SVMass_float.push_back(candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass());
  
-	    }
+	    } // if there is tagging information
+	  jet_nSV_.push_back(nSV);  
+	  jet_SVMass_.push_back(jet_SVMass_float);
+
 	} /// if its ADDJET
  
 	// the following lines are common to FAT Jet and ADDJets
@@ -371,7 +361,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  subjetSDPz.clear();
 	  subjetSDE.clear();
 	  subjetSDCharge.clear();
-	  // subjetSDPartonFlavor.clear();
 	  subjetSDCSV.clear(); 
 
 
@@ -455,8 +444,6 @@ jetTree::SetBranches(){
   AddBranch(&jetJP_, "jetJP");
   AddBranch(&jetJBP_, "jetJBP");
 
-  AddBranch(&jet_nSV_, "jet_nSV");
-
 
   
   if(isFATJet_){
@@ -470,8 +457,9 @@ jetTree::SetBranches(){
   if(runAddJet_&&isADDJet_)
     {
       AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+      AddBranch(&jet_nSV_, "jet_nSV");
       AddBranch(&jet_SVMass_, "jet_SVMass");
-      AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
+      // AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
     }
 
   if(isFATJet_ || (runAddJet_&&isADDJet_))
@@ -558,6 +546,11 @@ jetTree::Clear(){
   jetJP_.clear();
   jetJBP_.clear();
 
+  //jet  Hbb tagger for fat and add jet
+
+  jet_DoubleSV_.clear();
+
+
   //jet secondary vtx
 
   jet_nSV_.clear();
@@ -597,10 +590,6 @@ jetTree::Clear(){
   jetPRmass_.clear();
   jetFimass_.clear();
   
-
-  //jet  Hbb tagger for fat and add jet
-
-  jet_DoubleSV_.clear();
 
 
   // subjet of jets
