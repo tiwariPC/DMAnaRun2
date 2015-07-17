@@ -309,16 +309,16 @@ patElecTree::SetBranches(){
   AddBranch(&patElecDr03HcalTowerSumEt_,"eleDr03HcalTowerSumEt");
   AddBranch(&patElecDr03TkSumPt_,"eleDr03TkSumPt");
    
-  AddBranch(&isPassVeto_,"isPassVeto");
-  AddBranch(&isPassLoose_,"isPassLoose");
-  AddBranch(&isPassMedium_,"isPassMedium");
-  AddBranch(&isPassTight_,"isPassTight");
-  AddBranch(&isPassHEEP_,"isPassHEEP");
-  AddBranch(&isPassMVAMedium_,"isPassMVAMedium");
-  AddBranch(&isPassMVATight_,"isPassMVATight");
+  AddBranch(&isPassVeto_,"eleIsPassVeto");
+  AddBranch(&isPassLoose_,"eleIsPassLoose");
+  AddBranch(&isPassMedium_,"eleIsPassMedium");
+  AddBranch(&isPassTight_,"eleIsPassTight");
+  AddBranch(&isPassHEEP_,"eleIsPassHEEP");
+  AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
+  AddBranch(&isPassMVATight_,"eleIsPassMVATight");
 
-  AddBranch(&mvaValue_,"mvaValue");
-  AddBranch(&mvaCategory_,"mvaCategory");
+  AddBranch(&mvaValue_,"eleMVAValue");
+  AddBranch(&mvaCategory_,"eleMVACategory");
 
 
 

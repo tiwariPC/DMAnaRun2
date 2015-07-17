@@ -190,7 +190,7 @@ patMuonTree::SetBranches(){
   AddBranch(&patMuonSegIndex_, "muSegID");
   AddBranch(&patMuonNSeg_, "muNSegs");
   AddBranch(&patMuonGood_, "muGood");
-  AddBranch(&patMuonIsGood_,"patMuonIsGood");
+  AddBranch(&patMuonIsGood_,"muIsGood");
 
   AddBranch(&patMuonTrkPt_,"muTrkPt");
   AddBranch(&patMuonTrkPtErr_, "muTrkPtErr");

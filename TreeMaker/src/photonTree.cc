@@ -69,9 +69,9 @@ void photonTree::Fill(const edm::Event& iEvent){
 void photonTree::SetBranches(){
   AddBranch(&nPho_  ,"nPho");
   AddBranch(&photonP4_, "phoP4");
-  AddBranch(&isPassTight,"isPassTight");
-  AddBranch(&isPassLoose,"isPassLoose");
-  AddBranch(&isPassMedium,"isPassMedium");
+  AddBranch(&isPassTight,"phoIsPassTight");
+  AddBranch(&isPassLoose,"phoIsPassLoose");
+  AddBranch(&isPassMedium,"phoIsPassMedium");
 
 }
 
