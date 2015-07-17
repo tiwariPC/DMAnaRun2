@@ -144,12 +144,12 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 			 <<std::endl;
     }
     else{
-      genjetEM_.push_back(-999.0);
-      genjetHAD_.push_back(-999.0);
-      genjetINV_.push_back(-999.0);
-      genjetAUX_.push_back(-999.0);
-      matchedDR_.push_back(-999.0);
-      new( (*genjetP4_)[nJet_-1]) TLorentzVector(-999.,-999.,-999.,-999.);
+      genjetEM_.push_back(-99999.0);
+      genjetHAD_.push_back(-99999.0);
+      genjetINV_.push_back(-99999.0);
+      genjetAUX_.push_back(-99999.0);
+      matchedDR_.push_back(-99999.0);
+      new( (*genjetP4_)[nJet_-1]) TLorentzVector(-99999.,-99999.,-99999.,-99999.);
     }
 
     jetRawFactor_.push_back(jet->jecFactor("Uncorrected"));
@@ -456,8 +456,6 @@ jetTree::SetBranches(){
   AddBranch(&jetJBP_, "jetJBP");
 
   AddBranch(&jet_nSV_, "jet_nSV");
-  AddBranch(&jet_SVMass_, "jet_SVMass");
-  AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
 
 
   
@@ -470,7 +468,11 @@ jetTree::SetBranches(){
 
 
   if(runAddJet_&&isADDJet_)
-    AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+    {
+      AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+      AddBranch(&jet_SVMass_, "jet_SVMass");
+      AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
+    }
 
   if(isFATJet_ || (runAddJet_&&isADDJet_))
     {
