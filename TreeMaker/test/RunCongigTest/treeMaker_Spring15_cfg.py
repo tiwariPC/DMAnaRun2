@@ -618,7 +618,7 @@ for idmod in my_phoid_modules:
 
 process.tree = cms.EDAnalyzer(
     'TreeMaker',
-    fillPUweightInfo_ = cms.bool(False),
+    fillPUweightInfo_ = cms.bool(True),
     fillEventInfo_ = cms.bool(True),
     fillGenInfo_   = cms.bool(True),
     fillMuonInfo_  = cms.bool(True),
@@ -636,6 +636,13 @@ process.tree = cms.EDAnalyzer(
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
     applyStatusSelection = cms.bool(True),
+
+    ## For miniIsolation of electrons and muons
+    r_iso_min    = cms.double(0.05),
+    r_iso_max    = cms.double(0.2),
+    kt_scale     = cms.double(10.),
+    charged_only = cms.bool(False),
+    pfForMiniIso = cms.InputTag("packedPFCandidates"),
 
 
     ##CA8Jets=cms.InputTag("slimmedJetsAK8"),
