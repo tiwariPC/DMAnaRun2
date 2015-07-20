@@ -19,6 +19,7 @@
 #include "Math/VectorUtil.h"
 
 #include "DataFormats/BTauReco/interface/SecondaryVertexTagInfo.h"
+const double DUMMY=-99999.;
 
 
 typedef math::XYZTLorentzVector LorentzVector;
@@ -300,10 +301,12 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	      const reco::CandSecondaryVertexTagInfo *candSVTagInfo = jet->tagInfoCandSecondaryVertex("pfInclusiveSecondaryVertexFinder");
 	      nSV = candSVTagInfo->nVertices();                       
 
-	      for(unsigned int n_2ndvtx=0;n_2ndvtx<candSVTagInfo->nVertices();n_2ndvtx++)
+	      for(unsigned int n_2ndvtx=0;n_2ndvtx< nSV;n_2ndvtx++)
 		jet_SVMass_float.push_back(candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass());
  
 	    } // if there is tagging information
+	  if(nSV==0)
+	    jet_SVMass_float.push_back(DUMMY);	    
 	  jet_nSV_.push_back(nSV);  
 	  jet_SVMass_.push_back(jet_SVMass_float);
 
@@ -378,6 +381,16 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	      subjetSDCSV.push_back(iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
 
 	    }//subjet loop
+	  if(nSubSoftDropjets==0)
+	    {
+	      subjetSDPx.push_back(DUMMY);
+	      subjetSDPy.push_back(DUMMY);
+	      subjetSDPz.push_back(DUMMY);
+	      subjetSDE.push_back(DUMMY);	
+	      subjetSDCharge.push_back(DUMMY);
+	      subjetSDCSV.push_back(DUMMY);   
+	    }
+	    
 	  nSubSDJet_.push_back(nSubSoftDropjets); 
 	  subjetSDPx_.push_back(subjetSDPx);
 	  subjetSDPy_.push_back(subjetSDPy);
