@@ -4,6 +4,7 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "MagneticField/Engine/interface/MagneticField.h"
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
+#include "DataFormats/PatCandidates/interface/VIDCutFlowResult.h"
 
 // Issues to be resolved : 
 // -- mypv
@@ -54,13 +55,19 @@ patElecTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
   edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
   edm::Handle<edm::ValueMap<bool> > heep_id_decisions;
+  edm::Handle<ValueMap<vid::CutFlowResult>> heep_id_cutflow;
   edm::Handle<edm::ValueMap<bool> > medium_MVAid_decisions;
   edm::Handle<edm::ValueMap<bool> > tight_MVAid_decisions; 
   iEvent.getByLabel(eleVetoIdMapLabel_ ,veto_id_decisions);
   iEvent.getByLabel(eleLooseIdMapLabel_ ,loose_id_decisions);
   iEvent.getByLabel(eleMediumIdMapLabel_,medium_id_decisions);
   iEvent.getByLabel(eleTightIdMapLabel_,tight_id_decisions);
+
   iEvent.getByLabel(eleHEEPIdMapLabel_ ,heep_id_decisions);
+  iEvent.getByLabel(eleHEEPIdMapLabel_ ,heep_id_cutflow);
+  std::vector<std::string> maskCuts;
+  maskCuts.push_back("GsfEleTrkPtIsoCut_0"), maskCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
+
   iEvent.getByLabel(eleMediumIdMapLabel_,medium_MVAid_decisions);
   iEvent.getByLabel(eleTightIdMapLabel_,tight_MVAid_decisions);
   // std::cout<<" veto size  ---------------- "<<veto_id_decisions->size()<<std::endl;
@@ -163,9 +170,10 @@ patElecTree::Fill(const edm::Event& iEvent){
       patElecEoverPInv_.push_back(fabs(1./ele->ecalEnergy() - ele->eSuperClusterOverP()/ele->ecalEnergy()));
     }
     ///HEEP ID
-    double eledEtaseedAtVtx = ele->superCluster().isNonnull() && ele->superCluster()->seed().isNonnull() ?
-      ele->deltaEtaSuperClusterTrackAtVtx() - ele->superCluster()->eta() + ele->superCluster()->seed()->eta() : std::numeric_limits<float>::max();
-    patElecdEtaseedAtVtx_.push_back(eledEtaseedAtVtx);
+    // double eledEtaseedAtVtx = ele->superCluster().isNonnull() && ele->superCluster()->seed().isNonnull() ?
+    //   ele->deltaEtaSuperClusterTrackAtVtx() - ele->superCluster()->eta() + ele->superCluster()->seed()->eta() : std::numeric_limits<float>::max();
+    // patElecdEtaseedAtVtx_.push_back(eledEtaseedAtVtx);       
+    patElecdEtaseedAtVtx_.push_back(ele->deltaEtaSeedClusterTrackAtVtx());
     patElecE1x5_.push_back(ele->e1x5());
     patElecE2x5_.push_back(ele->e2x5Max());
     patElecE5x5_.push_back(ele->e5x5());
@@ -230,6 +238,10 @@ patElecTree::Fill(const edm::Event& iEvent){
     isPassTight_.push_back( (*tight_id_decisions)[el]);
     isPassHEEP_.push_back( (*heep_id_decisions)[el]);
     
+    vid::CutFlowResult heep_noiso = (*heep_id_cutflow)[el].getCutFlowResultMasking(maskCuts);
+    bool heepV60ID_noiso = heep_noiso.cutFlowPassed(); 
+    isPassHEEPNoIso_.push_back( heepV60ID_noiso );
+
     isPassMVAMedium_.push_back( (*medium_MVAid_decisions)[el]);
     isPassMVATight_.push_back( (*tight_MVAid_decisions)[el]);
     
@@ -314,6 +326,7 @@ patElecTree::SetBranches(){
   AddBranch(&isPassMedium_,"eleIsPassMedium");
   AddBranch(&isPassTight_,"eleIsPassTight");
   AddBranch(&isPassHEEP_,"eleIsPassHEEP");
+  AddBranch(&isPassHEEPNoIso_,"eleIsPassHEEPNoIso");
   AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
   AddBranch(&isPassMVATight_,"eleIsPassMVATight");
 
@@ -397,6 +410,7 @@ patElecTree::Clear(){
   isPassMedium_.clear();
   isPassTight_.clear();
   isPassHEEP_.clear();
+  isPassHEEPNoIso_.clear();
   isPassMVAMedium_.clear();
   isPassMVATight_.clear();
 

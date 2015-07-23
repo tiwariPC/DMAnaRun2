@@ -7,52 +7,41 @@
 #include "TTree.h"
 #include "TClonesArray.h"
 #include <bitset>
+
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
-#include "DataFormats/Common/interface/Handle.h"
-#include "DataFormats/PatCandidates/interface/Electron.h"
-#include "DataFormats/Math/interface/LorentzVector.h"
-#include "DelPanj/TreeMaker/interface/baseTree.h"
-#include "DelPanj/TreeMaker/interface/utils.h"
-
-#include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
-
-#include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/Utilities/interface/InputTag.h"
 
-#include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
-#include "DataFormats/PatCandidates/interface/Electron.h"
-
-#include "DataFormats/Candidate/interface/Candidate.h"
-#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
-
-#include "DataFormats/Common/interface/ValueMap.h"
-
-#include "DataFormats/VertexReco/interface/VertexFwd.h"
-#include "DataFormats/VertexReco/interface/Vertex.h"
-
-#include "DataFormats/EgammaCandidates/interface/ConversionFwd.h"
-#include "DataFormats/EgammaCandidates/interface/Conversion.h"
-#include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
-
-
-
-#include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
+#include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/Common/interface/RefToPtr.h"
 #include "DataFormats/Common/interface/Ref.h"
 #include "DataFormats/Common/interface/RefVector.h"
 #include "DataFormats/Common/interface/RefHolder.h"
 #include "DataFormats/Common/interface/RefVectorHolder.h"
+#include "DataFormats/Common/interface/ValueMap.h"
 
-#include "FWCore/Utilities/interface/InputTag.h"
+#include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
+#include "DataFormats/EgammaCandidates/interface/ConversionFwd.h"
+#include "DataFormats/EgammaCandidates/interface/Conversion.h"
+#include "DataFormats/PatCandidates/interface/Electron.h"
+#include "DataFormats/Candidate/interface/Candidate.h"
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
+#include "DataFormats/Math/interface/LorentzVector.h"
 
-#include "FWCore/Common/interface/TriggerNames.h"
-#include "DataFormats/Common/interface/TriggerResults.h"
+
+#include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
+#include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
+
+#include "DelPanj/TreeMaker/interface/baseTree.h"
+#include "DelPanj/TreeMaker/interface/utils.h"
+
+
+
 
 #include "TTree.h"
 #include "Math/VectorUtil.h"
@@ -157,7 +146,7 @@ class patElecTree : public baseTree {
   std::vector<float> patElecMiniIso_;
 
 
-  std::vector<float> patElecEcalDrivenSeed_;
+  std::vector<bool> patElecEcalDrivenSeed_;
   std::vector<float> patElecDr03EcalRecHitSumEt_;
   std::vector<float> patElecDr03HcalDepth1TowerSumEt_;
   std::vector<float> patElecDr03HcalDepth2TowerSumEt_;
@@ -171,6 +160,7 @@ class patElecTree : public baseTree {
   std::vector<bool> isPassMedium_;
   std::vector<bool> isPassTight_;
   std::vector<bool> isPassHEEP_;
+  std::vector<bool> isPassHEEPNoIso_;
   std::vector<bool> isPassMVAMedium_;
   std::vector<bool> isPassMVATight_;
   
