@@ -41,7 +41,7 @@ if option == 'RECO':
 # Updates
 if option == 'RECO':
     process.goodMuons.src = "slimmedMuons"
-    process.goodElectrons.src = "isolatedElectrons"
+    process.goodElectrons.src = "slimmedElectrons"
     #process.goodJets.src = "patJetsTESTAK8PFCHS"
     process.goodJets.src = "slimmedJetsAK8"
     #process.goodJets.src ="packedPatJetsPFCHSAK8" 
@@ -71,7 +71,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1)
+    input = cms.untracked.int32(-1)
 )
 
 
@@ -82,9 +82,7 @@ process.source = cms.Source("PoolSource",
                             fileNames = cms.untracked.vstring(
 #        '/store/relval/CMSSW_7_4_1/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V9_gensim71X-v1/00000/80CF5456-B9EC-E411-93DA-002618FDA248.root'
         #electron test
-        '/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/009D49A5-7314-E511-84EF-0025905A605E.root'
-
-        #signal test
+        '/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
 
 #'/store/user/khurana/ExpressPhysics/crab_ExpressPhysics01/150710_185250/0000/MINIAOD_10.root'
         #$inputFileNames
@@ -636,14 +634,13 @@ process.tree = cms.EDAnalyzer(
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
     applyStatusSelection = cms.bool(True),
-
-    ## For miniIsolation of electrons and muons
+    
+    ## For Muon
     r_iso_min    = cms.double(0.05),
     r_iso_max    = cms.double(0.2),
     kt_scale     = cms.double(10.),
     charged_only = cms.bool(False),
     pfForMiniIso = cms.InputTag("packedPFCandidates"),
-
 
     ##CA8Jets=cms.InputTag("slimmedJetsAK8"),
     ##CA8jecPayloadNames = cms.vstring( CA8jecLevels ),
