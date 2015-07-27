@@ -204,7 +204,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     
     isPUJetID_.push_back(passPU);
     
-
     jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
     jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
     jetPhoEF_.push_back(jet->photonEnergyFraction());

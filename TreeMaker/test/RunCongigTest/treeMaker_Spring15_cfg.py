@@ -1,4 +1,6 @@
 import FWCore.ParameterSet.Config as cms
+## removed cleaning from Exo VV package 
+## 
 
 process = cms.Process('MVAMET')
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
@@ -30,6 +32,7 @@ if option == 'GEN':
 
 ### RECO level studies
 if option == 'RECO':
+    process.load("DelPanj.TreeMaker.slimmer.objectslimmer_cff")
     process.load("ExoDiBosonResonances.EDBRCommon.goodMuons_cff")
     process.load("ExoDiBosonResonances.EDBRCommon.goodElectrons_cff")
     #process.load("ExoDiBosonResonances.EDBRJets.redoSubstructure_cff")
@@ -547,7 +550,8 @@ process.miniAODjetSequence = cms.Sequence(
                              process.selectedPatJetsPrunedPFCHSAK8Packed +
                              process.fataddJetsSequence+
                              process.fatJetsSequence+ 
-                             process.ak4JetsSequence
+                             process.ak4JetsSequence+
+                             process.ncuslimmer
                              )
 
 
@@ -629,7 +633,8 @@ process.tree = cms.EDAnalyzer(
     fillPhotInfo_  = cms.bool(True),
     fillTauInfo_   = cms.bool(True),
     
-    photonLabel    = cms.InputTag("slimmedPhotons"),
+    ##photonLabel    = cms.InputTag("slimmedPhotons"),
+    photonLabel    = cms.InputTag("ncuslimmedPhoton"),
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
@@ -650,20 +655,25 @@ process.tree = cms.EDAnalyzer(
     ##AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
     ##AK5jecUncName = cms.string(AK5jecUnc),  
     
-    patMuons=cms.InputTag("slimmedMuons"),
-    patElectrons = cms.InputTag("slimmedElectrons"),
+    ##patMuons=cms.InputTag("slimmedMuons"),
+    ##patElectrons = cms.InputTag("slimmedElectrons"),
+    patMuons=cms.InputTag("ncuslimmedMuon"),
+    patElectrons = cms.InputTag("ncuslimmedElectron"),
     
     
     pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
-    tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
+    ##tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
+    tauLabel_ = cms.untracked.InputTag("ncuslimmedTau"),
     rhoSrc = cms.InputTag('kt6PFJets','rho'),
     ### FatJets 
-    FATJets=cms.InputTag("cleanJets"),
+    #FATJets=cms.InputTag("cleanJets"),
+    FATJets=cms.InputTag("slimmedJetsAK8"),
     # jec still need to be checked 
     #CA8jecPayloadNames = cms.vstring( CA8jecLevels ),
     #CA8jecUncName = cms.string(CA8jecUnc),    
     ### THINJet
-    THINJets=cms.InputTag("cleanAK4Jets"),
+    #THINJets=cms.InputTag("cleanAK4Jets"),
+    THINJets=cms.InputTag("ncuslimmedAK4Jet"),
     # jec still need to be checked 
     #AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
     #AK5jecUncName = cms.string(AK5jecUnc),    
@@ -732,7 +742,8 @@ process.analysis = cms.Path(
     process.egmPhotonIDSequence+
     process.pfMVAMEtSequence+
     process.pfMet+
-    process.miniAODjetSequence+                        
+    process.miniAODjetSequence+                     
+
     #process.selectedPatJetsPFCHSAK8PFlow + 
     #process.selectedPatJetsPrunedPFCHSAK8Packed +
     process.tree
