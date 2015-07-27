@@ -86,7 +86,6 @@ class jetTree  : public baseTree{
   edm::InputTag JetLabel_;
   edm::InputTag AddjetlabelC_;
   
-  //edm::InputTag PrunedJetLabel_;
   edm::InputTag rhoSrc_;
   edm::InputTag pvSrc_;
 
@@ -173,24 +172,6 @@ class jetTree  : public baseTree{
   std::vector<float> jetTau2_;
   std::vector<float> jetTau3_;
   std::vector<float> jetTau4_;
-
-
-
-
-  // pruned information, not filled now
-  TClonesArray *jetPrunedP4_;
-  std::vector<float> jetPrunedCorrUncUp_;
-  std::vector<float> jetPrunedCorrUncDown_;
-  std::vector<int>   jetPrunedCharge_;
-  std::vector<int>   jetPrunedPartonFlavor_;
-
-
-  std::vector<float> jetPrunedSSV_;
-  std::vector<float> jetPrunedCSV_;        
-  std::vector<float> jetPrunedTCHP_;
-  std::vector<float> jetPrunedTCHE_;
-  std::vector<float> jetPrunedJP_;
-  std::vector<float> jetPrunedJBP_;
 
 
   //ak8jet mass

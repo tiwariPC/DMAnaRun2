@@ -30,7 +30,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   baseTree(desc, tree),
   isFATJet_(true),
   JetLabel_(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data()))),
-  //  PrunedJetLabel_ ( iConfig.getParameter<edm::InputTag>("PrunedJets")),
   AddjetlabelC_  (iConfig.getParameter<edm::InputTag>("AddjetlabelPY") ),
   rhoSrc_   (iConfig.getParameter<edm::InputTag>("rhoSrc") ),                     
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
@@ -50,7 +49,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   runAddJet_ = iConfig.getParameter<bool>("runAddjetPY");
 
   jetP4_       = new TClonesArray("TLorentzVector");
-  jetPrunedP4_ = new TClonesArray("TLorentzVector");
   genjetP4_    = new TClonesArray("TLorentzVector");
   SetBranches();
 
@@ -62,7 +60,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
 jetTree::~jetTree(){
 
   delete jetP4_;
-  delete jetPrunedP4_;
   delete genjetP4_;
 
 }
@@ -579,22 +576,6 @@ jetTree::Clear(){
 
 
 
-
-  // pruned information
-
-  jetPrunedP4_->Clear();
-  jetPrunedCorrUncUp_.clear();
-  jetPrunedCorrUncDown_.clear();
-  jetPrunedCharge_.clear();
-  jetPrunedPartonFlavor_.clear();
-
-
-  jetPrunedSSV_.clear();
-  jetPrunedCSV_.clear();        
-  jetPrunedTCHP_.clear();
-  jetPrunedTCHE_.clear();
-  jetPrunedJP_.clear();
-  jetPrunedJBP_.clear();
 
   //ak8jet mass
  
