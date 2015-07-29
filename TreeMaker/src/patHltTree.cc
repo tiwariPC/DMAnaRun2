@@ -45,6 +45,9 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundEle17_Ele12=trigName.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL");
       size_t foundEle27=trigName.find("HLT_Ele27_eta2p1_WPLoose_Gsf");
       size_t foundEle105=trigName.find("HLT_Ele105");
+      size_t foundEle23_1=trigName.find("HLT_Ele23_WPLoose_Gsf_v");
+      size_t foundEle23_2=trigName.find("HLT_Ele23_WP75_Gsf");
+      size_t foundEle27_2=trigName.find("HLT_Ele27_WP85_Gsf_v");
       size_t foundMu17_Mu8=trigName.find("HLT_Mu17_Mu8");
       size_t foundMu17_TkMu8=trigName.find("HLT_Mu17_TkMu8");
       size_t foundMu30_TkMu11=trigName.find("HLT_Mu30_TkMu11");
@@ -65,6 +68,9 @@ patHltTree::Fill(const edm::Event& iEvent)
 			<<std::endl;
       
       if ( foundDEle33==std::string::npos &&
+	   foundEle23_1==std::string::npos &&
+	   foundEle23_2==std::string::npos &&
+	   foundEle27_2==std::string::npos &&
 	   foundEle27==std::string::npos && 
 	   foundEle17_Ele12==std::string::npos && 
 	   foundEle105==std::string::npos &&

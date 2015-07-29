@@ -10,7 +10,6 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "Math/VectorUtil.h"
-#include "DelPanj/TreeMaker/interface/TrackerMuonSelector.h"
 
 
 patMuonTree::patMuonTree(std::string name, TTree* tree, 
