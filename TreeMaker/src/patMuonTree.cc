@@ -12,6 +12,7 @@
 #include "Math/VectorUtil.h"
 
 
+
 patMuonTree::patMuonTree(std::string name, TTree* tree, 
 			 const edm::ParameterSet& iConfig):
   baseTree(name,tree),  
@@ -37,7 +38,6 @@ void
 patMuonTree::Fill(const edm::Event& iEvent){
   Clear();
 
-  std::cout<<" inside mu tree "<<std::endl;
   edm::Handle<pat::MuonCollection> patMuonHandle;
   if(not iEvent.getByLabel(patMuonLabel_,patMuonHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
