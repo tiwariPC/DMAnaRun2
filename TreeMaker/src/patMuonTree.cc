@@ -10,7 +10,7 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "Math/VectorUtil.h"
-#include "DelPanj/TreeMaker/interface/TrackerMuonSelector.h"
+
 
 
 patMuonTree::patMuonTree(std::string name, TTree* tree, 
@@ -38,7 +38,6 @@ void
 patMuonTree::Fill(const edm::Event& iEvent){
   Clear();
 
-  std::cout<<" inside mu tree "<<std::endl;
   edm::Handle<pat::MuonCollection> patMuonHandle;
   if(not iEvent.getByLabel(patMuonLabel_,patMuonHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
