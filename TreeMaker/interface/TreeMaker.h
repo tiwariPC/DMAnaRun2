@@ -15,6 +15,7 @@
 #include "DelPanj/TreeMaker/interface/patElecTree.h"
 #include "DelPanj/TreeMaker/interface/patMetTree.h"
 #include "DelPanj/TreeMaker/interface/patHltTree.h"
+#include "DelPanj/TreeMaker/interface/patFilters.h"
 #include "DelPanj/TreeMaker/interface/jetTree.h"
 
 
@@ -43,7 +44,8 @@ class TreeMaker : public edm::EDAnalyzer {
       bool fillGenInfo_;
 
       bool fillTrigInfo_;
-
+      bool fillFilterInfo_;
+      
       bool fillElecInfo_;
       bool fillMuonInfo_;
       bool fillTauInfo_;
@@ -54,6 +56,7 @@ class TreeMaker : public edm::EDAnalyzer {
       bool fillJetInfo_;
       bool fillFATJetInfo_;
       bool fillAddJetInfo_; 
+
       
       puweight *puweight_;
       eventInfo   *eventInfo_;
@@ -61,7 +64,8 @@ class TreeMaker : public edm::EDAnalyzer {
       genInfoTree *genInfoTree_;    
 
       patHltTree  *patHltTree_;      
-
+      patFilters  *patFilterTree_;
+      
       patElecTree *patElecTree_;
       patMuonTree *patMuTree_;
       hpstauInfo  *tauTree_;

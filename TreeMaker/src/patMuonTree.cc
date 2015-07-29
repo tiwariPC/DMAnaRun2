@@ -10,7 +10,7 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "Math/VectorUtil.h"
-
+#include "DelPanj/TreeMaker/interface/TrackerMuonSelector.h"
 
 
 patMuonTree::patMuonTree(std::string name, TTree* tree, 
@@ -37,7 +37,8 @@ patMuonTree::~patMuonTree()
 void
 patMuonTree::Fill(const edm::Event& iEvent){
   Clear();
-  
+
+  std::cout<<" inside mu tree "<<std::endl;
   edm::Handle<pat::MuonCollection> patMuonHandle;
   if(not iEvent.getByLabel(patMuonLabel_,patMuonHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
@@ -51,18 +52,23 @@ patMuonTree::Fill(const edm::Event& iEvent){
  
   edm::Handle<reco::VertexCollection> vtxHandle;
   iEvent.getByLabel(pvSrc_, vtxHandle);
+  reco::VertexCollection FilteredVertexCollection;
+  FilteredVertexCollection.clear();
+  
   //best-known primary vertex coordinates
   math::XYZPoint pv(0, 0, 0);
   for (vector<reco::Vertex>::const_iterator v = vtxHandle->begin(); v != vtxHandle->end(); ++v) {
-    //replace isFake() for miniAOD since it requires tracks while miniAOD vertices don't have tracks:
-    // Vertex.h: bool isFake() const {return (chi2_==0 && ndof_==0 && tracks_.empty());}
     bool isFake = isAOD ? v->isFake() : (v->chi2() == 0 && v->ndof() == 0);
-    if (!isFake) {
-      pv.SetXYZ(v->x(), v->y(), v->z());
-      break;
+    if (!isFake && v->ndof() > 4 && TMath::Abs(v->z())<24. && v->position().rho() <2. ) {
+      FilteredVertexCollection.push_back(*v); // save non-fake vertex in new vertex coll
     }
   }
 
+  reco::Vertex vtx;
+  if(FilteredVertexCollection.size()>0) vtx = FilteredVertexCollection[0];
+  pv.SetXYZ(vtx.x(), vtx.y(), vtx.z());
+
+  const reco::Vertex& vertex = FilteredVertexCollection[0];
   // handle pfcandidates
   Handle<pat::PackedCandidateCollection> pfcands;
   iEvent.getByLabel(pfCandLabel_, pfcands);  
@@ -71,7 +77,8 @@ patMuonTree::Fill(const edm::Event& iEvent){
   
   for(mu=muColl.begin(); mu!=muColl.end(); mu++){
 
-    if(mu->pt() < 5.) continue;
+    if(mu->pt() < 10.) continue;
+    if(TMath::Abs(mu->eta()) > 2.5) continue;
     nMu_++;
     patMuonType_.push_back(mu->type());
     patMuonCharge_.push_back(mu->charge());
@@ -87,7 +94,13 @@ patMuonTree::Fill(const edm::Event& iEvent){
     isGlobalMuon_.push_back(mu->isGlobalMuon());
     isTrackerMuon_.push_back(mu->isTrackerMuon());
     isPFMuon_.push_back(mu->isPFMuon());
-
+    isTightMuon_.push_back(mu->isTightMuon(vertex));
+    isLooseMuon_.push_back(mu->isLooseMuon());
+    isMediumMuon_.push_back(mu->isMediumMuon());
+    isSoftMuon_.push_back(mu->isSoftMuon(vertex));
+    isHighPtMuon_.push_back(mu->isHighPtMuon(vertex));
+    isCustomTrackerMuon_.push_back(isTrackerMuon(&(*mu),vertex ));
+    if(false) std::cout<<" customized tracker mu = "<<isTrackerMuon(&(*mu),vertex )<<std::endl;
     // for finding shared segments reason not known
     int muonIndex=-1;
     int tempTrackIndex=-1;
@@ -185,7 +198,14 @@ patMuonTree::SetBranches(){
   AddBranch(&isGlobalMuon_, "isGlobalMuon");
   AddBranch(&isTrackerMuon_, "isTrackerMuon");
   AddBranch(&isPFMuon_,"isPFMuon");
-
+  AddBranch(&isTightMuon_,"isTightMuon_");
+  AddBranch(&isLooseMuon_,"isLooseMuon_");
+  AddBranch(&isMediumMuon_,"isMediumMuon_");
+  AddBranch(&isSoftMuon_,"isSoftMuon_");
+  AddBranch(&isHighPtMuon_,"isHighPtMuon_");
+  AddBranch(&isCustomTrackerMuon_,"isCustomTrackerMuon_");
+  
+  
   AddBranch(&patMuonITrkIndex_, "muITrkID");
   AddBranch(&patMuonSegIndex_, "muSegID");
   AddBranch(&patMuonNSeg_, "muNSegs");
@@ -236,7 +256,12 @@ patMuonTree::Clear(){
   isGlobalMuon_.clear();
   isTrackerMuon_.clear();
   isPFMuon_.clear();
-
+  isTightMuon_.clear();
+  isLooseMuon_.clear();
+  isMediumMuon_.clear();
+  isSoftMuon_.clear();
+  isHighPtMuon_.clear();
+  isCustomTrackerMuon_.clear();
   patMuonITrkIndex_.clear();
   patMuonSegIndex_.clear();
   patMuonNSeg_.clear();

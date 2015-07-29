@@ -1,10 +1,16 @@
 import FWCore.ParameterSet.Config as cms
+## removed cleaning from Exo VV package 
+## 
 
 process = cms.Process('MVAMET')
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)
 )
+
+
+#option = 'DATA' # 'GEN' or 'RECO'
+option = 'MC'
 
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
@@ -17,40 +23,44 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
-process.GlobalTag.globaltag = cms.string("PHYS14_25_V2")
+if option == 'MC':
+        process.GlobalTag.globaltag = cms.string("PHYS14_25_V2")
+if option == 'DATA':
+        process.GlobalTag.globaltag = cms.string("74X_dataRun2_Prompt_v0")
 
 
-option = 'RECO' # 'GEN' or 'RECO'
+
+
 
 ### GEN level studies
-if option == 'GEN':
-    process.load("ExoDiBosonResonances.EDBRGenStudies.genMuons_cff")
-    process.load("ExoDiBosonResonances.EDBRGenStudies.genElectrons_cff")
-    process.load("ExoDiBosonResonances.EDBRGenStudies.genFatJets_cff")
-
+###if option == 'GEN':
+###    process.load("ExoDiBosonResonances.EDBRGenStudies.genMuons_cff")
+###    process.load("ExoDiBosonResonances.EDBRGenStudies.genElectrons_cff")
+###    process.load("ExoDiBosonResonances.EDBRGenStudies.genFatJets_cff")
+###
 ### RECO level studies
-if option == 'RECO':
-    process.load("ExoDiBosonResonances.EDBRLeptons.goodLeptonsProducer_cff")
-    process.load("ExoDiBosonResonances.EDBRCommon.goodMuons_cff")
-    process.load("ExoDiBosonResonances.EDBRCommon.goodElectrons_cff")
-    #process.load("ExoDiBosonResonances.EDBRJets.redoSubstructure_cff")
-    #process.load("ExoDiBosonResonances.EDBRJets.redoPatJets_cff")
-    process.load("ExoDiBosonResonances.EDBRCommon.goodJets_cff")
-    process.load("ExoDiBosonResonances.EDBRCommon.goodAK4Jets_cff")
-
-
+##if option == 'RECO':
+##    #process.load("DelPanj.TreeMaker.slimmer.objectslimmer_cff")
+##    process.load("ExoDiBosonResonances.EDBRCommon.goodMuons_cff")
+##    process.load("ExoDiBosonResonances.EDBRCommon.goodElectrons_cff")
+##    #process.load("ExoDiBosonResonances.EDBRJets.redoSubstructure_cff")
+##    #process.load("ExoDiBosonResonances.EDBRJets.redoPatJets_cff")
+##    process.load("ExoDiBosonResonances.EDBRCommon.goodJets_cff")
+##    process.load("ExoDiBosonResonances.EDBRCommon.goodAK4Jets_cff")
+##
+##
 # Updates
-if option == 'RECO':
-#    process.goodMuons.src = "slimmedMuons"
-#    process.goodElectrons.src = "slimmedElectrons"
-    #process.goodJets.src = "patJetsTESTAK8PFCHS"
-    process.goodJets.src = "slimmedJetsAK8"
-    #process.goodJets.src ="packedPatJetsPFCHSAK8" 
-    process.goodAK4Jets.src = "slimmedJets"
-
-process.leptonSequence = cms.Sequence(process.muSequence +
-                                      process.eleSequence)
-
+##if option == 'RECO':
+##    process.goodMuons.src = "slimmedMuons"
+##    process.goodElectrons.src = "slimmedElectrons"
+##    #process.goodJets.src = "patJetsTESTAK8PFCHS"
+##    process.goodJets.src = "slimmedJetsAK8"
+##    #process.goodJets.src ="packedPatJetsPFCHSAK8" 
+##    process.goodAK4Jets.src = "slimmedJets"
+##
+##process.leptonSequence = cms.Sequence(process.muSequence +
+##                                      process.eleSequence)
+##
 
 #process.jetSequence = cms.Sequence(process.fatJetsSequence + process.substructureSequence + process.redoPatJets + process.ak4JetsSequence)
 
@@ -72,7 +82,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(50)
 )
 
 
@@ -81,19 +91,8 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-#        '/store/relval/CMSSW_7_4_1/RelValADDMonoJet_d3MD3_13/MINIAODSIM/MCRUN2_74_V9_gensim71X-v1/00000/80CF5456-B9EC-E411-93DA-002618FDA248.root'
-        #electron test
         '/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
-#'file:/afs/cern.ch/work/s/syu/13tev/scripts/bulk_M1600_1.root',
-#'file:/afs/cern.ch/work/s/syu/13tev/scripts/bulk_M1600_2.root',
-#'file:/afs/cern.ch/work/s/syu/13tev/scripts/bulk_M1600_3.root',
-#'file:/afs/cern.ch/work/s/syu/13tev/scripts/bulk_M1600_4.root'
-
-#'/store/user/khurana/ExpressPhysics/crab_ExpressPhysics01/150710_185250/0000/MINIAOD_10.root'
-        #$inputFileNames
-
-
-  ),
+        ),
                             skipEvents = cms.untracked.uint32(0)         
                             )
 
@@ -101,6 +100,9 @@ process.source = cms.Source("PoolSource",
 
 
 
+
+## For MVA MET
+## Check this reciepe when using MVA MET
 process.load("RecoJets.JetProducers.ak4PFJets_cfi")
 process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
 
@@ -115,20 +117,25 @@ process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
 #process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
 process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
 process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
-
+## MVA MET Ends Here 
+##
 
 
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
-#process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
-#GR_P_V56
-#process.GlobalTag = GlobalTag(process.GlobalTag, 'PHYS14_25_V1', 'All')
+if option == 'MC':
+        process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+if option == 'DATA':
+        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_Prompt_v0', '')
 
+
+##
+## This is for Uncorrected MET
 from RecoMET.METProducers.PFMET_cfi import pfMet
 process.pfMet = pfMet.clone(src = "packedPFCandidates")
 process.pfMet.calculateSignificance = False # this can't be easily implemented on packed PF candidates at the moment
-
+## Uncorrected MET edns here 
+##
 
 
 
@@ -496,10 +503,10 @@ import PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi as jetCleaner_cfi
 
 process.cleanaddJets = jetCleaner_cfi.cleanPatJets.clone()
 process.cleanaddJets.src = "goodaddJets"
-process.cleanaddJets.checkOverlaps.muons.src = "goodMuons"
+process.cleanaddJets.checkOverlaps.muons.src = "slimmedMuons"
 process.cleanaddJets.checkOverlaps.muons.deltaR = 0.8
 process.cleanaddJets.checkOverlaps.muons.requireNoOverlaps = True
-process.cleanaddJets.checkOverlaps.electrons.src = "goodElectrons"
+process.cleanaddJets.checkOverlaps.electrons.src = "slimmedElectrons"
 process.cleanaddJets.checkOverlaps.electrons.deltaR = 0.8
 process.cleanaddJets.checkOverlaps.electrons.requireNoOverlaps = True
 process.cleanaddJets.checkOverlaps.photons = cms.PSet()
@@ -550,9 +557,10 @@ adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 process.miniAODjetSequence = cms.Sequence(
                              process.selectedPatJetsPFCHSAK8PFlow+
                              process.selectedPatJetsPrunedPFCHSAK8Packed +
-                             process.fataddJetsSequence+
-                             process.fatJetsSequence+ 
-                             process.ak4JetsSequence
+                             process.fataddJetsSequence
+                             #process.fatJetsSequence+ 
+                             #process.ak4JetsSequence
+                             
                              )
 
 
@@ -631,10 +639,14 @@ process.tree = cms.EDAnalyzer(
     fillAddJetInfo_   = cms.bool(True),
     fillMetInfo_   = cms.bool(True),
     fillTrigInfo_  = cms.bool(True),
+    fillFilterInfo_ = cms.bool(True),
     fillPhotInfo_  = cms.bool(True),
     fillTauInfo_   = cms.bool(True),
     
+    ##photonLabel    = cms.InputTag("slimmedPhotons"),
     photonLabel    = cms.InputTag("slimmedPhotons"),
+    triggerLabel   = cms.InputTag("TriggerResults::HLT"),
+    filterLabel    = cms.InputTag("TriggerResults::PAT"),
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
@@ -655,20 +667,25 @@ process.tree = cms.EDAnalyzer(
     ##AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
     ##AK5jecUncName = cms.string(AK5jecUnc),  
     
+    ##patMuons=cms.InputTag("slimmedMuons"),
+    ##patElectrons = cms.InputTag("slimmedElectrons"),
     patMuons=cms.InputTag("slimmedMuons"),
     patElectrons = cms.InputTag("slimmedElectrons"),
     
     
     pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
+    ##tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
     tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
     rhoSrc = cms.InputTag('kt6PFJets','rho'),
     ### FatJets 
-    FATJets=cms.InputTag("cleanJets"),
+    #FATJets=cms.InputTag("cleanJets"),
+    FATJets=cms.InputTag("slimmedJetsAK8"),
     # jec still need to be checked 
     #CA8jecPayloadNames = cms.vstring( CA8jecLevels ),
     #CA8jecUncName = cms.string(CA8jecUnc),    
     ### THINJet
-    THINJets=cms.InputTag("cleanAK4Jets"),
+    #THINJets=cms.InputTag("cleanAK4Jets"),
+    THINJets=cms.InputTag("slimmedJets"),
     # jec still need to be checked 
     #AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
     #AK5jecUncName = cms.string(AK5jecUnc),    
@@ -682,8 +699,10 @@ process.tree = cms.EDAnalyzer(
     pfMVAMET   = cms.InputTag("pfMVAMEt"),
     
     runAddjetPY=cms.bool(True),
-    ADDJets= cms.InputTag("cleanaddJets"),
-    AddjetlabelPY= cms.InputTag("cleanaddJets"),
+    ADDJets= cms.InputTag("packedPatJetsPFCHSAK8"),
+    AddjetlabelPY= cms.InputTag("packedPatJetsPFCHSAK8"),
+    #ADDJets= cms.InputTag("cleanaddJets"),
+    #AddjetlabelPY= cms.InputTag("cleanaddJets"),
     #AddjetlabelPY= cms.InputTag("packedPatJetsPFCHSAK8"),
     SubJetsPY= cms.InputTag('selectedPatJetsPrunedSubjetsPFCHSAK8','SubJets'),
     svTagInfosPY  = cms.string('pfInclusiveSecondaryVertexFinder'),
@@ -729,16 +748,21 @@ process.allEventsCounter = cms.EDFilter(
     "EventCounter"
     )
 
+#process.egmPhotonIDs.physicsObjectSrc = cms.InputTag("ncuslimmedPhoton")
+#process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
+
 
 process.analysis = cms.Path(
     process.allEventsCounter+
+    #process.ncuslimmer+
     process.egmGsfElectronIDSequence+
     process.egmPhotonIDSequence+
-    process.goodLeptonsProducer+
-    process.leptonSequence+                                               
+    #process.leptonSequence+                                               
+    #process.egmGsfElectronIDSequence+
+    #process.egmPhotonIDSequence+
     process.pfMVAMEtSequence+
     process.pfMet+
-    process.miniAODjetSequence+                        
+    process.miniAODjetSequence+                     
     #process.selectedPatJetsPFCHSAK8PFlow + 
     #process.selectedPatJetsPrunedPFCHSAK8Packed +
     process.tree

@@ -10,8 +10,10 @@
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
  #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
 
-patHltTree::patHltTree(std::string name,TTree* tree):baseTree(name,tree),
-						     nTrigs_(0)						     
+patHltTree::patHltTree(std::string name,TTree* tree, const edm::ParameterSet& iConfig ):
+  baseTree(name,tree),
+  nTrigs_(0),
+  trigTag(iConfig.getParameter<edm::InputTag>("triggerLabel"))
 {
   SetBranches();
 }
@@ -25,7 +27,7 @@ patHltTree::Fill(const edm::Event& iEvent)
   edm::Handle<edm::TriggerResults> trigResults;
   edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
   iEvent.getByLabel("patTrigger",triggerPrescales);
-  edm::InputTag trigTag("TriggerResults::HLT");
+  //edm::InputTag trigTag("TriggerResults::HLT");
   if (not iEvent.getByLabel(trigTag, trigResults)) {
     std::cout << ">>> TRIGGER collection does not exist !!!\n";
     return;
@@ -40,6 +42,8 @@ patHltTree::Fill(const edm::Event& iEvent)
       std::string trigName = trigNames.triggerName(i);
       // lepton triggers
       size_t foundDEle33=trigName.find("HLT_DoubleEle33");
+      size_t foundEle17_Ele12=trigName.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL");
+      size_t foundEle27=trigName.find("HLT_Ele27_eta2p1_WPLoose_Gsf");
       size_t foundEle105=trigName.find("HLT_Ele105");
       size_t foundMu17_Mu8=trigName.find("HLT_Mu17_Mu8");
       size_t foundMu17_TkMu8=trigName.find("HLT_Mu17_TkMu8");
@@ -58,12 +62,11 @@ patHltTree::Fill(const edm::Event& iEvent)
 
       if(false) std::cout<<" trigName = "<<trigName
 			<<" : "<<trigResults->accept(i)
-			<<" : "<<(foundDEle33==std::string::npos)
-			<<" : "<<(foundEle105==std::string::npos)
-			<<" : "<<(foundMu30_TkMu11==std::string::npos)
-			<<" : "<<(foundMu45==std::string::npos)
 			<<std::endl;
+      
       if ( foundDEle33==std::string::npos &&
+	   foundEle27==std::string::npos && 
+	   foundEle17_Ele12==std::string::npos && 
 	   foundEle105==std::string::npos &&
        	   foundMu17_Mu8==std::string::npos && 
        	   foundMu17_TkMu8==std::string::npos && 

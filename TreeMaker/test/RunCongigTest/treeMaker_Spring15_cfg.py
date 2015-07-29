@@ -32,7 +32,7 @@ if option == 'GEN':
 
 ### RECO level studies
 if option == 'RECO':
-    process.load("DelPanj.TreeMaker.slimmer.objectslimmer_cff")
+    #process.load("DelPanj.TreeMaker.slimmer.objectslimmer_cff")
     process.load("ExoDiBosonResonances.EDBRCommon.goodMuons_cff")
     process.load("ExoDiBosonResonances.EDBRCommon.goodElectrons_cff")
     #process.load("ExoDiBosonResonances.EDBRJets.redoSubstructure_cff")
@@ -74,7 +74,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(1)
 )
 
 
@@ -550,8 +550,8 @@ process.miniAODjetSequence = cms.Sequence(
                              process.selectedPatJetsPrunedPFCHSAK8Packed +
                              process.fataddJetsSequence+
                              process.fatJetsSequence+ 
-                             process.ak4JetsSequence+
-                             process.ncuslimmer
+                             process.ak4JetsSequence
+                             
                              )
 
 
@@ -634,7 +634,7 @@ process.tree = cms.EDAnalyzer(
     fillTauInfo_   = cms.bool(True),
     
     ##photonLabel    = cms.InputTag("slimmedPhotons"),
-    photonLabel    = cms.InputTag("ncuslimmedPhoton"),
+    photonLabel    = cms.InputTag("slimmedPhotons"),
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
@@ -657,13 +657,13 @@ process.tree = cms.EDAnalyzer(
     
     ##patMuons=cms.InputTag("slimmedMuons"),
     ##patElectrons = cms.InputTag("slimmedElectrons"),
-    patMuons=cms.InputTag("ncuslimmedMuon"),
-    patElectrons = cms.InputTag("ncuslimmedElectron"),
+    patMuons=cms.InputTag("slimmedMuons"),
+    patElectrons = cms.InputTag("slimmedElectrons"),
     
     
     pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
     ##tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
-    tauLabel_ = cms.untracked.InputTag("ncuslimmedTau"),
+    tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
     rhoSrc = cms.InputTag('kt6PFJets','rho'),
     ### FatJets 
     #FATJets=cms.InputTag("cleanJets"),
@@ -673,7 +673,7 @@ process.tree = cms.EDAnalyzer(
     #CA8jecUncName = cms.string(CA8jecUnc),    
     ### THINJet
     #THINJets=cms.InputTag("cleanAK4Jets"),
-    THINJets=cms.InputTag("ncuslimmedAK4Jet"),
+    THINJets=cms.InputTag("slimmedJets"),
     # jec still need to be checked 
     #AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
     #AK5jecUncName = cms.string(AK5jecUnc),    
@@ -734,16 +734,21 @@ process.allEventsCounter = cms.EDFilter(
     "EventCounter"
     )
 
+#process.egmPhotonIDs.physicsObjectSrc = cms.InputTag("ncuslimmedPhoton")
+#process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
+
 
 process.analysis = cms.Path(
     process.allEventsCounter+
-    process.leptonSequence+                                               
+    #process.ncuslimmer+
     process.egmGsfElectronIDSequence+
     process.egmPhotonIDSequence+
+    process.leptonSequence+                                               
+    #process.egmGsfElectronIDSequence+
+    #process.egmPhotonIDSequence+
     process.pfMVAMEtSequence+
     process.pfMet+
     process.miniAODjetSequence+                     
-
     #process.selectedPatJetsPFCHSAK8PFlow + 
     #process.selectedPatJetsPrunedPFCHSAK8Packed +
     process.tree

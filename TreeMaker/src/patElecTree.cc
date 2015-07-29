@@ -70,8 +70,6 @@ patElecTree::Fill(const edm::Event& iEvent){
 
   iEvent.getByLabel(eleMediumIdMapLabel_,medium_MVAid_decisions);
   iEvent.getByLabel(eleTightIdMapLabel_,tight_MVAid_decisions);
-  // std::cout<<" veto size  ---------------- "<<veto_id_decisions->size()<<std::endl;
-  // std::cout<<" ele size  ---------------- "<<electronHandle->size()<<std::endl;
 
   // Get MVA values and categories (optional)
   edm::Handle<edm::ValueMap<float> > mvaValues;
@@ -116,7 +114,8 @@ patElecTree::Fill(const edm::Event& iEvent){
   
   for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {
 
-    if(ele->pt() < 5.) continue;
+    if(ele->pt() < 10.) continue;
+    if(TMath::Abs(ele->eta()) > 2.7) continue;
     nEle_++;
 
     new( (*patElecP4_)[nEle_-1]) TLorentzVector(
@@ -131,7 +130,7 @@ patElecTree::Fill(const edm::Event& iEvent){
     
     patElecCharge_.push_back(ele->charge());
     patElecChargeConsistent_.push_back(ele->isGsfCtfScPixChargeConsistent());
-    
+
     
     patElecaloEnergy_.push_back(ele->caloEnergy());
 
@@ -159,6 +158,7 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecSigmaIEtaIEta_.push_back(ele->sigmaIetaIeta()); ///new sigmaietaieta
     patElecSigmaIEtaIPhi_.push_back(ele->sigmaIetaIphi());
     patElecSigmaIPhiIPhi_.push_back(ele->sigmaIphiIphi());
+
 
     patElecConvVeto_.push_back(ele->passConversionVeto()); // ConvVtxFit || missHit == 0
     patElecMissHits_.push_back(ele->gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS));
@@ -230,7 +230,7 @@ patElecTree::Fill(const edm::Event& iEvent){
        }*/
     
     const auto el = electronHandle->ptrAt(nEle_-1);
-    // std::cout<<" veto id = "<<(*veto_id_decisions)[el]<<std::endl;
+
     
     isPassVeto_.push_back( (*veto_id_decisions)[el]);
     isPassLoose_.push_back( (*loose_id_decisions)[el]);

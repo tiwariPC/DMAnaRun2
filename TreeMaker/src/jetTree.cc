@@ -105,8 +105,12 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
   std::vector<pat::Jet>::const_iterator jet =jets.begin();   
   // cout<<"start Fatjet loop"<<endl; 
-
+  //if(TMath::Abs(jet->eta() > 2.6) continue;
+  // not applying cut on jet eta coz i may need to use forward jets some time. 
+  // 
   for(;jet!=jets.end();jet++){
+  if(jet->pt() < 20.) continue;
+  
     nJet_++;
     //Stuff common for all jets.
 
@@ -149,7 +153,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       matchedDR_.push_back(-99999.0);
       new( (*genjetP4_)[nJet_-1]) TLorentzVector(-99999.,-99999.,-99999.,-99999.);
     }
-
+    
     jetRawFactor_.push_back(jet->jecFactor("Uncorrected"));
     new( (*jetP4_)[nJet_-1]) TLorentzVector(jet->p4().px(),
 					    jet->p4().py(),

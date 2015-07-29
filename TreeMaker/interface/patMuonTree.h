@@ -58,7 +58,14 @@ class patMuonTree : public baseTree {
   std::vector<bool> isGlobalMuon_;
   std::vector<bool> isTrackerMuon_;
   std::vector<bool> isPFMuon_;
-
+  
+  std::vector<bool> isTightMuon_;
+  std::vector<bool> isLooseMuon_;
+  std::vector<bool> isMediumMuon_;
+  std::vector<bool> isSoftMuon_;
+  std::vector<bool> isHighPtMuon_;
+  std::vector<bool> isCustomTrackerMuon_;
+  
   std::vector<int>   patMuonITrkIndex_;
   std::vector<int>   patMuonSegIndex_;
   std::vector<int>   patMuonNSeg_;

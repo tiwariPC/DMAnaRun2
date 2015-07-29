@@ -30,7 +30,8 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   
   pat::TauCollection::const_iterator tau;
   for(tau=tauHandle->begin(); tau!=tauHandle->end(); tau++){
-
+    if(tau->pt() < 18.0) continue;
+    if(TMath::Abs(tau->eta()) > 2.5) continue;
     
     if(debug_) std::cout<<" pt,eta,phi of "<<HPSTau_n+1
 			<<" tau is : "<<tau->pt() 

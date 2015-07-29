@@ -1,5 +1,5 @@
-#ifndef patHlttree_h
-#define patHlttree_h
+#ifndef patFilters_h
+#define patFilters_h
 
 #include<iostream>
 #include<string>
@@ -11,21 +11,20 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 
-class patHltTree : public baseTree{
+class patFilters : public baseTree{
 
  public:
-  patHltTree(std::string name,TTree* tree, const edm::ParameterSet& iConfig);
+  patFilters(std::string name,TTree* tree, const edm::ParameterSet& iConfig);
   void Fill(const edm::Event& iEvent);
   void Clear();
   void SetBranches();
   
  private:
-  patHltTree(){};
-  int nTrigs_;
-  std::vector<bool> trigResult_;
-  std::vector<std::string> trigName_;
-  std::vector<int> trigPrescale_;
-  edm::InputTag trigTag;
+  patFilters(){};
+  int nfilters_;
+  std::vector<bool> filterResult_;
+  std::vector<std::string> filterName_;
+  edm::InputTag filterTag;
 };
 
 #endif

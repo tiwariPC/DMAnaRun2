@@ -22,6 +22,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillEventInfo_=false;
   fillGenInfo_=false;
   fillTrigInfo_=false;
+  fillFilterInfo_=false;
   fillElecInfo_=false;
   fillMuonInfo_=false;
   fillTauInfo_=false;
@@ -36,6 +37,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillEventInfo_ = iConfig.getParameter<bool>("fillEventInfo_");
   fillGenInfo_   = iConfig.getParameter<bool>("fillGenInfo_");
   fillTrigInfo_  = iConfig.getParameter<bool>("fillTrigInfo_");
+  fillFilterInfo_ = iConfig.getParameter<bool>("fillFilterInfo_");
   fillElecInfo_  = iConfig.getParameter<bool>("fillElecInfo_");
   fillMuonInfo_  = iConfig.getParameter<bool>("fillMuonInfo_");
   fillTauInfo_   = iConfig.getParameter<bool>("fillTauInfo_");
@@ -55,8 +57,9 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
 
   if( fillGenInfo_ )     genInfoTree_ = new genInfoTree("",tree_,iConfig);
 
-  if( fillTrigInfo_ )    patHltTree_ = new patHltTree("hlt_",tree_); 
-
+  if( fillTrigInfo_ )    patHltTree_ = new patHltTree("hlt_",tree_,iConfig); 
+  if( fillFilterInfo_ )  patFilterTree_ = new patFilters("hlt_",tree_,iConfig); 
+  
   if( fillElecInfo_ )    patElecTree_ = new patElecTree("",tree_,iConfig);
   if( fillMuonInfo_ )    patMuTree_= new patMuonTree("",tree_,iConfig);
   if( fillTauInfo_ )     tauTree_ = new hpstauInfo("",tree_, false, iConfig);
@@ -86,14 +89,15 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillEventInfo_) eventInfo_   ->Fill(iEvent);
   if( fillGenInfo_)   genInfoTree_ ->Fill(iEvent);
   if( fillElecInfo_)  patElecTree_ ->Fill(iEvent);
-
+  
   if( fillMuonInfo_)  patMuTree_   ->Fill(iEvent);
   if( fillFATJetInfo_)   FATjetTree_  ->Fill(iEvent, iSetup);
   if( fillJetInfo_)   THINjetTree_  ->Fill(iEvent, iSetup);
   if( fillAddJetInfo_)   ADDjetTree_  ->Fill(iEvent, iSetup);  
-
+ 
   if( fillMetInfo_)   patMetTree_  ->Fill(iEvent);
   if( fillTrigInfo_)  patHltTree_  ->Fill(iEvent);
+  if( fillFilterInfo_) patFilterTree_->Fill(iEvent);
   if( fillPhotInfo_)  photonTree_  ->Fill(iEvent);
   if( fillTauInfo_)   tauTree_     ->Fill(iEvent, iSetup);
   tree_->Fill();
