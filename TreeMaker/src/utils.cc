@@ -121,7 +121,7 @@ bool PassAllBut(std::string tag, std::map<std::string, bool> cutrecd){
 
 /// Auxiliary function to select muons in the context of high-pt muon
 /// analysis. Could be extended to other analyses, of course.
-bool isTrackerMuon (const reco::Muon* recoMu, const reco::Vertex& vertex) {
+bool CustisTrackerMuon (const reco::Muon* recoMu, const reco::Vertex& vertex) {
   
   //bool isGlobal = false;
   bool isTracker = false;

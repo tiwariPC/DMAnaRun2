@@ -9,8 +9,8 @@ process.options = cms.untracked.PSet(
 )
 
 
-#option = 'DATA' # 'GEN' or 'RECO'
-option = 'MC'
+option = 'DATA' # 'GEN' or 'RECO'
+#option = 'MC'
 
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
@@ -30,6 +30,16 @@ if option == 'DATA':
 
 
 
+## for Filters
+
+if option == 'MC':
+	filterlabel="TriggerResults::PAT"
+if option == 'DATA':
+	filterlabel="TriggerResults::PAT"
+
+
+process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
+process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
 
 
 ### GEN level studies
@@ -82,7 +92,7 @@ AK5jecLevels = [
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(50)
+    input = cms.untracked.int32(-1)
 )
 
 
@@ -91,7 +101,9 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        '/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
+		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
+		#'/store/data/Run2015B/MET/MINIAOD/PromptReco-v1/000/251/251/00000/0EA22A54-9027-E511-A3D4-02163E0133E3.root'
+		#'file:0EA22A54-9027-E511-A3D4-02163E0133E3.root'
         ),
                             skipEvents = cms.untracked.uint32(0)         
                             )
@@ -624,9 +636,6 @@ for idmod in my_phoid_modules:
 
 
 
-
-
-
 process.tree = cms.EDAnalyzer(
     'TreeMaker',
     fillPUweightInfo_ = cms.bool(True),
@@ -646,7 +655,7 @@ process.tree = cms.EDAnalyzer(
     ##photonLabel    = cms.InputTag("slimmedPhotons"),
     photonLabel    = cms.InputTag("slimmedPhotons"),
     triggerLabel   = cms.InputTag("TriggerResults::HLT"),
-    filterLabel    = cms.InputTag("TriggerResults::PAT"),
+    filterLabel    = cms.InputTag(filterlabel),
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
@@ -765,6 +774,7 @@ process.analysis = cms.Path(
     process.miniAODjetSequence+                     
     #process.selectedPatJetsPFCHSAK8PFlow + 
     #process.selectedPatJetsPrunedPFCHSAK8Packed +
+    process.HBHENoiseFilterResultProducer+
     process.tree
     )
 

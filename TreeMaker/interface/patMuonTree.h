@@ -48,57 +48,57 @@ class patMuonTree : public baseTree {
   bool charged_only_;
 
   // ntuple variabes
-  int nMu_;
-  TClonesArray *patMuonP4_;
+  int nMu;
+  TClonesArray *patMuonP4;
 
-  std::vector<int> patMuonType_;
-  std::vector<int> patMuonCharge_;
+  std::vector<int> patMuonType;
+  std::vector<int> patMuonCharge;
 
 
-  std::vector<bool> isGlobalMuon_;
-  std::vector<bool> isTrackerMuon_;
-  std::vector<bool> isPFMuon_;
+  std::vector<bool> isGlobalMuon;
+  std::vector<bool> isTrackerMuon;
+  std::vector<bool> isPFMuon;
   
-  std::vector<bool> isTightMuon_;
-  std::vector<bool> isLooseMuon_;
-  std::vector<bool> isMediumMuon_;
-  std::vector<bool> isSoftMuon_;
-  std::vector<bool> isHighPtMuon_;
-  std::vector<bool> isCustomTrackerMuon_;
+  std::vector<bool> isTightMuon;
+  std::vector<bool> isLooseMuon;
+  std::vector<bool> isMediumMuon;
+  std::vector<bool> isSoftMuon;
+  std::vector<bool> isHighPtMuon;
+  std::vector<bool> isCustomTrackerMuon;
   
-  std::vector<int>   patMuonITrkIndex_;
-  std::vector<int>   patMuonSegIndex_;
-  std::vector<int>   patMuonNSeg_;
-  std::vector<bool>   patMuonGood_;
-  std::vector<bool>   patMuonIsGood_;
+  std::vector<int>   patMuonITrkIndex;
+  std::vector<int>   patMuonSegIndex;
+  std::vector<int>   patMuonNSeg;
+  std::vector<bool>   patMuonGood;
+  std::vector<bool>   patMuonIsGood;
 
-  std::vector<float> patMuonTrkPt_;
-  std::vector<float> patMuonTrkPtErr_;
-  std::vector<float> patMuondxy_;
-  std::vector<float> patMuondz_;
-  std::vector<float> patMuonsegmentCompatibility_;
-  std::vector<float> patMuonchi2LocalPosition_;
-  std::vector<float> patMuontrkKink_;
+  std::vector<float> patMuonTrkPt;
+  std::vector<float> patMuonTrkPtErr;
+  std::vector<float> patMuondxy;
+  std::vector<float> patMuondz;
+  std::vector<float> patMuonsegmentCompatibility;
+  std::vector<float> patMuonchi2LocalPosition;
+  std::vector<float> patMuontrkKink;
 
-  std::vector<float> patMuonInnerdxy_;
-  std::vector<float> patMuonInnerdz_;
-  std::vector<int>   patMuonTrkLayers_;
-  std::vector<int>   patMuonPixelLayers_;
-  std::vector<int>   patMuonPixelHits_;
-  std::vector<int>   patMuonHits_;
-  std::vector<float> patMuonTrkQuality_;
-  std::vector<float> patMuonChi2NDF_;
-  std::vector<float> patMuonInnervalidFraction_;
-  std::vector<int>   patMuonMatches_;
+  std::vector<float> patMuonInnerdxy;
+  std::vector<float> patMuonInnerdz;
+  std::vector<int>   patMuonTrkLayers;
+  std::vector<int>   patMuonPixelLayers;
+  std::vector<int>   patMuonPixelHits;
+  std::vector<int>   patMuonHits;
+  std::vector<float> patMuonTrkQuality;
+  std::vector<float> patMuonChi2NDF;
+  std::vector<float> patMuonInnervalidFraction;
+  std::vector<int>   patMuonMatches;
 
-  std::vector<float> patMuonTrkIso_;
-  std::vector<float> patMuonHcalIso_;
-  std::vector<float> patMuonEcalIso_;
-  std::vector<float> patMuonChHadIso_;
-  std::vector<float> patMuonNeHadIso_;
-  std::vector<float> patMuonGamIso_;
-  std::vector<float> patMuonPUPt_;
-  std::vector<float> patMuonMiniIso_;
+  std::vector<float> patMuonTrkIso;
+  std::vector<float> patMuonHcalIso;
+  std::vector<float> patMuonEcalIso;
+  std::vector<float> patMuonChHadIso;
+  std::vector<float> patMuonNeHadIso;
+  std::vector<float> patMuonGamIso;
+  std::vector<float> patMuonPUPt;
+  std::vector<float> patMuonMiniIso;
 
  
   

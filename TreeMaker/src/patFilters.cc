@@ -8,8 +8,8 @@
 #include "DataFormats/HLTReco/interface/TriggerObject.h"
 #include "FWCore/Common/interface/TriggerNames.h" 
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
- #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
-
+#include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
+#include "DataFormats/METReco/interface/HcalNoiseSummary.h"
 patFilters::patFilters(std::string name,TTree* tree, const edm::ParameterSet& iConfig ):
   baseTree(name,tree),
   nfilters_(0),
@@ -23,6 +23,14 @@ patFilters::Fill(const edm::Event& iEvent)
 {
   Clear();
   using namespace edm;
+  
+
+  edm::Handle<bool> HBHET;
+  edm::InputTag  hbhetag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET");
+  iEvent.getByLabel(hbhetag,HBHET);
+  hbhet_ = (*HBHET.product());
+  std::cout<<" HBHE = "<<(*HBHET.product())<<std::endl;
+  
   
   edm::Handle<edm::TriggerResults> trigResults;
   if (not iEvent.getByLabel(filterTag, trigResults)) {
@@ -59,6 +67,7 @@ void patFilters::SetBranches(){
   
   AddBranch(&nfilters_,"nfilters");
   AddBranch(&filterResult_,"filterResult");
+  AddBranch(&hbhet_,"hbhet");
   AddBranch(&filterName_,"filterName");
 
 
@@ -69,6 +78,7 @@ patFilters::Clear(){
   nfilters_ = 0;
   filterResult_.clear();
   filterName_.clear();
+  hbhet_ = false;
 }
 
 

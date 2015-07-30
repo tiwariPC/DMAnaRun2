@@ -54,6 +54,7 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundMu45=trigName.find("HLT_Mu45");
 
       // jet, met triggers
+      size_t foundMET120HT120                = trigName.find("HLT_PFMET120_PFMHT120_IDLoose_v");
       size_t foundMETBTag                    = trigName.find("HLT_PFMET120_NoiseCleaned_BTagCSV07");
       size_t foundPFMET170                   = trigName.find("HLT_PFMET170_NoiseCleaned");
       size_t foundPFMET190MHT90              = trigName.find("HLT_PFMET90_PFMHT90_IDLoose");
@@ -63,7 +64,7 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundPFHT350_PFMET120           = trigName.find("HLT_PFHT350_PFMET120_NoiseCleaned");
       
 
-      if(false) std::cout<<" trigName = "<<trigName
+      if(true) std::cout<<" trigName = "<<trigName
 			<<" : "<<trigResults->accept(i)
 			<<std::endl;
       
@@ -78,6 +79,7 @@ patHltTree::Fill(const edm::Event& iEvent)
        	   foundMu17_TkMu8==std::string::npos && 
        	   foundMu30_TkMu11==std::string::npos &&
        	   foundMu45==std::string::npos &&
+	   foundMET120HT120==std::string::npos &&
 	   foundMETBTag==std::string::npos &&
 	   foundPFMET170==std::string::npos &&
 	   foundPFMET190MHT90==std::string::npos &&

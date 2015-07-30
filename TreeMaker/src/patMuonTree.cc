@@ -24,14 +24,14 @@ patMuonTree::patMuonTree(std::string name, TTree* tree,
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
   charged_only_(iConfig.getParameter<bool>("charged_only"))
 {
-  patMuonP4_ =   new TClonesArray("TLorentzVector");
+  patMuonP4 =   new TClonesArray("TLorentzVector");
   SetBranches();
 
 }
 
 patMuonTree::~patMuonTree()
 {
-  delete patMuonP4_;
+  delete patMuonP4;
 }
 
 void
@@ -78,11 +78,11 @@ patMuonTree::Fill(const edm::Event& iEvent){
 
     if(mu->pt() < 10.) continue;
     if(TMath::Abs(mu->eta()) > 2.5) continue;
-    nMu_++;
-    patMuonType_.push_back(mu->type());
-    patMuonCharge_.push_back(mu->charge());
+    nMu++;
+    patMuonType.push_back(mu->type());
+    patMuonCharge.push_back(mu->charge());
 
-    new( (*patMuonP4_)[nMu_-1]) TLorentzVector(
+    new( (*patMuonP4)[nMu-1]) TLorentzVector(
 					       mu->p4().px(),
 					       mu->p4().py(),
 					       mu->p4().pz(),
@@ -90,16 +90,17 @@ patMuonTree::Fill(const edm::Event& iEvent){
 					       );
 
     //id global tracker and PF
-    isGlobalMuon_.push_back(mu->isGlobalMuon());
-    isTrackerMuon_.push_back(mu->isTrackerMuon());
-    isPFMuon_.push_back(mu->isPFMuon());
-    isTightMuon_.push_back(mu->isTightMuon(vertex));
-    isLooseMuon_.push_back(mu->isLooseMuon());
-    isMediumMuon_.push_back(mu->isMediumMuon());
-    isSoftMuon_.push_back(mu->isSoftMuon(vertex));
-    isHighPtMuon_.push_back(mu->isHighPtMuon(vertex));
-    isCustomTrackerMuon_.push_back(isTrackerMuon(&(*mu),vertex ));
-    if(false) std::cout<<" customized tracker mu = "<<isTrackerMuon(&(*mu),vertex )<<std::endl;
+    isGlobalMuon.push_back(mu->isGlobalMuon());
+    isTrackerMuon.push_back(mu->isTrackerMuon());
+    isPFMuon.push_back(mu->isPFMuon());
+    isTightMuon.push_back(mu->isTightMuon(vertex));
+    isLooseMuon.push_back(mu->isLooseMuon());
+    isMediumMuon.push_back(mu->isMediumMuon());
+    isSoftMuon.push_back(mu->isSoftMuon(vertex));
+    isHighPtMuon.push_back(mu->isHighPtMuon(vertex));
+    
+    isCustomTrackerMuon.push_back(CustisTrackerMuon(&(*mu),vertex));
+    
     // for finding shared segments reason not known
     int muonIndex=-1;
     int tempTrackIndex=-1;
@@ -117,57 +118,57 @@ patMuonTree::Fill(const edm::Event& iEvent){
 	}
     } // loop over jmuon
     
-    patMuonITrkIndex_.push_back(tempTrackIndex);
-    patMuonSegIndex_.push_back(tempSegIndex);
-    patMuonNSeg_.push_back(nSegments);
-    patMuonGood_.push_back(muon::isGoodMuon(*mu, muon::TrackerMuonArbitrated)? 1:0);
-    patMuonIsGood_.push_back(mu->isGood("TMOneStationTight"));
+    patMuonITrkIndex.push_back(tempTrackIndex);
+    patMuonSegIndex.push_back(tempSegIndex);
+    patMuonNSeg.push_back(nSegments);
+    patMuonGood.push_back(muon::isGoodMuon(*mu, muon::TrackerMuonArbitrated)? 1:0);
+    patMuonIsGood.push_back(mu->isGood("TMOneStationTight"));
     
-    patMuonTrkPt_.push_back(mu->muonBestTrack()->pt());  
-    patMuonTrkPtErr_.push_back(mu->muonBestTrack()->ptError());
-    patMuondxy_.push_back(mu->muonBestTrack()->dxy(pv));
-    patMuondz_.push_back(mu->muonBestTrack()->dz(pv));
+    patMuonTrkPt.push_back(mu->muonBestTrack()->pt());  
+    patMuonTrkPtErr.push_back(mu->muonBestTrack()->ptError());
+    patMuondxy.push_back(mu->muonBestTrack()->dxy(pv));
+    patMuondz.push_back(mu->muonBestTrack()->dz(pv));
      
-    patMuonsegmentCompatibility_.push_back(mu->segmentCompatibility());
-    patMuonchi2LocalPosition_.push_back(mu->combinedQuality().chi2LocalPosition);
-    patMuontrkKink_.push_back(mu->combinedQuality().trkKink);
+    patMuonsegmentCompatibility.push_back(mu->segmentCompatibility());
+    patMuonchi2LocalPosition.push_back(mu->combinedQuality().chi2LocalPosition);
+    patMuontrkKink.push_back(mu->combinedQuality().trkKink);
     
     const reco::TrackRef glbmu = mu->globalTrack();
     const reco::TrackRef trkmu = mu->innerTrack();
     
     if(trkmu.isNull()){
-      patMuonInnerdxy_.push_back(-999);
-      patMuonInnerdz_.push_back(-999);
-      patMuonTrkLayers_.push_back(-999);
-      patMuonPixelLayers_.push_back(-999);
-      patMuonPixelHits_.push_back(-999);
-      patMuonTrkQuality_.push_back(-999);
-      patMuonInnervalidFraction_.push_back(-999);
+      patMuonInnerdxy.push_back(-999);
+      patMuonInnerdz.push_back(-999);
+      patMuonTrkLayers.push_back(-999);
+      patMuonPixelLayers.push_back(-999);
+      patMuonPixelHits.push_back(-999);
+      patMuonTrkQuality.push_back(-999);
+      patMuonInnervalidFraction.push_back(-999);
     }else{ 
-      patMuonInnerdxy_.push_back(trkmu->dxy(pv));
-      patMuonInnerdz_.push_back(trkmu->dz(pv));
-      patMuonTrkLayers_.push_back(trkmu->hitPattern().trackerLayersWithMeasurement());
-      patMuonPixelLayers_.push_back(trkmu->hitPattern().pixelLayersWithMeasurement());
-      patMuonPixelHits_.push_back(trkmu->hitPattern().numberOfValidPixelHits());
-      patMuonTrkQuality_.push_back(trkmu->quality(reco::TrackBase::highPurity));
-      patMuonInnervalidFraction_.push_back(trkmu->validFraction());
+      patMuonInnerdxy.push_back(trkmu->dxy(pv));
+      patMuonInnerdz.push_back(trkmu->dz(pv));
+      patMuonTrkLayers.push_back(trkmu->hitPattern().trackerLayersWithMeasurement());
+      patMuonPixelLayers.push_back(trkmu->hitPattern().pixelLayersWithMeasurement());
+      patMuonPixelHits.push_back(trkmu->hitPattern().numberOfValidPixelHits());
+      patMuonTrkQuality.push_back(trkmu->quality(reco::TrackBase::highPurity));
+      patMuonInnervalidFraction.push_back(trkmu->validFraction());
     }
     
     if(glbmu.isNull()){
-      patMuonHits_.push_back(-999);
-      patMuonChi2NDF_.push_back(-999);
+      patMuonHits.push_back(-999);
+      patMuonChi2NDF.push_back(-999);
     }else{
-      patMuonHits_.push_back(glbmu->hitPattern().numberOfValidMuonHits());
-      patMuonChi2NDF_.push_back(glbmu->normalizedChi2());
+      patMuonHits.push_back(glbmu->hitPattern().numberOfValidMuonHits());
+      patMuonChi2NDF.push_back(glbmu->normalizedChi2());
     } 
     
-    patMuonMatches_.push_back(mu->numberOfMatchedStations());
+    patMuonMatches.push_back(mu->numberOfMatchedStations());
     
     //isolation variables //
     
-    patMuonTrkIso_.push_back(mu->trackIso());
-    patMuonHcalIso_.push_back(mu->hcalIso());
-    patMuonEcalIso_.push_back(mu->ecalIso());
+    patMuonTrkIso.push_back(mu->trackIso());
+    patMuonHcalIso.push_back(mu->hcalIso());
+    patMuonEcalIso.push_back(mu->ecalIso());
     float iso1   = -999.;
     float iso2   = -999.;
     float iso3   = -999.;
@@ -176,68 +177,68 @@ patMuonTree::Fill(const edm::Event& iEvent){
     iso2 = mu->pfIsolationR04().sumNeutralHadronEt;
     iso3 = mu->pfIsolationR04().sumPhotonEt;
     isoPU = mu->pfIsolationR04().sumPUPt;
-    patMuonChHadIso_.push_back(iso1);
-    patMuonNeHadIso_.push_back(iso2);
-    patMuonGamIso_.push_back(iso3);
-    patMuonPUPt_.push_back(isoPU); 
+    patMuonChHadIso.push_back(iso1);
+    patMuonNeHadIso.push_back(iso2);
+    patMuonGamIso.push_back(iso3);
+    patMuonPUPt.push_back(isoPU); 
    
     double miniIso = getPFIsolation(pfcands, dynamic_cast<const reco::Candidate *>(&(*mu)), r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
-    patMuonMiniIso_.push_back(miniIso);
+    patMuonMiniIso.push_back(miniIso);
 
   }
 }
 void
 patMuonTree::SetBranches(){
 
-  AddBranch(&nMu_,"nMu");
-  AddBranch(&patMuonP4_,"muP4");
-  AddBranch(&patMuonType_, "muType");
-  AddBranch(&patMuonCharge_, "muCharge");
+  AddBranch(&nMu,"nMu");
+  AddBranch(&patMuonP4,"muP4");
+  AddBranch(&patMuonType, "muType");
+  AddBranch(&patMuonCharge, "muCharge");
 
-  AddBranch(&isGlobalMuon_, "isGlobalMuon");
-  AddBranch(&isTrackerMuon_, "isTrackerMuon");
-  AddBranch(&isPFMuon_,"isPFMuon");
-  AddBranch(&isTightMuon_,"isTightMuon_");
-  AddBranch(&isLooseMuon_,"isLooseMuon_");
-  AddBranch(&isMediumMuon_,"isMediumMuon_");
-  AddBranch(&isSoftMuon_,"isSoftMuon_");
-  AddBranch(&isHighPtMuon_,"isHighPtMuon_");
-  AddBranch(&isCustomTrackerMuon_,"isCustomTrackerMuon_");
+  AddBranch(&isGlobalMuon, "isGlobalMuon");
+  AddBranch(&isTrackerMuon, "isTrackerMuon");
+  AddBranch(&isPFMuon,"isPFMuon");
+  AddBranch(&isTightMuon,"isTightMuon");
+  AddBranch(&isLooseMuon,"isLooseMuon");
+  AddBranch(&isMediumMuon,"isMediumMuon");
+  AddBranch(&isSoftMuon,"isSoftMuon");
+  AddBranch(&isHighPtMuon,"isHighPtMuon");
+  AddBranch(&isCustomTrackerMuon,"isCustomTrackerMuon");
   
   
-  AddBranch(&patMuonITrkIndex_, "muITrkID");
-  AddBranch(&patMuonSegIndex_, "muSegID");
-  AddBranch(&patMuonNSeg_, "muNSegs");
-  AddBranch(&patMuonGood_, "muGood");
-  AddBranch(&patMuonIsGood_,"muIsGood");
+  AddBranch(&patMuonITrkIndex, "muITrkID");
+  AddBranch(&patMuonSegIndex, "muSegID");
+  AddBranch(&patMuonNSeg, "muNSegs");
+  AddBranch(&patMuonGood, "muGood");
+  AddBranch(&patMuonIsGood,"muIsGood");
 
-  AddBranch(&patMuonTrkPt_,"muTrkPt");
-  AddBranch(&patMuonTrkPtErr_, "muTrkPtErr");
-  AddBranch(&patMuondxy_, "mudxy");
-  AddBranch(&patMuondz_, "mudz");
-  AddBranch(&patMuonsegmentCompatibility_, "musegmentCompatibility");
-  AddBranch(&patMuonchi2LocalPosition_, "muchi2LocalPosition"); 
-  AddBranch(&patMuontrkKink_, "mutrkKink");
+  AddBranch(&patMuonTrkPt,"muTrkPt");
+  AddBranch(&patMuonTrkPtErr, "muTrkPtErr");
+  AddBranch(&patMuondxy, "mudxy");
+  AddBranch(&patMuondz, "mudz");
+  AddBranch(&patMuonsegmentCompatibility, "musegmentCompatibility");
+  AddBranch(&patMuonchi2LocalPosition, "muchi2LocalPosition"); 
+  AddBranch(&patMuontrkKink, "mutrkKink");
  
-  AddBranch(&patMuonInnerdxy_, "muInnerdxy"); 
-  AddBranch(&patMuonInnerdz_, "muInnerdz");
-  AddBranch(&patMuonTrkLayers_, "muTrkLayers");
-  AddBranch(&patMuonPixelLayers_,"muPixelLayers");
-  AddBranch(&patMuonPixelHits_, "muPixelHits");
-  AddBranch(&patMuonTrkQuality_,"muTrkQuality_");
-  AddBranch(&patMuonHits_, "muHits");
-  AddBranch(&patMuonChi2NDF_,"muChi2NDF");
-  AddBranch(&patMuonInnervalidFraction_,"muInnervalidFraction_");
-  AddBranch(&patMuonMatches_, "muMatches");
+  AddBranch(&patMuonInnerdxy, "muInnerdxy"); 
+  AddBranch(&patMuonInnerdz, "muInnerdz");
+  AddBranch(&patMuonTrkLayers, "muTrkLayers");
+  AddBranch(&patMuonPixelLayers,"muPixelLayers");
+  AddBranch(&patMuonPixelHits, "muPixelHits");
+  AddBranch(&patMuonTrkQuality,"muTrkQuality");
+  AddBranch(&patMuonHits, "muHits");
+  AddBranch(&patMuonChi2NDF,"muChi2NDF");
+  AddBranch(&patMuonInnervalidFraction,"muInnervalidFraction");
+  AddBranch(&patMuonMatches, "muMatches");
 
-  AddBranch(&patMuonTrkIso_, "muTrkIso");
-  AddBranch(&patMuonHcalIso_, "muHcalIso");
-  AddBranch(&patMuonEcalIso_, "muEcalIso");
-  AddBranch(&patMuonChHadIso_, "muChHadIso");
-  AddBranch(&patMuonNeHadIso_, "muNeHadIso");
-  AddBranch(&patMuonGamIso_, "muGamIso");
-  AddBranch(&patMuonPUPt_, "muPUPt");
-  AddBranch(&patMuonMiniIso_, "muMiniIso");
+  AddBranch(&patMuonTrkIso, "muTrkIso");
+  AddBranch(&patMuonHcalIso, "muHcalIso");
+  AddBranch(&patMuonEcalIso, "muEcalIso");
+  AddBranch(&patMuonChHadIso, "muChHadIso");
+  AddBranch(&patMuonNeHadIso, "muNeHadIso");
+  AddBranch(&patMuonGamIso, "muGamIso");
+  AddBranch(&patMuonPUPt, "muPUPt");
+  AddBranch(&patMuonMiniIso, "muMiniIso");
 
 
 
@@ -246,56 +247,56 @@ patMuonTree::SetBranches(){
 void
 patMuonTree::Clear(){
 
-  nMu_ =0;
-  patMuonP4_->Clear();
+  nMu =0;
+  patMuonP4->Clear();
 
-  patMuonType_.clear();
-  patMuonCharge_.clear();
+  patMuonType.clear();
+  patMuonCharge.clear();
 
-  isGlobalMuon_.clear();
-  isTrackerMuon_.clear();
-  isPFMuon_.clear();
-  isTightMuon_.clear();
-  isLooseMuon_.clear();
-  isMediumMuon_.clear();
-  isSoftMuon_.clear();
-  isHighPtMuon_.clear();
-  isCustomTrackerMuon_.clear();
-  patMuonITrkIndex_.clear();
-  patMuonSegIndex_.clear();
-  patMuonNSeg_.clear();
-  patMuonGood_.clear();
-  patMuonIsGood_.clear();
+  isGlobalMuon.clear();
+  isTrackerMuon.clear();
+  isPFMuon.clear();
+  isTightMuon.clear();
+  isLooseMuon.clear();
+  isMediumMuon.clear();
+  isSoftMuon.clear();
+  isHighPtMuon.clear();
+  isCustomTrackerMuon.clear();
+  patMuonITrkIndex.clear();
+  patMuonSegIndex.clear();
+  patMuonNSeg.clear();
+  patMuonGood.clear();
+  patMuonIsGood.clear();
 
 
-  patMuonTrkPt_.clear();
-  patMuonTrkPtErr_.clear();
-  patMuondxy_.clear();
-  patMuondz_.clear();
-  patMuonsegmentCompatibility_.clear();
-  patMuonchi2LocalPosition_.clear();
-  patMuontrkKink_.clear();
+  patMuonTrkPt.clear();
+  patMuonTrkPtErr.clear();
+  patMuondxy.clear();
+  patMuondz.clear();
+  patMuonsegmentCompatibility.clear();
+  patMuonchi2LocalPosition.clear();
+  patMuontrkKink.clear();
  
-  patMuonInnerdxy_.clear();
-  patMuonInnerdz_.clear();
-  patMuonTrkLayers_.clear();
-  patMuonPixelLayers_.clear();
-  patMuonPixelHits_.clear();
-  patMuonTrkQuality_.clear();
-  patMuonHits_.clear();
-  patMuonChi2NDF_.clear();
-  patMuonInnervalidFraction_.clear();
-  patMuonMatches_.clear();
+  patMuonInnerdxy.clear();
+  patMuonInnerdz.clear();
+  patMuonTrkLayers.clear();
+  patMuonPixelLayers.clear();
+  patMuonPixelHits.clear();
+  patMuonTrkQuality.clear();
+  patMuonHits.clear();
+  patMuonChi2NDF.clear();
+  patMuonInnervalidFraction.clear();
+  patMuonMatches.clear();
 
 
-  patMuonTrkIso_.clear();
-  patMuonHcalIso_.clear();
-  patMuonEcalIso_.clear();
-  patMuonChHadIso_.clear();
-  patMuonNeHadIso_.clear();
-  patMuonGamIso_.clear();
-  patMuonPUPt_.clear();
-  patMuonMiniIso_.clear();
+  patMuonTrkIso.clear();
+  patMuonHcalIso.clear();
+  patMuonEcalIso.clear();
+  patMuonChHadIso.clear();
+  patMuonNeHadIso.clear();
+  patMuonGamIso.clear();
+  patMuonPUPt.clear();
+  patMuonMiniIso.clear();
 
 
 }

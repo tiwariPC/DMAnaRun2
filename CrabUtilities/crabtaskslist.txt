@@ -1,3 +1,5 @@
-crab_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_HLT
 crab_DoubleEG_Run2015B-PromptReco-v1
+crab_MET-Run2015B-PromptReco-v1
+crab_MET-Run2015B-PromptReco-v1_PR
+crab_MET_Run2015B-17Jul2015-v1_RR
 crab_SingleElectron_Run2015B-PromptReco-v1

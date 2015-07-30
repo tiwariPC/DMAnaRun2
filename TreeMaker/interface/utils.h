@@ -23,6 +23,6 @@ bool PassAllBut(std::string, std::map<std::string, bool>);
 double getPFIsolation(edm::Handle<pat::PackedCandidateCollection>,
 		      const reco::Candidate*, double, double, double, bool);
 
-bool isTrackerMuon (const reco::Muon* recoMu, const reco::Vertex& vertex) ;
+bool CustisTrackerMuon (const reco::Muon* recoMu, const reco::Vertex& vertex) ;
 #endif
 
