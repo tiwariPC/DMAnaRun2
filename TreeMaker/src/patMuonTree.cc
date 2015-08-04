@@ -93,14 +93,20 @@ patMuonTree::Fill(const edm::Event& iEvent){
     isGlobalMuon.push_back(mu->isGlobalMuon());
     isTrackerMuon.push_back(mu->isTrackerMuon());
     isPFMuon.push_back(mu->isPFMuon());
-    isTightMuon.push_back(mu->isTightMuon(vertex));
+    
+    if(FilteredVertexCollection.size()>0) isTightMuon.push_back(mu->isTightMuon(vertex));
+    else isTightMuon.push_back(false);
+    
     isLooseMuon.push_back(mu->isLooseMuon());
     isMediumMuon.push_back(mu->isMediumMuon());
-    isSoftMuon.push_back(mu->isSoftMuon(vertex));
-    isHighPtMuon.push_back(mu->isHighPtMuon(vertex));
+    if(FilteredVertexCollection.size()>0) isSoftMuon.push_back(mu->isSoftMuon(vertex)); 
+    else isSoftMuon.push_back(false);
     
-    isCustomTrackerMuon.push_back(CustisTrackerMuon(&(*mu),vertex));
+    if(FilteredVertexCollection.size()>0) isHighPtMuon.push_back(mu->isHighPtMuon(vertex));
+    else isHighPtMuon.push_back(false);
     
+    if(FilteredVertexCollection.size()>0) isCustomTrackerMuon.push_back(CustisTrackerMuon(&(*mu),vertex));
+    else isCustomTrackerMuon.push_back(false);
     // for finding shared segments reason not known
     int muonIndex=-1;
     int tempTrackIndex=-1;

@@ -8,10 +8,10 @@ fout = open("datasetdetails_Spring15.txt","w")
 ## cfg.py is configurable because data and MC will have different configurations.
 ## And number of files canbe used as number of lumis in that case. 
 
-#fout.write("MET-Run2015B-PromptReco-v1_PR treeMaker_Spring15_Nocleaning_cfg.py /MET/Run2015B-PromptReco-v1/MINIAOD 5 \n")
-fout.write("MET_Run2015B-17Jul2015-v1_RR  treeMaker_Spring15_Nocleaning_cfg.py /MET/Run2015B-17Jul2015-v1/MINIAOD 5 \n")
-fout.write("SingleElectron_Run2015B-PromptReco-v1 treeMaker_Spring15_Nocleaning_cfg.py /SingleElectron/Run2015B-PromptReco-v1/MINIAOD  5 \n")
-fout.write("DoubleEG_Run2015B-PromptReco-v1 treeMaker_Spring15_Nocleaning_cfg.py /DoubleEG/Run2015B-PromptReco-v1/MINIAOD 5 \n")
+#fout.write("MET-Run2015B-PromptReco-v1TotalV3 treeMaker_Spring15_Nocleaning_cfg.py /MET/Run2015B-PromptReco-v1/MINIAOD 12 \n")
+#fout.write("MET_Run2015B-17Jul2015-v1_RR  treeMaker_Spring15_Nocleaning_cfg.py /MET/Run2015B-17Jul2015-v1/MINIAOD 5 \n")
+fout.write("SingleElectron_Run2015B-PromptReco-v1_WZJSON_V1 treeMaker_Spring15_Nocleaning_cfg.py /SingleElectron/Run2015B-PromptReco-v1/MINIAOD  5 \n")
+fout.write("DoubleEG_Run2015B-PromptReco-v1_WZJSON_V1 treeMaker_Spring15_Nocleaning_cfg.py /DoubleEG/Run2015B-PromptReco-v1/MINIAOD 5 \n")
 
 fout.close()
 
