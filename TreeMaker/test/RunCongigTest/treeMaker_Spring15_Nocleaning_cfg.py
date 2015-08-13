@@ -659,6 +659,8 @@ process.tree = cms.EDAnalyzer(
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
+##### when applyPromptSelection is True
+#    maxNumGenPar  =  cms.uint32(60), 
     applyStatusSelection = cms.bool(True),
     applyPromptSelection = cms.bool(False),
     ## For Muon
