@@ -1,5 +1,6 @@
 #include "DelPanj/TreeMaker/interface/genInfoTree.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 #include <bitset>
 #include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 #include "TLorentzVector.h"
@@ -8,7 +9,8 @@ genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet&
   baseTree(name,tree),
   genPartLabel_ (iConfig.getParameter<edm::InputTag>("genPartLabel")),
   MAXNGENPAR_(iConfig.getParameter<unsigned int>("maxNumGenPar")),
-  applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection"))
+  applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection")),
+  applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection"))
 {
   genParP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -41,18 +43,55 @@ genInfoTree::Fill(const edm::Event& iEvent)
 	       <<std::endl;
     }
 
-  edm::Handle<GenEventInfoProduct>    genEventScale;
+  edm::Handle<GenEventInfoProduct>    genEventInfoHandle;
 
-  if (iEvent.getByLabel("generator", genEventScale)) {
-    if (genEventScale->hasBinningValues())
-      ptHat_ = genEventScale->binningValues()[0];
+  if (iEvent.getByLabel("generator", genEventInfoHandle)) {
+    if (genEventInfoHandle->hasBinningValues())
+      ptHat_ = genEventInfoHandle->binningValues()[0];
       
-    mcWeight_ = genEventScale->weight();
+    mcWeight_ = genEventInfoHandle->weight();
 
+    if (genEventInfoHandle->pdf()) {
+      pdf_.push_back(genEventInfoHandle->pdf()->id.first);    // PDG ID of incoming parton #1
+      pdf_.push_back(genEventInfoHandle->pdf()->id.second);   // PDG ID of incoming parton #2
+      pdf_.push_back(genEventInfoHandle->pdf()->x.first);     // x value of parton #1
+      pdf_.push_back(genEventInfoHandle->pdf()->x.second);    // x value of parton #2
+      pdf_.push_back(genEventInfoHandle->pdf()->xPDF.first);  // PDF weight for parton #1
+      pdf_.push_back(genEventInfoHandle->pdf()->xPDF.second); // PDF weight for parton #2
+      pdf_.push_back(genEventInfoHandle->pdf()->scalePDF);    // scale of the hard interaction
+    }
   }
+
+  // add HT information
+  edm::Handle<LHEEventProduct> evt;
+  if(iEvent.getByLabel( "externalLHEProducer", evt )){
+    HT_=0;
+    const lhef::HEPEUP hepeup_ = evt->hepeup();
+
+    const int nup_ = hepeup_.NUP; 
+    const std::vector<int> idup_ = hepeup_.IDUP;
+    const std::vector<lhef::HEPEUP::FiveVector> pup_ = hepeup_.PUP;
+    const std::vector<int> istup_ = hepeup_.ISTUP;
+
+    for ( unsigned int icount = 0 ; icount < (unsigned int)nup_; icount++ ) {
+
+      int PID    = idup_[icount];
+      int status = istup_[icount];
+      double px = (pup_[icount])[0];
+      double py = (pup_[icount])[1];
+            
+      if(status!=1)continue;
+      // if it's not a gluon or quark
+      if(!(abs(PID)==21 || (abs(PID)<6 && abs(PID)>0)))continue;
+      HT_ += sqrt(px*px+py*py);
+    
+    } // end of loop over particles
+  } // if LHEEventInfo is found
 
 
   // first save the vector of candidates
+  unsigned int nParticles_=0;
+  bool hasStatusFlag=false; // status flags are not always in every sample, need to check first
   std::vector<const reco::Candidate*> cands;
   std::vector<std::vector<reco::GenParticle>::const_iterator> myParticles;
   for( std::vector<reco::GenParticle>::const_iterator 
@@ -60,7 +99,28 @@ genInfoTree::Fill(const edm::Event& iEvent)
        it_gen != genParticleHandle->end(); it_gen++ ) 
     {
       reco::GenParticle gen = *it_gen;
-      if(gen.status()>=30 && applyStatusSelection_)continue; // only save beam particle, hard scattering and stable particles
+      nParticles_++;
+       if(nParticles_==1){
+       	const reco::GenStatusFlags& cmsswStatus = it_gen->statusFlags();
+       	int status=0;
+       	for(unsigned int ist=0; ist<cmsswStatus.flags_.size(); ist++)
+       	  {
+       	    if(cmsswStatus.flags_[ist])
+       	      status |= (0x1 << (ist+1)); 
+       	  }
+       	if(status>0)hasStatusFlag=true;
+       	else hasStatusFlag=false;
+       }
+       // particle needs to have status < 30 or isPrompt if statusFlag information is available
+       if( ( applyStatusSelection_ && !applyPromptSelection_ && gen.status()>=30 )
+	   || 
+	   ( applyPromptSelection_ &&
+	     ( 
+	      ( hasStatusFlag && !gen.statusFlags().isPrompt() && gen.status()>=30) || 
+	       (!hasStatusFlag && gen.status()>=30)
+	       )
+	     )
+	 )continue; // only save beam particle, hard scattering and stable particles
       cands.push_back(&*it_gen);
       myParticles.push_back(it_gen);
     }
@@ -136,6 +196,9 @@ genInfoTree::SetBranches(){
   AddBranch(&ptHat_, "ptHat");
   AddBranch(&mcWeight_, "mcWeight");
 
+  AddBranch(&HT_, "HT");
+  AddBranch(&pdf_, "pdf");
+
   AddBranch(&nGenPar_, "nGenPar");
   AddBranch(&genParP4_, "genParP4");
   AddBranch(&genParQ_,"genParQ");
@@ -162,6 +225,8 @@ genInfoTree::Clear(){
   ptHat_ = -9999.0;
   mcWeight_ = -9999.0; 
 
+  HT_    = -9999.0;
+  pdf_.clear();
   nGenPar_ =0;
   genParP4_->Clear();
 

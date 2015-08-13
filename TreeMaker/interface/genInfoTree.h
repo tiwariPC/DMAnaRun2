@@ -36,12 +36,14 @@ class genInfoTree : public baseTree{
   
   edm::InputTag genPartLabel_;
   unsigned int MAXNGENPAR_;
-  bool applyStatusSelection_;
+  bool applyStatusSelection_;  // keep only particles with status code <=30
+  bool applyPromptSelection_;  // keep only prompt particles or particles with status<=30
 
 
   float ptHat_;      // added by Eiko
   float mcWeight_;   // added by Eiko
-
+  Float_t HT_;       // added by Eiko
+  std::vector<float>      pdf_;
   int nGenPar_;
   TClonesArray       *genParP4_;
   std::vector<int>   genParQ_;

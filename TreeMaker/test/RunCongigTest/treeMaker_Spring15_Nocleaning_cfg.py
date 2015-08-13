@@ -660,7 +660,7 @@ process.tree = cms.EDAnalyzer(
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
     applyStatusSelection = cms.bool(True),
-    
+    applyPromptSelection = cms.bool(False),
     ## For Muon
     r_iso_min    = cms.double(0.05),
     r_iso_max    = cms.double(0.2),
