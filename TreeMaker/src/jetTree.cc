@@ -1,4 +1,4 @@
- 
+
 // This class need a new version
 // Take care of gen Jets from configuation 
 // take care of subjets
@@ -162,6 +162,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     jetCharge_.push_back(jet->charge());
     jetPartonFlavor_.push_back(jet->partonFlavour());
+    jetHadronFlavor_.push_back(jet->hadronFlavour());
 
 
 
@@ -352,19 +353,24 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  //	std::cout<<" working after SoftDrop "<<std::endl;
 	  int nSubSoftDropjets=0;	
 	
+	  std::vector<int>   subjetSDFatJetIndex;
 	  std::vector<float> subjetSDPx; 
 	  std::vector<float> subjetSDPy; 
 	  std::vector<float> subjetSDPz; 
 	  std::vector<float> subjetSDE; 	
 	  std::vector<int>   subjetSDCharge;
-	  // std::vector<int>   subjetSDPartonFlavor;
+	  std::vector<int>   subjetSDPartonFlavor;
+	  std::vector<int>   subjetSDHadronFlavor;
 	  std::vector<float> subjetSDCSV; 
 
+	  subjetSDFatJetIndex.clear();
 	  subjetSDPx.clear();
 	  subjetSDPy.clear();
 	  subjetSDPz.clear();
 	  subjetSDE.clear();
 	  subjetSDCharge.clear();
+	  subjetSDPartonFlavor.clear();
+	  subjetSDHadronFlavor.clear();
 	  subjetSDCSV.clear(); 
 
 
@@ -373,30 +379,39 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 	      nSubSoftDropjets++;
 	      
+	      subjetSDFatJetIndex.push_back(nJet_-1);
 	      subjetSDPx.push_back(iw->px());
 	      subjetSDPy.push_back(iw->py());
 	      subjetSDPz.push_back(iw->pz());
 	      subjetSDE.push_back(iw->energy());	
 	      subjetSDCharge.push_back(iw->charge());
+	      subjetSDPartonFlavor.push_back(iw->partonFlavour());
+	      subjetSDHadronFlavor.push_back(iw->hadronFlavour());	      
 	      subjetSDCSV.push_back(iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
 
 	    }//subjet loop
 	  if(nSubSoftDropjets==0)
 	    {
+	      subjetSDFatJetIndex.push_back(DUMMY);
 	      subjetSDPx.push_back(DUMMY);
 	      subjetSDPy.push_back(DUMMY);
 	      subjetSDPz.push_back(DUMMY);
 	      subjetSDE.push_back(DUMMY);	
 	      subjetSDCharge.push_back(DUMMY);
+	      subjetSDPartonFlavor.push_back(DUMMY);
+	      subjetSDHadronFlavor.push_back(DUMMY);	      
 	      subjetSDCSV.push_back(DUMMY);   
 	    }
 	    
 	  nSubSDJet_.push_back(nSubSoftDropjets); 
+	  subjetSDFatJetIndex_.push_back(subjetSDFatJetIndex);
 	  subjetSDPx_.push_back(subjetSDPx);
 	  subjetSDPy_.push_back(subjetSDPy);
 	  subjetSDPz_.push_back(subjetSDPz);
 	  subjetSDE_.push_back(subjetSDE);
 	  subjetSDCharge_.push_back(subjetSDCharge);
+	  subjetSDPartonFlavor_.push_back(subjetSDPartonFlavor);
+	  subjetSDHadronFlavor_.push_back(subjetSDHadronFlavor);	      
 	  subjetSDCSV_.push_back(subjetSDCSV); 
        
 	  
@@ -433,6 +448,7 @@ jetTree::SetBranches(){
 
   AddBranch(&jetCharge_, "jetCharge");
   AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
+  AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
   AddBranch(&jetPassIDLoose_, "jetPassIDLoose");
   AddBranch(&jetPassIDTight_, "jetPassIDTight");
   AddBranch(&PUJetID_,"PUJetID");
@@ -484,10 +500,13 @@ jetTree::SetBranches(){
       AddBranch(&jetTau4_, "jetTau4");
 
       AddBranch(&nSubSDJet_,"nSubSDJet");
+      AddBranch(&subjetSDFatJetIndex_,"subjetSDFatJetIndex");
       AddBranch(&subjetSDPx_, "subjetSDPx");     
       AddBranch(&subjetSDPy_, "subjetSDPy");     
       AddBranch(&subjetSDPz_, "subjetSDPz");     
       AddBranch(&subjetSDE_, "subjetSDCE");     
+      AddBranch(&subjetSDPartonFlavor_,"subjetSDPartonFlavor");
+      AddBranch(&subjetSDHadronFlavor_,"subjetSDHadronFlavor");
       AddBranch(&subjetSDCSV_, "subjetSDCSV");     
 
     }
@@ -518,6 +537,7 @@ jetTree::Clear(){
   jetCorrUncDown_.clear();
   jetCharge_.clear();
   jetPartonFlavor_.clear();
+  jetHadronFlavor_.clear();
   jetPassIDLoose_.clear();
   jetPassIDTight_.clear();
   PUJetID_.clear();
@@ -598,7 +618,9 @@ jetTree::Clear(){
   subjetSDPz_.clear();
   subjetSDE_.clear();
   subjetSDCharge_.clear();
+  subjetSDFatJetIndex_.clear();
   subjetSDPartonFlavor_.clear();
+  subjetSDHadronFlavor_.clear();
   subjetSDCSV_.clear();        
 
 

@@ -125,6 +125,7 @@ class jetTree  : public baseTree{
   std::vector<float> jetCorrUncDown_;
   std::vector<int>   jetCharge_;
   std::vector<int>   jetPartonFlavor_;
+  std::vector<int>   jetHadronFlavor_;
   std::vector<bool>  jetPassIDLoose_;
   std::vector<bool>  jetPassIDTight_;
   std::vector<float> PUJetID_;
@@ -198,12 +199,14 @@ class jetTree  : public baseTree{
   // subjet of jets
 
   std::vector<int>   nSubSDJet_;
+  std::vector<std::vector<int> >   subjetSDFatJetIndex_; 
   std::vector<std::vector<float> > subjetSDPx_;
   std::vector<std::vector<float> > subjetSDPy_;
   std::vector<std::vector<float> > subjetSDPz_;
   std::vector<std::vector<float> > subjetSDE_;
-  std::vector<std::vector<int> >   subjetSDCharge_;
+  std::vector<std::vector<int> >   subjetSDCharge_; 
   std::vector<std::vector<int> >   subjetSDPartonFlavor_;
+  std::vector<std::vector<int> >   subjetSDHadronFlavor_;
   std::vector<std::vector<float> > subjetSDCSV_;        
 
 
