@@ -33,7 +33,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   AddjetlabelC_  (iConfig.getParameter<edm::InputTag>("AddjetlabelPY") ),
   rhoSrc_   (iConfig.getParameter<edm::InputTag>("rhoSrc") ),                     
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
-  SubJetCollectionC_ ( iConfig.getParameter<edm::InputTag>("SubJetsPY") ),  
   svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
   isSpring15_(iConfig.getParameter<bool>("isSpring15")),
   jet2012ID_()
@@ -504,7 +503,7 @@ jetTree::SetBranches(){
       AddBranch(&subjetSDPx_, "subjetSDPx");     
       AddBranch(&subjetSDPy_, "subjetSDPy");     
       AddBranch(&subjetSDPz_, "subjetSDPz");     
-      AddBranch(&subjetSDE_, "subjetSDCE");     
+      AddBranch(&subjetSDE_, "subjetSDE");     
       AddBranch(&subjetSDPartonFlavor_,"subjetSDPartonFlavor");
       AddBranch(&subjetSDHadronFlavor_,"subjetSDHadronFlavor");
       AddBranch(&subjetSDCSV_, "subjetSDCSV");     

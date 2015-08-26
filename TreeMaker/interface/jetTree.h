@@ -89,9 +89,6 @@ class jetTree  : public baseTree{
   edm::InputTag rhoSrc_;
   edm::InputTag pvSrc_;
 
-  //  edm::EDGetTokenT<pat::JetCollection> fatjetToken_;
-  //  edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
-  edm::InputTag SubJetCollectionC_;
   std::string  svTagInfosCstr_;
   bool isSpring15_;
 

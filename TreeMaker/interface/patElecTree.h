@@ -160,6 +160,10 @@ class patElecTree : public baseTree {
   std::vector<bool> isPassMedium_;
   std::vector<bool> isPassTight_;
   std::vector<bool> isPassHEEP_;
+  std::vector<bool> isPassVetoNoIso_;
+  std::vector<bool> isPassLooseNoIso_;
+  std::vector<bool> isPassMediumNoIso_;
+  std::vector<bool> isPassTightNoIso_;
   std::vector<bool> isPassHEEPNoIso_;
   std::vector<bool> isPassMVAMedium_;
   std::vector<bool> isPassMVATight_;

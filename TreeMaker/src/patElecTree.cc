@@ -55,18 +55,31 @@ patElecTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
   edm::Handle<edm::ValueMap<bool> > tight_id_decisions; 
   edm::Handle<edm::ValueMap<bool> > heep_id_decisions;
+
+  edm::Handle<ValueMap<vid::CutFlowResult>> veto_id_cutflow;
+  edm::Handle<ValueMap<vid::CutFlowResult>> loose_id_cutflow;
+  edm::Handle<ValueMap<vid::CutFlowResult>> medium_id_cutflow;
+  edm::Handle<ValueMap<vid::CutFlowResult>> tight_id_cutflow;
   edm::Handle<ValueMap<vid::CutFlowResult>> heep_id_cutflow;
+
   edm::Handle<edm::ValueMap<bool> > medium_MVAid_decisions;
   edm::Handle<edm::ValueMap<bool> > tight_MVAid_decisions; 
-  iEvent.getByLabel(eleVetoIdMapLabel_ ,veto_id_decisions);
-  iEvent.getByLabel(eleLooseIdMapLabel_ ,loose_id_decisions);
-  iEvent.getByLabel(eleMediumIdMapLabel_,medium_id_decisions);
-  iEvent.getByLabel(eleTightIdMapLabel_,tight_id_decisions);
 
+  iEvent.getByLabel(eleVetoIdMapLabel_ ,veto_id_decisions);
+  iEvent.getByLabel(eleVetoIdMapLabel_ ,veto_id_cutflow);
+  iEvent.getByLabel(eleLooseIdMapLabel_ ,loose_id_decisions);
+  iEvent.getByLabel(eleLooseIdMapLabel_ ,loose_id_cutflow);
+  iEvent.getByLabel(eleMediumIdMapLabel_,medium_id_decisions);
+  iEvent.getByLabel(eleMediumIdMapLabel_,medium_id_cutflow);
+  iEvent.getByLabel(eleTightIdMapLabel_,tight_id_decisions);
+  iEvent.getByLabel(eleTightIdMapLabel_,tight_id_cutflow);
   iEvent.getByLabel(eleHEEPIdMapLabel_ ,heep_id_decisions);
   iEvent.getByLabel(eleHEEPIdMapLabel_ ,heep_id_cutflow);
-  std::vector<std::string> maskCuts;
-  maskCuts.push_back("GsfEleTrkPtIsoCut_0"), maskCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
+
+  std::vector<std::string> maskCutBasedCuts;
+  maskCutBasedCuts.push_back("GsfEleEffAreaPFIsoCut_0");
+  std::vector<std::string> maskHEEPCuts;
+  maskHEEPCuts.push_back("GsfEleTrkPtIsoCut_0"); maskHEEPCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
 
   iEvent.getByLabel(eleMediumIdMapLabel_,medium_MVAid_decisions);
   iEvent.getByLabel(eleTightIdMapLabel_,tight_MVAid_decisions);
@@ -237,10 +250,22 @@ patElecTree::Fill(const edm::Event& iEvent){
     isPassMedium_.push_back( (*medium_id_decisions)[el]);
     isPassTight_.push_back( (*tight_id_decisions)[el]);
     isPassHEEP_.push_back( (*heep_id_decisions)[el]);
+
+
+    vid::CutFlowResult veto_noiso = (*veto_id_cutflow)[el].getCutFlowResultMasking(maskCutBasedCuts);
+    isPassVetoNoIso_.push_back(veto_noiso.cutFlowPassed());
+
+    vid::CutFlowResult loose_noiso = (*loose_id_cutflow)[el].getCutFlowResultMasking(maskCutBasedCuts);
+    isPassLooseNoIso_.push_back(loose_noiso.cutFlowPassed());
     
-    vid::CutFlowResult heep_noiso = (*heep_id_cutflow)[el].getCutFlowResultMasking(maskCuts);
-    bool heepV60ID_noiso = heep_noiso.cutFlowPassed(); 
-    isPassHEEPNoIso_.push_back( heepV60ID_noiso );
+    vid::CutFlowResult medium_noiso = (*medium_id_cutflow)[el].getCutFlowResultMasking(maskCutBasedCuts);
+    isPassMediumNoIso_.push_back(medium_noiso.cutFlowPassed());
+
+    vid::CutFlowResult tight_noiso = (*tight_id_cutflow)[el].getCutFlowResultMasking(maskCutBasedCuts);
+    isPassTightNoIso_.push_back(tight_noiso.cutFlowPassed());
+    
+    vid::CutFlowResult heep_noiso = (*heep_id_cutflow)[el].getCutFlowResultMasking(maskHEEPCuts);
+    isPassHEEPNoIso_.push_back(heep_noiso.cutFlowPassed());
 
     isPassMVAMedium_.push_back( (*medium_MVAid_decisions)[el]);
     isPassMVATight_.push_back( (*tight_MVAid_decisions)[el]);
@@ -321,11 +346,15 @@ patElecTree::SetBranches(){
   AddBranch(&patElecDr03HcalTowerSumEt_,"eleDr03HcalTowerSumEt");
   AddBranch(&patElecDr03TkSumPt_,"eleDr03TkSumPt");
    
-  AddBranch(&isPassVeto_,"eleIsPassVeto");
+  AddBranch(&isPassVeto_,"eleIsPassVeto"); 
   AddBranch(&isPassLoose_,"eleIsPassLoose");
   AddBranch(&isPassMedium_,"eleIsPassMedium");
   AddBranch(&isPassTight_,"eleIsPassTight");
   AddBranch(&isPassHEEP_,"eleIsPassHEEP");
+  AddBranch(&isPassVetoNoIso_,"eleIsPassVetoNoIso"); 
+  AddBranch(&isPassLooseNoIso_,"eleIsPassLooseNoIso");
+  AddBranch(&isPassMediumNoIso_,"eleIsPassMediumNoIso");
+  AddBranch(&isPassTightNoIso_,"eleIsPassTightNoIso");
   AddBranch(&isPassHEEPNoIso_,"eleIsPassHEEPNoIso");
   AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
   AddBranch(&isPassMVATight_,"eleIsPassMVATight");
@@ -410,6 +439,10 @@ patElecTree::Clear(){
   isPassMedium_.clear();
   isPassTight_.clear();
   isPassHEEP_.clear();
+  isPassVetoNoIso_.clear();
+  isPassLooseNoIso_.clear();
+  isPassMediumNoIso_.clear();
+  isPassTightNoIso_.clear();
   isPassHEEPNoIso_.clear();
   isPassMVAMedium_.clear();
   isPassMVATight_.clear();

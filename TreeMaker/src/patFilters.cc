@@ -29,7 +29,7 @@ patFilters::Fill(const edm::Event& iEvent)
   edm::InputTag  hbhetag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET");
   iEvent.getByLabel(hbhetag,HBHET);
   hbhet_ = (*HBHET.product());
-  std::cout<<" HBHE = "<<(*HBHET.product())<<std::endl;
+  //  std::cout<<" HBHE = "<<(*HBHET.product())<<std::endl;
   
   
   edm::Handle<edm::TriggerResults> trigResults;
