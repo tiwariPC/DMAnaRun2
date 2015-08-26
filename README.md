@@ -9,11 +9,9 @@ cd CMSSW_7_4_7/src/
 cmsenv
 ```
 
-## For EXO VV dependence 
+## For Egamma to get Spring15 ID
 ```
-git cms-init
-
-git clone -b Analysis74X git@github.com:cms-edbr/ExoDiBosonResonancesRun2.git ExoDiBosonResonances
+git cms-merge-topic ikrav:egm_id_747_v2
 ```
 
 ## For DelPanj and related dependencies
@@ -28,13 +26,10 @@ mv AddModules/EGamma/ .
 
 mv AddModules/RecoBTag/ . 
 
-mv AddModules/goodAK4Jets_cff.py ExoDiBosonResonances/EDBRCommon/python/
-
 mv AddModules/prod/jec/ .
 
 mv AddModules/prod/xml/ .
 
-mv AddModules/redo*  ExoDiBosonResonances/EDBRJets/python/
 ```
 
 ## Compile And Run 
