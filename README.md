@@ -27,6 +27,12 @@ git cms-merge-topic nhanvtran:puppi-etadep-746p2-v8
 ```
 git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
+cd DelPanj
+
+git checkout jet_CMSSW747
+
+cd -
+
 git clone git@github.com:syuvivida/DMAnaRun2_AddModules.git AddModules
 
 mv AddModules/EGamma/ .
