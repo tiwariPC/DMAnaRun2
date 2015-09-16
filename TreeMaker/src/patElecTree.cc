@@ -16,7 +16,7 @@
 patElecTree::patElecTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),   
-  patElecLabel_( iConfig.getParameter<edm::InputTag>("patElectrons")),
+  patElecLabel_( iConfig.getParameter<edm::InputTag>("eleLabel")),
   eleVetoIdMapLabel_( iConfig.getParameter<edm::InputTag>("eleVetoIdMap")),
   eleLooseIdMapLabel_( iConfig.getParameter<edm::InputTag>("eleLooseIdMap")),
   eleMediumIdMapLabel_(iConfig.getParameter<edm::InputTag>("eleMediumIdMap")),

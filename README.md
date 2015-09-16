@@ -14,6 +14,14 @@ cmsenv
 git cms-merge-topic ikrav:egm_id_747_v2
 ```
 
+## For Puppi v8
+```
+git cms-addpkg CommonTools/PileupAlgos
+
+git cms-merge-topic nhanvtran:puppi-etadep-746p2-v8
+```
+
+
 ## For DelPanj and related dependencies
 
 ```
@@ -21,14 +29,8 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 git clone git@github.com:syuvivida/DMAnaRun2_AddModules.git AddModules
 
-
 mv AddModules/EGamma/ .
 
-mv AddModules/RecoBTag/ . 
-
-mv AddModules/prod/jec/ .
-
-mv AddModules/prod/xml/ .
 
 ```
 
@@ -39,7 +41,5 @@ scramv1 b clean
 scramv1 b
 
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_cfg.py
- for PHYS14 samples use : 
- isSpring15    = cms.bool(False),
  
 ```

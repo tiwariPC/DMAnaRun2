@@ -2,7 +2,7 @@
 
 hpstauInfo::hpstauInfo(std::string name, TTree* tree, bool debug, const pset& iConfig):baseTree(name,tree){
   if(debug) std::cout<<"in tau constructor"<<std::endl;
-  tauLabel_       = iConfig.getUntrackedParameter<edm::InputTag> ("tauLabel_");
+  tauLabel_       = iConfig.getUntrackedParameter<edm::InputTag> ("tauLabel");
   HPSTau_4Momentum           = new TClonesArray("TLorentzVector");
   HPSTau_Vposition           = new TClonesArray("TVector3");
   if(debug) std::cout<<"in rho constructor: calling SetBrances()"<<std::endl;

@@ -8,9 +8,27 @@ process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)
 )
 
+from FWCore.ParameterSet.VarParsing import VarParsing
+options = VarParsing ('analysis')
+options.register ('runOnMC',
+		  True,
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.bool,
+		  "runOnMC")
+options.register ('runOn25ns',
+		  True ,
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.bool,
+		  "runOn25ns")
+options.register ('useMiniAOD',
+		  True,
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.bool,
+		  "useMiniAOD")
+options.parseArguments()
 
-option = 'DATA' # 'GEN' or 'RECO'
-#option = 'MC'
+
+
 
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
@@ -20,94 +38,49 @@ process.load('SimGeneral.MixingModule.mixNoPU_cfi')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
-
-
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
-if option == 'MC':
-        process.GlobalTag.globaltag = cms.string("PHYS14_25_V2")
-if option == 'DATA':
-        process.GlobalTag.globaltag = cms.string("74X_dataRun2_Prompt_v0")
+
+# Other statements
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+if options.runOnMC:
+	if options.runOn25ns:
+		# 25-ns global tag
+		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v2', '')  
+	else:
+		# 50-ns global tag
+		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
+else:
+        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_v2', '')
 
 
 
 ## for Filters
 
-if option == 'MC':
+if options.runOnMC:
 	filterlabel="TriggerResults::PAT"
-if option == 'DATA':
+else:
 	filterlabel="TriggerResults::PAT"
 
 
 process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
 process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
 
-
-### GEN level studies
-###if option == 'GEN':
-###    process.load("ExoDiBosonResonances.EDBRGenStudies.genMuons_cff")
-###    process.load("ExoDiBosonResonances.EDBRGenStudies.genElectrons_cff")
-###    process.load("ExoDiBosonResonances.EDBRGenStudies.genFatJets_cff")
-###
-### RECO level studies
-##if option == 'RECO':
-##    #process.load("DelPanj.TreeMaker.slimmer.objectslimmer_cff")
-##    process.load("ExoDiBosonResonances.EDBRCommon.goodMuons_cff")
-##    process.load("ExoDiBosonResonances.EDBRCommon.goodElectrons_cff")
-##    #process.load("ExoDiBosonResonances.EDBRJets.redoSubstructure_cff")
-##    #process.load("ExoDiBosonResonances.EDBRJets.redoPatJets_cff")
-##    process.load("ExoDiBosonResonances.EDBRCommon.goodJets_cff")
-##    process.load("ExoDiBosonResonances.EDBRCommon.goodAK4Jets_cff")
-##
-##
-# Updates
-##if option == 'RECO':
-##    process.goodMuons.src = "slimmedMuons"
-##    process.goodElectrons.src = "slimmedElectrons"
-##    #process.goodJets.src = "patJetsTESTAK8PFCHS"
-##    process.goodJets.src = "slimmedJetsAK8"
-##    #process.goodJets.src ="packedPatJetsPFCHSAK8" 
-##    process.goodAK4Jets.src = "slimmedJets"
-##
-##process.leptonSequence = cms.Sequence(process.muSequence +
-##                                      process.eleSequence)
-##
-
-#process.jetSequence = cms.Sequence(process.fatJetsSequence + process.substructureSequence + process.redoPatJets + process.ak4JetsSequence)
-
-
-
-
-CA8jecUnc='jec/START53_V23_Uncertainty_AK7PFchs.txt'
-CA8jecLevels = [
-    'jec/START53_V23_L1FastJet_AK7PFchs.txt',
-    'jec/START53_V23_L2Relative_AK7PFchs.txt',
-    'jec/START53_V23_L3Absolute_AK7PFchs.txt'
-    ]
-AK5jecUnc='jec/START53_V23_Uncertainty_AK5PFchs.txt'
-AK5jecLevels = [
-    'jec/START53_V23_L1FastJet_AK5PFchs.txt',
-    'jec/START53_V23_L2Relative_AK5PFchs.txt',
-    'jec/START53_V23_L3Absolute_AK5PFchs.txt'
-    ]
-
-
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
 )
-
 
 
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
-		#'/store/data/Run2015B/MET/MINIAOD/PromptReco-v1/000/251/251/00000/0EA22A54-9027-E511-A3D4-02163E0133E3.root'
-		#'file:0EA22A54-9027-E511-A3D4-02163E0133E3.root'
-        ),
+		'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_25ns.root'
+#		'file:/afs/cern.ch/work/s/syu/public/miniAOD/DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_25ns.root'
+#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
+#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/20000/B64405D7-3435-E511-9E39-002590EFF972.root'
+		),
                             skipEvents = cms.untracked.uint32(0)         
                             )
-
 
 
 
@@ -132,13 +105,6 @@ process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 ## MVA MET Ends Here 
 ##
 
-
-# Other statements
-from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
-if option == 'MC':
-        process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
-if option == 'DATA':
-        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_Prompt_v0', '')
 
 
 ##
@@ -281,29 +247,26 @@ bTagDiscriminators = [
 ]
 
 ## Jet energy corrections
-jetCorrectionsAK4 = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None')
-jetCorrectionsAK8 = ('AK8PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None')
+
+## For Puppi jet pruned and softdrop mass L2+L3 corrections only
+if options.runOnMC:
+	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute']
+	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
+else:
+	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
+	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
-## Switch the default jet collection (done in order to use the above specified b-tag infos and discriminators)
-#switchJetCollection(
-#    process,
-#    jetSource = cms.InputTag(jetSource),
-#    pfCandidates = cms.InputTag(pfCandidates),
-#    pvSource = cms.InputTag(pvSource),
-#    svSource = cms.InputTag(svSource),
-#    muSource = cms.InputTag(muSource),
-#    elSource = cms.InputTag(elSource),
-#    btagInfos = bTagInfos,
-#    btagDiscriminators = bTagDiscriminators,
-#    jetCorrections = jetCorrectionsAK4,
-#    genJetCollection = cms.InputTag(genJetCollection),
-#    genParticles = cms.InputTag(genParticles),
-#    explicitJTA = False,
-#    postfix = postfix
-#)
 
 NOTADDHBBTag=False
 
@@ -323,7 +286,7 @@ addJetCollection(
         btagInfos = bTagInfos,
         #btagDiscriminators = bTagDiscriminators,
         btagDiscriminators = (bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
-        jetCorrections = jetCorrectionsAK8,
+        jetCorrections = jetCorrectionsAK8CHS,
         genJetCollection = cms.InputTag('genJetsNoNuAK8'),
         genParticles = cms.InputTag(genParticles),
         explicitJTA = False,
@@ -343,7 +306,7 @@ addJetCollection(
         algo='AK',
         btagInfos=['None'],
         btagDiscriminators=['None'],
-        jetCorrections=jetCorrectionsAK8,
+        jetCorrections=jetCorrectionsAK8CHS,
         genJetCollection = cms.InputTag('genJetsNoNuAK8'),
         genParticles = cms.InputTag(genParticles),
         getJetMCFlavour = False, # jet flavor disabled
@@ -364,7 +327,7 @@ addJetCollection(
         elSource = cms.InputTag(elSource),
         btagInfos = bTagInfos,
         btagDiscriminators = bTagDiscriminators,
-        jetCorrections = jetCorrectionsAK4,
+        jetCorrections = jetCorrectionsAK4CHS,
         genJetCollection = cms.InputTag('genJetsNoNuSoftDrop','SubJets'),
         genParticles = cms.InputTag(genParticles),
         explicitJTA = True,  # needed for subjet b tagging
@@ -391,7 +354,7 @@ addJetCollection(
         algo='AK',
         btagInfos=['None'],
         btagDiscriminators=['None'],
-        jetCorrections=jetCorrectionsAK8,
+        jetCorrections=jetCorrectionsAK8CHS,
         genJetCollection = cms.InputTag('genJetsNoNuAK8'),
         genParticles = cms.InputTag(genParticles),
         getJetMCFlavour = False, # jet flavor disabled
@@ -413,7 +376,7 @@ addJetCollection(
         elSource = cms.InputTag(elSource),
         btagInfos = bTagInfos,
         btagDiscriminators = bTagDiscriminators,
-        jetCorrections = jetCorrectionsAK4,
+        jetCorrections = jetCorrectionsAK4CHS,
         genJetCollection = cms.InputTag('genJetsNoNuPrunedAK8','SubJets'),
         genParticles = cms.InputTag(genParticles),
         explicitJTA = True,  # needed for subjet b tagging
@@ -566,13 +529,129 @@ from PhysicsTools.PatAlgos.tools.pfTools import *
 adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 
 
+addJetCollection(
+        process,
+        labelName='PFCHSAK8',
+        jetSource=cms.InputTag('PFJetsCHSAK8'),
+        algo='AK',           # needed for jet flavor clustering
+        rParam=0.8, # needed for jet flavor clustering
+        pfCandidates = cms.InputTag(pfCandidates),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        btagInfos = bTagInfos,
+        #btagDiscriminators = bTagDiscriminators,
+        btagDiscriminators = (bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
+        jetCorrections = jetCorrectionsAK8CHS,
+        genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+        genParticles = cms.InputTag(genParticles),
+        explicitJTA = False,
+        runIVF = False,
+        postfix = postfix
+    )
+
+## For ATLAS
+from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHSTrimmed
+
+#
+process.ak10CHSJetsTrimmed = ak8PFJetsCHSTrimmed.clone( src = 'packedPFCandidates', jetPtMin = 200., rParam = 1.0, rFilt = 0.2, trimPtFracMin = 0.05 )
+
+addJetCollection(
+        process,
+        labelName = "ATLASTrimmed",
+        jetSource = cms.InputTag('ak10CHSJetsTrimmed'),
+        algo = 'AK',
+        rParam = 1.0,
+        pfCandidates = cms.InputTag(pfCandidates),
+        genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+        getJetMCFlavour = False, # jet flavor needs to be disabled for groomed fat jets                                                                                          
+        genParticles = cms.InputTag(genParticles),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        jetCorrections = jetCorrectionsAK8CHSL23,
+        btagInfos=['None'],
+	btagDiscriminators = ['None'], # turn-off b tagging                                                                                                                      
+        postfix = postfix
+        )
+
+#process.ECFAK10 = cms.EDProducer("ECFAdder",
+#				 src = cms.InputTag("ak10CHSJetsTrimmed"),
+#				 Njets = cms.vuint32(1, 2, 3),
+#				 beta = cms.double(1.0),        # CMS default is 1
+#				 )
+
+
+
+#process.patJetsATLASTrimmedPFlow.userData.userFloats.src += ['ECFAK10:ecf1','ECFAK10:ecf2','ECFAK10:ecf3']
+
+
+
+########## For puppi
+
+
+from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHSPruned
+from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHSSoftDrop
+
+process.load('CommonTools/PileupAlgos/Puppi_cff')
+process.puppi.candName = cms.InputTag('packedPFCandidates')
+process.puppi.vertexName = cms.InputTag('offlineSlimmedPrimaryVertices')  
+process.ak8PuppiJetsPruned = ak8PFJetsCHSPruned.clone( src = 'puppi', jetPtMin = 200 )
+process.ak8PuppiJetsSoftDrop = ak8PFJetsCHSSoftDrop.clone( src = 'puppi', jetPtMin = 200, beta =0 )
+
+
+addJetCollection(
+	process,
+        labelName = "PuppiPruned",
+        jetSource = cms.InputTag('ak8PuppiJetsPruned'),
+	algo = 'AK',
+	rParam = 0.8,
+        pfCandidates = cms.InputTag(pfCandidates),
+	genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+	getJetMCFlavour = False, # jet flavor needs to be disabled for groomed fat jets
+        genParticles = cms.InputTag(genParticles),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        jetCorrections = jetCorrectionsAK8PuppiL23,
+        btagInfos=['None'],
+	btagDiscriminators = ['None'], # turn-off b tagging
+        postfix = postfix
+	)
+
+addJetCollection(
+	process,
+        labelName = "PuppiSoftDrop",
+        jetSource = cms.InputTag('ak8PuppiJetsSoftDrop'),
+	algo = 'AK',
+	rParam = 0.8,
+        pfCandidates = cms.InputTag(pfCandidates),
+	genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+	getJetMCFlavour = False, # jet flavor needs to be disabled for groomed fat jets
+        genParticles = cms.InputTag(genParticles),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        jetCorrections = jetCorrectionsAK8PuppiL23,
+        btagInfos=['None'],
+	btagDiscriminators = ['None'], # turn-off b tagging
+        postfix = postfix
+	)
+
+
+
+
 process.miniAODjetSequence = cms.Sequence(
                              process.selectedPatJetsPFCHSAK8PFlow+
                              process.selectedPatJetsPrunedPFCHSAK8Packed +
-                             process.fataddJetsSequence
-                             #process.fatJetsSequence+ 
-                             #process.ak4JetsSequence
-                             
+                             process.fataddJetsSequence+
+			     process.selectedPatJetsATLASTrimmedPFlow+
+			     process.selectedPatJetsPuppiPrunedPFlow+
+			     process.selectedPatJetsPuppiSoftDropPFlow                             
                              )
 
 
@@ -588,31 +667,18 @@ process.miniAODjetSequence = cms.Sequence(
 
 #from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHS
 
-#addJetCollection(
-#   process,
-#   labelName = 'TESTAK8PFCHS',
-#   jetSource = cms.InputTag('ak8PFJetsCHS'),
-#   #jetSource = cms.InputTag('slimmedJetsAK8'),
-#   jetCorrections = ('AK8PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'Type-2'),
-#   algo = 'AK',
-#   rParam = 0.8,
-#   btagDiscriminators = ['pfBoostedDoubleSecondaryVertexAK8BJetTags']
-#)
-#process.patJetsTESTAK8PFCHS.addTagInfos = True
-
 
 
 
 
 ## add value maps for electron IDs
-useAOD  = False
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 # turn on VID producer, indicate data format to be
 # DataFormat.AOD or DataFormat.MiniAOD, as appropriate
-if useAOD == True :
-    dataFormat = DataFormat.AOD
+if options.useMiniAOD:
+	dataFormat = DataFormat.MiniAOD
 else :
-    dataFormat = DataFormat.MiniAOD
+	dataFormat = DataFormat.AOD
     
 switchOnVIDElectronIdProducer(process, dataFormat)
 switchOnVIDPhotonIdProducer(process, dataFormat)
@@ -638,99 +704,56 @@ for idmod in my_phoid_modules:
 
 process.tree = cms.EDAnalyzer(
     'TreeMaker',
-    fillPUweightInfo_ = cms.bool(True),
-    fillEventInfo_ = cms.bool(True),
-    fillGenInfo_   = cms.bool(True),
-    fillMuonInfo_  = cms.bool(True),
-    fillElecInfo_  = cms.bool(True),
-    fillFATJetInfo_   = cms.bool(True), 
-    fillJetInfo_   = cms.bool(True), 
-    fillAddJetInfo_   = cms.bool(True),
-    fillMetInfo_   = cms.bool(True),
-    fillTrigInfo_  = cms.bool(True),
-    fillFilterInfo_ = cms.bool(True),
-    fillPhotInfo_  = cms.bool(True),
-    fillTauInfo_   = cms.bool(True),
-    
-    ##photonLabel    = cms.InputTag("slimmedPhotons"),
-    photonLabel    = cms.InputTag("slimmedPhotons"),
+    fillPUweightInfo = cms.bool(True),
+    fillEventInfo    = cms.bool(True),
+    fillMetInfo      = cms.bool(True),
+    fillTrigInfo     = cms.bool(True),
+    fillFilterInfo   = cms.bool(True),
+
+    fillGenInfo      = cms.bool(True),
+
+    fillElecInfo     = cms.bool(True), 
+    fillMuonInfo     = cms.bool(True),
+    fillTauInfo      = cms.bool(True),
+    fillPhotInfo     = cms.bool(True),
+
+    fillJetInfo      = cms.bool(True), 
+    fillFATJetInfo   = cms.bool(True), 
+    fillAddJetInfo   = cms.bool(True),
+
+    pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
+
+    patMetRaw=cms.InputTag("pfMet"),
+    patMet = cms.InputTag("slimmedMETs"),
+    pfMetRaw   = cms.InputTag("pfMet"),
+    pfType1Met = cms.InputTag("slimmedMETs"),
+    pfMVAMET   = cms.InputTag("pfMVAMEt"),
+
     triggerLabel   = cms.InputTag("TriggerResults::HLT"),
     filterLabel    = cms.InputTag(filterlabel),
+
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(30),
-##### when applyPromptSelection is True
-#    maxNumGenPar  =  cms.uint32(60), 
     applyStatusSelection = cms.bool(True),
     applyPromptSelection = cms.bool(False),
-    ## For Muon
+##### when applyPromptSelection is True
+#    maxNumGenPar  =  cms.uint32(60), 
+    
+    ## For electron and muon
     r_iso_min    = cms.double(0.05),
     r_iso_max    = cms.double(0.2),
     kt_scale     = cms.double(10.),
     charged_only = cms.bool(False),
     pfForMiniIso = cms.InputTag("packedPFCandidates"),
 
-    ##CA8Jets=cms.InputTag("slimmedJetsAK8"),
-    ##CA8jecPayloadNames = cms.vstring( CA8jecLevels ),
-    ##CA8jecUncName = cms.string(CA8jecUnc),
-    ##
-    ##AK5Jets=cms.InputTag("slimmedJets"),
-    ##AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
-    ##AK5jecUncName = cms.string(AK5jecUnc),  
-    
-    ##patMuons=cms.InputTag("slimmedMuons"),
-    ##patElectrons = cms.InputTag("slimmedElectrons"),
-    patMuons=cms.InputTag("slimmedMuons"),
-    patElectrons = cms.InputTag("slimmedElectrons"),
-    
-    
-    pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
-    ##tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
-    tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
-    rhoSrc = cms.InputTag('kt6PFJets','rho'),
-    ### FatJets 
-    #FATJets=cms.InputTag("cleanJets"),
-    FATJets=cms.InputTag("slimmedJetsAK8"),
-    # jec still need to be checked 
-    #CA8jecPayloadNames = cms.vstring( CA8jecLevels ),
-    #CA8jecUncName = cms.string(CA8jecUnc),    
-    ### THINJet
-    #THINJets=cms.InputTag("cleanAK4Jets"),
-    THINJets=cms.InputTag("slimmedJets"),
-    # jec still need to be checked 
-    #AK5jecPayloadNames = cms.vstring( AK5jecLevels ),
-    #AK5jecUncName = cms.string(AK5jecUnc),    
-    
-    patMetRaw=cms.InputTag("pfMet"),
-    patMet = cms.InputTag("slimmedMETs"),
-    #patMet = cms.InputTag("pfMet"),
-    #patMetRaw=cms.InputTag("pfMet"),
-    pfMetRaw   = cms.InputTag("pfMet"),
-    pfType1Met = cms.InputTag("slimmedMETs"),
-    pfMVAMET   = cms.InputTag("pfMVAMEt"),
-    
-    runAddjetPY=cms.bool(True),
-    ADDJets= cms.InputTag("packedPatJetsPFCHSAK8"),
-    AddjetlabelPY= cms.InputTag("packedPatJetsPFCHSAK8"),
-    #ADDJets= cms.InputTag("cleanaddJets"),
-    #AddjetlabelPY= cms.InputTag("cleanaddJets"),
-    #AddjetlabelPY= cms.InputTag("packedPatJetsPFCHSAK8"),
-    svTagInfosPY  = cms.string('pfInclusiveSecondaryVertexFinder'),
-    # boolean to switch off part of the subjets which doesn't work in PHYS14 samples
-    # True for Spring15 and False for PHYS14
-    isSpring15    = cms.bool(True),
-        
+    ### Electrons
+    eleLabel = cms.InputTag("slimmedElectrons"),
     eleVetoIdMap = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
     eleLooseIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
     eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
     eleTightIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
     eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV60"),
-    
-    phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-loose"),
-    phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-medium"),
-    phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-tight"),
-
-    
     #
     # ID decisions (common to all formats)
     #
@@ -741,24 +764,104 @@ process.tree = cms.EDAnalyzer(
     #
     mvaValuesMap     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
     mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),    
+
+    muoLabel     = cms.InputTag("slimmedMuons"),
+    tauLabel     = cms.untracked.InputTag("slimmedTaus"),
+
+    ## Photons
+    phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-loose"),
+    phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-medium"),
+    phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-tight"),
+    photonLabel  = cms.InputTag("slimmedPhotons"),
+
+    ### THINJet
+#    THINJets=cms.InputTag("slimmedJets"),
+    THINJets=cms.InputTag("patJetsReapplyJECAK4"),
+    THINjecUncPayLoad=cms.string('AK4PFchs'),
+    # jec still need to be checked 
+    
+    ### FatJets  
+#    FATJets=cms.InputTag("slimmedJetsAK8"),
+    FATJets=cms.InputTag("patJetsReapplyJECAK8"),
+    FATJetsForPrunedMass=cms.InputTag("patJetsReapplyJECForPrunedMass"),
+    puppiPrunedMassJet=cms.InputTag("selectedPatJetsPuppiPrunedPFlow"), ## from addJetCollection
+    puppiSoftDropMassJet=cms.InputTag("selectedPatJetsPuppiSoftDropPFlow"), ## from addJetCollection
+    ATLASTrimMassJetLabel=cms.InputTag("selectedPatJetsATLASTrimmedPFlow"),
+    FATjecUncPayLoad=cms.string('AK8PFchs'), ## Uncertainty does not exist yet
+    
+    ### AddJets
+    ADDJets= cms.InputTag("packedPatJetsPFCHSAK8"),
+    svTagInfosPY  = cms.string('pfInclusiveSecondaryVertexFinder'),    
+    ADDjecUncPayLoad=cms.string('AK8PFchs'), ## Uncertainty does not exist yet
+    
     outFileName=cms.string('outputFileName.root')
     )
 
+
+
 process.TFileService = cms.Service("TFileService",
-                                   #fileName = cms.string("TreeMaker_TTbar.root")
-                                   #fileName = cms.string("TreeMaker_QCD.root") 
-                                  fileName = cms.string("NCUGlobalTuples.root")          
-                                  # fileName = cms.string('$outputFileName')          
-                                  )
+				   fileName = cms.string("NCUGlobalTuples.root")          
+				   # fileName = cms.string('$outputFileName')          
+				   )
 
 
 
 process.allEventsCounter = cms.EDFilter(
-    "EventCounter"
-    )
+	"EventCounter"
+ )
 
 #process.egmPhotonIDs.physicsObjectSrc = cms.InputTag("ncuslimmedPhoton")
 #process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
+
+## For normal AK4 jets jet energy correction on top of miniAOD
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetCorrFactorsUpdated
+process.patJetCorrFactorsReapplyJECAK4 = patJetCorrFactorsUpdated.clone(
+	src = cms.InputTag("slimmedJets"),
+	levels = jetCorrectionLevelsFullCHS,
+	payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
+
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetsUpdated
+process.patJetsReapplyJECAK4 = patJetsUpdated.clone(
+	jetSource = cms.InputTag("slimmedJets"),
+	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECAK4"))
+  )
+
+process.jetCorrSequenceAK4 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK4 + process.patJetsReapplyJECAK4 )
+
+
+
+
+### For normal AK8 jet energy correction on top of miniAOD
+process.patJetCorrFactorsReapplyJECAK8 = patJetCorrFactorsUpdated.clone(
+	src = cms.InputTag("slimmedJetsAK8"),
+	levels = jetCorrectionLevelsFullCHS,
+	payload = 'AK8PFchs' ) # Make sure to choose the appropriate levels and payload here!
+
+process.patJetsReapplyJECAK8 = patJetsUpdated.clone(
+	jetSource = cms.InputTag("slimmedJetsAK8"),
+	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECAK8"))
+  )
+
+
+process.jetCorrSequenceAK8 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK8 + process.patJetsReapplyJECAK8 )
+
+
+
+## For correcting pruned jet mass
+process.patJetCorrFactorsReapplyJECForPrunedMass = patJetCorrFactorsUpdated.clone(
+	src = cms.InputTag("slimmedJetsAK8"),
+	levels = jetCorrectionLevels23CHS,
+	payload = 'AK8PFchs' ) # Make sure to choose the appropriate levels and payload here!
+
+
+process.patJetsReapplyJECForPrunedMass = patJetsUpdated.clone(
+	jetSource = cms.InputTag("slimmedJetsAK8"),
+	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECForPrunedMass"))
+	)
+
+process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForPrunedMass + process.patJetsReapplyJECForPrunedMass )
+
+
 
 
 process.analysis = cms.Path(
@@ -766,14 +869,12 @@ process.analysis = cms.Path(
     #process.ncuslimmer+
     process.egmGsfElectronIDSequence+
     process.egmPhotonIDSequence+
-    #process.leptonSequence+                                               
-    #process.egmGsfElectronIDSequence+
-    #process.egmPhotonIDSequence+
     process.pfMVAMEtSequence+
     process.pfMet+
     process.miniAODjetSequence+                     
-    #process.selectedPatJetsPFCHSAK8PFlow + 
-    #process.selectedPatJetsPrunedPFCHSAK8Packed +
+    process.jetCorrSequenceAK4+
+    process.jetCorrSequenceAK8+
+    process.jetCorrSequenceForPrunedMass+
     process.HBHENoiseFilterResultProducer+
     process.tree
     )

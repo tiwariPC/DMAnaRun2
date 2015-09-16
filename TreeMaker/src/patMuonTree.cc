@@ -17,7 +17,7 @@ patMuonTree::patMuonTree(std::string name, TTree* tree,
 			 const edm::ParameterSet& iConfig):
   baseTree(name,tree),  
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),   
-  patMuonLabel_(iConfig.getParameter<edm::InputTag>("patMuons")),
+  patMuonLabel_(iConfig.getParameter<edm::InputTag>("muoLabel")),
   pfCandLabel_(iConfig.getParameter<edm::InputTag>("pfForMiniIso")),
   r_iso_min_(iConfig.getParameter<double>("r_iso_min")),
   r_iso_max_(iConfig.getParameter<double>("r_iso_max")),

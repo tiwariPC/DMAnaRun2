@@ -2,9 +2,6 @@
 #define __JET_TREE_H_
 
 
-
-
-
 #include <memory>
 #include <string>
 #include <iostream>
@@ -13,46 +10,33 @@
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
-
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
+#include "FWCore/Framework/interface/ESHandle.h"
+#include "FWCore/Framework/interface/EventSetup.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
+
+#include "FWCore/Utilities/interface/InputTag.h"
 
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
-
-
-
-
-
-
-
-
-
-
-
-#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
-#include "DelPanj/TreeMaker/interface/utils.h"
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "DelPanj/TreeMaker/interface/baseTree.h"
-#include "DelPanj/TreeMaker/interface/jetSelector.h"
-#include "FWCore/Framework/interface/ESHandle.h"
-#include "FWCore/Framework/interface/EventSetup.h"
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/Common/interface/ValueMap.h"
+
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
 #include <boost/shared_ptr.hpp>
-#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
-#include "DataFormats/PatCandidates/interface/Jet.h"
-#include "FWCore/Framework/interface/MakerMacros.h"
-#include "DataFormats/Common/interface/ValueMap.h"
-//#include "FWCore/Framework/interface/ConsumesCollector.h"
-#include "FWCore/Utilities/interface/InputTag.h"
+
+
+#include "DelPanj/TreeMaker/interface/utils.h"
+#include "DelPanj/TreeMaker/interface/baseTree.h"
+#include "DelPanj/TreeMaker/interface/jetSelector.h"
 
 using namespace std;
 using namespace edm;
@@ -66,46 +50,31 @@ class jetTree  : public baseTree{
   void Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup) ; 
   void SetBranches();
   void Clear();
-  
-  // typedef IPTI IPTagInfo;
-  // typedef typename IPTI::input_container Tracks;
-  //  typedef typename IPTI::input_container::value_type TrackRef;
-  //  typedef VTX Vertex;
-  //  typedef reco::TemplatedSecondaryVertexTagInfo<IPTI,VTX> SVTagInfo;
-
- 
-
- 
- 
+    
  private:
   jetTree();
 
   bool isFATJet_;
   bool isADDJet_;
   
-  edm::InputTag JetLabel_;
-  edm::InputTag AddjetlabelC_;
-  
-  edm::InputTag rhoSrc_;
+  edm::InputTag JetLabel_;  
   edm::InputTag pvSrc_;
 
-  std::string  svTagInfosCstr_;
-  bool isSpring15_;
-
-
-
-  std::vector<std::string> jecPayloadNames_;
-  std::string              jecUncName_;
+  std::string svTagInfosCstr_;
+  std::string jecUncPayLoadName_;
 
   jetSelector jet2012ID_;
 
-  boost::shared_ptr<JetCorrectionUncertainty> jecUnc_;
-  boost::shared_ptr<FactorizedJetCorrector> jec_;
-  
-  bool runAddJet_;
+  edm::InputTag PrunedMassJetLabel_;
+  edm::InputTag puppiPrunedMassJetLabel_;
+  edm::InputTag puppiSoftDropMassJetLabel_;
+  edm::InputTag ATLASTrimMassJetLabel_;
+
 
   //Branches common to all the jets.
   int nJet_;
+  float jetRho_;
+  int jetNPV_;
 
   TClonesArray*      genjetP4_;
   std::vector<float> genjetEM_;
@@ -117,7 +86,9 @@ class jetTree  : public baseTree{
   std::vector<float> jetRawFactor_;
 
   TClonesArray *jetP4_;
+  TClonesArray *unCorrJetP4_;
 
+  std::vector<float> jetArea_;
   std::vector<float> jetCorrUncUp_;
   std::vector<float> jetCorrUncDown_;
   std::vector<int>   jetCharge_;
@@ -178,8 +149,12 @@ class jetTree  : public baseTree{
     
   std::vector<float>  jetSDmass_; 
   std::vector<float>  jetTRmass_;
-  std::vector<float>  jetPRmass_;
+  std::vector<float>  jetPRmass_; // from miniAOD
   std::vector<float>  jetFimass_;
+  std::vector<float>  jetPRmassL2L3Corr_; 
+  std::vector<float>  jetSDmassPuppiL2L3Corr_; 
+  std::vector<float>  jetPRmassPuppiL2L3Corr_; 
+  std::vector<float>  jetATLASmassL2L3Corr_; 
   
   //jet  Hbb tagger for fat and add jet
 
@@ -205,7 +180,6 @@ class jetTree  : public baseTree{
   std::vector<std::vector<int> >   subjetSDPartonFlavor_;
   std::vector<std::vector<int> >   subjetSDHadronFlavor_;
   std::vector<std::vector<float> > subjetSDCSV_;        
-
 
 
 

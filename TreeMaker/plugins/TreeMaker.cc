@@ -33,19 +33,19 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillAddJetInfo_=false;
 
 
-  fillPUweightInfo_ = iConfig.getParameter<bool>("fillPUweightInfo_");
-  fillEventInfo_ = iConfig.getParameter<bool>("fillEventInfo_");
-  fillGenInfo_   = iConfig.getParameter<bool>("fillGenInfo_");
-  fillTrigInfo_  = iConfig.getParameter<bool>("fillTrigInfo_");
-  fillFilterInfo_ = iConfig.getParameter<bool>("fillFilterInfo_");
-  fillElecInfo_  = iConfig.getParameter<bool>("fillElecInfo_");
-  fillMuonInfo_  = iConfig.getParameter<bool>("fillMuonInfo_");
-  fillTauInfo_   = iConfig.getParameter<bool>("fillTauInfo_");
-  fillPhotInfo_  = iConfig.getParameter<bool>("fillPhotInfo_");
-  fillMetInfo_   = iConfig.getParameter<bool>("fillMetInfo_");
-  fillJetInfo_   = iConfig.getParameter<bool>("fillJetInfo_");
-  fillFATJetInfo_= iConfig.getParameter<bool>("fillFATJetInfo_"); 
-  fillAddJetInfo_=iConfig.getParameter<bool>("fillAddJetInfo_");
+  fillPUweightInfo_ = iConfig.getParameter<bool>("fillPUweightInfo");
+  fillEventInfo_ = iConfig.getParameter<bool>("fillEventInfo");
+  fillGenInfo_   = iConfig.getParameter<bool>("fillGenInfo");
+  fillTrigInfo_  = iConfig.getParameter<bool>("fillTrigInfo");
+  fillFilterInfo_ = iConfig.getParameter<bool>("fillFilterInfo");
+  fillElecInfo_  = iConfig.getParameter<bool>("fillElecInfo");
+  fillMuonInfo_  = iConfig.getParameter<bool>("fillMuonInfo");
+  fillTauInfo_   = iConfig.getParameter<bool>("fillTauInfo");
+  fillPhotInfo_  = iConfig.getParameter<bool>("fillPhotInfo");
+  fillMetInfo_   = iConfig.getParameter<bool>("fillMetInfo");
+  fillJetInfo_   = iConfig.getParameter<bool>("fillJetInfo");
+  fillFATJetInfo_= iConfig.getParameter<bool>("fillFATJetInfo"); 
+  fillAddJetInfo_=iConfig.getParameter<bool>("fillAddJetInfo");
    
   
   edm::Service<TFileService> fs;
