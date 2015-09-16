@@ -31,7 +31,7 @@ git clone git@github.com:syuvivida/DMAnaRun2_AddModules.git AddModules
 
 mv AddModules/EGamma/ .
 
-
+rm -rf AddModules
 ```
 
 ## Compile And Run 
