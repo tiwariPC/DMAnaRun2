@@ -251,7 +251,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     float jpt = jet->pt();
     float jeta = jet->eta();
   
-    bool passPU = false;
+    bool passPU = true;
     if(jpt>20){
       if(jeta>3.){
    	if(jpumva<=-0.45)passPU=false;
