@@ -50,9 +50,9 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   if(isFATJet_)
     {
       PrunedMassJetLabel_        = iConfig.getParameter<edm::InputTag>("FATJetsForPrunedMass");
-      puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
-      puppiSoftDropMassJetLabel_ = iConfig.getParameter<edm::InputTag>("puppiSoftDropMassJet");
-      ATLASTrimMassJetLabel_     = iConfig.getParameter<edm::InputTag>("ATLASTrimMassJetLabel");
+      // puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
+      // puppiSoftDropMassJetLabel_ = iConfig.getParameter<edm::InputTag>("puppiSoftDropMassJet");
+      // ATLASTrimMassJetLabel_     = iConfig.getParameter<edm::InputTag>("ATLASTrimMassJetLabel");
    }
 
 }
@@ -109,14 +109,14 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   edm::Handle<pat::JetCollection> JetHandleForPrunedMass;
   pat::JetCollection jetsForPrunedMass;
 
-  edm::Handle<pat::JetCollection> JetHandleForPuppiPrunedMass;
-  pat::JetCollection jetsForPuppiPrunedMass;
+  // edm::Handle<pat::JetCollection> JetHandleForPuppiPrunedMass;
+  // pat::JetCollection jetsForPuppiPrunedMass;
 
-  edm::Handle<pat::JetCollection> JetHandleForPuppiSoftDropMass;
-  pat::JetCollection jetsForPuppiSoftDropMass;
+  // edm::Handle<pat::JetCollection> JetHandleForPuppiSoftDropMass;
+  // pat::JetCollection jetsForPuppiSoftDropMass;
 
-  edm::Handle<pat::JetCollection> JetHandleForATLASTrimMass;
-  pat::JetCollection jetsForATLASTrimMass;
+  // edm::Handle<pat::JetCollection> JetHandleForATLASTrimMass;
+  // pat::JetCollection jetsForATLASTrimMass;
 
   if(isFATJet_ && 
      not iEvent.getByLabel(PrunedMassJetLabel_,JetHandleForPrunedMass))
@@ -125,38 +125,38 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     	       <<PrunedMassJetLabel_<<std::endl; 
       exit(0);
     }
+  // else if(isFATJet_ && 
+  //    not iEvent.getByLabel(puppiPrunedMassJetLabel_,JetHandleForPuppiPrunedMass))
+  //   {
+  //     std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
+  //   	       <<puppiPrunedMassJetLabel_<<std::endl; 
+  //     exit(0);
+  //   }
+  // else if(isFATJet_ && 
+  //    not iEvent.getByLabel(puppiSoftDropMassJetLabel_,JetHandleForPuppiSoftDropMass))
+  //   {
+  //     std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
+  //   	       <<puppiSoftDropMassJetLabel_<<std::endl; 
+  //     exit(0);
+  //   }
+  // else if(isFATJet_ && 
+  //    not iEvent.getByLabel(ATLASTrimMassJetLabel_,JetHandleForATLASTrimMass))
+  //   {
+  //     std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
+  //   	       << ATLASTrimMassJetLabel_<<std::endl; 
+  //     exit(0);
+  //   }
   else if(isFATJet_ && 
-     not iEvent.getByLabel(puppiPrunedMassJetLabel_,JetHandleForPuppiPrunedMass))
-    {
-      std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-    	       <<puppiPrunedMassJetLabel_<<std::endl; 
-      exit(0);
-    }
-  else if(isFATJet_ && 
-     not iEvent.getByLabel(puppiSoftDropMassJetLabel_,JetHandleForPuppiSoftDropMass))
-    {
-      std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-    	       <<puppiSoftDropMassJetLabel_<<std::endl; 
-      exit(0);
-    }
-  else if(isFATJet_ && 
-     not iEvent.getByLabel(ATLASTrimMassJetLabel_,JetHandleForATLASTrimMass))
-    {
-      std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-    	       << ATLASTrimMassJetLabel_<<std::endl; 
-      exit(0);
-    }
-  else if(isFATJet_ && 
-	  iEvent.getByLabel(PrunedMassJetLabel_,JetHandleForPrunedMass) &&
-	  iEvent.getByLabel(puppiPrunedMassJetLabel_,JetHandleForPuppiPrunedMass) && 
-	  iEvent.getByLabel(puppiSoftDropMassJetLabel_,JetHandleForPuppiSoftDropMass) &&
-	  iEvent.getByLabel(ATLASTrimMassJetLabel_,JetHandleForATLASTrimMass)
+	  iEvent.getByLabel(PrunedMassJetLabel_,JetHandleForPrunedMass) //&&
+	  // iEvent.getByLabel(puppiPrunedMassJetLabel_,JetHandleForPuppiPrunedMass) && 
+	  // iEvent.getByLabel(puppiSoftDropMassJetLabel_,JetHandleForPuppiSoftDropMass) &&
+	  // iEvent.getByLabel(ATLASTrimMassJetLabel_,JetHandleForATLASTrimMass)
 	  )
     {
       jetsForPrunedMass       = *(JetHandleForPrunedMass.product());
-      jetsForPuppiPrunedMass  = *(JetHandleForPuppiPrunedMass.product());
-      jetsForPuppiSoftDropMass= *(JetHandleForPuppiSoftDropMass.product());
-      jetsForATLASTrimMass    = *(JetHandleForATLASTrimMass.product());
+      // jetsForPuppiPrunedMass  = *(JetHandleForPuppiPrunedMass.product());
+      // jetsForPuppiSoftDropMass= *(JetHandleForPuppiSoftDropMass.product());
+      // jetsForATLASTrimMass    = *(JetHandleForATLASTrimMass.product());
     }
 
   // for jet energy uncertainty
@@ -373,52 +373,42 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     	jetPRmassL2L3Corr_.push_back(DUMMY);
       
 
-      std::vector<pat::Jet>::const_iterator jetForPuppiPrunedMass= find_if(jetsForPuppiPrunedMass.begin(),
-									   jetsForPuppiPrunedMass.end(),
-									   [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
+      // std::vector<pat::Jet>::const_iterator jetForPuppiPrunedMass= find_if(jetsForPuppiPrunedMass.begin(),
+      // 									   jetsForPuppiPrunedMass.end(),
+      // 									   [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
 
-      if(jetForPuppiPrunedMass!=jetsForPuppiPrunedMass.end())
-	{
-	  // std::cout << jet->correctedP4(0).eta() << ", " << jet->correctedP4(0).phi() << "\t" 
-	  //   	    << jetForPuppiPrunedMass->correctedP4(0).eta() << ", " << jetForPuppiPrunedMass->correctedP4(0).phi() << "\t"
-	  //  	    << jetForPuppiPrunedMass->eta() << ", " << jetForPuppiPrunedMass->phi() << std::endl;
-	  jetPRmassPuppiL2L3Corr_.push_back(jetForPuppiPrunedMass->mass()); 
-	}
-      else
-	jetPRmassPuppiL2L3Corr_.push_back(DUMMY);
+      // if(jetForPuppiPrunedMass!=jetsForPuppiPrunedMass.end())
+      // 	{
+      // 	  jetPRmassPuppiL2L3Corr_.push_back(jetForPuppiPrunedMass->mass()); 
+      // 	}
+      // else
+      // 	jetPRmassPuppiL2L3Corr_.push_back(DUMMY);
 
 
 
-      std::vector<pat::Jet>::const_iterator jetForPuppiSoftDropMass= find_if(jetsForPuppiSoftDropMass.begin(),
-									   jetsForPuppiSoftDropMass.end(),
-									   [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
+      // std::vector<pat::Jet>::const_iterator jetForPuppiSoftDropMass= find_if(jetsForPuppiSoftDropMass.begin(),
+      // 									   jetsForPuppiSoftDropMass.end(),
+      // 									   [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
       
-      if(jetForPuppiSoftDropMass!=jetsForPuppiSoftDropMass.end())
-	{
-	  // std::cout << jet->correctedP4(0).eta() << ", " << jet->correctedP4(0).phi() << "\t" 
-	  //    	    << jetForPuppiSoftDropMass->correctedP4(0).eta() << ", " << jetForPuppiSoftDropMass->correctedP4(0).phi() << "\t"
-	  //  	    << jetForPuppiSoftDropMass->eta() << ", " << jetForPuppiSoftDropMass->phi() << std::endl;
-	  jetSDmassPuppiL2L3Corr_.push_back(jetForPuppiSoftDropMass->mass()); 
-	}
-      else
-	jetSDmassPuppiL2L3Corr_.push_back(DUMMY); 
+      // if(jetForPuppiSoftDropMass!=jetsForPuppiSoftDropMass.end())
+      // 	{
+      // 	  jetSDmassPuppiL2L3Corr_.push_back(jetForPuppiSoftDropMass->mass()); 
+      // 	}
+      // else
+      // 	jetSDmassPuppiL2L3Corr_.push_back(DUMMY); 
 
 
 
-      std::vector<pat::Jet>::const_iterator jetForATLASTrimMass= find_if(jetsForATLASTrimMass.begin(),
-									 jetsForATLASTrimMass.end(),
-									 [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
+      // std::vector<pat::Jet>::const_iterator jetForATLASTrimMass= find_if(jetsForATLASTrimMass.begin(),
+      // 									 jetsForATLASTrimMass.end(),
+      // 									 [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
       
-      if(jetForATLASTrimMass!=jetsForATLASTrimMass.end())
-	{
-	  // std::cout << jet->correctedP4(0).eta() << ", " << jet->correctedP4(0).phi() << "\t" 
-	  //  	    << jetForATLASTrimMass->correctedP4(0).eta() << ", " << jetForATLASTrimMass->correctedP4(0).phi() << "\t"
-	  //  	    << jetForATLASTrimMass->eta() << ", " << jetForATLASTrimMass->phi() << std::endl;
-
- 	  jetATLASmassL2L3Corr_.push_back(jetForATLASTrimMass->mass()); 
-	}
-      else
-	jetATLASmassL2L3Corr_.push_back(DUMMY); 
+      // if(jetForATLASTrimMass!=jetsForATLASTrimMass.end())
+      // 	{
+      // 	  jetATLASmassL2L3Corr_.push_back(jetForATLASTrimMass->mass()); 
+      // 	}
+      // else
+      // 	jetATLASmassL2L3Corr_.push_back(DUMMY); 
 
       jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
       jetTRmass_.push_back(jet->userFloat("ak8PFJetsCHSTrimmedMass")); 

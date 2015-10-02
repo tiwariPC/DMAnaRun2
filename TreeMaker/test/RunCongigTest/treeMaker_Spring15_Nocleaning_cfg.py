@@ -248,7 +248,7 @@ bTagDiscriminators = [
 
 ## Jet energy corrections
 
-## For Puppi jet pruned and softdrop mass L2+L3 corrections only
+## For jet pruned and softdrop mass L2+L3 corrections only
 if options.runOnMC:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
@@ -551,115 +551,17 @@ addJetCollection(
         postfix = postfix
     )
 
-## For ATLAS
-from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHSTrimmed
-
-#
-process.ak10CHSJetsTrimmed = ak8PFJetsCHSTrimmed.clone( src = 'packedPFCandidates', jetPtMin = 200., rParam = 1.0, rFilt = 0.2, trimPtFracMin = 0.05 )
-
-addJetCollection(
-        process,
-        labelName = "ATLASTrimmed",
-        jetSource = cms.InputTag('ak10CHSJetsTrimmed'),
-        algo = 'AK',
-        rParam = 1.0,
-        pfCandidates = cms.InputTag(pfCandidates),
-        genJetCollection = cms.InputTag('genJetsNoNuAK8'),
-        getJetMCFlavour = False, # jet flavor needs to be disabled for groomed fat jets                                                                                          
-        genParticles = cms.InputTag(genParticles),
-        pvSource = cms.InputTag(pvSource),
-        svSource = cms.InputTag(svSource),
-        muSource = cms.InputTag(muSource),
-        elSource = cms.InputTag(elSource),
-        jetCorrections = jetCorrectionsAK8CHSL23,
-        btagInfos=['None'],
-	btagDiscriminators = ['None'], # turn-off b tagging                                                                                                                      
-        postfix = postfix
-        )
-
-#process.ECFAK10 = cms.EDProducer("ECFAdder",
-#				 src = cms.InputTag("ak10CHSJetsTrimmed"),
-#				 Njets = cms.vuint32(1, 2, 3),
-#				 beta = cms.double(1.0),        # CMS default is 1
-#				 )
-
-
-
-#process.patJetsATLASTrimmedPFlow.userData.userFloats.src += ['ECFAK10:ecf1','ECFAK10:ecf2','ECFAK10:ecf3']
-
-
-
-########## For puppi
-
-
-from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHSPruned
-from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHSSoftDrop
-
-process.load('CommonTools/PileupAlgos/Puppi_cff')
-process.puppi.candName = cms.InputTag('packedPFCandidates')
-process.puppi.vertexName = cms.InputTag('offlineSlimmedPrimaryVertices')  
-process.ak8PuppiJetsPruned = ak8PFJetsCHSPruned.clone( src = 'puppi', jetPtMin = 200 )
-process.ak8PuppiJetsSoftDrop = ak8PFJetsCHSSoftDrop.clone( src = 'puppi', jetPtMin = 200, beta =0 )
-
-
-addJetCollection(
-	process,
-        labelName = "PuppiPruned",
-        jetSource = cms.InputTag('ak8PuppiJetsPruned'),
-	algo = 'AK',
-	rParam = 0.8,
-        pfCandidates = cms.InputTag(pfCandidates),
-	genJetCollection = cms.InputTag('genJetsNoNuAK8'),
-	getJetMCFlavour = False, # jet flavor needs to be disabled for groomed fat jets
-        genParticles = cms.InputTag(genParticles),
-        pvSource = cms.InputTag(pvSource),
-        svSource = cms.InputTag(svSource),
-        muSource = cms.InputTag(muSource),
-        elSource = cms.InputTag(elSource),
-        jetCorrections = jetCorrectionsAK8PuppiL23,
-        btagInfos=['None'],
-	btagDiscriminators = ['None'], # turn-off b tagging
-        postfix = postfix
-	)
-
-addJetCollection(
-	process,
-        labelName = "PuppiSoftDrop",
-        jetSource = cms.InputTag('ak8PuppiJetsSoftDrop'),
-	algo = 'AK',
-	rParam = 0.8,
-        pfCandidates = cms.InputTag(pfCandidates),
-	genJetCollection = cms.InputTag('genJetsNoNuAK8'),
-	getJetMCFlavour = False, # jet flavor needs to be disabled for groomed fat jets
-        genParticles = cms.InputTag(genParticles),
-        pvSource = cms.InputTag(pvSource),
-        svSource = cms.InputTag(svSource),
-        muSource = cms.InputTag(muSource),
-        elSource = cms.InputTag(elSource),
-        jetCorrections = jetCorrectionsAK8PuppiL23,
-        btagInfos=['None'],
-	btagDiscriminators = ['None'], # turn-off b tagging
-        postfix = postfix
-	)
-
-
-
 
 process.miniAODjetSequence = cms.Sequence(
                              process.selectedPatJetsPFCHSAK8PFlow+
                              process.selectedPatJetsPrunedPFCHSAK8Packed +
-                             process.fataddJetsSequence+
-			     process.selectedPatJetsATLASTrimmedPFlow+
-			     process.selectedPatJetsPuppiPrunedPFlow+
-			     process.selectedPatJetsPuppiSoftDropPFlow                             
+                             process.fataddJetsSequence
                              )
 
 
 
 
 ###end of add jet collection
-
-
 ### FOR adding new hbb b-tags in miniaod?
 
 #process.load("PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff")
@@ -683,20 +585,27 @@ else :
 switchOnVIDElectronIdProducer(process, dataFormat)
 switchOnVIDPhotonIdProducer(process, dataFormat)
 # define which IDs we want to produce
-my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
-                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-                 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
+if options.runOn25ns:
+	my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
+			 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
+			 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
+else:
+	my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_50ns_V2_cff',
+			 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
+			 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_50ns_Trig_V1_cff']
 
 #add them to the VID producer
 for idmod in my_id_modules:
     setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
 
-my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_PHYS14_PU20bx25_V2_cff']
+if options.runOn25ns:
+	my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_PHYS14_PU20bx25_V2_cff']
+else:
+	my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring15_50ns_V1_cff']
+
 #add them to the VID producer
 for idmod in my_phoid_modules:
 	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
-
-
 
 
 
@@ -769,10 +678,10 @@ process.tree = cms.EDAnalyzer(
     tauLabel     = cms.untracked.InputTag("slimmedTaus"),
 
     ## Photons
+    photonLabel  = cms.InputTag("slimmedPhotons"),
     phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-loose"),
     phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-medium"),
     phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-tight"),
-    photonLabel  = cms.InputTag("slimmedPhotons"),
 
     ### THINJet
 #    THINJets=cms.InputTag("slimmedJets"),
@@ -784,9 +693,6 @@ process.tree = cms.EDAnalyzer(
 #    FATJets=cms.InputTag("slimmedJetsAK8"),
     FATJets=cms.InputTag("patJetsReapplyJECAK8"),
     FATJetsForPrunedMass=cms.InputTag("patJetsReapplyJECForPrunedMass"),
-    puppiPrunedMassJet=cms.InputTag("selectedPatJetsPuppiPrunedPFlow"), ## from addJetCollection
-    puppiSoftDropMassJet=cms.InputTag("selectedPatJetsPuppiSoftDropPFlow"), ## from addJetCollection
-    ATLASTrimMassJetLabel=cms.InputTag("selectedPatJetsATLASTrimmedPFlow"),
     FATjecUncPayLoad=cms.string('AK8PFchs'), ## Uncertainty does not exist yet
     
     ### AddJets
@@ -797,6 +703,20 @@ process.tree = cms.EDAnalyzer(
     outFileName=cms.string('outputFileName.root')
     )
 
+if not options.runOn25ns:
+### Electron
+	process.tree.eleVetoIdMap = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto"),
+	process.tree.eleLooseIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose"),
+        process.tree.eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium"),
+        process.tree.eleTightIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight"),
+        process.tree.eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp90"),
+        process.tree.eleMVATightIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp80"),
+        process.tree.mvaValuesMap     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Values"),
+        process.tree.mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Categories"),    
+### Photon
+        process.tree.phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-loose"),
+        process.tree.phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-medium"),
+        process.tree.phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-tight"),
 
 
 process.TFileService = cms.Service("TFileService",

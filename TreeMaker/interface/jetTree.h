@@ -66,9 +66,9 @@ class jetTree  : public baseTree{
   jetSelector jet2012ID_;
 
   edm::InputTag PrunedMassJetLabel_;
-  edm::InputTag puppiPrunedMassJetLabel_;
-  edm::InputTag puppiSoftDropMassJetLabel_;
-  edm::InputTag ATLASTrimMassJetLabel_;
+  /* edm::InputTag puppiPrunedMassJetLabel_; */
+  /* edm::InputTag puppiSoftDropMassJetLabel_; */
+  /* edm::InputTag ATLASTrimMassJetLabel_; */
 
 
   //Branches common to all the jets.
@@ -152,9 +152,9 @@ class jetTree  : public baseTree{
   std::vector<float>  jetPRmass_; // from miniAOD
   std::vector<float>  jetFimass_;
   std::vector<float>  jetPRmassL2L3Corr_; 
-  std::vector<float>  jetSDmassPuppiL2L3Corr_; 
-  std::vector<float>  jetPRmassPuppiL2L3Corr_; 
-  std::vector<float>  jetATLASmassL2L3Corr_; 
+  /* std::vector<float>  jetSDmassPuppiL2L3Corr_;  */
+  /* std::vector<float>  jetPRmassPuppiL2L3Corr_;  */
+  /* std::vector<float>  jetATLASmassL2L3Corr_;  */
   
   //jet  Hbb tagger for fat and add jet
 
