@@ -635,9 +635,9 @@ jetTree::SetBranches(){
     AddBranch(&jetPRmass_, "jetPRmass");
     AddBranch(&jetFimass_, "jetFimass");
     AddBranch(&jetPRmassL2L3Corr_, "jetPRmassL2L3Corr");
-    AddBranch(&jetSDmassPuppiL2L3Corr_, "jetSDmassPuppiL2L3Corr");
-    AddBranch(&jetPRmassPuppiL2L3Corr_, "jetPRmassPuppiL2L3Corr");
-    AddBranch(&jetATLASmassL2L3Corr_, "jetATLASmassL2L3Corr");
+    // AddBranch(&jetSDmassPuppiL2L3Corr_, "jetSDmassPuppiL2L3Corr");
+    // AddBranch(&jetPRmassPuppiL2L3Corr_, "jetPRmassPuppiL2L3Corr");
+    // AddBranch(&jetATLASmassL2L3Corr_, "jetATLASmassL2L3Corr");
 
   }
 
@@ -757,9 +757,9 @@ jetTree::Clear(){
   jetFimass_.clear();
   
   jetPRmassL2L3Corr_.clear();
-  jetSDmassPuppiL2L3Corr_.clear();
-  jetPRmassPuppiL2L3Corr_.clear();
-  jetATLASmassL2L3Corr_.clear();
+  // jetSDmassPuppiL2L3Corr_.clear();
+  // jetPRmassPuppiL2L3Corr_.clear();
+  // jetATLASmassL2L3Corr_.clear();
 
 
   //jet  Hbb tagger for fat and add jet
