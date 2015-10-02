@@ -1,24 +1,17 @@
 
 # DMAnaRun2
 
-# For CMSSW_7_4_7
+# For CMSSW_7_4_12
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc491
-cmsrel CMSSW_7_4_7
-cd CMSSW_7_4_7/src/
+cmsrel CMSSW_7_4_12
+cd CMSSW_7_4_12/src/
 cmsenv
 ```
 
 ## For Egamma to get Spring15 ID
 ```
-git cms-merge-topic ikrav:egm_id_747_v2
-```
-
-## For Puppi v8
-```
-git cms-addpkg CommonTools/PileupAlgos
-
-git cms-merge-topic nhanvtran:puppi-etadep-746p2-v8
+git cms-merge-topic ikrav:egm_id_7.4.12_v1
 ```
 
 
@@ -29,7 +22,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout jet_CMSSW747
+git checkout eleIDjet_CMSSW7412
 
 cd -
 
