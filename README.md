@@ -39,6 +39,6 @@ scramv1 b clean
 
 scramv1 b
 
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_cfg.py
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
  
 ```
