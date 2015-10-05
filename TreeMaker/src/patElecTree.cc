@@ -225,6 +225,7 @@ patElecTree::Fill(const edm::Event& iEvent){
 
     ///For HEEP ID
     patElecEcalDrivenSeed_.push_back(ele->ecalDrivenSeed());
+    patElecEcalDriven_.push_back(ele->ecalDriven());
     patElecDr03EcalRecHitSumEt_.push_back(ele->dr03EcalRecHitSumEt());
     patElecDr03HcalDepth1TowerSumEt_.push_back(ele->dr03HcalDepth1TowerSumEt());
     patElecDr03HcalDepth2TowerSumEt_.push_back(ele->dr03HcalDepth2TowerSumEt());
@@ -340,6 +341,7 @@ patElecTree::SetBranches(){
   AddBranch(&patElecMiniIso_,"eleMiniIso");
 
   AddBranch(&patElecEcalDrivenSeed_,"eleEcalDrivenSeed");
+  AddBranch(&patElecEcalDriven_,"eleEcalDriven");
   AddBranch(&patElecDr03EcalRecHitSumEt_,"eleDr03EcalRecHitSumEt");
   AddBranch(&patElecDr03HcalDepth1TowerSumEt_,"eleDr03HcalDepth1TowerSumEt");
   AddBranch(&patElecDr03HcalDepth2TowerSumEt_,"eleDr03HcalDepth2TowerSumEt");
@@ -428,6 +430,7 @@ patElecTree::Clear(){
   patElecMiniIso_.clear();
 
   patElecEcalDrivenSeed_.clear();
+  patElecEcalDriven_.clear();
   patElecDr03EcalRecHitSumEt_.clear();
   patElecDr03HcalDepth1TowerSumEt_.clear();
   patElecDr03HcalDepth2TowerSumEt_.clear();

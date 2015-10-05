@@ -147,6 +147,7 @@ class patElecTree : public baseTree {
 
 
   std::vector<bool> patElecEcalDrivenSeed_;
+  std::vector<bool> patElecEcalDriven_;
   std::vector<float> patElecDr03EcalRecHitSumEt_;
   std::vector<float> patElecDr03HcalDepth1TowerSumEt_;
   std::vector<float> patElecDr03HcalDepth2TowerSumEt_;
