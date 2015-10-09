@@ -305,14 +305,14 @@ if options.runOnMC:
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
 
-	AK4JECTextFilES = [
+	AK4JECTextFiles = [
 		'Summer15_25nsV2_MC_L1FastJet_AK4PFchs.txt',
 		'Summer15_25nsV2_MC_L2Relative_AK4PFchs.txt',
 		'Summer15_25nsV2_MC_L3Absolute_AK4PFchs.txt'
 		]
 	AK4JECUncTextFile = 'Summer15_25nsV2_MC_Uncertainty_AK4PFchs.txt'
 
-	AK8JECTextFilES = [
+	AK8JECTextFiles = [
 		'Summer15_25nsV2_MC_L1FastJet_AK8PFchs.txt',
 		'Summer15_25nsV2_MC_L2Relative_AK8PFchs.txt',
 		'Summer15_25nsV2_MC_L3Absolute_AK8PFchs.txt'
@@ -332,7 +332,7 @@ else:
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 
-	AK4JECTextFilES = [
+	AK4JECTextFiles = [
 		'Summer15_25nsV5_DATA_L1FastJet_AK4PFchs.txt',
 		'Summer15_25nsV5_DATA_L2Relative_AK4PFchs.txt',
 		'Summer15_25nsV5_DATA_L3Absolute_AK4PFchs.txt',
@@ -340,7 +340,7 @@ else:
 		]
 	AK4JECUncTextFile = 'Summer15_25nsV5_DATA_Uncertainty_AK4PFchs.txt'
 
-	AK8JECTextFilES = [
+	AK8JECTextFiles = [
 		'Summer15_25nsV5_DATA_L1FastJet_AK8PFchs.txt',
 		'Summer15_25nsV5_DATA_L2Relative_AK8PFchs.txt',
 		'Summer15_25nsV5_DATA_L3Absolute_AK8PFchs.txt',
@@ -779,7 +779,7 @@ process.tree = cms.EDAnalyzer(
     ### THINJet
 #    THINJets=cms.InputTag("slimmedJets"),
     THINJets=cms.InputTag("patJetsReapplyJECAK4"),
-    THINjecNames=cms.vstring(AK4JECTextFilES),
+    THINjecNames=cms.vstring(AK4JECTextFiles),
     THINjecUncName=cms.string(AK4JECUncTextFile),
     THINjecUncPayLoad=cms.string('AK4PFchs'),
     # jec still need to be checked 

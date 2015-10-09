@@ -43,14 +43,8 @@ scramv1 b
 ## Download JEC files
 
 ```
-wget https://twiki.cern.ch/twiki/pub/CMS/JECDataMC/Summer15_25nsV5_DATA.tar.gz
-wget https://twiki.cern.ch/twiki/pub/CMS/JECDataMC/Summer15_25nsV2_DATA.tar.gz
-wget https://twiki.cern.ch/twiki/pub/CMS/JECDataMC/Summer15_25nsV2_MC.tar.gz
-
-tar xvzf Summer15_25nsV5_DATA.tar.gz
-tar xvzf Summer15_25nsV2_DATA.tar.gz
-tar xvzf Summer15_25nsV2_MC.tar.gz
-
+mv DelPanj/jec/Summer15_25nsV2_MC_* .
+mv DelPanj/jec/Summer15_25nsV5_DATA_*
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
  
 ```
