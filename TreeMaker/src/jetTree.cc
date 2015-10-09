@@ -55,6 +55,16 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   SetBranches();
 
 
+
+  if(isFATJet_)
+    {
+      prunedMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%sprunedMassJecNames",desc.data()));
+      PrunedMassJetLabel_          = iConfig.getParameter<edm::InputTag>(Form("%sJetsForPrunedMass",desc.data()));
+     // puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
+      // puppiSoftDropMassJetLabel_ = iConfig.getParameter<edm::InputTag>("puppiSoftDropMassJet");
+      // ATLASTrimMassJetLabel_     = iConfig.getParameter<edm::InputTag>("ATLASTrimMassJetLabel");
+   }
+
   if(useJECText_)
     {
       
@@ -85,15 +95,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
 	jecUncText_ = boost::shared_ptr<JetCorrectionUncertainty>( new JetCorrectionUncertainty(jecUncName_) );
     }
 
-
-  if(isFATJet_)
-    {
-      prunedMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%sprunedMassJecNames",desc.data()));
-      PrunedMassJetLabel_          = iConfig.getParameter<edm::InputTag>(Form("%sJetsForPrunedMass",desc.data()));
-     // puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
-      // puppiSoftDropMassJetLabel_ = iConfig.getParameter<edm::InputTag>("puppiSoftDropMassJet");
-      // ATLASTrimMassJetLabel_     = iConfig.getParameter<edm::InputTag>("ATLASTrimMassJetLabel");
-   }
 
 }
 
@@ -652,7 +653,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
   // fat jet uncertainty does not exist yet
-  if(hasJECInfo_)
+  if(hasJECInfo_  && !useJECText_)
     delete jecUnc_;
 
 
