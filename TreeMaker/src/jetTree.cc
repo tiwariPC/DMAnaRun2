@@ -29,10 +29,14 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   baseTree(desc, tree),
   isFATJet_(false),
   isADDJet_(false),
+  hasJECInfo_(false),
+  useJECText_(iConfig.getParameter<bool>("useJECText")),
   JetLabel_(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data()))),
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
   svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
   jecUncPayLoadName_(iConfig.getParameter<std::string>(Form("%sjecUncPayLoad",desc.data()))),
+  jecNames_(iConfig.getParameter<std::vector<std::string> >(Form("%sjecNames",desc.data()) )), 
+  jecUncName_(iConfig.getParameter<std::string>(Form("%sjecUncName",desc.data())) ),	
   jet2012ID_()
 {
   
@@ -41,16 +45,52 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   if (desc.find("ADD")!=std::string::npos)
     isADDJet_=true; 
 
+  // temporary switch because now only AK4 jets have uncertainties in both data and MC
+  // need to be removed when AK8jet uncertainties are available
+  if(!isFATJet_ && !isADDJet_)hasJECInfo_=true;
+
   genjetP4_    = new TClonesArray("TLorentzVector");
   jetP4_       = new TClonesArray("TLorentzVector");
   unCorrJetP4_ = new TClonesArray("TLorentzVector");
   SetBranches();
 
 
+  if(useJECText_)
+    {
+      
+      std::vector<JetCorrectorParameters> vPar;
+
+      for ( std::vector<std::string>::const_iterator payloadBegin = 
+	      prunedMassJecNames_.begin(),
+	      payloadEnd = prunedMassJecNames_.end(), ipayload = payloadBegin; 
+	    ipayload != payloadEnd; ++ipayload ) 
+	{
+	  JetCorrectorParameters pars(*ipayload);
+	  vPar.push_back(pars);
+	}
+      prunedjecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
+      
+      vPar.clear();
+      for ( std::vector<std::string>::const_iterator payloadBegin = 
+	      jecNames_.begin(),
+	      payloadEnd = jecNames_.end(), ipayload = payloadBegin; 
+	    ipayload != payloadEnd; ++ipayload ) 
+	{
+	  JetCorrectorParameters pars(*ipayload);
+	  vPar.push_back(pars);
+	}
+      jecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
+
+      if(hasJECInfo_)
+	jecUncText_ = boost::shared_ptr<JetCorrectionUncertainty>( new JetCorrectionUncertainty(jecUncName_) );
+    }
+
+
   if(isFATJet_)
     {
-      PrunedMassJetLabel_        = iConfig.getParameter<edm::InputTag>("FATJetsForPrunedMass");
-      // puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
+      prunedMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%sprunedMassJecNames",desc.data()));
+      PrunedMassJetLabel_          = iConfig.getParameter<edm::InputTag>(Form("%sJetsForPrunedMass",desc.data()));
+     // puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
       // puppiSoftDropMassJetLabel_ = iConfig.getParameter<edm::InputTag>("puppiSoftDropMassJet");
       // ATLASTrimMassJetLabel_     = iConfig.getParameter<edm::InputTag>("ATLASTrimMassJetLabel");
    }
@@ -159,10 +199,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       // jetsForATLASTrimMass    = *(JetHandleForATLASTrimMass.product());
     }
 
-  // for jet energy uncertainty
+  // for jet energy uncertainty, using global tag
   JetCorrectionUncertainty *jecUnc_=0;
   // fat jet uncertainty does not exist yet
-  if(!isFATJet_ && !isADDJet_){
+  if(hasJECInfo_ && !useJECText_){
     edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
     iSetup.get<JetCorrectionsRecord>().get(jecUncPayLoadName_.data(),JetCorParColl); 
     JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
@@ -179,6 +219,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   
     nJet_++;
     //Stuff common for all jets.
+    
 
 
     if (jet->genJet()){
@@ -221,10 +262,65 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     }
   
     jetRawFactor_.push_back(jet->jecFactor("Uncorrected"));
-    new( (*jetP4_)[nJet_-1]) TLorentzVector(jet->p4().px(),
-   					    jet->p4().py(),
-   					    jet->p4().pz(),
-   					    jet->p4().energy());
+    reco::Candidate::LorentzVector uncorrJet;
+    uncorrJet = jet->correctedP4(0);
+    new( (*unCorrJetP4_)[nJet_-1]) TLorentzVector(	
+						  uncorrJet.px(),
+						  uncorrJet.py(),
+						  uncorrJet.pz(),
+						  uncorrJet.energy()
+   							);
+   
+    jetArea_.push_back(jet->jetArea());
+
+    // if reading text files, set jet 4-momentum
+    // make correction using jecText files
+    if(useJECText_){
+      jecText_->setJetEta( uncorrJet.eta() );
+      jecText_->setJetPt ( uncorrJet.pt() );
+      jecText_->setJetE  ( uncorrJet.energy() );
+      jecText_->setJetA  ( jet->jetArea() );
+      jecText_->setRho   ( *(h_rho.product()) );
+      jecText_->setNPV   ( h_pv->size() );
+      Float_t corr_jet = jecText_->getCorrection();
+
+      new( (*jetP4_)[nJet_-1]) TLorentzVector(uncorrJet.px()*corr_jet,
+					      uncorrJet.py()*corr_jet,
+					      uncorrJet.pz()*corr_jet,
+					      uncorrJet.energy()*corr_jet);
+      if(hasJECInfo_)
+	{
+	  jecUncText_->setJetEta( uncorrJet.eta() );
+	  jecUncText_->setJetPt( corr_jet * uncorrJet.pt() );
+	  jetCorrUncUp_.push_back(jecUncText_->getUncertainty(true));
+
+	  jecUncText_->setJetEta( uncorrJet.eta() );
+	  jecUncText_->setJetPt( corr_jet * uncorrJet.pt() );
+	  jetCorrUncDown_.push_back(jecUncText_->getUncertainty(false));
+
+	}
+
+    }
+    else
+      new( (*jetP4_)[nJet_-1]) TLorentzVector(jet->p4().px(),
+					      jet->p4().py(),
+					      jet->p4().pz(),
+					      jet->p4().energy());
+
+
+    // get jet energy scale uncertainty and related input variables
+    // fat jet uncertainty does not exist yet, if using database
+    if(hasJECInfo_  && !useJECText_){
+
+      jecUnc_->setJetEta(jet->eta());
+      jecUnc_->setJetPt(jet->pt()); 
+      jetCorrUncUp_.push_back(jecUnc_->getUncertainty(true));
+
+      jecUnc_->setJetEta(jet->eta());
+      jecUnc_->setJetPt(jet->pt()); 
+      jetCorrUncDown_.push_back(jecUnc_->getUncertainty(false));
+    }
+
 
     jetCharge_.push_back(jet->charge());
     jetPartonFlavor_.push_back(jet->partonFlavour());
@@ -329,48 +425,37 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
   
     
-    // get jet energy scale uncertainty and related input variables
-    // fat jet uncertainty does not exist yet
-    if(!isFATJet_ && !isADDJet_){
-
-      jecUnc_->setJetEta(jet->eta());
-      jecUnc_->setJetPt(jet->pt()); 
-      jetCorrUncUp_.push_back(jecUnc_->getUncertainty(true));
-
-      jecUnc_->setJetEta(jet->eta());
-      jecUnc_->setJetPt(jet->pt()); 
-      jetCorrUncDown_.push_back(jecUnc_->getUncertainty(false));
-    }
-
-    reco::Candidate::LorentzVector uncorrJet;
-    uncorrJet = jet->correctedP4(0);
-    new( (*unCorrJetP4_)[nJet_-1]) TLorentzVector(	
-						  uncorrJet.px(),
-						  uncorrJet.py(),
-						  uncorrJet.pz(),
-						  uncorrJet.energy()
-   							);
-   
-    jetArea_.push_back(jet->jetArea());
 
     if(isFATJet_){
 
       //      using a different way to get corrected pruned mass
+      // if reading global tag
+      float corr=-1;
+      if(!useJECText_){
+	std::vector<pat::Jet>::const_iterator jetForPrunedMass = 
+	  find_if(jetsForPrunedMass.begin(),
+		  jetsForPrunedMass.end(),
+		  [&jet](const pat::Jet& item)->bool{return fabs(jet->correctedP4(0).pt()-item.correctedP4(0).pt())<1e-3;});	
     
-      
-      std::vector<pat::Jet>::const_iterator jetForPrunedMass = find_if(jetsForPrunedMass.begin(),
-								       jetsForPrunedMass.end(),
-								       // [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.1;});
-								       [&jet](const pat::Jet& item)->bool{return fabs(jet->correctedP4(0).pt()-item.correctedP4(0).pt())<1e-3;});
+	if(jetForPrunedMass!=jetsForPrunedMass.end())
+	  corr = jetForPrunedMass->pt()/jetForPrunedMass->correctedP4(0).pt();
+	
+      }
+      else if(useJECText_){
+	prunedjecText_->setJetEta( uncorrJet.eta() );
+	prunedjecText_->setJetPt ( uncorrJet.pt() );
+	prunedjecText_->setJetE  ( uncorrJet.energy() );
+	prunedjecText_->setJetA  ( jet->jetArea() );
+	prunedjecText_->setRho   ( *(h_rho.product()) );
+	prunedjecText_->setNPV   ( h_pv->size() );
+	corr = prunedjecText_->getCorrection();
+      }
 
-    
-      if(jetForPrunedMass!=jetsForPrunedMass.end())
-    	{
-    	  float corr = jetForPrunedMass->pt()/jetForPrunedMass->correctedP4(0).pt();
-    	  jetPRmassL2L3Corr_.push_back(corr*jet->userFloat("ak8PFJetsCHSPrunedMass"));
-    	}
+      if(corr<0)
+	jetPRmassL2L3Corr_.push_back(DUMMY);
       else
-    	jetPRmassL2L3Corr_.push_back(DUMMY);
+	jetPRmassL2L3Corr_.push_back(corr*jet->userFloat("ak8PFJetsCHSPrunedMass"));
+
       
 
       // std::vector<pat::Jet>::const_iterator jetForPuppiPrunedMass= find_if(jetsForPuppiPrunedMass.begin(),
@@ -567,7 +652,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
   // fat jet uncertainty does not exist yet
-  if(!isFATJet_ && !isADDJet_)
+  if(hasJECInfo_)
     delete jecUnc_;
 
 

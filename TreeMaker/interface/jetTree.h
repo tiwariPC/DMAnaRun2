@@ -56,19 +56,31 @@ class jetTree  : public baseTree{
 
   bool isFATJet_;
   bool isADDJet_;
+  bool hasJECInfo_;
+  bool useJECText_;
   
   edm::InputTag JetLabel_;  
   edm::InputTag pvSrc_;
 
   std::string svTagInfosCstr_;
-  std::string jecUncPayLoadName_;
+
+  std::string jecUncPayLoadName_; // for global tag
+  std::vector<std::string> prunedMassJecNames_; // for reading text file
+  std::vector<std::string> jecNames_; // for reading text file
+  std::string              jecUncName_; // for reading text file
 
   jetSelector jet2012ID_;
+
 
   edm::InputTag PrunedMassJetLabel_;
   /* edm::InputTag puppiPrunedMassJetLabel_; */
   /* edm::InputTag puppiSoftDropMassJetLabel_; */
   /* edm::InputTag ATLASTrimMassJetLabel_; */
+
+
+  boost::shared_ptr<FactorizedJetCorrector> prunedjecText_;
+  boost::shared_ptr<FactorizedJetCorrector> jecText_;
+  boost::shared_ptr<JetCorrectionUncertainty> jecUncText_;
 
 
   //Branches common to all the jets.

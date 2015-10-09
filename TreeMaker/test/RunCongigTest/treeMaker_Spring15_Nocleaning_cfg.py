@@ -25,6 +25,11 @@ options.register ('useMiniAOD',
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useMiniAOD")
+options.register ('useJECText',
+		  True,
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.bool,
+		  "useJECText")
 options.parseArguments()
 
 
@@ -291,7 +296,7 @@ bTagDiscriminators = [
 
 ## Jet energy corrections
 
-## For jet pruned and softdrop mass L2+L3 corrections only
+## For jet energy correction
 if options.runOnMC:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
@@ -299,6 +304,26 @@ if options.runOnMC:
 	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
+
+	AK4JECTextFilES = [
+		'Summer15_25nsV2_MC_L1FastJet_AK4PFchs.txt',
+		'Summer15_25nsV2_MC_L2Relative_AK4PFchs.txt',
+		'Summer15_25nsV2_MC_L3Absolute_AK4PFchs.txt'
+		]
+	AK4JECUncTextFile = 'Summer15_25nsV2_MC_Uncertainty_AK4PFchs.txt'
+
+	AK8JECTextFilES = [
+		'Summer15_25nsV2_MC_L1FastJet_AK8PFchs.txt',
+		'Summer15_25nsV2_MC_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV2_MC_L3Absolute_AK8PFchs.txt'
+		]
+	AK8JECUncTextFile = 'Summer15_25nsV2_MC_Uncertainty_AK8PFchs.txt'  ### Does not exist yet
+
+	prunedMassJECTextFiles = [
+		'Summer15_25nsV2_MC_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV2_MC_L3Absolute_AK8PFchs.txt'
+		]
+
 else:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
@@ -306,6 +331,28 @@ else:
 	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
+
+	AK4JECTextFilES = [
+		'Summer15_25nsV5_DATA_L1FastJet_AK4PFchs.txt',
+		'Summer15_25nsV5_DATA_L2Relative_AK4PFchs.txt',
+		'Summer15_25nsV5_DATA_L3Absolute_AK4PFchs.txt',
+		'Summer15_25nsV5_DATA_L2L3Residual_AK4PFchs.txt'
+		]
+	AK4JECUncTextFile = 'Summer15_25nsV5_DATA_Uncertainty_AK4PFchs.txt'
+
+	AK8JECTextFilES = [
+		'Summer15_25nsV5_DATA_L1FastJet_AK8PFchs.txt',
+		'Summer15_25nsV5_DATA_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV5_DATA_L3Absolute_AK8PFchs.txt',
+		'Summer15_25nsV5_DATA_L2L3Residual_AK8PFchs.txt'
+		]
+	AK8JECUncTextFile = 'Summer15_25nsV5_DATA_Uncertainty_AK8PFchs.txt'
+
+	prunedMassJECTextFiles = [
+		'Summer15_25nsV5_DATA_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV5_DATA_L3Absolute_AK8PFchs.txt',
+		'Summer15_25nsV5_DATA_L2L3Residual_AK8PFchs.txt'
+		]
 
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
@@ -726,9 +773,14 @@ process.tree = cms.EDAnalyzer(
     phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-medium"),
     phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-tight"),
 
+    ## AllJet
+    useJECText = cms.bool(options.useJECText),
+    
     ### THINJet
 #    THINJets=cms.InputTag("slimmedJets"),
     THINJets=cms.InputTag("patJetsReapplyJECAK4"),
+    THINjecNames=cms.vstring(AK4JECTextFilES),
+    THINjecUncName=cms.string(AK4JECUncTextFile),
     THINjecUncPayLoad=cms.string('AK4PFchs'),
     # jec still need to be checked 
     
@@ -736,11 +788,16 @@ process.tree = cms.EDAnalyzer(
 #    FATJets=cms.InputTag("slimmedJetsAK8"),
     FATJets=cms.InputTag("patJetsReapplyJECAK8"),
     FATJetsForPrunedMass=cms.InputTag("patJetsReapplyJECForPrunedMass"),
+    FATprunedMassJecNames=cms.vstring(prunedMassJECTextFiles),
+    FATjecNames=cms.vstring(AK8JECTextFiles),
+    FATjecUncName=cms.string(AK8JECUncTextFile),
     FATjecUncPayLoad=cms.string('AK8PFchs'), ## Uncertainty does not exist yet
     
     ### AddJets
     ADDJets= cms.InputTag("packedPatJetsPFCHSAK8"),
     svTagInfosPY  = cms.string('pfInclusiveSecondaryVertexFinder'),    
+    ADDjecNames=cms.vstring(AK8JECTextFiles),
+    ADDjecUncName=cms.string(AK8JECUncTextFile),
     ADDjecUncPayLoad=cms.string('AK8PFchs'), ## Uncertainty does not exist yet
     
     outFileName=cms.string('outputFileName.root')
