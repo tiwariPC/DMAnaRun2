@@ -22,7 +22,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout eleIDjet_CMSSW7412
+git checkout jectext
 
 cd -
 
