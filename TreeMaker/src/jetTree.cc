@@ -220,7 +220,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   std::vector<pat::Jet>::const_iterator jet =jets.begin();   
 
   for(;jet!=jets.end();jet++){
-    if(jet->pt() < 20.) continue;
+    if(jet->pt() < 10.) continue;
   
     nJet_++;
     //Stuff common for all jets.
