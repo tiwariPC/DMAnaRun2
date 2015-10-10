@@ -55,7 +55,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   SetBranches();
 
 
-
   if(isFATJet_)
     {
       prunedMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%sprunedMassJecNames",desc.data()));
@@ -63,24 +62,29 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
      // puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
       // puppiSoftDropMassJetLabel_ = iConfig.getParameter<edm::InputTag>("puppiSoftDropMassJet");
       // ATLASTrimMassJetLabel_     = iConfig.getParameter<edm::InputTag>("ATLASTrimMassJetLabel");
-   }
+
+      if(useJECText_){
+
+	std::vector<JetCorrectorParameters> vPar;
+
+	for ( std::vector<std::string>::const_iterator payloadBegin = 
+		prunedMassJecNames_.begin(),
+		payloadEnd = prunedMassJecNames_.end(), ipayload = payloadBegin; 
+	      ipayload != payloadEnd; ++ipayload ) 
+	  {
+	    JetCorrectorParameters pars(*ipayload);
+	    vPar.push_back(pars);
+	  }
+	prunedjecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
+      }
+
+    } // if it's FATjet
 
   if(useJECText_)
     {
       
       std::vector<JetCorrectorParameters> vPar;
 
-      for ( std::vector<std::string>::const_iterator payloadBegin = 
-	      prunedMassJecNames_.begin(),
-	      payloadEnd = prunedMassJecNames_.end(), ipayload = payloadBegin; 
-	    ipayload != payloadEnd; ++ipayload ) 
-	{
-	  JetCorrectorParameters pars(*ipayload);
-	  vPar.push_back(pars);
-	}
-      prunedjecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
-      
-      vPar.clear();
       for ( std::vector<std::string>::const_iterator payloadBegin = 
 	      jecNames_.begin(),
 	      payloadEnd = jecNames_.end(), ipayload = payloadBegin; 
