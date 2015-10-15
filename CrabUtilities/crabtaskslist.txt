@@ -1,9 +1,6 @@
-crab_DoubleEG_Run2015B-PromptReco-v1
-crab_MET-Run2015B-PromptReco-v1
-crab_MET-Run2015B-PromptReco-v1Total
-crab_MET-Run2015B-PromptReco-v1TotalV1
-crab_MET-Run2015B-PromptReco-v1TotalV2
-crab_MET-Run2015B-PromptReco-v1_PR
-crab_MET_Run2015B-17Jul2015-v1_RR
-crab_SingleElectron_Run2015B-PromptReco-v1
-crab_SingleElectron_Run2015B-PromptReco-v1_WZJSON
+crab_MET-Run2015D-PromptReco-V320151011_4WithTaus
+crab_MET-Run2015D-PromptReco-V420151011_4WithTaus
+crab_SingleElectron-Run2015D-PromptReco-V320151011_4WithTaus
+crab_SingleElectron-Run2015D-PromptReco-V420151011_4WithTaus
+crab_SingleMuon-Run2015D-PromptReco-V320151011_4WithTaus
+crab_SingleMuon-Run2015D-PromptReco-V420151011_4WithTaus

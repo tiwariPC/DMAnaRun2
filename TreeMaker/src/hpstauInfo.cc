@@ -45,23 +45,23 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     HPSTau_charge.push_back((int)tau->charge());
     
     //new disc for CSA14
-    disc_againstElectronLoose.push_back(tau->tauID("againstElectronLoose"));
-    disc_againstElectronMedium.push_back(tau->tauID("againstElectronMedium"));
-    disc_againstElectronTight.push_back(tau->tauID("againstElectronTight"));
+    //disc_againstElectronLoose.push_back(tau->tauID("againstElectronLoose"));
+    //disc_againstElectronMedium.push_back(tau->tauID("againstElectronMedium"));
+    //disc_againstElectronTight.push_back(tau->tauID("againstElectronTight"));
     disc_againstElectronLooseMVA5.push_back(tau->tauID("againstElectronLooseMVA5"));
     disc_againstElectronMediumMVA5.push_back(tau->tauID("againstElectronMediumMVA5"));
     disc_againstElectronTightMVA5.push_back(tau->tauID("againstElectronTightMVA5"));
     disc_againstElectronVLooseMVA5.push_back(tau->tauID("againstElectronVLooseMVA5"));
     disc_againstElectronVTightMVA5.push_back(tau->tauID("againstElectronVTightMVA5"));
-    disc_againstMuonLoose.push_back(tau->tauID("againstMuonLoose"));
-    disc_againstMuonMedium.push_back(tau->tauID("againstMuonMedium"));
-    disc_againstMuonTight.push_back(tau->tauID("againstMuonTight"));
-    disc_againstMuonLoose2.push_back(tau->tauID("againstMuonLoose2"));
-    disc_againstMuonMedium2.push_back(tau->tauID("againstMuonMedium2"));
-    disc_againstMuonTight2.push_back(tau->tauID("againstMuonTight2"));
-    disc_againstMuonLooseMVA.push_back(tau->tauID("againstMuonLooseMVA"));
-    disc_againstMuonMediumMVA.push_back(tau->tauID("againstMuonMediumMVA"));
-    disc_againstMuonTightMVA.push_back(tau->tauID("againstMuonTightMVA"));
+    //disc_againstMuonLoose.push_back(tau->tauID("againstMuonLoose"));
+    //disc_againstMuonMedium.push_back(tau->tauID("againstMuonMedium"));
+    //disc_againstMuonTight.push_back(tau->tauID("againstMuonTight"));
+    //disc_againstMuonLoose2.push_back(tau->tauID("againstMuonLoose3"));
+    //disc_againstMuonMedium2.push_back(tau->tauID("againstMuonMedium3"));
+    //disc_againstMuonTight2.push_back(tau->tauID("againstMuonTight3"));
+    //disc_againstMuonLooseMVA.push_back(tau->tauID("againstMuonLooseMVA"));
+    //disc_againstMuonMediumMVA.push_back(tau->tauID("againstMuonMediumMVA"));
+    //disc_againstMuonTightMVA.push_back(tau->tauID("againstMuonTightMVA"));
     disc_againstMuonLoose3.push_back(tau->tauID("againstMuonLoose3"));
     disc_againstMuonTight3.push_back(tau->tauID("againstMuonTight3"));
     
@@ -79,12 +79,12 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     disc_byVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVTightIsolationMVA3newDMwLT"));
     disc_byVVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVVTightIsolationMVA3newDMwLT"));
     
-    disc_byVLooseIsolationMVA3newDMwoLT.push_back(tau->tauID("byVLooseIsolationMVA3newDMwoLT"));
-    disc_byLooseIsolationMVA3newDMwoLT.push_back(tau->tauID("byLooseIsolationMVA3newDMwoLT"));
-    disc_byMediumIsolationMVA3newDMwoLT.push_back(tau->tauID("byMediumIsolationMVA3newDMwoLT"));
-    disc_byTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byTightIsolationMVA3newDMwoLT"));
-    disc_byVTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byVTightIsolationMVA3newDMwoLT"));
-    disc_byVVTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byVVTightIsolationMVA3newDMwoLT"));
+    //disc_byVLooseIsolationMVA3newDMwoLT.push_back(tau->tauID("byVLooseIsolationMVA3newDMwoLT"));
+    //disc_byLooseIsolationMVA3newDMwoLT.push_back(tau->tauID("byLooseIsolationMVA3newDMwoLT"));
+    //disc_byMediumIsolationMVA3newDMwoLT.push_back(tau->tauID("byMediumIsolationMVA3newDMwoLT"));
+    //disc_byTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byTightIsolationMVA3newDMwoLT"));
+    //disc_byVTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byVTightIsolationMVA3newDMwoLT"));
+    //disc_byVVTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byVVTightIsolationMVA3newDMwoLT"));
     
     disc_byVLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byVLooseIsolationMVA3oldDMwLT"));
     disc_byLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byLooseIsolationMVA3oldDMwLT"));
@@ -93,12 +93,12 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     disc_byVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVTightIsolationMVA3oldDMwLT"));
     disc_byVVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVVTightIsolationMVA3oldDMwLT"));
     
-    disc_byVLooseIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVLooseIsolationMVA3oldDMwoLT"));
-    disc_byLooseIsolationMVA3oldDMwoLT.push_back(tau->tauID("byLooseIsolationMVA3oldDMwoLT"));
-    disc_byMediumIsolationMVA3oldDMwoLT.push_back(tau->tauID("byMediumIsolationMVA3oldDMwoLT"));
-    disc_byTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byTightIsolationMVA3oldDMwoLT"));
-    disc_byVTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVTightIsolationMVA3oldDMwoLT"));
-    disc_byVVTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVVTightIsolationMVA3oldDMwoLT"));
+    //disc_byVLooseIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVLooseIsolationMVA3oldDMwoLT"));
+    //disc_byLooseIsolationMVA3oldDMwoLT.push_back(tau->tauID("byLooseIsolationMVA3oldDMwoLT"));
+    //disc_byMediumIsolationMVA3oldDMwoLT.push_back(tau->tauID("byMediumIsolationMVA3oldDMwoLT"));
+    //disc_byTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byTightIsolationMVA3oldDMwoLT"));
+    //disc_byVTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVTightIsolationMVA3oldDMwoLT"));
+    //disc_byVVTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVVTightIsolationMVA3oldDMwoLT"));
     
     disc_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back(tau->tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits"));
     disc_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau->tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));
