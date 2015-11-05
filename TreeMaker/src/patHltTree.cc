@@ -41,6 +41,8 @@ patHltTree::Fill(const edm::Event& iEvent)
     {
       std::string trigName = trigNames.triggerName(i);
       // lepton triggers
+      size_t foundEle_1=trigName.find("HLT_Ele22_eta2p1_WPLoose_Gsf");
+      size_t foundEle_2=trigName.find("HLT_Ele22_eta2p1_WP75_Gsf");
       size_t foundDEle33=trigName.find("HLT_DoubleEle33");
       size_t foundEle17_Ele12=trigName.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL");
       size_t foundEle27=trigName.find("HLT_Ele27_eta2p1_WPLoose_Gsf");
@@ -62,13 +64,25 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundPFMET170NoiseClean         = trigName.find("HLT_PFMET170_NoiseCleaned");
       size_t foundDiCEntralPFJet70PFMET120   = trigName.find("HLT_DiCentralPFJet70_PFMET120_NoiseCleaned");
       size_t foundPFHT350_PFMET120           = trigName.find("HLT_PFHT350_PFMET120_NoiseCleaned");
-      
+
+
+
+      size_t DiHiggs_1  = trigName.find("HLT_AK8PFJet360_TrimMass30_v");
+      size_t DiHiggs_2  = trigName.find("HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v");
+      size_t DiHiggs_3  = trigName.find("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV0p4");
+      size_t DiHiggs_4  = trigName.find("HLT_PFHT900_v");
+      size_t DiHiggs_5  = trigName.find("HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_v");
+      size_t DiHiggs_6  = trigName.find("HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_v");
+      size_t DiHiggs_7  = trigName.find("HLT_PFHT800");
+            
 
       if(false) std::cout<<" trigName = "<<trigName
 			<<" : "<<trigResults->accept(i)
 			<<std::endl;
       
       if ( foundDEle33==std::string::npos &&
+	   foundEle_1==std::string::npos &&
+           foundEle_2==std::string::npos &&
 	   foundEle23_1==std::string::npos &&
 	   foundEle23_2==std::string::npos &&
 	   foundEle27_2==std::string::npos &&
@@ -86,7 +100,14 @@ patHltTree::Fill(const edm::Event& iEvent)
 	   founfPFMET120MHT120==std::string::npos &&
 	   foundPFMET170NoiseClean==std::string::npos &&
 	   foundDiCEntralPFJet70PFMET120==std::string::npos &&
-	   foundPFHT350_PFMET120==std::string::npos 
+	   foundPFHT350_PFMET120==std::string::npos &&
+           DiHiggs_1==std::string::npos  &&
+           DiHiggs_2==std::string::npos  &&
+           DiHiggs_3==std::string::npos  && 
+           DiHiggs_4==std::string::npos  &&
+           DiHiggs_5==std::string::npos  &&
+           DiHiggs_6==std::string::npos  &&
+           DiHiggs_7==std::string::npos 
 	   )
        	continue;
 

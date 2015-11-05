@@ -24,6 +24,8 @@ class patFilters : public baseTree{
   int nfilters_;
   std::vector<bool> filterResult_;
   bool hbhet_;
+  bool hbhel_;
+  bool hbheIso_;
   std::vector<std::string> filterName_;
   edm::InputTag filterTag;
 };

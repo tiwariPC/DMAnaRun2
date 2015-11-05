@@ -1,6 +1,2 @@
-crab_MET-Run2015D-PromptReco-V320151011_4WithTaus
-crab_MET-Run2015D-PromptReco-V420151011_4WithTaus
-crab_SingleElectron-Run2015D-PromptReco-V320151011_4WithTaus
-crab_SingleElectron-Run2015D-PromptReco-V420151011_4WithTaus
-crab_SingleMuon-Run2015D-PromptReco-V320151011_4WithTaus
-crab_SingleMuon-Run2015D-PromptReco-V420151011_4WithTaus
+crab_MET-Run2015D-05Oct2015V120151027_1p2fb
+crab_MET-Run2015D-PromptReco-V420151027_1p2fb

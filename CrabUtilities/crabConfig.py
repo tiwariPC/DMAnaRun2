@@ -6,7 +6,7 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'MonoHMiniAODSpring15'
-config.General.workArea = 'crab_projects_20150730_NoCleaning'
+config.General.workArea = 'TreeMaker_MC25ns_ReMiniAOD_20151025'
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'

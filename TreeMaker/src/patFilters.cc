@@ -27,9 +27,20 @@ patFilters::Fill(const edm::Event& iEvent)
 
   edm::Handle<bool> HBHET;
   edm::InputTag  hbhetag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET");
+  //HBHEIsoNoiseFilterResult
   iEvent.getByLabel(hbhetag,HBHET);
   hbhet_ = (*HBHET.product());
-  //  std::cout<<" HBHE = "<<(*HBHET.product())<<std::endl;
+
+  edm::Handle<bool> HBHEL;
+  edm::InputTag  hbhetag1("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Loose","MVAMET");
+  iEvent.getByLabel(hbhetag1,HBHEL);
+  hbhel_ = (*HBHEL.product());
+
+  edm::Handle<bool> HBHEIso;
+  edm::InputTag  hbhetagIso("HBHENoiseFilterResultProducer","HBHEIsoNoiseFilterResult","MVAMET");
+  iEvent.getByLabel(hbhetagIso,HBHEIso);
+  hbheIso_ = (*HBHEIso.product());
+  
   
   
   edm::Handle<edm::TriggerResults> trigResults;
@@ -45,7 +56,7 @@ patFilters::Fill(const edm::Event& iEvent)
     {
       std::string trigName = trigNames.triggerName(i);
       // lepton triggers
-      size_t foundallFlag=trigName.find("FLAG_");
+      size_t foundallFlag=trigName.find("Flag_");
             
 
       if(false) std::cout<<" trigName = "<<trigName

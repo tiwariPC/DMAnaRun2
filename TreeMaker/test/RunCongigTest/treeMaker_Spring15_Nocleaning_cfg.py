@@ -10,11 +10,19 @@ process.options = cms.untracked.PSet(
 
 from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing ('analysis')
+
 options.register ('runOnMC',
 		  True,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "runOnMC")
+
+options.register ('isReReco',
+		  True,
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.bool,
+		  "isReReco")
+
 options.register ('runOn25ns',
 		  True ,
 		  VarParsing.multiplicity.singleton,
@@ -25,14 +33,30 @@ options.register ('useMiniAOD',
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useMiniAOD")
+
 options.register ('useJECText',
 		  False,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useJECText")
+
+options.register ('textfiletovetoEvents',
+		  'MET_Oct29/eventlist_MET_csc2015.txt',
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.string,
+		  "textfiletovetoEvents")
+
 options.parseArguments()
 
 
+listEventsToSkip = []
+fileEventsToSkip = open(options.textfiletovetoEvents,"r")
+
+for line in fileEventsToSkip:
+    cleanLine = line.rstrip()
+    listEventsToSkip.append(cleanLine+"-"+cleanLine)
+
+#print listEventsToSkip
 
 
 process.load('Configuration.StandardSequences.Services_cff')
@@ -64,32 +88,66 @@ else:
 if options.runOnMC:
 	filterlabel="TriggerResults::PAT"
 else:
-	filterlabel="TriggerResults::PAT"
+	## for re-reco
+	if options.isReReco:
+		filterlabel="TriggerResults::PAT"
+	## for prompt-reco
+	else:
+		filterlabel="TriggerResults::RECO"
 
 
 process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
 process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(10000)
 )
+
+##___________________________HCAL_Noise_Filter________________________________||
+process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
+process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
+process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False) 
+#process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
+
+##process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
+##   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
+##   reverseDecision = cms.bool(False)
+##)
+##
+##process.ApplyBaselineHBHEIsoNoiseFilter = cms.EDFilter('BooleanFlagFilter',
+##   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
+##   reverseDecision = cms.bool(False)
+##)
+##
 
 
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-		'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_25ns.root'
-#		'file:/afs/cern.ch/work/s/syu/public/miniAOD/DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_25ns.root'
+                'file:test.root'
+		#'file:met_2015D_V4.root'
+		#'file:met_2015D_05Oct.root'
+		#'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_25ns.root'
+		#		'file:/afs/cern.ch/work/s/syu/public/miniAOD/DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_25ns.root'
 #		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
-#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/20000/B64405D7-3435-E511-9E39-002590EFF972.root'
+		#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/20000/B64405D7-3435-E511-9E39-002590EFF972.root'
+#		'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/2E9E0021-3C71-E511-A9E1-02163E00E63B.root'
+		#'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/4A032BC6-4E72-E511-8A0D-008CFA0A57C4.root'
 		),
-                            skipEvents = cms.untracked.uint32(0)         
+			    #skipEvents = cms.untracked.uint32(0)         
                             )
 
 
 
 
+## skip the events 
+## using the MET tails events
+if options.runOnMC:
+    print "No events to skip"
+else:
+    rangeEventsToSkip = cms.untracked.VEventRange(listEventsToSkip)
+    process.source.eventsToSkip = rangeEventsToSkip
 
 ## For MVA MET
 ## Check this reciepe when using MVA MET

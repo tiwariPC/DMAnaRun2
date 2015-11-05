@@ -32,7 +32,7 @@ puweight::Fill(const edm::Event& iEvent){
   }
   else {
     edm::Handle<std::vector< PileupSummaryInfo > >  PupInfo;
-    iEvent.getByLabel(edm::InputTag("addPileupInfo"), PupInfo);
+    iEvent.getByLabel(edm::InputTag("slimmedAddPileupInfo"), PupInfo);
 
     std::vector<PileupSummaryInfo>::const_iterator PVI;
 

@@ -6,8 +6,9 @@ fout = open("datasetdetails_Spring15.txt","w")
 ## each line will contain four parameters. 
 ## taskname   cfg.py  datasetname  numberofdiles
 ## cfg.py is configurable because data and MC will have different configurations.
-## And number of files canbe used as number of lumis in that case. 
 
+
+## And number of files canbe used as number of lumis in that case. 
 
 #/MET/Run2015D-PromptReco-v3/MINIAOD
 #/MET/Run2015C-PromptReco-v1/MINIAOD
@@ -15,21 +16,24 @@ fout = open("datasetdetails_Spring15.txt","w")
 #/MET/Run2015B-17Jul2015-v1/MINIAOD
 #/MET/Run2015B-05Aug2015-v1/MINIAOD
 
-postfix="20151011_4WithTaus"
+postfix="2015112_1p5fb_METTextFile"
+jsonfile='Cert_246908-259891_13TeV_PromptReco_Collisions15_25ns_JSON.txt'
 
-#fout.write("MET-Run2015D-V1"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /MET/Run2015D-05Oct2015-v1/MINIAOD 25 \n")
-fout.write("MET-Run2015D-PromptReco-V3"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /MET/Run2015D-PromptReco-v3/MINIAOD 25 \n")
-fout.write("MET-Run2015D-PromptReco-V4"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /MET/Run2015D-PromptReco-v4/MINIAOD 25 \n")
-
-fout.write("SingleElectron-Run2015D-PromptReco-V3"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleElectron/Run2015D-PromptReco-v3/MINIAOD 25 \n")
-fout.write("SingleElectron-Run2015D-PromptReco-V4"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleElectron/Run2015D-PromptReco-v4/MINIAOD 25 \n")
-
-fout.write("SingleMuon-Run2015D-PromptReco-V3"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleMuon/Run2015D-PromptReco-v3/MINIAOD 25 \n")
-fout.write("SingleMuon-Run2015D-PromptReco-V4"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleMuon/Run2015D-PromptReco-v4/MINIAOD 25 \n")
+#fout.write("MET-Run2015D-05Oct2015V1"+postfix+" "+jsonfile+" /MET/Run2015D-05Oct2015-v1/MINIAOD 25 \n")
+#fout.write("MET-Run2015D-PromptReco-V3"+postfix+" Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /MET/Run2015D-PromptReco-v3/MINIAOD 25 \n")
+fout.write("MET-Run2015D-PromptReco-V4"+postfix+" "+jsonfile+" /MET/Run2015D-PromptReco-v4/MINIAOD 25 \n")
+#fout.write("/JetHT/Run2015D-05Oct2015-v1"+postfix+"Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /MET/Run2015D-PromptReco-v4/MINIAOD 25 \n")
 
 
-#fout.write("SingleElectronRun2015D-05Oct2015-v1"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleElectron/Run2015D-05Oct2015-v1/MINIAOD 25 \n")
-#fout.write("SingleMuonRun2015D-05Oct2015-v1"+postfix+" Cert_246908-258159_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleMuon/Run2015D-05Oct2015-v1/MINIAOD 25 \n")
+#fout.write("SingleElectron-Run2015D-PromptReco-V3"+postfix+" Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleElectron/Run2015D-PromptReco-v3/MINIAOD 25 \n")
+#fout.write("SingleElectron-Run2015D-PromptReco-V4"+postfix+" Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleElectron/Run2015D-PromptReco-v4/MINIAOD 25 \n")
+#
+#fout.write("SingleMuon-Run2015D-PromptReco-V3"+postfix+" Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleMuon/Run2015D-PromptReco-v3/MINIAOD 25 \n")
+#fout.write("SingleMuon-Run2015D-PromptReco-V4"+postfix+" Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleMuon/Run2015D-PromptReco-v4/MINIAOD 25 \n")
+
+
+#fout.write("SingleElectronRun2015D-05Oct2015-v1"+postfix+" Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleElectron/Run2015D-05Oct2015-v1/MINIAOD 25 \n")
+#fout.write("SingleMuonRun2015D-05Oct2015-v1"+postfix+" Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON.txt /SingleMuon/Run2015D-05Oct2015-v1/MINIAOD 25 \n")
 
 
 fout.close()
