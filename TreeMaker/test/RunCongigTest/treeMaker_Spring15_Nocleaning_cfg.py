@@ -35,7 +35,7 @@ options.register ('useMiniAOD',
 		  "useMiniAOD")
 
 options.register ('useJECText',
-		  False,
+		  True,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useJECText")
@@ -364,22 +364,22 @@ if options.runOnMC:
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
 
 	AK4JECTextFiles = [
-		'Summer15_25nsV2_MC_L1FastJet_AK4PFchs.txt',
-		'Summer15_25nsV2_MC_L2Relative_AK4PFchs.txt',
-		'Summer15_25nsV2_MC_L3Absolute_AK4PFchs.txt'
+		'Summer15_25nsV6_MC_L1FastJet_AK4PFchs.txt',
+		'Summer15_25nsV6_MC_L2Relative_AK4PFchs.txt',
+		'Summer15_25nsV6_MC_L3Absolute_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Summer15_25nsV2_MC_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = 'Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt'
 
 	AK8JECTextFiles = [
-		'Summer15_25nsV2_MC_L1FastJet_AK8PFchs.txt',
-		'Summer15_25nsV2_MC_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV2_MC_L3Absolute_AK8PFchs.txt'
+		'Summer15_25nsV6_MC_L1FastJet_AK8PFchs.txt',
+		'Summer15_25nsV6_MC_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV6_MC_L3Absolute_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Summer15_25nsV2_MC_Uncertainty_AK8PFchs.txt'  ### Does not exist yet
+	AK8JECUncTextFile = 'Summer15_25nsV6_MC_Uncertainty_AK8PFchs.txt'  ### Does not exist yet
 
 	prunedMassJECTextFiles = [
-		'Summer15_25nsV2_MC_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV2_MC_L3Absolute_AK8PFchs.txt'
+		'Summer15_25nsV6_MC_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV6_MC_L3Absolute_AK8PFchs.txt'
 		]
 
 else:
@@ -391,25 +391,25 @@ else:
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 
 	AK4JECTextFiles = [
-		'Summer15_25nsV5_DATA_L1FastJet_AK4PFchs.txt',
-		'Summer15_25nsV5_DATA_L2Relative_AK4PFchs.txt',
-		'Summer15_25nsV5_DATA_L3Absolute_AK4PFchs.txt',
-		'Summer15_25nsV5_DATA_L2L3Residual_AK4PFchs.txt'
+		'Summer15_25nsV6_DATA_L1FastJet_AK4PFchs.txt',
+		'Summer15_25nsV6_DATA_L2Relative_AK4PFchs.txt',
+		'Summer15_25nsV6_DATA_L3Absolute_AK4PFchs.txt',
+		'Summer15_25nsV6_DATA_L2L3Residual_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Summer15_25nsV5_DATA_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = 'Summer15_25nsV6_DATA_Uncertainty_AK4PFchs.txt'
 
 	AK8JECTextFiles = [
-		'Summer15_25nsV5_DATA_L1FastJet_AK8PFchs.txt',
-		'Summer15_25nsV5_DATA_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV5_DATA_L3Absolute_AK8PFchs.txt',
-		'Summer15_25nsV5_DATA_L2L3Residual_AK8PFchs.txt'
+		'Summer15_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
+		'Summer15_25nsV6_DATA_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
+		'Summer15_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Summer15_25nsV5_DATA_Uncertainty_AK8PFchs.txt'
+	AK8JECUncTextFile = 'Summer15_25nsV6_DATA_Uncertainty_AK8PFchs.txt'
 
 	prunedMassJECTextFiles = [
-		'Summer15_25nsV5_DATA_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV5_DATA_L3Absolute_AK8PFchs.txt',
-		'Summer15_25nsV5_DATA_L2L3Residual_AK8PFchs.txt'
+		'Summer15_25nsV6_DATA_L2Relative_AK8PFchs.txt',
+		'Summer15_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
+		'Summer15_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
 		]
 
 
