@@ -37,6 +37,7 @@
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
 #include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
 
+
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 #include "DelPanj/TreeMaker/interface/utils.h"
 
@@ -86,6 +87,7 @@ class patElecTree : public baseTree {
   double r_iso_max_;
   double kt_scale_;
   bool charged_only_;
+  EffectiveAreas eAreasElectrons;
 
   // ntuple variables 
   float patElecRho_;
@@ -143,7 +145,14 @@ class patElecTree : public baseTree {
   std::vector<float> patElecNeHadIso_;
   std::vector<float> patElecGamIso_;
   std::vector<float> patElecPUPt_;
-  std::vector<float> patElecMiniIso_;
+  // miniIso input
+  std::vector<float> patElecMiniIso_ch_;
+  std::vector<float> patElecMiniIso_nh_;
+  std::vector<float> patElecMiniIso_ph_;
+  std::vector<float> patElecMiniIso_pu_;
+  std::vector<float> patElecMiniIso_r_;
+  std::vector<float> patElecMiniIsoBeta_; // subtracting pu via beta
+  std::vector<float> patElecMiniIsoEA_; // subtracting pu via rho/EA
 
 
   std::vector<bool> patElecEcalDrivenSeed_;

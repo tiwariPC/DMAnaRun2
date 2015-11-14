@@ -40,11 +40,12 @@ scramv1 b clean
 scramv1 b
 ```
 
-## Download JEC files
+## Download files that store effective area
 
 ```
-mv DelPanj/jec/Summer15_25nsV2_MC_* .
-mv DelPanj/jec/Summer15_25nsV5_DATA_* .
+mv DelPanj/miniIso_effectiveArea/*txt .
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
  
 ```
+
+Note, you need to add these text files as extra input files when submitting CRAB jobs.

@@ -1,5 +1,7 @@
 #include "DelPanj/TreeMaker/interface/utils.h"
 #include "DataFormats/Math/interface/deltaR.h"
+#include "DataFormats/PatCandidates/interface/Muon.h"
+#include "DataFormats/PatCandidates/interface/Electron.h"
 #include <bitset>
 //#include "TLorentzVector.h"
 //#include <vector>
@@ -44,21 +46,31 @@ bool PassAllBut(std::string tag, std::map<std::string, bool> cutrecd){
 
 
 
- double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
-                        const reco::Candidate* ptcl,  
-                        double r_iso_min, double r_iso_max, double kt_scale,
-                        bool charged_only) {
+void getPFIsolation(double (&miniIso)[NISOPARS],
+		    edm::Handle<pat::PackedCandidateCollection> pfcands,
+		    reco::Candidate const* ptcl,  
+		    const EffectiveAreas& eA_class, const double scEta,
+		    const double rho,
+		    const double r_iso_min, const double r_iso_max, const double kt_scale,
+		    const bool charged_only) {
 
-    if (ptcl->pt()<5.) return 99999.;
-
-    double deadcone_nh(0.), deadcone_ch(0.), deadcone_ph(0.), deadcone_pu(0.);
+  if (ptcl->pt()<5.){
+    for(int i=0; i<NISOPARS; i++)miniIso[i]=99999.;
+    return;
+  }
+    double deadcone_nh(0.), deadcone_ch(0.), deadcone_ph(0.), deadcone_pu(0.), eA(0.);
     if(ptcl->isElectron()) {
+
+      eA = eA_class.getEffectiveArea( scEta );
       if (fabs(ptcl->eta())>1.479) {deadcone_ch = 0.015; deadcone_pu = 0.015; deadcone_ph = 0.08;}
+
     } else if(ptcl->isMuon()) {
+
+      eA = eA_class.getEffectiveArea( ptcl->eta() );
       deadcone_ch = 0.0001; deadcone_pu = 0.01; deadcone_ph = 0.01;deadcone_nh = 0.01;  
-    } else {
-      //deadcone_ch = 0.0001; deadcone_pu = 0.01; deadcone_ph = 0.01;deadcone_nh = 0.01; // maybe use muon cones??
-    }
+
+    } 
+
 
     double iso_nh(0.); double iso_ch(0.); 
     double iso_ph(0.); double iso_pu(0.);
@@ -98,19 +110,26 @@ bool PassAllBut(std::string tag, std::map<std::string, bool> cutrecd){
         }
       }
     }
-    double iso(0.);
-    if (charged_only){
-      iso = iso_ch;
-    } else {
-      iso = iso_ph + iso_nh;
-      iso -= 0.5*iso_pu;
-      if (iso>0) iso += iso_ch;
-      else iso = iso_ch;
-    }
-    iso = iso/ptcl->pt();
 
-    return iso;
-  }
+    double eA_miniIso = eA * r_iso*r_iso / 0.09;
+    double iso_dBeta(0.);
+    double iso_eArea(0.);
+    if (charged_only){
+      iso_dBeta = iso_eArea = iso_ch;
+    } 
+    else {
+      iso_dBeta = iso_ch + TMath::Max(0., iso_nh + iso_ph - 0.5*iso_pu);
+      iso_eArea = iso_ch + TMath::Max(0., iso_nh + iso_ph - rho*eA_miniIso);
+    }
+    miniIso[0] = iso_ch;
+    miniIso[1] = iso_nh;
+    miniIso[2] = iso_ph;
+    miniIso[3] = iso_pu;
+    miniIso[4] = r_iso;
+    miniIso[5] = iso_dBeta/ptcl->pt();
+    miniIso[6] = iso_eArea/ptcl->pt();
+    return;
+}
 
 
 

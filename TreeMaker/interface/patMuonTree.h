@@ -17,6 +17,9 @@
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
 
+#include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
+
+
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 #include "DelPanj/TreeMaker/interface/utils.h"
 
@@ -46,6 +49,7 @@ class patMuonTree : public baseTree {
   double r_iso_max_;
   double kt_scale_;
   bool charged_only_;
+  EffectiveAreas eAreasMuons;
 
   // ntuple variabes
   int nMu;
@@ -98,7 +102,15 @@ class patMuonTree : public baseTree {
   std::vector<float> patMuonNeHadIso;
   std::vector<float> patMuonGamIso;
   std::vector<float> patMuonPUPt;
-  std::vector<float> patMuonMiniIso;
+
+  // miniIso input
+  std::vector<float> patMuonMiniIso_ch;
+  std::vector<float> patMuonMiniIso_nh;
+  std::vector<float> patMuonMiniIso_ph;
+  std::vector<float> patMuonMiniIso_pu;
+  std::vector<float> patMuonMiniIso_r;
+  std::vector<float> patMuonMiniIsoBeta; // subtracting pu via beta
+  std::vector<float> patMuonMiniIsoEA; // subtracting pu via rho/EA
 
  
   

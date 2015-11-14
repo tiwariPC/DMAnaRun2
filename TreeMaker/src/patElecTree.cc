@@ -31,7 +31,8 @@ patElecTree::patElecTree(std::string name, TTree* tree, const edm::ParameterSet&
   r_iso_min_(iConfig.getParameter<double>("r_iso_min")),
   r_iso_max_(iConfig.getParameter<double>("r_iso_max")),
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
-  charged_only_(iConfig.getParameter<bool>("charged_only"))
+  charged_only_(iConfig.getParameter<bool>("charged_only")),
+  eAreasElectrons("effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
 {
   patElecP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -122,7 +123,7 @@ patElecTree::Fill(const edm::Event& iEvent){
  
   // Get rho value
   edm::Handle<double> rhoH;
-  iEvent.getByLabel("fixedGridRhoAll",rhoH);
+  iEvent.getByLabel("fixedGridRhoFastjetCentralNeutral",rhoH);
   patElecRho_ = *rhoH;
   
   for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {
@@ -220,8 +221,19 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecGamIso_.push_back(iso3);
     patElecPUPt_.push_back(isoPU);
 
-    double miniIso = getPFIsolation(pfcands, dynamic_cast<const reco::Candidate *>(&(*ele)), r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
-    patElecMiniIso_.push_back(miniIso);
+
+    double miniIso[7]={0};
+    getPFIsolation(miniIso, pfcands, dynamic_cast<const reco::Candidate *>(&(*ele)), 
+		   eAreasElectrons, ele->superCluster()->eta(),
+		   *rhoH, r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
+
+    patElecMiniIso_ch_.push_back(miniIso[0]);
+    patElecMiniIso_nh_.push_back(miniIso[1]);
+    patElecMiniIso_ph_.push_back(miniIso[2]);
+    patElecMiniIso_pu_.push_back(miniIso[3]);
+    patElecMiniIso_r_.push_back(miniIso[4]);
+    patElecMiniIsoBeta_.push_back(miniIso[5]);
+    patElecMiniIsoEA_.push_back(miniIso[6]);
 
     ///For HEEP ID
     patElecEcalDrivenSeed_.push_back(ele->ecalDrivenSeed());
@@ -338,7 +350,13 @@ patElecTree::SetBranches(){
   AddBranch(&patElecNeHadIso_, "eleNeHadIso");
   AddBranch(&patElecGamIso_, "eleGamIso");
   AddBranch(&patElecPUPt_, "elePUPt");
-  AddBranch(&patElecMiniIso_,"eleMiniIso");
+  AddBranch(&patElecMiniIso_ch_,"eleMiniIso_ch");
+  AddBranch(&patElecMiniIso_nh_,"eleMiniIso_nh");
+  AddBranch(&patElecMiniIso_ph_,"eleMiniIso_ph");
+  AddBranch(&patElecMiniIso_pu_,"eleMiniIso_pu");
+  AddBranch(&patElecMiniIso_r_,"eleMiniIso_r");
+  AddBranch(&patElecMiniIsoBeta_,"eleMiniIsoBeta");
+  AddBranch(&patElecMiniIsoEA_,"eleMiniIsoEA");
 
   AddBranch(&patElecEcalDrivenSeed_,"eleEcalDrivenSeed");
   AddBranch(&patElecEcalDriven_,"eleEcalDriven");
@@ -427,7 +445,13 @@ patElecTree::Clear(){
   patElecNeHadIso_.clear();
   patElecGamIso_.clear();
   patElecPUPt_.clear();
-  patElecMiniIso_.clear();
+  patElecMiniIso_ch_.clear();
+  patElecMiniIso_nh_.clear();
+  patElecMiniIso_ph_.clear();
+  patElecMiniIso_pu_.clear();
+  patElecMiniIso_r_.clear();
+  patElecMiniIsoBeta_.clear();
+  patElecMiniIsoEA_.clear();
 
   patElecEcalDrivenSeed_.clear();
   patElecEcalDriven_.clear();

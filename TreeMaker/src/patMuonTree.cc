@@ -22,7 +22,8 @@ patMuonTree::patMuonTree(std::string name, TTree* tree,
   r_iso_min_(iConfig.getParameter<double>("r_iso_min")),
   r_iso_max_(iConfig.getParameter<double>("r_iso_max")),
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
-  charged_only_(iConfig.getParameter<bool>("charged_only"))
+  charged_only_(iConfig.getParameter<bool>("charged_only")),
+  eAreasMuons("effAreasMuons_cone03_Spring15_25ns.txt")
 {
   patMuonP4 =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -71,7 +72,10 @@ patMuonTree::Fill(const edm::Event& iEvent){
   // handle pfcandidates
   Handle<pat::PackedCandidateCollection> pfcands;
   iEvent.getByLabel(pfCandLabel_, pfcands);  
-  
+
+  edm::Handle<double> rhoH;
+  iEvent.getByLabel("fixedGridRhoFastjetCentralNeutral",rhoH);
+
   pat::MuonCollection::const_iterator mu;
   
   for(mu=muColl.begin(); mu!=muColl.end(); mu++){
@@ -187,9 +191,21 @@ patMuonTree::Fill(const edm::Event& iEvent){
     patMuonNeHadIso.push_back(iso2);
     patMuonGamIso.push_back(iso3);
     patMuonPUPt.push_back(isoPU); 
+
+
+    double miniIso[7]={0};
+    getPFIsolation(miniIso, pfcands, dynamic_cast<const reco::Candidate *>(&(*mu)), 
+		   eAreasMuons, -999.,
+		   *rhoH, r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
+
+    patMuonMiniIso_ch.push_back(miniIso[0]);
+    patMuonMiniIso_nh.push_back(miniIso[1]);
+    patMuonMiniIso_ph.push_back(miniIso[2]);
+    patMuonMiniIso_pu.push_back(miniIso[3]);
+    patMuonMiniIso_r.push_back(miniIso[4]);
+    patMuonMiniIsoBeta.push_back(miniIso[5]);
+    patMuonMiniIsoEA.push_back(miniIso[6]);
    
-    double miniIso = getPFIsolation(pfcands, dynamic_cast<const reco::Candidate *>(&(*mu)), r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
-    patMuonMiniIso.push_back(miniIso);
 
   }
 }
@@ -244,7 +260,13 @@ patMuonTree::SetBranches(){
   AddBranch(&patMuonNeHadIso, "muNeHadIso");
   AddBranch(&patMuonGamIso, "muGamIso");
   AddBranch(&patMuonPUPt, "muPUPt");
-  AddBranch(&patMuonMiniIso, "muMiniIso");
+  AddBranch(&patMuonMiniIso_ch,"muMiniIso_ch");
+  AddBranch(&patMuonMiniIso_nh,"muMiniIso_nh");
+  AddBranch(&patMuonMiniIso_ph,"muMiniIso_ph");
+  AddBranch(&patMuonMiniIso_pu,"muMiniIso_pu");
+  AddBranch(&patMuonMiniIso_r,"muMiniIso_r");
+  AddBranch(&patMuonMiniIsoBeta,"muMiniIsoBeta");
+  AddBranch(&patMuonMiniIsoEA,"muMiniIsoEA");
 
 
 
@@ -302,7 +324,14 @@ patMuonTree::Clear(){
   patMuonNeHadIso.clear();
   patMuonGamIso.clear();
   patMuonPUPt.clear();
-  patMuonMiniIso.clear();
+
+  patMuonMiniIso_ch.clear();
+  patMuonMiniIso_nh.clear();
+  patMuonMiniIso_ph.clear();
+  patMuonMiniIso_pu.clear();
+  patMuonMiniIso_r.clear();
+  patMuonMiniIsoBeta.clear();
+  patMuonMiniIsoEA.clear();
 
 
 }
