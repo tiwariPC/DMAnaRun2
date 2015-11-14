@@ -375,8 +375,7 @@ if options.runOnMC:
 		'Summer15_25nsV6_MC_L2Relative_AK8PFchs.txt',
 		'Summer15_25nsV6_MC_L3Absolute_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Summer15_25nsV6_MC_Uncertainty_AK8PFchs.txt'  ### Does not exist yet
-
+	AK8JECUncTextFile = 'Summer15_25nsV6_MC_Uncertainty_AK8PFchs.txt'  
 	prunedMassJECTextFiles = [
 		'Summer15_25nsV6_MC_L2Relative_AK8PFchs.txt',
 		'Summer15_25nsV6_MC_L3Absolute_AK8PFchs.txt'
