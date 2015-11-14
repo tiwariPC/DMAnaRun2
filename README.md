@@ -43,8 +43,8 @@ scramv1 b
 ## Download files that store effective area and JEC files
 
 ```
-mv DelPanj/miniIso_effectiveArea/*txt .
-mv DelPanj/jec/*chs.txt .
+cp -p DelPanj/miniIso_effectiveArea/*txt .
+cp -p DelPanj/jec/*chs.txt .
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
  
 ```
