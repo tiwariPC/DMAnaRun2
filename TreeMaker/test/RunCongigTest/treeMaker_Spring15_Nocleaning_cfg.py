@@ -74,12 +74,12 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
 	if options.runOn25ns:
 		# 25-ns global tag
-		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v2', '')  
+		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v4', '')  
 	else:
 		# 50-ns global tag
 		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
 else:
-        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_reMiniAOD_v0', '')
+        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_v5', '')
 
 
 
