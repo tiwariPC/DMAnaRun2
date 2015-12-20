@@ -29,7 +29,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   baseTree(desc, tree),
   isFATJet_(false),
   isADDJet_(false),
-  hasJECInfo_(false),
   useJECText_(iConfig.getParameter<bool>("useJECText")),
   JetLabel_(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data()))),
   pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
@@ -45,9 +44,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   if (desc.find("ADD")!=std::string::npos)
     isADDJet_=true; 
 
-  // temporary switch because now only AK4 jets have uncertainties in both data and MC
-  // need to be removed when AK8jet uncertainties are available
-  if(!isFATJet_ && !isADDJet_)hasJECInfo_=true;
 
   genjetP4_    = new TClonesArray("TLorentzVector");
   jetP4_       = new TClonesArray("TLorentzVector");
@@ -95,8 +91,7 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
 	}
       jecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
 
-      if(hasJECInfo_)
-	jecUncText_ = boost::shared_ptr<JetCorrectionUncertainty>( new JetCorrectionUncertainty(jecUncName_) );
+      jecUncText_ = boost::shared_ptr<JetCorrectionUncertainty>( new JetCorrectionUncertainty(jecUncName_) );
     }
 
 
@@ -207,7 +202,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   // for jet energy uncertainty, using global tag
   JetCorrectionUncertainty *jecUnc_=0;
   // fat jet uncertainty does not exist yet
-  if(hasJECInfo_ && !useJECText_){
+  if(!useJECText_){
     edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
     iSetup.get<JetCorrectionsRecord>().get(jecUncPayLoadName_.data(),JetCorParColl); 
     JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
@@ -293,17 +288,13 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 					      uncorrJet.py()*corr_jet,
 					      uncorrJet.pz()*corr_jet,
 					      uncorrJet.energy()*corr_jet);
-      if(hasJECInfo_)
-	{
-	  jecUncText_->setJetEta( uncorrJet.eta() );
-	  jecUncText_->setJetPt( corr_jet * uncorrJet.pt() );
-	  jetCorrUncUp_.push_back(jecUncText_->getUncertainty(true));
+      jecUncText_->setJetEta( uncorrJet.eta() );
+      jecUncText_->setJetPt( corr_jet * uncorrJet.pt() );
+      jetCorrUncUp_.push_back(jecUncText_->getUncertainty(true));
 
-	  jecUncText_->setJetEta( uncorrJet.eta() );
-	  jecUncText_->setJetPt( corr_jet * uncorrJet.pt() );
-	  jetCorrUncDown_.push_back(jecUncText_->getUncertainty(false));
-
-	}
+      jecUncText_->setJetEta( uncorrJet.eta() );
+      jecUncText_->setJetPt( corr_jet * uncorrJet.pt() );
+      jetCorrUncDown_.push_back(jecUncText_->getUncertainty(false));
 
     }
     else
@@ -315,7 +306,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     // get jet energy scale uncertainty and related input variables
     // fat jet uncertainty does not exist yet, if using database
-    if(hasJECInfo_  && !useJECText_){
+    if(!useJECText_){
 
       jecUnc_->setJetEta(jet->eta());
       jecUnc_->setJetPt(jet->pt()); 
@@ -657,7 +648,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
   // fat jet uncertainty does not exist yet
-  if(hasJECInfo_  && !useJECText_)
+  if(!useJECText_)
     delete jecUnc_;
 
 

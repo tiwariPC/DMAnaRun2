@@ -56,7 +56,6 @@ class jetTree  : public baseTree{
 
   bool isFATJet_;
   bool isADDJet_;
-  bool hasJECInfo_;
   bool useJECText_;
   
   edm::InputTag JetLabel_;  
