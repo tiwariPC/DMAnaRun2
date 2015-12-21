@@ -50,11 +50,12 @@ options.parseArguments()
 
 
 listEventsToSkip = []
-fileEventsToSkip = open(options.textfiletovetoEvents,"r")
-
-for line in fileEventsToSkip:
-    cleanLine = line.rstrip()
-    listEventsToSkip.append(cleanLine+"-"+cleanLine)
+## Only apply this for data
+if not options.runOnMC:
+    fileEventsToSkip = open(options.textfiletovetoEvents,"r")
+    for line in fileEventsToSkip:
+        cleanLine = line.rstrip()
+        listEventsToSkip.append(cleanLine+"-"+cleanLine)
 
 #print listEventsToSkip
 
