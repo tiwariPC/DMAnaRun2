@@ -144,5 +144,26 @@ void photonTree::Clear(){
   isPassLoose.clear();
   isPassMedium.clear();
   isPassTight.clear();
+  
+  phoSCE_.clear();
+  phoSCRawE_.clear();
+  phoSCEta_.clear();
+  phoSCPhi_.clear();
+  phoSCEtaWidth_.clear();
+  phoSCPhiWidth_.clear();
+  phoSCBrem_.clear();
+  phohasPixelSeed_.clear();
+  
+  phoEleVeto_.clear();
+  phoR9_.clear();
+  phoHoverE_.clear();
+  phoSigmaIEtaIEta_.clear();
+  phoSigmaIEtaIPhi_.clear();
+  phoSigmaIPhiIPhi_.clear();
+  phoSigmaIEtaIEtaFull5x5_.clear();
+  phoR9Full5x5_.clear();
 
+  phoPFChIso_.clear();
+  phoPFPhoIso_.clear();
+  phoPFNeuIso_.clear();
 }
