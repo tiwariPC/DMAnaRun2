@@ -126,7 +126,7 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-                'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
+        'file:DelPanj/TreeMaker/test/RunCongigTest/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
 		#'file:met_2015D_V4.root'
 		#'file:met_2015D_05Oct.root'
 #		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
@@ -745,9 +745,10 @@ for idmod in my_id_modules:
     setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
 
 if options.runOn25ns:
-	my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_PHYS14_PU20bx25_V2_cff']
+    #my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_PHYS14_PU20bx25_V2_cff']
+    my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring15_25ns_V1_cff']
 else:
-	my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring15_50ns_V1_cff']
+    my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring15_50ns_V1_cff']
 
 #add them to the VID producer
 for idmod in my_phoid_modules:
@@ -825,10 +826,14 @@ process.tree = cms.EDAnalyzer(
 
     ## Photons
     photonLabel  = cms.InputTag("slimmedPhotons"),
-    phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-loose"),
-    phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-medium"),
-    phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-PHYS14-PU20bx25-V2-standalone-tight"),
-
+    
+    phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-loose"),
+    phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-medium"),
+    phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-tight"),
+    
+    phoChargedIsolationToken = cms.InputTag("photonIDValueMapProducer:phoChargedIsolation"),
+    phoNeutralHadronIsolationToken = cms.InputTag("photonIDValueMapProducer:phoNeutralHadronIsolation"),
+    phoPhotonIsolationToken = cms.InputTag("photonIDValueMapProducer:phoPhotonIsolation"),
     ## AllJet
     useJECText = cms.bool(options.useJECText),
     

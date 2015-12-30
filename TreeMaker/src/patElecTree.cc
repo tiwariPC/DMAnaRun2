@@ -33,6 +33,7 @@ patElecTree::patElecTree(std::string name, TTree* tree, const edm::ParameterSet&
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
   charged_only_(iConfig.getParameter<bool>("charged_only")),
   eAreasElectrons("effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
+  //eAreasElectrons("/afs/hep.wisc.edu/cms/khurana/DMRunII/December30_AddedPhotonIDVars/CMSSW_7_4_12/src/DelPanj/TreeMaker/src/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
 {
   patElecP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
