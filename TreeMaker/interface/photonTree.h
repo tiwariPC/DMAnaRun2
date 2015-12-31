@@ -41,7 +41,7 @@ class photonTree : public baseTree{
   edm::InputTag phoLooseIdMapToken_;
   edm::InputTag phoMediumIdMapToken_;
   edm::InputTag phoTightIdMapToken_;
-
+  edm::InputTag phoMVAValuesMapToken_;
   
   edm::InputTag phoChargedIsolationToken_; 
   edm::InputTag phoNeutralHadronIsolationToken_; 
@@ -55,6 +55,7 @@ class photonTree : public baseTree{
   std::vector<bool> isPassLoose;
   std::vector<bool> isPassMedium;
   std::vector<bool> isPassTight;
+  std::vector<float> phoIDMVA_;
   
   vector<float>  phoSCE_;
   vector<float>  phoSCRawE_;

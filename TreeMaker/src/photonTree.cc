@@ -7,7 +7,7 @@ photonTree::photonTree(std::string name, TTree* tree, const pset& iConfig):
   phoLooseIdMapToken_(iConfig.getParameter<edm::InputTag>("phoLooseIdMap")),
   phoMediumIdMapToken_(iConfig.getParameter<edm::InputTag>("phoMediumIdMap")),
   phoTightIdMapToken_(iConfig.getParameter<edm::InputTag>("phoTightIdMap")),
-  
+  phoMVAValuesMapToken_(iConfig.getParameter<edm::InputTag>("phoMVAValuesMapToken_")),
   phoChargedIsolationToken_(iConfig.getParameter<edm::InputTag>("phoChargedIsolationToken")),
   phoNeutralHadronIsolationToken_(iConfig.getParameter<edm::InputTag>("phoNeutralHadronIsolationToken")),
   phoPhotonIsolationToken_(iConfig.getParameter<edm::InputTag>("phoPhotonIsolationToken"))
@@ -40,6 +40,7 @@ void photonTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<bool> >  medium_id_decisions;
   edm::Handle<edm::ValueMap<bool> >  tight_id_decisions;
 
+  edm::Handle<edm::ValueMap<float> > mvaValues;
   
   edm::Handle<edm::ValueMap<float> > phoChargedIsolationMap;
   edm::Handle<edm::ValueMap<float> > phoNeutralHadronIsolationMap;
@@ -49,7 +50,8 @@ void photonTree::Fill(const edm::Event& iEvent){
   iEvent.getByLabel(phoLooseIdMapToken_,  loose_id_decisions);
   iEvent.getByLabel(phoMediumIdMapToken_,  medium_id_decisions);
   iEvent.getByLabel(phoTightIdMapToken_,  tight_id_decisions);
-
+  iEvent.getByLabel(phoMVAValuesMapToken_, mvaValues);
+  
   
   iEvent.getByLabel(phoChargedIsolationToken_,       phoChargedIsolationMap);
   iEvent.getByLabel(phoNeutralHadronIsolationToken_, phoNeutralHadronIsolationMap);
@@ -75,6 +77,7 @@ void photonTree::Fill(const edm::Event& iEvent){
     isPassLoose.push_back((*loose_id_decisions)[pho]);
     isPassMedium.push_back((*medium_id_decisions)[pho]);
     isPassTight.push_back((*tight_id_decisions)[pho]);
+    phoIDMVA_.push_back((*mvaValues)[pho]);
 
 
     phoPFChIso_              .push_back((*phoChargedIsolationMap)[pho]);
@@ -115,6 +118,7 @@ void photonTree::SetBranches(){
   AddBranch(&isPassTight,"phoIsPassTight");
   AddBranch(&isPassLoose,"phoIsPassLoose");
   AddBranch(&isPassMedium,"phoIsPassMedium");
+  AddBranch(&phoIDMVA_,"phoIDMVA_");
   
   AddBranch(&phoSCE_,"phoSCE_");
   AddBranch(&phoSCRawE_,"phoSCRawE_");
@@ -144,7 +148,7 @@ void photonTree::Clear(){
   isPassLoose.clear();
   isPassMedium.clear();
   isPassTight.clear();
-  
+  phoIDMVA_.clear();
   phoSCE_.clear();
   phoSCRawE_.clear();
   phoSCEta_.clear();
