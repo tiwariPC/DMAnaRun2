@@ -118,27 +118,27 @@ void photonTree::SetBranches(){
   AddBranch(&isPassTight,"phoIsPassTight");
   AddBranch(&isPassLoose,"phoIsPassLoose");
   AddBranch(&isPassMedium,"phoIsPassMedium");
-  AddBranch(&phoIDMVA_,"phoIDMVA_");
+  AddBranch(&phoIDMVA_,"phoIDMVA");
   
-  AddBranch(&phoSCE_,"phoSCE_");
-  AddBranch(&phoSCRawE_,"phoSCRawE_");
-  AddBranch(&phoSCEta_,"phoSCEta_");
-  AddBranch(&phoSCPhi_,"phoSCPhi_");
-  AddBranch(&phoSCEtaWidth_,"phoSCEtaWidth_");
-  AddBranch(&phoSCPhiWidth_,"phoSCPhiWidth_");
-  AddBranch(&phoSCBrem_,"phoSCBrem_");
-  AddBranch(&phohasPixelSeed_,"phohasPixelSeed_");
-  AddBranch(&phoEleVeto_,"phoEleVeto_");
-  AddBranch(&phoR9_,"phoR9_");
-  AddBranch(&phoHoverE_,"phoHoverE_");
-  AddBranch(&phoSigmaIEtaIEta_,"phoSigmaIEtaIEta_");
-  AddBranch(&phoSigmaIEtaIPhi_,"phoSigmaIEtaIPhi_");
-  AddBranch(&phoSigmaIPhiIPhi_,"phoSigmaIPhiIPhi_");
-  AddBranch(&phoSigmaIEtaIEtaFull5x5_,"phoSigmaIEtaIEtaFull5x5_");
-  AddBranch(&phoR9Full5x5_,"phoR9Full5x5_");
-  AddBranch(&phoPFChIso_,"phoPFChIso_");
-  AddBranch(&phoPFPhoIso_,"phoPFPhoIso_");
-  AddBranch(&phoPFNeuIso_,"phoPFNeuIso_");
+  AddBranch(&phoSCE_,"phoSCE");
+  AddBranch(&phoSCRawE_,"phoSCRawE");
+  AddBranch(&phoSCEta_,"phoSCEta");
+  AddBranch(&phoSCPhi_,"phoSCPhi");
+  AddBranch(&phoSCEtaWidth_,"phoSCEtaWidth");
+  AddBranch(&phoSCPhiWidth_,"phoSCPhiWidth");
+  AddBranch(&phoSCBrem_,"phoSCBrem");
+  AddBranch(&phohasPixelSeed_,"phohasPixelSeed");
+  AddBranch(&phoEleVeto_,"phoEleVeto");
+  AddBranch(&phoR9_,"phoR9");
+  AddBranch(&phoHoverE_,"phoHoverE");
+  AddBranch(&phoSigmaIEtaIEta_,"phoSigmaIEtaIEta");
+  AddBranch(&phoSigmaIEtaIPhi_,"phoSigmaIEtaIPhi");
+  AddBranch(&phoSigmaIPhiIPhi_,"phoSigmaIPhiIPhi");
+  AddBranch(&phoSigmaIEtaIEtaFull5x5_,"phoSigmaIEtaIEtaFull5x5");
+  AddBranch(&phoR9Full5x5_,"phoR9Full5x5");
+  AddBranch(&phoPFChIso_,"phoPFChIso");
+  AddBranch(&phoPFPhoIso_,"phoPFPhoIso");
+  AddBranch(&phoPFNeuIso_,"phoPFNeuIso");
 
 }
 
