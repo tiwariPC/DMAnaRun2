@@ -49,7 +49,7 @@ class patMuonTree : public baseTree {
   double r_iso_max_;
   double kt_scale_;
   bool charged_only_;
-  EffectiveAreas eAreasMuons;
+  //EffectiveAreas eAreasMuons;
 
   // ntuple variabes
   int nMu;

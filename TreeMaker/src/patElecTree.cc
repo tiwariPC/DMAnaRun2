@@ -31,8 +31,9 @@ patElecTree::patElecTree(std::string name, TTree* tree, const edm::ParameterSet&
   r_iso_min_(iConfig.getParameter<double>("r_iso_min")),
   r_iso_max_(iConfig.getParameter<double>("r_iso_max")),
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
-  charged_only_(iConfig.getParameter<bool>("charged_only")),
-  eAreasElectrons("effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
+  charged_only_(iConfig.getParameter<bool>("charged_only"))
+  //eAreasElectrons(iConfig.getParameter<edm::FileInPath>("elefilename"))
+  //eAreasElectrons(cms.FileInPath("/afs/hep.wisc.edu/cms/khurana/DMRunII/December30_AddedPhotonIDVars/CMSSW_7_4_12/src/DelPanj/TreeMaker/data/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt"))
   //eAreasElectrons("/afs/hep.wisc.edu/cms/khurana/DMRunII/December30_AddedPhotonIDVars/CMSSW_7_4_12/src/DelPanj/TreeMaker/src/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
 {
   patElecP4_ =   new TClonesArray("TLorentzVector");
@@ -224,9 +225,9 @@ patElecTree::Fill(const edm::Event& iEvent){
 
 
     double miniIso[7]={0};
-    getPFIsolation(miniIso, pfcands, dynamic_cast<const reco::Candidate *>(&(*ele)), 
-		   eAreasElectrons, ele->superCluster()->eta(),
-		   *rhoH, r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
+    //getPFIsolation(miniIso, pfcands, dynamic_cast<const reco::Candidate *>(&(*ele)), 
+    //		   eAreasElectrons, ele->superCluster()->eta(),
+    //		   *rhoH, r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
 
     patElecMiniIso_ch_.push_back(miniIso[0]);
     patElecMiniIso_nh_.push_back(miniIso[1]);

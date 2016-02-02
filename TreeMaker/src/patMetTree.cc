@@ -59,6 +59,30 @@ patMetTree::Fill(const edm::Event& iEvent){
   patMetCorrSumEt_ = met->sumEt();
   patMetCorrSig_   = met->significance() < 1.e10 ? met->significance() : 0;
 
+  /*  
+      JetResUp=0, JetResDown=1, JetEnUp=2, JetEnDown=3,
+      MuonEnUp=4, MuonEnDown=5, ElectronEnUp=6, ElectronEnDown=7,
+      TauEnUp=8, TauEnDown=9, UnclusteredEnUp=10, UnclusteredEnDown=11,
+      PhotonEnUp=12, PhotonEnDown=13, NoShift=14, METUncertaintySize=15,
+      JetResUpSmear=16, JetResDownSmear=17, METFullUncertaintySize=18
+  */
+  
+  METCorrections.push_back(met->shiftedPt(pat::MET::JetResUp));
+  METCorrections.push_back(met->shiftedPt(pat::MET::JetResDown));
+  METCorrections.push_back(met->shiftedPt(pat::MET::JetEnUp));
+  METCorrections.push_back(met->shiftedPt(pat::MET::JetEnDown));
+  METCorrections.push_back(met->shiftedPt(pat::MET::UnclusteredEnUp));
+  METCorrections.push_back(met->shiftedPt(pat::MET::UnclusteredEnDown));
+  
+  
+  if(false) std::cout<<" met correction test = "<<met->shiftedPt(pat::MET::JetResUp)
+		     <<"  1 "<<met->shiftedPt(pat::MET::JetResDown)
+		     <<"  2 "<<met->shiftedPt(pat::MET::JetEnUp)
+		     <<"  3 "<<met->shiftedPt(pat::MET::JetEnDown)
+		     <<"  4 "<<met->shiftedPt(pat::MET::UnclusteredEnUp)
+		     <<"  5 "<<met->shiftedPt(pat::MET::UnclusteredEnDown)
+		     <<" met = "<<met->et()
+		     <<std::endl;
   
   reco::PFMETCollection::const_iterator recmet=recomethandle.product()->begin();
   mvaMetPt_ = recmet->et();
@@ -67,6 +91,7 @@ patMetTree::Fill(const edm::Event& iEvent){
   mvaMetSig_   = recmet->significance() < 1.e10 ? recmet->significance() : 0;
     
 
+  
   // std::cout<<"met = "<<met->et()
   // 	   <<" raw met = "<<metraw->et()
   // 	   << "correct met = "<<met->et()
@@ -81,6 +106,7 @@ patMetTree::Fill(const edm::Event& iEvent){
 void 
 patMetTree::SetBranches(){
 
+  
   AddBranch(&patMetCorrPt_, "MetCorrPt");
   AddBranch(&patMetCorrPhi_, "MetCorrPhi"); 
   AddBranch(&patMetCorrSumEt_, "MetCorrSumEt");
@@ -97,6 +123,8 @@ patMetTree::SetBranches(){
   AddBranch(&mvaMetPhi_,    "mvaMetPhi");
   AddBranch(&mvaMetSumEt_,  "mvaMetSumEt");
   AddBranch(&mvaMetSig_,    "mvaMetSig");
+  
+  AddBranch(&METCorrections, "METCorrections");
 }
 
 
@@ -115,11 +143,12 @@ patMetTree::Clear(){
   patMetRawCov01_= dummy;
   patMetRawCov10_= dummy;
   patMetRawCov11_= dummy;
-
   mvaMetPt_     = dummy ;
   mvaMetPhi_    = dummy ;
   mvaMetSumEt_  = dummy ;
   mvaMetSig_    = dummy ;
 
 
+  METCorrections.clear();
+  
 }

@@ -1,4 +1,6 @@
 import FWCore.ParameterSet.Config as cms
+
+import os
 ## removed cleaning from Exo VV package 
 ## 
 
@@ -41,7 +43,7 @@ options.register ('useJECText',
 		  "useJECText")
 
 options.register ('textfiletovetoEvents',
-		  'MET_Oct29/eventlist_MET_csc2015.txt',
+                  'MET_Oct29/eventlist_MET_csc2015.txt',
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.string,
 		  "textfiletovetoEvents")
@@ -49,6 +51,8 @@ options.register ('textfiletovetoEvents',
 options.parseArguments()
 
 
+#os.system('gzip -d csc2015_1.txt.gz ')
+#os.system('print decompressed')
 listEventsToSkip = []
 ## Only apply this for data
 if not options.runOnMC:
@@ -127,14 +131,17 @@ process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
         #'file:DelPanj/TreeMaker/test/RunCongigTest/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
-        'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
-		#'file:met_2015D_V4.root'
-		#'file:met_2015D_05Oct.root'
-#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
-		#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/20000/B64405D7-3435-E511-9E39-002590EFF972.root'
-#		'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/2E9E0021-3C71-E511-A9E1-02163E00E63B.root'
-		#'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/4A032BC6-4E72-E511-8A0D-008CFA0A57C4.root'
-		),
+        #'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
+        #'/store/data/Run2015D/SingleElectron/MINIAOD/PromptReco-v3/000/256/584/00000/DE3323B0-855D-E511-92B0-02163E014187.root'
+       # 'file:04F50A91-B46F-E511-A2A3-002618943923.root'
+        #'file:met_2015D_V4.root'
+        #'file:met_2015D_05Oct.root'
+        #		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
+        #		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/20000/B64405D7-3435-E511-9E39-002590EFF972.root'
+        'file:/hdfs//store/mc/RunIISpring15MiniAODv2/VBF_BulkGravToWW_narrow_M-600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/60000/826E878D-EF78-E511-9F7B-001EC9ADE177.root'
+        #'file:2E9E0021-3C71-E511-A9E1-02163E00E63B.root'
+        #'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/4A032BC6-4E72-E511-8A0D-008CFA0A57C4.root'
+        ),
 			    #skipEvents = cms.untracked.uint32(0)         
                             )
 
@@ -143,6 +150,7 @@ process.source = cms.Source("PoolSource",
 
 ## skip the events 
 ## using the MET tails events
+
 if options.runOnMC:
     print "No events to skip"
 else:
@@ -777,8 +785,13 @@ process.tree = cms.EDAnalyzer(
 
     fillJetInfo      = cms.bool(True), 
     fillFATJetInfo   = cms.bool(True), 
+    
     fillAddJetInfo   = cms.bool(True),
 
+    
+    #elefilename      = cms.FileInPath("/afs/hep.wisc.edu/cms/khurana/DMRunII/December30_AddedPhotonIDVars/CMSSW_7_4_12/src/DelPanj/TreeMaker/data/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
+    #mufilename       = cms.FileInPath("/afs/hep.wisc.edu/cms/khurana/DMRunII/December30_AddedPhotonIDVars/CMSSW_7_4_12/src/DelPanj/TreeMaker/data/effAreasMuons_cone03_Spring15_25ns.txt")
+    
     pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
 
     patMetRaw=cms.InputTag("pfMet"),

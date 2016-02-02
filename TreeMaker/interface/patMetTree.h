@@ -45,6 +45,8 @@ class patMetTree : public baseTree{
   edm::InputTag pfMetLabel_;
   edm::InputTag pfMVAMETLabel_;
   
+  std::vector<float> METCorrections;
+  
   float patMetCorrPt_;  
   float patMetCorrPhi_; 
   float patMetCorrSumEt_;

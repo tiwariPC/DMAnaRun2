@@ -87,7 +87,7 @@ class patElecTree : public baseTree {
   double r_iso_max_;
   double kt_scale_;
   bool charged_only_;
-  EffectiveAreas eAreasElectrons;
+  //EffectiveAreas eAreasElectrons;
 
   // ntuple variables 
   float patElecRho_;

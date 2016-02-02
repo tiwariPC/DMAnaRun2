@@ -22,8 +22,7 @@ patMuonTree::patMuonTree(std::string name, TTree* tree,
   r_iso_min_(iConfig.getParameter<double>("r_iso_min")),
   r_iso_max_(iConfig.getParameter<double>("r_iso_max")),
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
-  charged_only_(iConfig.getParameter<bool>("charged_only")),
-  eAreasMuons("effAreasMuons_cone03_Spring15_25ns.txt")
+  charged_only_(iConfig.getParameter<bool>("charged_only"))
 {
   patMuonP4 =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -192,11 +191,12 @@ patMuonTree::Fill(const edm::Event& iEvent){
     patMuonGamIso.push_back(iso3);
     patMuonPUPt.push_back(isoPU); 
 
-
+    //edm::FileInPath eAreasMuonsFile("/afs/hep.wisc.edu/cms/khurana/DMRunII/December30_AddedPhotonIDVars/CMSSW_7_4_12/src/DelPanj/TreeMaker/data/effAreasMuons_cone03_Spring15_25ns.txt");
+    //EffectiveAreas eAreasMuons(eAreasMuonsFile.fullPath());
     double miniIso[7]={0};
-    getPFIsolation(miniIso, pfcands, dynamic_cast<const reco::Candidate *>(&(*mu)), 
-		   eAreasMuons, -999.,
-		   *rhoH, r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
+    //getPFIsolation(miniIso, pfcands, dynamic_cast<const reco::Candidate *>(&(*mu)), 
+    //		   eAreasMuons, -999.,
+    //		   *rhoH, r_iso_min_, r_iso_max_, kt_scale_, charged_only_);
 
     patMuonMiniIso_ch.push_back(miniIso[0]);
     patMuonMiniIso_nh.push_back(miniIso[1]);
