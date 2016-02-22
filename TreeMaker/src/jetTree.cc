@@ -307,7 +307,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     // get jet energy scale uncertainty and related input variables
     // fat jet uncertainty does not exist yet, if using database
     if(!useJECText_){
-
+      
       jecUnc_->setJetEta(jet->eta());
       jecUnc_->setJetPt(jet->pt()); 
       jetCorrUncUp_.push_back(jecUnc_->getUncertainty(true));
@@ -317,7 +317,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jetCorrUncDown_.push_back(jecUnc_->getUncertainty(false));
     }
 
-
+    
     jetCharge_.push_back(jet->charge());
     jetPartonFlavor_.push_back(jet->partonFlavour());
     jetHadronFlavor_.push_back(jet->hadronFlavour());

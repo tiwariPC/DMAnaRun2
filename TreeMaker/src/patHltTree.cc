@@ -56,10 +56,10 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundMu45=trigName.find("HLT_Mu45");
 
       // jet, met triggers
-      size_t foundMET120HT120                = trigName.find("HLT_PFMET120_PFMHT120_IDLoose_v");
+      size_t foundMET120HT120                = trigName.find("HLT_PFMET120_PFMHT120_");
       size_t foundMETBTag                    = trigName.find("HLT_PFMET120_NoiseCleaned_BTagCSV07");
       size_t foundPFMET170                   = trigName.find("HLT_PFMET170_NoiseCleaned");
-      size_t foundPFMET190MHT90              = trigName.find("HLT_PFMET90_PFMHT90_IDLoose");
+      size_t foundPFMET190MHT90              = trigName.find("HLT_PFMET90_PFMHT90_");
       size_t founfPFMET120MHT120             = trigName.find("HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight");
       size_t foundPFMET170NoiseClean         = trigName.find("HLT_PFMET170_NoiseCleaned");
       size_t foundDiCEntralPFJet70PFMET120   = trigName.find("HLT_DiCentralPFJet70_PFMET120_NoiseCleaned");
@@ -76,10 +76,6 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t DiHiggs_7  = trigName.find("HLT_PFHT800");
             
 
-      if(false) std::cout<<" trigName = "<<trigName
-			<<" : "<<trigResults->accept(i)
-			<<std::endl;
-      
       if ( foundDEle33==std::string::npos &&
 	   foundEle_1==std::string::npos &&
            foundEle_2==std::string::npos &&
@@ -110,6 +106,11 @@ patHltTree::Fill(const edm::Event& iEvent)
            DiHiggs_7==std::string::npos 
 	   )
        	continue;
+      
+      if(true) std::cout<<" trigName = "<<trigName
+			<<" : "<<trigResults->accept(i)
+			<<std::endl;
+      
 
 
       

@@ -59,7 +59,7 @@ patFilters::Fill(const edm::Event& iEvent)
       size_t foundallFlag=trigName.find("Flag_");
             
 
-      if(false) std::cout<<" trigName = "<<trigName
+      if(true) std::cout<<" filter Name = "<<trigName
 			<<" : "<<trigResults->accept(i)
 			<<std::endl;
       

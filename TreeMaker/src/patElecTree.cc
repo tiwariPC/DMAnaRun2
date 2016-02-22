@@ -281,7 +281,35 @@ patElecTree::Fill(const edm::Event& iEvent){
     
     vid::CutFlowResult heep_noiso = (*heep_id_cutflow)[el].getCutFlowResultMasking(maskHEEPCuts);
     isPassHEEPNoIso_.push_back(heep_noiso.cutFlowPassed());
+    
+    // for testing 
+    vid::CutFlowResult medium_nodEtaIn = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleDEtaInCut_0");
+    isPassMediumNodEtaIn_.push_back(medium_nodEtaIn.cutFlowPassed());
+    
+    vid::CutFlowResult medium_nodPhiIn = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleDPhiInCut_0");
+    isPassMediumNodPhiIn_.push_back(medium_nodPhiIn.cutFlowPassed());
+    
+    vid::CutFlowResult medium_nosieie = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleFull5x5SigmaIEtaIEtaCut_0");
+    isPassMediumNosieie_.push_back(medium_nosieie.cutFlowPassed());
 
+    vid::CutFlowResult medium_nohOverE = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleHadronicOverEMCut_0");
+    isPassMediumNohOverE_.push_back(medium_nohOverE.cutFlowPassed());
+    
+    vid::CutFlowResult medium_nodXY = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleDxyCut_0");
+    isPassMediumNodXY_.push_back(medium_nodXY.cutFlowPassed());
+    
+    vid::CutFlowResult medium_noDZ = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleDzCut_0");
+    isPassMediumNoDZ_.push_back(medium_noDZ.cutFlowPassed());
+    
+    vid::CutFlowResult medium_noEInverseMinusPInverse = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleEInverseMinusPInverseCut_0");
+    isPassMediumNoEInverseMinusPInverse_.push_back(medium_noEInverseMinusPInverse.cutFlowPassed());
+    
+    vid::CutFlowResult medium_noConvVeto = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleConversionVetoCut_0");
+    isPassMediumNoConvVeto_.push_back(medium_noConvVeto.cutFlowPassed());
+    
+    vid::CutFlowResult medium_noNHits = (*medium_id_cutflow)[el].getCutFlowResultMasking("GsfEleMissingHitsCut_0");
+    isPassMediumNoNHits_.push_back(medium_noNHits.cutFlowPassed());
+    
     isPassMVAMedium_.push_back( (*medium_MVAid_decisions)[el]);
     isPassMVATight_.push_back( (*tight_MVAid_decisions)[el]);
     
@@ -381,6 +409,17 @@ patElecTree::SetBranches(){
   AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
   AddBranch(&isPassMVATight_,"eleIsPassMVATight");
 
+  
+  AddBranch(&isPassMediumNodEtaIn_,"isPassMediumNodEtaIn_");
+  AddBranch(&isPassMediumNodPhiIn_,"isPassMediumNodPhiIn_");
+  AddBranch(&isPassMediumNosieie_,"isPassMediumNosieie_");
+  AddBranch(&isPassMediumNohOverE_,"isPassMediumNohOverE_");
+  AddBranch(&isPassMediumNodXY_,"isPassMediumNodXY_");
+  AddBranch(&isPassMediumNoDZ_,"isPassMediumNoDZ_");
+  AddBranch(&isPassMediumNoEInverseMinusPInverse_,"isPassMediumNoEInverseMinusPInverse_");
+  AddBranch(&isPassMediumNoConvVeto_,"isPassMediumNoConvVeto_");
+  AddBranch(&isPassMediumNoNHits_,"isPassMediumNoNHits_");
+  
   AddBranch(&mvaValue_,"eleMVAValue");
   AddBranch(&mvaCategory_,"eleMVACategory");
 
@@ -476,6 +515,16 @@ patElecTree::Clear(){
   isPassMVAMedium_.clear();
   isPassMVATight_.clear();
 
+  isPassMediumNodEtaIn_.clear();
+  isPassMediumNodPhiIn_.clear();
+  isPassMediumNosieie_.clear();
+  isPassMediumNohOverE_.clear();
+  isPassMediumNodXY_.clear();
+  isPassMediumNoDZ_.clear();
+  isPassMediumNoEInverseMinusPInverse_.clear();
+  isPassMediumNoConvVeto_.clear();
+  isPassMediumNoNHits_.clear();
+  
   mvaValue_.clear();
   mvaCategory_.clear();
     

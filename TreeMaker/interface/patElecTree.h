@@ -178,6 +178,16 @@ class patElecTree : public baseTree {
   std::vector<bool> isPassMVAMedium_;
   std::vector<bool> isPassMVATight_;
   
+  std::vector<bool> isPassMediumNodEtaIn_;
+  std::vector<bool> isPassMediumNodPhiIn_;
+  std::vector<bool> isPassMediumNosieie_;
+  std::vector<bool> isPassMediumNohOverE_;
+  std::vector<bool> isPassMediumNodXY_;
+  std::vector<bool> isPassMediumNoDZ_;
+  std::vector<bool> isPassMediumNoEInverseMinusPInverse_;
+  std::vector<bool> isPassMediumNoConvVeto_;
+  std::vector<bool> isPassMediumNoNHits_;
+    
 
   std::vector<float> mvaValue_;
   std::vector<int>   mvaCategory_;

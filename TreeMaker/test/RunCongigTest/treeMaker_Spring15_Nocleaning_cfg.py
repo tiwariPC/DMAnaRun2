@@ -20,7 +20,7 @@ options.register ('runOnMC',
 		  "runOnMC")
 
 options.register ('isReReco',
-		  True,
+		  False,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "isReReco")
@@ -43,7 +43,7 @@ options.register ('useJECText',
 		  "useJECText")
 
 options.register ('textfiletovetoEvents',
-                  'MET_Oct29/eventlist_MET_csc2015.txt',
+                  'MET_Oct29/eventlist_MET_csc20151.txt',
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.string,
 		  "textfiletovetoEvents")
@@ -79,12 +79,12 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
 	if options.runOn25ns:
 		# 25-ns global tag
-		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v4', '')  
+		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v5', '')  
 	else:
 		# 50-ns global tag
 		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
 else:
-        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_v5', '')
+        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_reMiniAOD_v2', '')
 
 
 
@@ -101,8 +101,8 @@ else:
 		filterlabel="TriggerResults::RECO"
 
 
-process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
-process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
+#process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
+#process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(100)
@@ -114,31 +114,33 @@ process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
 process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False) 
 #process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 
-##process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
-##   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
-##   reverseDecision = cms.bool(False)
-##)
-##
-##process.ApplyBaselineHBHEIsoNoiseFilter = cms.EDFilter('BooleanFlagFilter',
-##   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
-##   reverseDecision = cms.bool(False)
-##)
-##
+process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
+   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHENoiseFilterResult'),
+   reverseDecision = cms.bool(False)
+)
+
+process.ApplyBaselineHBHEIsoNoiseFilter = cms.EDFilter('BooleanFlagFilter',
+   inputLabel = cms.InputTag('HBHENoiseFilterResultProducer','HBHEIsoNoiseFilterResult'),
+   reverseDecision = cms.bool(False)
+)
+
 
 
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
+        'file:/hdfs/store/mc/RunIISpring15MiniAODv2/ZH_ZToMM_HToInvisible_M600_13TeV_powheg_pythia8/MINIAODSIM/Asympt25ns_74X_mcRun2_asymptotic_v2-v1/40000/1AE76598-669E-E511-88B1-001E0BEC51FE.root'
         #'file:DelPanj/TreeMaker/test/RunCongigTest/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
         #'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
+        #'file:datafilefortest_1.root'
         #'/store/data/Run2015D/SingleElectron/MINIAOD/PromptReco-v3/000/256/584/00000/DE3323B0-855D-E511-92B0-02163E014187.root'
        # 'file:04F50A91-B46F-E511-A2A3-002618943923.root'
         #'file:met_2015D_V4.root'
         #'file:met_2015D_05Oct.root'
         #		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
         #		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/20000/B64405D7-3435-E511-9E39-002590EFF972.root'
-        'file:/hdfs//store/mc/RunIISpring15MiniAODv2/VBF_BulkGravToWW_narrow_M-600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/60000/826E878D-EF78-E511-9F7B-001EC9ADE177.root'
+        #'file:/hdfs//store/mc/RunIISpring15MiniAODv2/VBF_BulkGravToWW_narrow_M-600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/60000/826E878D-EF78-E511-9F7B-001EC9ADE177.root'
         #'file:2E9E0021-3C71-E511-A9E1-02163E00E63B.root'
         #'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/4A032BC6-4E72-E511-8A0D-008CFA0A57C4.root'
         ),
@@ -973,6 +975,7 @@ process.analysis = cms.Path(
     process.jetCorrSequenceAK8+
     process.jetCorrSequenceForPrunedMass+
     process.HBHENoiseFilterResultProducer+
+    
     process.tree
     )
 
