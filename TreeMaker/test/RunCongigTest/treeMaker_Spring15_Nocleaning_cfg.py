@@ -40,22 +40,22 @@ options.register ('useJECText',
 		  VarParsing.varType.bool,
 		  "useJECText")
 
-options.register ('textfiletovetoEvents',
-		  'MET_Oct29/eventlist_MET_csc2015.txt',
-		  VarParsing.multiplicity.singleton,
-		  VarParsing.varType.string,
-		  "textfiletovetoEvents")
+#options.register ('textfiletovetoEvents',
+#		  'MET_Oct29/eventlist_MET_csc2015.txt',
+#		  VarParsing.multiplicity.singleton,
+#		  VarParsing.varType.string,
+#		  "textfiletovetoEvents")
 
 options.parseArguments()
 
 
-listEventsToSkip = []
+#listEventsToSkip = []
 ## Only apply this for data
-if not options.runOnMC:
-    fileEventsToSkip = open(options.textfiletovetoEvents,"r")
-    for line in fileEventsToSkip:
-        cleanLine = line.rstrip()
-        listEventsToSkip.append(cleanLine+"-"+cleanLine)
+#if not options.runOnMC:
+#    fileEventsToSkip = open(options.textfiletovetoEvents,"r")
+#    for line in fileEventsToSkip:
+#        cleanLine = line.rstrip()
+#        listEventsToSkip.append(cleanLine+"-"+cleanLine)
 
 #print listEventsToSkip
 
@@ -75,12 +75,12 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
 	if options.runOn25ns:
 		# 25-ns global tag
-		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v4', '')  
+		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v5', '')  
 	else:
 		# 50-ns global tag
 		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
 else:
-        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_v5', '')
+        process.GlobalTag = GlobalTag(process.GlobalTag, '74X_dataRun2_reMiniAOD_v2', '')
 
 
 
@@ -126,8 +126,9 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
+        '/store/data/Run2015D/JetHT/MINIAOD/05Oct2015-v1/50000/0067D1EA-EE6F-E511-B561-0050560207C5.root'
         #'file:DelPanj/TreeMaker/test/RunCongigTest/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
-        'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
+#        'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
 		#'file:met_2015D_V4.root'
 		#'file:met_2015D_05Oct.root'
 #		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
@@ -964,4 +965,4 @@ process.analysis = cms.Path(
     )
 
 
-#print process.dumpPython()
+print process.dumpPython()
