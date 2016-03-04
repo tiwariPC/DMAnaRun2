@@ -40,16 +40,16 @@ options.register ('useJECText',
 		  VarParsing.varType.bool,
 		  "useJECText")
 
-#options.register ('textfiletovetoEvents',
-#		  'MET_Oct29/eventlist_MET_csc2015.txt',
-#		  VarParsing.multiplicity.singleton,
-#		  VarParsing.varType.string,
-#		  "textfiletovetoEvents")
+options.register ('textfiletovetoEvents',
+		  'MET_Oct29/eventlist_MET_csc2015.txt',
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.string,
+		  "textfiletovetoEvents")
 
 options.parseArguments()
 
 
-#listEventsToSkip = []
+listEventsToSkip = []
 ## Only apply this for data
 #if not options.runOnMC:
 #    fileEventsToSkip = open(options.textfiletovetoEvents,"r")
