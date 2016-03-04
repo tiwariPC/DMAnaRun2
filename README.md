@@ -51,7 +51,7 @@ cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
 Note, you need to add these text files as extra input files when submitting CRAB jobs.
 
 ## To submit MC crab jobs 
-(modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need)
+modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need
 ```
 cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
@@ -61,7 +61,7 @@ python MultiCrab_nocleaning.py submit
 ```
 
 ## To submit data crab jobs
-(modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need)
+modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need
 ```
 cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
