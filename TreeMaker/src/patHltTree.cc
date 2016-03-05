@@ -74,7 +74,7 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t DiHiggs_5  = trigName.find("HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_v");
       size_t DiHiggs_6  = trigName.find("HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_v");
       size_t DiHiggs_7  = trigName.find("HLT_PFHT800");
-            
+      size_t DiHiggs_8  = trigName.find("HLT_PFHT650_v");      
 
       if(false) std::cout<<" trigName = "<<trigName
 			<<" : "<<trigResults->accept(i)
@@ -107,7 +107,8 @@ patHltTree::Fill(const edm::Event& iEvent)
            DiHiggs_4==std::string::npos  &&
            DiHiggs_5==std::string::npos  &&
            DiHiggs_6==std::string::npos  &&
-           DiHiggs_7==std::string::npos 
+           DiHiggs_7==std::string::npos  &&
+           DiHiggs_8==std::string::npos 
 	   )
        	continue;
 
