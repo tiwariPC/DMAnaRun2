@@ -54,7 +54,7 @@ Note, you need to add these text files as extra input files when submitting CRAB
 modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need
 ```
 cd DelPanj/CrabUtilities
-cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
+cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_MC.py crabConfig.py
 python MultiCrab_nocleaning.py submit
@@ -64,7 +64,7 @@ python MultiCrab_nocleaning.py submit
 modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need
 ```
 cd DelPanj/CrabUtilities
-cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
+cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_data.py crabConfig.py
 python MultiCrab_nocleaning.py submit
