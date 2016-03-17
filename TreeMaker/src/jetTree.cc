@@ -418,7 +418,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
     jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
     jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
-    jetTau4_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+    jetTau21_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
   
     
 
@@ -736,7 +736,7 @@ jetTree::SetBranches(){
       AddBranch(&jetTau1_, "jetTau1");
       AddBranch(&jetTau2_, "jetTau2");
       AddBranch(&jetTau3_, "jetTau3");
-      AddBranch(&jetTau4_, "jetTau4");
+      AddBranch(&jetTau21_, "jetTau21");
 
       AddBranch(&nSubSDJet_,"nSubSDJet");
       AddBranch(&subjetSDFatJetIndex_,"subjetSDFatJetIndex");
@@ -827,7 +827,7 @@ jetTree::Clear(){
   jetTau1_.clear();
   jetTau2_.clear();
   jetTau3_.clear();
-  jetTau4_.clear();
+  jetTau21_.clear();
 
 
   //ak8jet mass
