@@ -17,7 +17,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 76x_dev
+git checkout 76X_dev
 
 cd -
 
