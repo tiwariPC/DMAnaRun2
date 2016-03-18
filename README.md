@@ -1,17 +1,12 @@
 
 # DMAnaRun2
 
-# For CMSSW_7_6_3
+# For CMSSW_7_6_3_patch1
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc493
-cmsrel CMSSW_7_6_3
-cd CMSSW_7_6_3/src/
+cmsrel CMSSW_7_6_3_patch1
+cd CMSSW_7_6_3_patch1/src/
 cmsenv
-```
-
-## For photon ID (before CMSSW_8_0_2)
-```
-git cms-merge-topic 12742
 ```
 
 ## For DelPanj and related dependencies
