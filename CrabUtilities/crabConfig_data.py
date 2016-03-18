@@ -6,25 +6,24 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'dihiggs'
-config.General.workArea = 'crab_20160223'
+config.General.workArea = 'crab_20160318'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
-#config.JobType.psetName = 'miniAODTreeMaker_MC_cfg.py'
 config.JobType.psetName = 'MVA-And-PFUnCorrectedMET.py'
 config.JobType.pyCfgParams = ['runOnMC=False']
 config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt','effAreasMuons_cone03_Spring15_25ns.txt']
 config.section_("Data")
-config.Data.inputDataset = '/JetHT/Run2015D-05Oct2015-v1/MINIAOD'
+config.Data.inputDataset = '/JetHT/Run2015D-16Dec2015-v1/MINIAOD'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased'
-config.Data.unitsPerJob = 50
+config.Data.unitsPerJob = 20
 
-#config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt'
-config.Data.lumiMask = 'Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_v2.txt'
+#config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver.txt'
+config.Data.lumiMask = 'Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver.txt'
 #config.Data.runRange = '193093-193999' # '193093-194075'
 config.Data.ignoreLocality = True
 

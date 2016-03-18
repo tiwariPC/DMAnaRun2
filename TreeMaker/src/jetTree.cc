@@ -132,7 +132,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     }
 
   if (h_pv->empty()) return; // skip the event if no PV found
-  const reco::Vertex &PV = h_pv->front();
 
   jetNPV_=  h_pv->size();
 
@@ -558,10 +557,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
       std::sort( constituents.begin(), constituents.end(), [] (reco::Candidate const * ida, reco::Candidate const * jda){return ida->pt() > jda->pt();} );
 
-      for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
-   	const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*constituents[ida]);
-   	//	  printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
-      }
+      // for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
+      // 	const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*constituents[ida]);
+      // 	//	  printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
+      // }
 
 
       //   const reco::SecondaryVertexTagInfo *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());        
