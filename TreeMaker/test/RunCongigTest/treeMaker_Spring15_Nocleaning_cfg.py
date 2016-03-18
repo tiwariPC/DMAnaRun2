@@ -161,53 +161,18 @@ process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
 #process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
 process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
 process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
+process.pfMVAMEt.inputFileNames = cms.PSet(
+        U     = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru_7_4_X_miniAOD_25NS_July2015.root'),
+        DPhi  = cms.FileInPath('RecoMET/METPUSubtraction/data/gbrphi_7_4_X_miniAOD_25NS_July2015.root'),
+        CovU1 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru1cov_7_4_X_miniAOD_25NS_July2015.root'),
+        CovU2 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru2cov_7_4_X_miniAOD_25NS_July2015.root')
+	)
 
 process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
 #process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
 process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
 process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
 
-## For 7.4.12, etaBinnedWeights is missing in RecoMET.METPUSubtraction.mvaPFMET_cff
-process.puJetIdForPFMVAMEt.algos = cms.VPSet(cms.PSet(
-		JetIdParams = cms.PSet(
-			Pt010_Loose = cms.vdouble(0.0, 0.0, 0.0, 0.2),
-			Pt010_Medium = cms.vdouble(0.2, 0.4, 0.2, 0.6),
-			Pt010_Tight = cms.vdouble(0.5, 0.6, 0.6, 0.9),
-			Pt1020_Loose = cms.vdouble(-0.4, -0.4, -0.4, 0.4),
-			Pt1020_Medium = cms.vdouble(-0.3, 0.0, 0.0, 0.5),
-			Pt1020_Tight = cms.vdouble(-0.2, 0.2, 0.2, 0.6),
-			Pt2030_Loose = cms.vdouble(0.0, 0.0, 0.2, 0.6),
-			Pt2030_Medium = cms.vdouble(0.2, 0.2, 0.5, 0.7),
-			Pt2030_Tight = cms.vdouble(0.3, 0.4, 0.7, 0.8),
-			Pt3050_Loose = cms.vdouble(0.0, 0.0, 0.6, 0.2),
-			Pt3050_Medium = cms.vdouble(0.3, 0.2, 0.7, 0.8),
-			Pt3050_Tight = cms.vdouble(0.5, 0.4, 0.8, 0.9)
-			),
-		etaBinnedWeights = cms.bool(False),
-		cutBased = cms.bool(False),
-		impactParTkThreshold = cms.double(0.0),
-		label = cms.string('full'),
-		tmvaMethod = cms.string('JetID'),
-		tmvaSpectators = cms.vstring(),
-		tmvaVariables = cms.vstring('nvtx', 
-					    'jetPt', 
-					    'jetEta', 
-					    'jetPhi', 
-					    'dZ', 
-					    'beta', 
-					    'betaStar', 
-					    'nCharged', 
-					    'nNeutrals', 
-					    'dR2Mean', 
-					    'ptD', 
-					    'frac01', 
-					    'frac02', 
-					    'frac03', 
-					    'frac04', 
-					    'frac05'),
-		tmvaWeights = cms.string('RecoJets/JetProducers/data/TMVAClassificationCategory_JetID_MET_53X_Dec2012.weights.xml.gz'),
-		version = cms.int32(-1)
-		))
 
 ## MVA MET Ends Here 
 ##
