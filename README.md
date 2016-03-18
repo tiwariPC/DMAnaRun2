@@ -9,6 +9,10 @@ cd CMSSW_7_6_3/src/
 cmsenv
 ```
 
+## For photon ID (before CMSSW_8_0_2)
+```
+git cms-merge-topic 12742
+```
 
 ## For DelPanj and related dependencies
 
