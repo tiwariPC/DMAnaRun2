@@ -123,19 +123,14 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 
 
 # Input source
+if options.runOnMC:
+	testFile='/store/mc/RunIIFall15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/80000/04DB9D60-CFD4-E511-9160-0CC47A78A4A6.root'
+else:
+	testFile='/store/data/Run2015D/JetHT/MINIAOD/05Oct2015-v1/50000/0067D1EA-EE6F-E511-B561-0050560207C5.root'
+
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
-                            fileNames = cms.untracked.vstring(
-        '/store/data/Run2015D/JetHT/MINIAOD/05Oct2015-v1/50000/0067D1EA-EE6F-E511-B561-0050560207C5.root'
-        #'file:DelPanj/TreeMaker/test/RunCongigTest/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
-#        'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
-		#'file:met_2015D_V4.root'
-		#'file:met_2015D_05Oct.root'
-#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-1400_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/70000/76A0A6F5-7E14-E511-BB28-0026189438AC.root'
-		#		'/store/mc/RunIISpring15DR74/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v1/20000/B64405D7-3435-E511-9E39-002590EFF972.root'
-#		'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/2E9E0021-3C71-E511-A9E1-02163E00E63B.root'
-		#'/store/mc/RunIISpring15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/30000/4A032BC6-4E72-E511-8A0D-008CFA0A57C4.root'
-		),
+                            fileNames = cms.untracked.vstring(testFile),
 			    #skipEvents = cms.untracked.uint32(0)         
                             )
 
@@ -725,45 +720,6 @@ for idmod in my_phoid_modules:
 
 
 
-process.load('DelPanj.TreeMaker.TreeMaker_cfi')
-process.tree.filterLabel           = cms.InputTag(filterlabel)
-process.tree.useJECText            = cms.bool(options.useJECText)
-process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
-process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
-process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
-process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
-process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
-process.tree.FATjecUncPayLoad      = cms.string('AK8PFchs') ## Uncertainty does not exist yet
-process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
-process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
-process.tree.ADDjecUncPayLoad      = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
-
-if not options.runOn25ns:
-### Electron
-	process.tree.eleVetoIdMap      = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto")
-	process.tree.eleLooseIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose")
-        process.tree.eleMediumIdMap    = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium")
-        process.tree.eleTightIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight")
-        process.tree.eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp90")
-        process.tree.eleMVATightIdMap  = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp80")
-        process.tree.mvaValuesMap      = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Values")
-        process.tree.mvaCategoriesMap  = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Categories")    
-### Photon
-        process.tree.phoLooseIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-loose")
-        process.tree.phoMediumIdMap    = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-medium")
-        process.tree.phoTightIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-tight")
-
-
-process.TFileService = cms.Service("TFileService",
-				   fileName = cms.string("NCUGlobalTuples.root")          
-				   # fileName = cms.string('$outputFileName')          
-				   )
-
-
-
-process.allEventsCounter = cms.EDFilter(
-	"EventCounter"
- )
 
 #process.egmPhotonIDs.physicsObjectSrc = cms.InputTag("ncuslimmedPhoton")
 #process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
@@ -817,6 +773,44 @@ process.patJetsReapplyJECForPrunedMass = patJetsUpdated.clone(
 process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForPrunedMass + process.patJetsReapplyJECForPrunedMass )
 
 
+
+process.load('DelPanj.TreeMaker.TreeMaker_cfi')
+process.tree.filterLabel           = cms.InputTag(filterlabel)
+process.tree.useJECText            = cms.bool(options.useJECText)
+process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
+process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
+process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
+process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
+process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
+process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
+process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
+
+if not options.runOn25ns:
+### Electron
+	process.tree.eleVetoIdMap      = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto")
+	process.tree.eleLooseIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose")
+        process.tree.eleMediumIdMap    = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium")
+        process.tree.eleTightIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight")
+        process.tree.eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp90")
+        process.tree.eleMVATightIdMap  = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp80")
+        process.tree.mvaValuesMap      = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Values")
+        process.tree.mvaCategoriesMap  = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Categories")    
+### Photon
+        process.tree.phoLooseIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-loose")
+        process.tree.phoMediumIdMap    = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-medium")
+        process.tree.phoTightIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-tight")
+
+
+process.TFileService = cms.Service("TFileService",
+				   fileName = cms.string("NCUGlobalTuples.root")          
+				   # fileName = cms.string('$outputFileName')          
+				   )
+
+
+
+process.allEventsCounter = cms.EDFilter(
+	"EventCounter"
+ )
 
 
 process.analysis = cms.Path(

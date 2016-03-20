@@ -34,7 +34,8 @@ scramv1 b
 ```
 cp -p DelPanj/miniIso_effectiveArea/*txt .
 voms-proxy-init --voms cms
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py runOnMC=True
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py runOnMC=False
  
 ```
 

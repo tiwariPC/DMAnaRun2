@@ -1,4 +1,4 @@
-#include "../interface/hpstauInfo.h"
+#include "DelPanj/TreeMaker/interface/hpstauInfo.h"
 
 hpstauInfo::hpstauInfo(std::string name, TTree* tree, bool debug):baseTree(name,tree){
   if(debug) std::cout<<"in tau constructor"<<std::endl;
