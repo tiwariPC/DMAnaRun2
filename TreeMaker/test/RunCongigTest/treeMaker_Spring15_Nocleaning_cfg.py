@@ -91,10 +91,10 @@ if options.runOnMC:
 else:
 	## for re-reco
 	if options.isReReco:
-		filterlabel="TriggerResults::PAT"
+		filterlabel="TriggerResults::RECO"
 	## for prompt-reco
 	else:
-		filterlabel="TriggerResults::RECO"
+		filterlabel="TriggerResults::PAT"
 
 
 process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
@@ -820,12 +820,12 @@ process.analysis = cms.Path(
     process.egmPhotonIDSequence+
 #    process.pfMVAMEtSequence+   # disabled before the official code is fixed
     process.pfMet+
-    process.miniAODjetSequence#+                     
-#    process.jetCorrSequenceAK4+
-#    process.jetCorrSequenceAK8+
-#    process.jetCorrSequenceForPrunedMass+
-#    process.HBHENoiseFilterResultProducer#+
-#    process.tree
+    process.miniAODjetSequence+                     
+    process.jetCorrSequenceAK4+
+    process.jetCorrSequenceAK8+
+    process.jetCorrSequenceForPrunedMass+
+    process.HBHENoiseFilterResultProducer+
+    process.tree
     )
 
 
