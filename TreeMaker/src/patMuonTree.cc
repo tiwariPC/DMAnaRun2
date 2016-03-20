@@ -45,7 +45,7 @@ patMuonTree::Fill(const edm::Event& iEvent){
   bool isAOD = 0; 
  
   edm::Handle<reco::VertexCollection> vtxHandle;
-  iEvent.getByToken(vertexToken, vtxHandle);
+  if(not iEvent.getByToken(vertexToken, vtxHandle))return;
   reco::VertexCollection FilteredVertexCollection;
   FilteredVertexCollection.clear();
   

@@ -82,7 +82,7 @@ patElecTree::Fill(const edm::Event& iEvent){
   iEvent.getByToken(mvaCategoriesMapToken,  mvaCategories);
 
   edm::Handle<reco::VertexCollection> recVtxs;
-  iEvent.getByToken(vertexToken, recVtxs);
+  if(not iEvent.getByToken(vertexToken, recVtxs))return;
    
   if (recVtxs->empty()) return; // skip the event if no PV found                                                                               
   vector<reco::Vertex>::const_iterator firstGoodVertex = recVtxs->end(); 
