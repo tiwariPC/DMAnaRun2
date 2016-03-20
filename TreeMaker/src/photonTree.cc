@@ -1,16 +1,8 @@
 
 #include "DelPanj/TreeMaker/interface/photonTree.h"
 
-photonTree::photonTree(std::string name, TTree* tree, const pset& iConfig):
-  baseTree(name,tree),
-  photonLabel_(iConfig.getParameter<edm::InputTag> ("photonLabel")),
-  phoLooseIdMapToken_(iConfig.getParameter<edm::InputTag>("phoLooseIdMap")),
-  phoMediumIdMapToken_(iConfig.getParameter<edm::InputTag>("phoMediumIdMap")),
-  phoTightIdMapToken_(iConfig.getParameter<edm::InputTag>("phoTightIdMap")),
-  phoMVAValuesMapToken_(iConfig.getParameter<edm::InputTag>("phoMVAValuesMapToken_")),
-  phoChargedIsolationToken_(iConfig.getParameter<edm::InputTag>("phoChargedIsolationToken")),
-  phoNeutralHadronIsolationToken_(iConfig.getParameter<edm::InputTag>("phoNeutralHadronIsolationToken")),
-  phoPhotonIsolationToken_(iConfig.getParameter<edm::InputTag>("phoPhotonIsolationToken"))
+photonTree::photonTree(std::string name, TTree* tree):
+  baseTree(name,tree)
 {
   photonP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -25,9 +17,8 @@ void photonTree::Fill(const edm::Event& iEvent){
   //fetch the input collection
   //
   edm::Handle<edm::View<pat::Photon> > photonHandle;
- // edm::Handle<std::vector<pat::Photon> > photonHandle;
-  if(not iEvent.getByLabel(photonLabel_,photonHandle)){
-    std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "<<photonLabel_<<std::endl; 
+  if(not iEvent.getByToken(photonToken,photonHandle)){
+    std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: photon" <<std::endl; 
     exit(0);
   }  
   //pat::PhotonCollection phColl(*(photonHandle.product()));
@@ -47,15 +38,15 @@ void photonTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<float> > phoPhotonIsolationMap;
 
   
-  iEvent.getByLabel(phoLooseIdMapToken_,  loose_id_decisions);
-  iEvent.getByLabel(phoMediumIdMapToken_,  medium_id_decisions);
-  iEvent.getByLabel(phoTightIdMapToken_,  tight_id_decisions);
-  iEvent.getByLabel(phoMVAValuesMapToken_, mvaValues);
+  iEvent.getByToken(phoLooseIdMapToken,  loose_id_decisions);
+  iEvent.getByToken(phoMediumIdMapToken,  medium_id_decisions);
+  iEvent.getByToken(phoTightIdMapToken,  tight_id_decisions);
+  iEvent.getByToken(phoMVAValuesMapToken, mvaValues);
   
   
-  iEvent.getByLabel(phoChargedIsolationToken_,       phoChargedIsolationMap);
-  iEvent.getByLabel(phoNeutralHadronIsolationToken_, phoNeutralHadronIsolationMap);
-  iEvent.getByLabel(phoPhotonIsolationToken_,        phoPhotonIsolationMap);
+  iEvent.getByToken(phoChargedIsolationToken,       phoChargedIsolationMap);
+  iEvent.getByToken(phoNeutralHadronIsolationToken, phoNeutralHadronIsolationMap);
+  iEvent.getByToken(phoPhotonIsolationToken,        phoPhotonIsolationMap);
 
 
   edm::View<pat::Photon>::const_iterator ph;

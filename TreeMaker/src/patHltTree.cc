@@ -3,17 +3,14 @@
 // Added possible triggers for DM analysis, Jets and MET
 #include "DelPanj/TreeMaker/interface/patHltTree.h"
 #include "DataFormats/Common/interface/Handle.h"
-#include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "DataFormats/HLTReco/interface/TriggerObject.h"
-#include "FWCore/Common/interface/TriggerNames.h" 
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
- #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
+#include "FWCore/Common/interface/TriggerNames.h" 
 
-patHltTree::patHltTree(std::string name,TTree* tree, const edm::ParameterSet& iConfig ):
+patHltTree::patHltTree(std::string name,TTree* tree):
   baseTree(name,tree),
-  nTrigs_(0),
-  trigTag(iConfig.getParameter<edm::InputTag>("triggerLabel"))
+  nTrigs_(0)
 {
   SetBranches();
 }
@@ -24,11 +21,11 @@ patHltTree::Fill(const edm::Event& iEvent)
   Clear();
   using namespace edm;
   
-  edm::Handle<edm::TriggerResults> trigResults;
   edm::Handle<pat::PackedTriggerPrescales> triggerPrescales;
-  iEvent.getByLabel("patTrigger",triggerPrescales);
-  //edm::InputTag trigTag("TriggerResults::HLT");
-  if (not iEvent.getByLabel(trigTag, trigResults)) {
+  iEvent.getByToken(triggerPrescalesToken,triggerPrescales);
+
+  edm::Handle<edm::TriggerResults> trigResults;
+  if (not iEvent.getByToken(trigResultsToken, trigResults)) {
     std::cout << ">>> TRIGGER collection does not exist !!!\n";
     return;
   }

@@ -1,12 +1,5 @@
-/*
-Lovedeep Kaur Saini
-Panjab University, 
-Chandigarh
-*/
 #include <iostream>
 #include "DelPanj/TreeMaker/interface/eventInfo.h"
-#include "DataFormats/VertexReco/interface/Vertex.h"
-#include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "TVector3.h"
 
 eventInfo::eventInfo(std::string name, TTree* tree):
@@ -36,7 +29,7 @@ eventInfo::Fill(const edm::Event& iEvent){
 
   edm::Handle<reco::VertexCollection> recVtxs_;
 
-  if (iEvent.getByLabel("offlineSlimmedPrimaryVertices", recVtxs_)) {
+  if (iEvent.getByToken(vertexToken, recVtxs_)) {
     for (size_t i=0; i<recVtxs_->size(); ++i) {
       
       //bool isFake = ((*recVtxs_)[i].chi2()==0 && (*recVtxs_)[i].ndof()==0);

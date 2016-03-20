@@ -6,8 +6,6 @@
 //***************************************//
 
 #include "DelPanj/TreeMaker/interface/patMuonTree.h"
-#include "DataFormats/VertexReco/interface/VertexFwd.h"
-#include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "Math/VectorUtil.h"
 
@@ -16,9 +14,6 @@
 patMuonTree::patMuonTree(std::string name, TTree* tree, 
 			 const edm::ParameterSet& iConfig):
   baseTree(name,tree),  
-  pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),   
-  patMuonLabel_(iConfig.getParameter<edm::InputTag>("muoLabel")),
-  pfCandLabel_(iConfig.getParameter<edm::InputTag>("pfForMiniIso")),
   r_iso_min_(iConfig.getParameter<double>("r_iso_min")),
   r_iso_max_(iConfig.getParameter<double>("r_iso_max")),
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
@@ -27,7 +22,6 @@ patMuonTree::patMuonTree(std::string name, TTree* tree,
 {
   patMuonP4 =   new TClonesArray("TLorentzVector");
   SetBranches();
-
 }
 
 patMuonTree::~patMuonTree()
@@ -40,9 +34,9 @@ patMuonTree::Fill(const edm::Event& iEvent){
   Clear();
 
   edm::Handle<pat::MuonCollection> patMuonHandle;
-  if(not iEvent.getByLabel(patMuonLabel_,patMuonHandle)){
+  if(not iEvent.getByToken(muToken,patMuonHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
-	     <<patMuonLabel_<<std::endl; exit(0);}
+	     <<"muToken" <<std::endl; exit(0);}
   
   pat::MuonCollection muColl(*(patMuonHandle.product()));
   std::sort(muColl.begin(),muColl.end(),PtGreater());
@@ -51,7 +45,7 @@ patMuonTree::Fill(const edm::Event& iEvent){
   bool isAOD = 0; 
  
   edm::Handle<reco::VertexCollection> vtxHandle;
-  iEvent.getByLabel(pvSrc_, vtxHandle);
+  iEvent.getByToken(vertexToken, vtxHandle);
   reco::VertexCollection FilteredVertexCollection;
   FilteredVertexCollection.clear();
   
@@ -71,10 +65,10 @@ patMuonTree::Fill(const edm::Event& iEvent){
   const reco::Vertex& vertex = FilteredVertexCollection[0];
   // handle pfcandidates
   Handle<pat::PackedCandidateCollection> pfcands;
-  iEvent.getByLabel(pfCandLabel_, pfcands);  
+  iEvent.getByToken(pfCandToken, pfcands);  
 
   edm::Handle<double> rhoH;
-  iEvent.getByLabel("fixedGridRhoFastjetCentralNeutral",rhoH);
+  iEvent.getByToken(rhoForLepToken,rhoH);
 
   pat::MuonCollection::const_iterator mu;
   

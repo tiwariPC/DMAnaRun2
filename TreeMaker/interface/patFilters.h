@@ -1,6 +1,12 @@
 #ifndef patFilters_h
 #define patFilters_h
 
+/*
+  Updated by: Shin-Shan Yu
+  Date      : 20 March 2016
+  Replace getByLabel with getByToken
+*/
+
 #include<iostream>
 #include<string>
 #include<vector>
@@ -9,18 +15,25 @@
 #include "FWCore/Framework/interface/Event.h" 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "DataFormats/Common/interface/TriggerResults.h"
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 
 class patFilters : public baseTree{
 
  public:
-  patFilters(std::string name,TTree* tree, const edm::ParameterSet& iConfig);
+  patFilters(std::string name,TTree* tree);
   void Fill(const edm::Event& iEvent);
   void Clear();
-  void SetBranches();
+  edm::EDGetTokenT<bool>                            HBHETToken;
+  edm::EDGetTokenT<bool>                            HBHELToken;
+  edm::EDGetTokenT<bool>                            HBHEIsoToken;
+  edm::EDGetTokenT<edm::TriggerResults>             filterTrigResultsToken;
   
  private:
+
   patFilters(){};
+  void SetBranches();
+
   int nfilters_;
   std::vector<bool> filterResult_;
   bool hbhet_;

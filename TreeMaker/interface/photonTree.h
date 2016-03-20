@@ -8,6 +8,9 @@ Anil Singh: Empty template created.
 -----
 30 December 2015
 Raman Khurana: Added Photon ID Variables
+-----
+20 March 2016
+Shin-Shan Yu: replace getByLabel with getByToken
 */
 
 #include <memory>
@@ -28,24 +31,27 @@ using namespace edm;
 class photonTree : public baseTree{
 
  public:
-  photonTree(std::string name, TTree* tree, const edm::ParameterSet& cfg);
+  photonTree(std::string name, TTree* tree);
   ~photonTree();
   void Fill(const edm::Event& iEvent);
-  void SetBranches();
   void Clear();
 
+  edm::EDGetTokenT<edm::View<pat::Photon>> photonToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>>    phoLooseIdMapToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>>    phoMediumIdMapToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>>    phoTightIdMapToken;
+
+  edm::EDGetTokenT<edm::ValueMap<float>>   phoMVAValuesMapToken;
+  edm::EDGetTokenT<edm::ValueMap<float>>   phoChargedIsolationToken; 
+  edm::EDGetTokenT<edm::ValueMap<float>>   phoNeutralHadronIsolationToken; 
+  edm::EDGetTokenT<edm::ValueMap<float>>   phoPhotonIsolationToken; 
+
  private:
+
   photonTree(){};
+  void SetBranches();
   bool usePFObjects_;
-  edm::InputTag photonLabel_;
-  edm::InputTag phoLooseIdMapToken_;
-  edm::InputTag phoMediumIdMapToken_;
-  edm::InputTag phoTightIdMapToken_;
-  edm::InputTag phoMVAValuesMapToken_;
-  
-  edm::InputTag phoChargedIsolationToken_; 
-  edm::InputTag phoNeutralHadronIsolationToken_; 
-  edm::InputTag phoPhotonIsolationToken_; 
+
 
   
   //variables which would become branches

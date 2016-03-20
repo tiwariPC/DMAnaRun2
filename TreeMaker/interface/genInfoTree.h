@@ -1,6 +1,12 @@
 #ifndef _GEN_INFO_TREE_H_
 #define _GEN_INFO_TREE_H_
 
+/*
+  Updated by: Shin-Shan Yu
+  Date      : 20 March 2016
+  Replace getByLabel with getByToken
+*/
+
 #include <memory>
 #include <vector>
 #include <string>
@@ -10,11 +16,12 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "DataFormats/JetReco/interface/GenJet.h"
-#include "DataFormats/JetReco/interface/GenJetCollection.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
+
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 #include "TH1.h"
 #include "TFile.h"
@@ -30,15 +37,21 @@ class genInfoTree : public baseTree{
   genInfoTree(std::string name, TTree* tree, const edm::ParameterSet& cfg);
   ~genInfoTree();
   void Fill(const edm::Event& iEvent);
-  void SetBranches();
   void Clear();
-  
-  
-  edm::InputTag genPartLabel_;
+
+  edm::EDGetTokenT<reco::GenParticleCollection>     genParticleToken;
+  edm::EDGetTokenT<GenEventInfoProduct>             genEventToken;
+  edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;
+
   unsigned int MAXNGENPAR_;
   bool applyStatusSelection_;  // keep only particles with status code <=30
   bool applyPromptSelection_;  // keep only prompt particles or particles with status<=30
 
+
+ private:
+
+  genInfoTree(){};
+  void SetBranches();
 
   float ptHat_;      // added by Eiko
   float mcWeight_;   // added by Eiko

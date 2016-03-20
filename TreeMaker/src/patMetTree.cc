@@ -1,11 +1,7 @@
 #include "DelPanj/TreeMaker/interface/patMetTree.h"
-#include "DataFormats/METReco/interface/PFMETCollection.h"
-patMetTree::patMetTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
+patMetTree::patMetTree(std::string name, TTree* tree):
   baseTree(name,tree)
 {
-  pfMetRawLabel_  = iConfig.getParameter<edm::InputTag>("pfMetRaw");
-  pfMetLabel_     = iConfig.getParameter<edm::InputTag>("pfType1Met");
-  pfMVAMETLabel_  = iConfig.getParameter<edm::InputTag>("pfMVAMET");
   SetBranches();
 }
 
@@ -17,30 +13,25 @@ patMetTree::~patMetTree(){
 void
 patMetTree::Fill(const edm::Event& iEvent){
   Clear();
-  /*  edm::Handle<pat::METCollection> patMetRawHandle;
-  if(not iEvent.getByLabel(patMetRawLabel_,patMetRawHandle)){
-    std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
-	     <<patMetRawLabel_<<std::endl; exit(0);}
-  */
   
   // adding Raw PF MET to the tree
   edm::Handle<reco::PFMETCollection> patMetRawHandle;
-  if(not iEvent.getByLabel(pfMetRawLabel_,patMetRawHandle)){
+  if(not iEvent.getByToken(pfMETRawToken,patMetRawHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
-	     <<pfMetRawLabel_<<std::endl; exit(0);}
+	     <<"pfMetRaw" <<std::endl; exit(0);}
   
   // adding Type-1 MET to the tree
   edm::Handle<pat::METCollection> patMetHandle;
-  if(not iEvent.getByLabel(pfMetLabel_,patMetHandle)){
+  if(not iEvent.getByToken(pfMETToken,patMetHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
-	     <<pfMetLabel_<<std::endl; exit(0);}
+	     <<"pfMet"<<std::endl; exit(0);}
 
   
   // adding mva met to the tree
-  edm::Handle<vector<reco::PFMET> > recomethandle;
-  if(not iEvent.getByLabel(pfMVAMETLabel_,recomethandle)){
-    std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
-	     <<pfMVAMETLabel_<<std::endl; exit(0);}
+  // edm::Handle<vector<reco::PFMET> > recomethandle;
+  // if(not iEvent.getByToken(pfMVAMETToken,recomethandle)){
+  //   std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
+  // 	     <<"pfMVAMET"<<std::endl; exit(0);}
 
   // raw distributions
   // corrected distributions
@@ -60,11 +51,11 @@ patMetTree::Fill(const edm::Event& iEvent){
   patMetCorrSig_   = met->significance() < 1.e10 ? met->significance() : 0;
 
   
-  reco::PFMETCollection::const_iterator recmet=recomethandle.product()->begin();
-  mvaMetPt_ = recmet->et();
-  mvaMetPhi_ = recmet->phi();
-  mvaMetSumEt_   = recmet->sumEt();
-  mvaMetSig_   = recmet->significance() < 1.e10 ? recmet->significance() : 0;
+  // reco::PFMETCollection::const_iterator recmet=recomethandle.product()->begin();
+  // mvaMetPt_ = recmet->et();
+  // mvaMetPhi_ = recmet->phi();
+  // mvaMetSumEt_   = recmet->sumEt();
+  // mvaMetSig_   = recmet->significance() < 1.e10 ? recmet->significance() : 0;
     
 
   // std::cout<<"met = "<<met->et()

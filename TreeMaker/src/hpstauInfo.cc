@@ -1,8 +1,7 @@
 #include "../interface/hpstauInfo.h"
 
-hpstauInfo::hpstauInfo(std::string name, TTree* tree, bool debug, const pset& iConfig):baseTree(name,tree){
+hpstauInfo::hpstauInfo(std::string name, TTree* tree, bool debug):baseTree(name,tree){
   if(debug) std::cout<<"in tau constructor"<<std::endl;
-  tauLabel_       = iConfig.getUntrackedParameter<edm::InputTag> ("tauLabel");
   HPSTau_4Momentum           = new TClonesArray("TLorentzVector");
   HPSTau_Vposition           = new TClonesArray("TVector3");
   if(debug) std::cout<<"in rho constructor: calling SetBrances()"<<std::endl;
@@ -22,8 +21,7 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if(debug_)    std::cout<<"getting HPS Tau discriminators"<<std::endl;
 
     edm::Handle<pat::TauCollection>  tauHandle;
-  iEvent.getByLabel(tauLabel_,tauHandle);
-  if(not iEvent.getByLabel(tauLabel_,tauHandle)){
+  if(not iEvent.getByToken(tauToken,tauHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found:selectedPatTaus "<<std::endl;
     exit(0);
   }
@@ -125,7 +123,7 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     iSetup.get<IdealMagneticFieldRecord > ().get(B);
     const MagneticField* magField = B.product();
     Handle<reco::BeamSpot> theBeamSpotHandle;
-    iEvent.getByLabel(std::string("offlineBeamSpot"), theBeamSpotHandle);
+    iEvent.getByToken(theBeamSpotToken, theBeamSpotHandle);
     const reco::BeamSpot* beamSpot = theBeamSpotHandle.product();
     ESHandle<GlobalTrackingGeometry> geomHandle;
     iSetup.get<GlobalTrackingGeometryRecord > ().get(geomHandle);

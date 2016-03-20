@@ -1,13 +1,10 @@
 #include "DelPanj/TreeMaker/interface/genInfoTree.h"
-#include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
-#include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
 #include <bitset>
 #include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 #include "TLorentzVector.h"
 
 genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
-  genPartLabel_ (iConfig.getParameter<edm::InputTag>("genPartLabel")),
   MAXNGENPAR_(iConfig.getParameter<unsigned int>("maxNumGenPar")),
   applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection")),
   applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection"))
@@ -36,7 +33,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   using namespace edm;
   edm::Handle<reco::GenParticleCollection> genParticleHandle;
-  if(not iEvent.getByLabel(genPartLabel_, genParticleHandle))
+  if(not iEvent.getByToken(genParticleToken, genParticleHandle))
     {
       std::cout<<
 	"GenAnalyzer: Generator Level Information not found\n"
@@ -45,7 +42,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   edm::Handle<GenEventInfoProduct>    genEventInfoHandle;
 
-  if (iEvent.getByLabel("generator", genEventInfoHandle)) {
+  if (iEvent.getByToken(genEventToken, genEventInfoHandle)) {
     if (genEventInfoHandle->hasBinningValues())
       ptHat_ = genEventInfoHandle->binningValues()[0];
       
@@ -64,7 +61,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   // add HT information
   edm::Handle<LHEEventProduct> evt;
-  if(iEvent.getByLabel( "externalLHEProducer", evt )){
+  if(iEvent.getByToken( lheEventToken, evt )){
     HT_=0;
     const lhef::HEPEUP hepeup_ = evt->hepeup();
 

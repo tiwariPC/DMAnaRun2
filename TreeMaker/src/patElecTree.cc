@@ -4,7 +4,6 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "MagneticField/Engine/interface/MagneticField.h"
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
-#include "DataFormats/PatCandidates/interface/VIDCutFlowResult.h"
 
 // Issues to be resolved : 
 // -- mypv
@@ -15,25 +14,11 @@
 
 patElecTree::patElecTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
-  pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),   
-  patElecLabel_( iConfig.getParameter<edm::InputTag>("eleLabel")),
-  eleVetoIdMapLabel_( iConfig.getParameter<edm::InputTag>("eleVetoIdMap")),
-  eleLooseIdMapLabel_( iConfig.getParameter<edm::InputTag>("eleLooseIdMap")),
-  eleMediumIdMapLabel_(iConfig.getParameter<edm::InputTag>("eleMediumIdMap")),
-  eleTightIdMapLabel_(iConfig.getParameter<edm::InputTag>("eleTightIdMap")),
-  eleHEEPIdMapLabel_(iConfig.getParameter<edm::InputTag>("eleHEEPIdMap")),
-  
-  eleMVAMediumIdMapLabel_(iConfig.getParameter<edm::InputTag>("eleMVAMediumIdMap")),
-  eleMVATightIdMapLabel_(iConfig.getParameter<edm::InputTag>("eleMVATightIdMap")),
-  mvaValuesMapLabel_(iConfig.getParameter<edm::InputTag>("mvaValuesMap")),
-  mvaCategoriesMapLabel_(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap")),
-  pfCandLabel_(iConfig.getParameter<edm::InputTag>("pfForMiniIso") ),
   r_iso_min_(iConfig.getParameter<double>("r_iso_min")),
   r_iso_max_(iConfig.getParameter<double>("r_iso_max")),
   kt_scale_(iConfig.getParameter<double>("kt_scale")),
   charged_only_(iConfig.getParameter<bool>("charged_only")),
   eAreasElectrons("effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
-  //eAreasElectrons("/afs/hep.wisc.edu/cms/khurana/DMRunII/December30_AddedPhotonIDVars/CMSSW_7_4_12/src/DelPanj/TreeMaker/src/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt")
 {
   patElecP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -49,7 +34,7 @@ patElecTree::Fill(const edm::Event& iEvent){
   
   
   edm::Handle<edm::View<pat::Electron> > electronHandle;
-  iEvent.getByLabel(patElecLabel_,electronHandle);
+  iEvent.getByToken(eleToken,electronHandle);
   //id boolean
 
   edm::Handle<edm::ValueMap<bool> > veto_id_decisions;
@@ -67,33 +52,37 @@ patElecTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<bool> > medium_MVAid_decisions;
   edm::Handle<edm::ValueMap<bool> > tight_MVAid_decisions; 
 
-  iEvent.getByLabel(eleVetoIdMapLabel_ ,veto_id_decisions);
-  iEvent.getByLabel(eleVetoIdMapLabel_ ,veto_id_cutflow);
-  iEvent.getByLabel(eleLooseIdMapLabel_ ,loose_id_decisions);
-  iEvent.getByLabel(eleLooseIdMapLabel_ ,loose_id_cutflow);
-  iEvent.getByLabel(eleMediumIdMapLabel_,medium_id_decisions);
-  iEvent.getByLabel(eleMediumIdMapLabel_,medium_id_cutflow);
-  iEvent.getByLabel(eleTightIdMapLabel_,tight_id_decisions);
-  iEvent.getByLabel(eleTightIdMapLabel_,tight_id_cutflow);
-  iEvent.getByLabel(eleHEEPIdMapLabel_ ,heep_id_decisions);
-  iEvent.getByLabel(eleHEEPIdMapLabel_ ,heep_id_cutflow);
+  iEvent.getByToken(eleVetoIdMapToken,   veto_id_decisions);
+  iEvent.getByToken(eleVetoIdCFToken,    veto_id_cutflow);
+
+  iEvent.getByToken(eleLooseIdMapToken,  loose_id_decisions);
+  iEvent.getByToken(eleLooseIdCFToken,   loose_id_cutflow);
+
+  iEvent.getByToken(eleMediumIdMapToken, medium_id_decisions);
+  iEvent.getByToken(eleMediumIdCFToken,  medium_id_cutflow);
+
+  iEvent.getByToken(eleTightIdMapToken,  tight_id_decisions);
+  iEvent.getByToken(eleTightIdCFToken,   tight_id_cutflow);
+
+  iEvent.getByToken(eleHEEPIdMapToken,   heep_id_decisions);
+  iEvent.getByToken(eleHEEPIdCFToken,    heep_id_cutflow);
 
   std::vector<std::string> maskCutBasedCuts;
   maskCutBasedCuts.push_back("GsfEleEffAreaPFIsoCut_0");
   std::vector<std::string> maskHEEPCuts;
   maskHEEPCuts.push_back("GsfEleTrkPtIsoCut_0"); maskHEEPCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
 
-  iEvent.getByLabel(eleMediumIdMapLabel_,medium_MVAid_decisions);
-  iEvent.getByLabel(eleTightIdMapLabel_,tight_MVAid_decisions);
+  iEvent.getByToken(eleMVAMediumIdMapToken, medium_MVAid_decisions);
+  iEvent.getByToken(eleMVATightIdMapToken,  tight_MVAid_decisions);
 
   // Get MVA values and categories (optional)
   edm::Handle<edm::ValueMap<float> > mvaValues;
   edm::Handle<edm::ValueMap<int> > mvaCategories;
-  iEvent.getByLabel(mvaValuesMapLabel_,mvaValues);
-  iEvent.getByLabel(mvaCategoriesMapLabel_,mvaCategories);
+  iEvent.getByToken(mvaValuesMapToken,      mvaValues);
+  iEvent.getByToken(mvaCategoriesMapToken,  mvaCategories);
 
   edm::Handle<reco::VertexCollection> recVtxs;
-  iEvent.getByLabel(pvSrc_, recVtxs);
+  iEvent.getByToken(vertexToken, recVtxs);
    
   if (recVtxs->empty()) return; // skip the event if no PV found                                                                               
   vector<reco::Vertex>::const_iterator firstGoodVertex = recVtxs->end(); 
@@ -120,11 +109,11 @@ patElecTree::Fill(const edm::Event& iEvent){
 
   // handle pfcandidates
   Handle<pat::PackedCandidateCollection> pfcands;
-  iEvent.getByLabel(pfCandLabel_, pfcands);  
+  iEvent.getByToken(pfCandToken, pfcands);  
  
   // Get rho value
   edm::Handle<double> rhoH;
-  iEvent.getByLabel("fixedGridRhoFastjetCentralNeutral",rhoH);
+  iEvent.getByToken(rhoForLepToken,rhoH);
   patElecRho_ = *rhoH;
   
   for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {

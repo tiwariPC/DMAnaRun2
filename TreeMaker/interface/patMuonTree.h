@@ -16,6 +16,8 @@
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
 
 #include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
 
@@ -34,17 +36,20 @@ class patMuonTree : public baseTree {
   ~patMuonTree();
 
   void Fill(const edm::Event& iEvent);
-  void SetBranches();
   void Clear();
+
+  edm::EDGetTokenT<reco::VertexCollection>          vertexToken;
+  edm::EDGetTokenT<double>                          rhoForLepToken;
+  edm::EDGetTokenT<pat::MuonCollection>             muToken;
+  edm::EDGetTokenT<pat::PackedCandidateCollection>  pfCandToken;
+
 
  private:
   //TTree* tree_;
   //Dont Allow User to Call the Default Constructor.
   patMuonTree();
-  edm::InputTag pvSrc_;
-  edm::InputTag patMuonLabel_;
-  // for mini-isolation, same input as that in patElecTree
-  edm::InputTag pfCandLabel_;
+  void SetBranches();
+
   double r_iso_min_;
   double r_iso_max_;
   double kt_scale_;

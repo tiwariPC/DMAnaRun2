@@ -10,17 +10,17 @@
 
 #include "DelPanj/TreeMaker/interface/puweight.h"
 #include "DelPanj/TreeMaker/interface/eventInfo.h"
-#include "DelPanj/TreeMaker/interface/genInfoTree.h"
-#include "DelPanj/TreeMaker/interface/patMuonTree.h"
-#include "DelPanj/TreeMaker/interface/patElecTree.h"
 #include "DelPanj/TreeMaker/interface/patMetTree.h"
 #include "DelPanj/TreeMaker/interface/patHltTree.h"
 #include "DelPanj/TreeMaker/interface/patFilters.h"
+#include "DelPanj/TreeMaker/interface/genInfoTree.h"
+#include "DelPanj/TreeMaker/interface/patElecTree.h"
+#include "DelPanj/TreeMaker/interface/patMuonTree.h"
+#include "DelPanj/TreeMaker/interface/hpstauInfo.h"
+#include "DelPanj/TreeMaker/interface/photonTree.h"
 #include "DelPanj/TreeMaker/interface/jetTree.h"
 
 
-#include "DelPanj/TreeMaker/interface/photonTree.h"
-#include "hpstauInfo.h"
 #include "TTree.h"
 #include "TFile.h"
 
@@ -40,18 +40,18 @@ class TreeMaker : public edm::EDAnalyzer {
 
       bool fillPUweightInfo_; 
       bool fillEventInfo_;
+      bool fillMetInfo_;
+      bool fillTrigInfo_;
+      bool fillFilterInfo_;
 
       bool fillGenInfo_;
 
-      bool fillTrigInfo_;
-      bool fillFilterInfo_;
       
       bool fillElecInfo_;
       bool fillMuonInfo_;
       bool fillTauInfo_;
       bool fillPhotInfo_;
 
-      bool fillMetInfo_;
 
       bool fillJetInfo_;
       bool fillFATJetInfo_;
@@ -60,18 +60,18 @@ class TreeMaker : public edm::EDAnalyzer {
       
       puweight *puweight_;
       eventInfo   *eventInfo_;
-
-      genInfoTree *genInfoTree_;    
+      patMetTree  *patMetTree_;
 
       patHltTree  *patHltTree_;      
       patFilters  *patFilterTree_;
       
+      genInfoTree *genInfoTree_;    
+
       patElecTree *patElecTree_;
       patMuonTree *patMuTree_;
       hpstauInfo  *tauTree_;
       photonTree  *photonTree_;
 
-      patMetTree  *patMetTree_;
 
       jetTree     *THINjetTree_;
       jetTree     *FATjetTree_;

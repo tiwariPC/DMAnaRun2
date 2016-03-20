@@ -1,6 +1,12 @@
 #ifndef __puweight__
 #define __puweight__
 
+/*
+  Updated by: Shin-Shan Yu
+  Date      : 20 March 2016
+  Replace getByLabel with getByToken
+*/
+
 #include <memory>
 #include <string>
 #include <iostream>
@@ -14,12 +20,18 @@
 class puweight : public baseTree {
 
  public:
+
   puweight(std::string name, TTree* tree);
   ~puweight();
+
   void Fill(const edm::Event& iEvent); 
   void Clear();
+
+  edm::EDGetTokenT<std::vector<PileupSummaryInfo> > puInfoToken;
+
  private:
-  puweight(){};//Don't allow user
+
+  puweight(){};
   void SetBranches();
 
 

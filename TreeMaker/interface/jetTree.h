@@ -1,6 +1,12 @@
 #ifndef __JET_TREE_H_
 #define __JET_TREE_H_
 
+/*
+  Updated by: Shin-Shan Yu
+  Date      : 20 March 2016
+  Replace getByLabel with getByToken
+*/
+
 
 #include <memory>
 #include <string>
@@ -47,20 +53,26 @@ class jetTree  : public baseTree{
  public:
   jetTree(std::string name, TTree* tree, const edm::ParameterSet& cfg );//name=patJetAk05
   ~jetTree();
+  
+
   void Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup) ; 
-  void SetBranches();
   void Clear();
+
+  edm::EDGetTokenT<reco::VertexCollection>          vertexToken;
+  edm::EDGetTokenT<double>                          rhoForJetToken;
+  edm::EDGetTokenT<pat::JetCollection>              jetToken;
+  edm::EDGetTokenT<pat::JetCollection>              prunedMToken;
+  
     
  private:
-  jetTree();
+
+  jetTree(){};
+  void SetBranches();
 
   bool isFATJet_;
   bool isADDJet_;
   bool useJECText_;
   
-  edm::InputTag JetLabel_;  
-  edm::InputTag pvSrc_;
-
   std::string svTagInfosCstr_;
 
   std::string jecUncPayLoadName_; // for global tag
@@ -69,12 +81,6 @@ class jetTree  : public baseTree{
   std::string              jecUncName_; // for reading text file
 
   jetSelector jet2012ID_;
-
-
-  edm::InputTag PrunedMassJetLabel_;
-  /* edm::InputTag puppiPrunedMassJetLabel_; */
-  /* edm::InputTag puppiSoftDropMassJetLabel_; */
-  /* edm::InputTag ATLASTrimMassJetLabel_; */
 
 
   boost::shared_ptr<FactorizedJetCorrector> prunedjecText_;

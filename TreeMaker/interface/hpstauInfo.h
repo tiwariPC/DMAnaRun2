@@ -1,6 +1,14 @@
 #ifndef __HPSTAU_INFO_H_
 #define __HPSTAU_INFO_H_
 //#include "MVAElectronID.h"
+
+
+/*
+  Updated by: Shin-Shan Yu
+  Date      : 20 March 2016
+  Replace getByLabel with getByToken
+*/
+
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
 #include "TrackingTools/TransientTrack/interface/GsfTransientTrack.h"
 #include "Geometry/Records/interface/GlobalTrackingGeometryRecord.h"
@@ -26,15 +34,21 @@
 class hpstauInfo : public baseTree{
 
  public:
-  hpstauInfo(std::string name, TTree* tree, bool debug, const edm::ParameterSet& cfg);
+  hpstauInfo(std::string name, TTree* tree, bool debug);
   ~hpstauInfo();
   void Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup);
-  void SetBranches();
   void Clear();
   bool debug_;
+
+  //tau tokens                                                                                                                                                              
+  edm::EDGetTokenT<pat::TauCollection>              tauToken;
+  edm::EDGetTokenT<reco::BeamSpot>                  theBeamSpotToken;
+
+
  private:
+
   hpstauInfo(){};
-  edm::InputTag tauLabel_;
+  void SetBranches();
   //variables which would become branches
   
   int HPSTau_n;

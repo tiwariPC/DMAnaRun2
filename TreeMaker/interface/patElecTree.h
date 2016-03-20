@@ -32,6 +32,7 @@
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
+#include "DataFormats/PatCandidates/interface/VIDCutFlowResult.h"
 
 
 #include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
@@ -54,35 +55,43 @@ class patElecTree : public baseTree {
   patElecTree(std::string name, TTree* tree, const edm::ParameterSet& cfg);
   ~patElecTree();
   void Fill(const edm::Event& iEvent);
-  void SetBranches();
   void Clear();
+
+  edm::EDGetTokenT<reco::VertexCollection>          vertexToken;
+  edm::EDGetTokenT<double>                          rhoForLepToken;
+  edm::EDGetTokenT<edm::View<pat::Electron>>        eleToken;
+  edm::EDGetTokenT<pat::PackedCandidateCollection>  pfCandToken;
+
+  // cut-based
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleVetoIdMapToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleLooseIdMapToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleMediumIdMapToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleTightIdMapToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleHEEPIdMapToken;
+
+  edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleVetoIdCFToken;
+  edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleLooseIdCFToken;
+  edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleMediumIdCFToken;
+  edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleTightIdCFToken;
+  edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleHEEPIdCFToken;
+  
+
+  // MVA based
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleMVAMediumIdMapToken;
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleMVATightIdMapToken;
+  
+  // MVA values and categories (optional)
+  edm::EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken;
+  edm::EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken;
+
+
  private:
 
   //TTree* tree_;
   //Dont Allow User to Call the Default Constructor.
-
   patElecTree();
+  void SetBranches();
 
-  edm::InputTag pvSrc_;
-  edm::InputTag patElecLabel_;
-  edm::InputTag eleVetoDecisionsMapLabel_;
-  
-  edm::InputTag eleVetoIdMapLabel_;
-  edm::InputTag eleLooseIdMapLabel_;
-  edm::InputTag eleMediumIdMapLabel_;
-  edm::InputTag eleTightIdMapLabel_;
-  edm::InputTag eleHEEPIdMapLabel_;
-  
-  // ID decisions objects
-  edm::InputTag eleMVAMediumIdMapLabel_;
-  edm::InputTag eleMVATightIdMapLabel_;
-  
-  // MVA values and categories (optional)
-  edm::InputTag mvaValuesMapLabel_;
-  edm::InputTag mvaCategoriesMapLabel_;
-
-  // for mini-isolation, same input as that in patMuonTree
-  edm::InputTag pfCandLabel_;
   double r_iso_min_;
   double r_iso_max_;
   double kt_scale_;

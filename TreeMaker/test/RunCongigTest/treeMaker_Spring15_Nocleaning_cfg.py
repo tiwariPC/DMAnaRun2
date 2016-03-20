@@ -725,128 +725,33 @@ for idmod in my_phoid_modules:
 
 
 
-
-process.tree = cms.EDAnalyzer(
-    'TreeMaker',
-    fillPUweightInfo = cms.bool(True),
-    fillEventInfo    = cms.bool(True),
-    fillMetInfo      = cms.bool(True),
-    fillTrigInfo     = cms.bool(True),
-    fillFilterInfo   = cms.bool(True),
-
-    fillGenInfo      = cms.bool(True),
-
-    fillElecInfo     = cms.bool(True), 
-    fillMuonInfo     = cms.bool(True),
-    fillTauInfo      = cms.bool(True),
-    fillPhotInfo     = cms.bool(True),
-
-    fillJetInfo      = cms.bool(True), 
-    fillFATJetInfo   = cms.bool(True), 
-    fillAddJetInfo   = cms.bool(True),
-
-    pvSrc  = cms.InputTag('offlineSlimmedPrimaryVertices'),
-
-    patMetRaw=cms.InputTag("pfMet"),
-    patMet = cms.InputTag("slimmedMETs"),
-    pfMetRaw   = cms.InputTag("pfMet"),
-    pfType1Met = cms.InputTag("slimmedMETs"),
-    pfMVAMET   = cms.InputTag("pfMVAMEt"),
-
-    triggerLabel   = cms.InputTag("TriggerResults::HLT"),
-    filterLabel    = cms.InputTag(filterlabel),
-
-    genPartLabel=cms.InputTag("prunedGenParticles"),
-    genJetLabel=cms.InputTag("slimmedGenJets"),
-    maxNumGenPar  =  cms.uint32(30),
-    applyStatusSelection = cms.bool(True),
-    applyPromptSelection = cms.bool(False),
-##### when applyPromptSelection is True
-#    maxNumGenPar  =  cms.uint32(60), 
-    
-    ## For electron and muon
-    r_iso_min    = cms.double(0.05),
-    r_iso_max    = cms.double(0.2),
-    kt_scale     = cms.double(10.),
-    charged_only = cms.bool(False),
-    pfForMiniIso = cms.InputTag("packedPFCandidates"),
-
-    ### Electrons
-    eleLabel = cms.InputTag("slimmedElectrons"),
-    eleVetoIdMap = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
-    eleLooseIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
-    eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
-    eleTightIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
-    eleHEEPIdMap = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV60"),
-    #
-    # ID decisions (common to all formats)
-    #
-    eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp90"),
-    eleMVATightIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-25ns-nonTrig-V1-wp80"),
-    #
-    # ValueMaps with MVA results
-    #
-    mvaValuesMap     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
-    mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),    
-
-    muoLabel     = cms.InputTag("slimmedMuons"),
-    tauLabel     = cms.untracked.InputTag("slimmedTaus"),
-
-    ## Photons
-    photonLabel  = cms.InputTag("slimmedPhotons"),
-    
-    phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-loose"),
-    phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-medium"),
-    phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-tight"),
-    phoMVAValuesMapToken_=cms.InputTag("photonMVAValueMapProducer:PhotonMVAEstimatorRun2Spring15NonTrig25nsV2Values"),
-    
-    phoChargedIsolationToken = cms.InputTag("photonIDValueMapProducer:phoChargedIsolation"),
-    phoNeutralHadronIsolationToken = cms.InputTag("photonIDValueMapProducer:phoNeutralHadronIsolation"),
-    phoPhotonIsolationToken = cms.InputTag("photonIDValueMapProducer:phoPhotonIsolation"),
-    ## AllJet
-    useJECText = cms.bool(options.useJECText),
-    
-    ### THINJet
-#    THINJets=cms.InputTag("slimmedJets"),
-    THINJets=cms.InputTag("patJetsReapplyJECAK4"),
-    THINjecNames=cms.vstring(AK4JECTextFiles),
-    THINjecUncName=cms.string(AK4JECUncTextFile),
-    THINjecUncPayLoad=cms.string('AK4PFchs'),
-    # jec still need to be checked 
-    
-    ### FatJets  
-#    FATJets=cms.InputTag("slimmedJetsAK8"),
-    FATJets=cms.InputTag("patJetsReapplyJECAK8"),
-    FATJetsForPrunedMass=cms.InputTag("patJetsReapplyJECForPrunedMass"),
-    FATprunedMassJecNames=cms.vstring(prunedMassJECTextFiles),
-    FATjecNames=cms.vstring(AK8JECTextFiles),
-    FATjecUncName=cms.string(AK8JECUncTextFile),
-    FATjecUncPayLoad=cms.string('AK8PFchs'), ## Uncertainty does not exist yet
-    
-    ### AddJets
-    ADDJets= cms.InputTag("packedPatJetsPFCHSAK8"),
-    svTagInfosPY  = cms.string('pfInclusiveSecondaryVertexFinder'),    
-    ADDjecNames=cms.vstring(AK8JECTextFiles),
-    ADDjecUncName=cms.string(AK8JECUncTextFile),
-    ADDjecUncPayLoad=cms.string('AK8PFchs'), ## Uncertainty does not exist yet
-    
-    outFileName=cms.string('outputFileName.root')
-    )
+process.load('DelPanj.TreeMaker.TreeMaker_cfi')
+process.tree.filterLabel           = cms.InputTag(filterlabel)
+process.tree.useJECText            = cms.bool(options.useJECText)
+process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
+process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
+process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
+process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
+process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
+process.tree.FATjecUncPayLoad      = cms.string('AK8PFchs') ## Uncertainty does not exist yet
+process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
+process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
+process.tree.ADDjecUncPayLoad      = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
 
 if not options.runOn25ns:
 ### Electron
-	process.tree.eleVetoIdMap = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto")
-	process.tree.eleLooseIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose")
-        process.tree.eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium")
-        process.tree.eleTightIdMap = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight")
+	process.tree.eleVetoIdMap      = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto")
+	process.tree.eleLooseIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose")
+        process.tree.eleMediumIdMap    = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium")
+        process.tree.eleTightIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight")
         process.tree.eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp90")
-        process.tree.eleMVATightIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp80")
-        process.tree.mvaValuesMap     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Values")
-        process.tree.mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Categories")    
+        process.tree.eleMVATightIdMap  = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp80")
+        process.tree.mvaValuesMap      = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Values")
+        process.tree.mvaCategoriesMap  = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Categories")    
 ### Photon
-        process.tree.phoLooseIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-loose")
-        process.tree.phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-medium")
-        process.tree.phoTightIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-tight")
+        process.tree.phoLooseIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-loose")
+        process.tree.phoMediumIdMap    = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-medium")
+        process.tree.phoTightIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-tight")
 
 
 process.TFileService = cms.Service("TFileService",
@@ -919,7 +824,7 @@ process.analysis = cms.Path(
     #process.ncuslimmer+
     process.egmGsfElectronIDSequence+
     process.egmPhotonIDSequence+
-    process.pfMVAMEtSequence+
+#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
     process.pfMet+
     process.miniAODjetSequence+                     
     process.jetCorrSequenceAK4+

@@ -30,8 +30,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   isFATJet_(false),
   isADDJet_(false),
   useJECText_(iConfig.getParameter<bool>("useJECText")),
-  JetLabel_(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data()))),
-  pvSrc_    (iConfig.getParameter<edm::InputTag>("pvSrc") ),                      
   svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
   jecUncPayLoadName_(iConfig.getParameter<std::string>(Form("%sjecUncPayLoad",desc.data()))),
   jecNames_(iConfig.getParameter<std::vector<std::string> >(Form("%sjecNames",desc.data()) )), 
@@ -54,10 +52,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   if(isFATJet_)
     {
       prunedMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%sprunedMassJecNames",desc.data()));
-      PrunedMassJetLabel_          = iConfig.getParameter<edm::InputTag>(Form("%sJetsForPrunedMass",desc.data()));
-     // puppiPrunedMassJetLabel_   = iConfig.getParameter<edm::InputTag>("puppiPrunedMassJet");
-      // puppiSoftDropMassJetLabel_ = iConfig.getParameter<edm::InputTag>("puppiSoftDropMassJet");
-      // ATLASTrimMassJetLabel_     = iConfig.getParameter<edm::InputTag>("ATLASTrimMassJetLabel");
 
       if(useJECText_){
 
@@ -113,7 +107,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
  
   // // Get the rho collection
   edm::Handle< double > h_rho;
-  if(not iEvent.getByLabel("fixedGridRhoFastjetAll", h_rho ))
+  if(not iEvent.getByToken(rhoForJetToken, h_rho ))
     {
       std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
 	       <<"fixedGridRhoFastjetAll" <<std::endl; 
@@ -124,10 +118,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
   // // Get the primary vertex collection                                         
   edm::Handle<reco::VertexCollection>  h_pv;
-  if(not iEvent.getByLabel(pvSrc_,h_pv))
+  if(not iEvent.getByToken(vertexToken,h_pv))
     {
       std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-	       <<pvSrc_<<std::endl; 
+	       <<"vertexToken"<<std::endl; 
       exit(0);
     }
 
@@ -137,10 +131,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
  
   edm::Handle<pat::JetCollection> JetHandle;
-  if(not iEvent.getByLabel(JetLabel_,JetHandle))
+  if(not iEvent.getByToken(jetToken,JetHandle))
     {
       std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-	       <<JetLabel_<<std::endl; 
+	       <<"jetToken"<<std::endl; 
       exit(0);
     }
 
@@ -157,11 +151,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   // edm::Handle<pat::JetCollection> JetHandleForATLASTrimMass;
   // pat::JetCollection jetsForATLASTrimMass;
 
-  if(isFATJet_ && 
-     not iEvent.getByLabel(PrunedMassJetLabel_,JetHandleForPrunedMass))
+  if(isFATJet_ && not iEvent.getByToken(prunedMToken,JetHandleForPrunedMass))
     {
       std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-    	       <<PrunedMassJetLabel_<<std::endl; 
+    	       <<"PrunedMassJet"<<std::endl; 
       exit(0);
     }
   // else if(isFATJet_ && 
@@ -185,8 +178,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   //   	       << ATLASTrimMassJetLabel_<<std::endl; 
   //     exit(0);
   //   }
-  else if(isFATJet_ && 
-	  iEvent.getByLabel(PrunedMassJetLabel_,JetHandleForPrunedMass) //&&
+  else if(isFATJet_ && iEvent.getByToken(prunedMToken,JetHandleForPrunedMass)
+	  //&&
 	  // iEvent.getByLabel(puppiPrunedMassJetLabel_,JetHandleForPuppiPrunedMass) && 
 	  // iEvent.getByLabel(puppiSoftDropMassJetLabel_,JetHandleForPuppiSoftDropMass) &&
 	  // iEvent.getByLabel(ATLASTrimMassJetLabel_,JetHandleForATLASTrimMass)
@@ -333,35 +326,36 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetPassIDTight_.push_back(passOrNotT);
 
 
-
-    float jpumva=0.;
-    jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
-    //std::cout<<" jpumva = "<<jpumva<<std::endl;
-    PUJetID_.push_back(jpumva);
+    if(!isFATJet_ && !isADDJet_){
+      float jpumva=0.;
+      jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
+      //std::cout<<" jpumva = "<<jpumva<<std::endl;
+      PUJetID_.push_back(jpumva);
   
-    float jpt = jet->pt();
-    float jeta = jet->eta();
+      float jpt = jet->pt();
+      float jeta = jet->eta();
   
-    bool passPU = true;
-    if(jpt>20){
-      if(jeta>3.){
-   	if(jpumva<=-0.45)passPU=false;
-      }else if(jeta>2.75){
-   	if(jpumva<=-0.55)passPU=false;
-      }else if(jeta>2.5){
-   	if(jpumva<=-0.6)passPU=false;
-      }else if(jpumva<=-0.63)passPU=false;
-    }else{
-      if(jeta>3.){
-   	if(jpumva<=-0.95)passPU=false;
-      }else if(jeta>2.75){
-   	if(jpumva<=-0.94)passPU=false;
-      }else if(jeta>2.5){
-   	if(jpumva<=-0.96)passPU=false;
-      }else if(jpumva<=-0.95)passPU=false;
+      bool passPU = true;
+      if(jpt>20){
+	if(jeta>3.){
+	  if(jpumva<=-0.45)passPU=false;
+	}else if(jeta>2.75){
+	  if(jpumva<=-0.55)passPU=false;
+	}else if(jeta>2.5){
+	  if(jpumva<=-0.6)passPU=false;
+	}else if(jpumva<=-0.63)passPU=false;
+      }else{
+	if(jeta>3.){
+	  if(jpumva<=-0.95)passPU=false;
+	}else if(jeta>2.75){
+	  if(jpumva<=-0.94)passPU=false;
+	}else if(jeta>2.5){
+	  if(jpumva<=-0.96)passPU=false;
+	}else if(jpumva<=-0.95)passPU=false;
+      }
+  
+      isPUJetID_.push_back(passPU);
     }
-  
-    isPUJetID_.push_back(passPU);
   
     jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
     jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
@@ -414,15 +408,15 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetJP_.push_back(jet->bDiscriminator("pfJetProbabilityBJetTags"));
     jetJBP_.push_back(jet->bDiscriminator("pfJetBProbabilityBJetTags"));
 
-    jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
-    jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
-    jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
-    jetTau21_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
-  
-    
 
     if(isFATJet_){
 
+      jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
+      jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
+      jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
+      jetTau21_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+ 
+    
       //      using a different way to get corrected pruned mass
       // if reading global tag
       float corr=-1;
@@ -683,9 +677,11 @@ jetTree::SetBranches(){
   AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
   AddBranch(&jetPassIDLoose_, "jetPassIDLoose");
   AddBranch(&jetPassIDTight_, "jetPassIDTight");
-  AddBranch(&PUJetID_,"PUJetID");
-  AddBranch(&isPUJetID_,"isPUJetID");
 
+  if(!isFATJet_ && !isADDJet_){
+    AddBranch(&PUJetID_,"PUJetID");
+    AddBranch(&isPUJetID_,"isPUJetID");
+  }
 
   AddBranch(&jetCEmEF_, "jetCEmEF");
   AddBranch(&jetCHadEF_, "jetCHadEF");
@@ -710,6 +706,11 @@ jetTree::SetBranches(){
   
   if(isFATJet_){
 
+    AddBranch(&jetTau1_, "jetTau1");
+    AddBranch(&jetTau2_, "jetTau2");
+    AddBranch(&jetTau3_, "jetTau3");
+    AddBranch(&jetTau21_, "jetTau21");
+    
     AddBranch(&jetSDmass_, "jetSDmass");
     AddBranch(&jetTRmass_, "jetTRmass");
     AddBranch(&jetPRmass_, "jetPRmass");
@@ -732,10 +733,6 @@ jetTree::SetBranches(){
 
   if(isFATJet_ || isADDJet_)
     {
-      AddBranch(&jetTau1_, "jetTau1");
-      AddBranch(&jetTau2_, "jetTau2");
-      AddBranch(&jetTau3_, "jetTau3");
-      AddBranch(&jetTau21_, "jetTau21");
 
       AddBranch(&nSubSDJet_,"nSubSDJet");
       AddBranch(&subjetSDFatJetIndex_,"subjetSDFatJetIndex");

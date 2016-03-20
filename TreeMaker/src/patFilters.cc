@@ -3,17 +3,15 @@
 // Added possible triggers for DM analysis, Jets and MET
 #include "DelPanj/TreeMaker/interface/patFilters.h"
 #include "DataFormats/Common/interface/Handle.h"
-#include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "DataFormats/HLTReco/interface/TriggerObject.h"
 #include "FWCore/Common/interface/TriggerNames.h" 
 #include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
-#include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
 #include "DataFormats/METReco/interface/HcalNoiseSummary.h"
-patFilters::patFilters(std::string name,TTree* tree, const edm::ParameterSet& iConfig ):
+
+patFilters::patFilters(std::string name,TTree* tree):
   baseTree(name,tree),
-  nfilters_(0),
-  filterTag(iConfig.getParameter<edm::InputTag>("filterLabel"))
+  nfilters_(0)
 {
   SetBranches();
 }
@@ -23,28 +21,22 @@ patFilters::Fill(const edm::Event& iEvent)
 {
   Clear();
   using namespace edm;
-  
-
+ 
   edm::Handle<bool> HBHET;
-  edm::InputTag  hbhetag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET");
-  //HBHEIsoNoiseFilterResult
-  iEvent.getByLabel(hbhetag,HBHET);
+  iEvent.getByToken(HBHETToken,HBHET);
   hbhet_ = (*HBHET.product());
 
   edm::Handle<bool> HBHEL;
-  edm::InputTag  hbhetag1("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Loose","MVAMET");
-  iEvent.getByLabel(hbhetag1,HBHEL);
+  iEvent.getByToken(HBHELToken,HBHEL);
   hbhel_ = (*HBHEL.product());
 
   edm::Handle<bool> HBHEIso;
-  edm::InputTag  hbhetagIso("HBHENoiseFilterResultProducer","HBHEIsoNoiseFilterResult","MVAMET");
-  iEvent.getByLabel(hbhetagIso,HBHEIso);
+  iEvent.getByToken(HBHEIsoToken,HBHEIso);
   hbheIso_ = (*HBHEIso.product());
   
   
-  
   edm::Handle<edm::TriggerResults> trigResults;
-  if (not iEvent.getByLabel(filterTag, trigResults)) {
+  if (not iEvent.getByToken(filterTrigResultsToken, trigResults)) {
     std::cout << ">>> TRIGGER collection for filters does not exist !!!\n";
     return;
   }

@@ -8,6 +8,10 @@
    = PFMET uncorrected
    = PFMET corrected
    = MVA MET
+
+  Updated by: Shin-Shan Yu
+  Date      : 20 March 2016
+  Replace getByLabel with getByToken
 */
 
 #include <memory>
@@ -18,11 +22,14 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
+#include "DataFormats/METReco/interface/PFMETCollection.h"
+
 #include "DelPanj/TreeMaker/interface/utils.h"
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 using namespace std;
 using namespace edm;
@@ -32,19 +39,20 @@ using namespace edm;
 class patMetTree : public baseTree{
 
  public:
-  patMetTree(std::string name, TTree* tree, const edm::ParameterSet& cfg);
+  patMetTree(std::string name, TTree* tree);
   ~patMetTree();
   void Fill(const edm::Event& iEvent);
-  void SetBranches();
   void Clear();
-  
+
+  edm::EDGetTokenT<reco::PFMETCollection>           pfMETRawToken;
+  edm::EDGetTokenT<pat::METCollection>              pfMETToken;
+  edm::EDGetTokenT<reco::PFMETCollection>           pfMVAMETToken;
+   
  private:
-  patMetTree();
-  
-  edm::InputTag pfMetRawLabel_;
-  edm::InputTag pfMetLabel_;
-  edm::InputTag pfMVAMETLabel_;
-  
+
+  patMetTree(){};
+  void SetBranches();
+    
   float patMetCorrPt_;  
   float patMetCorrPhi_; 
   float patMetCorrSumEt_;
