@@ -126,7 +126,7 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 if options.runOnMC:
 	testFile='/store/mc/RunIIFall15MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/80000/04DB9D60-CFD4-E511-9160-0CC47A78A4A6.root'
 else:
-	testFile='/store/data/Run2015D/JetHT/MINIAOD/05Oct2015-v1/50000/0067D1EA-EE6F-E511-B561-0050560207C5.root'
+	testFile='/store/data/Run2015D/JetHT/MINIAOD/16Dec2015-v1/00000/403D42F6-6BB0-E511-8B40-003048FFD71E.root'
 
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
@@ -820,12 +820,12 @@ process.analysis = cms.Path(
     process.egmPhotonIDSequence+
 #    process.pfMVAMEtSequence+   # disabled before the official code is fixed
     process.pfMet+
-    process.miniAODjetSequence+                     
-    process.jetCorrSequenceAK4+
-    process.jetCorrSequenceAK8+
-    process.jetCorrSequenceForPrunedMass+
-    process.HBHENoiseFilterResultProducer+
-    process.tree
+    process.miniAODjetSequence#+                     
+#    process.jetCorrSequenceAK4+
+#    process.jetCorrSequenceAK8+
+#    process.jetCorrSequenceForPrunedMass+
+#    process.HBHENoiseFilterResultProducer#+
+#    process.tree
     )
 
 
