@@ -107,6 +107,7 @@ class patMuonTree : public baseTree {
   std::vector<float> patMuonNeHadIso;
   std::vector<float> patMuonGamIso;
   std::vector<float> patMuonPUPt;
+  std::vector<float> patMuonInnerTrkPt;
 
   // miniIso input
   std::vector<float> patMuonMiniIso_ch;

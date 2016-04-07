@@ -187,6 +187,8 @@ patMuonTree::Fill(const edm::Event& iEvent){
     patMuonPUPt.push_back(isoPU); 
 
 
+    patMuonInnerTrkPt.push_back((mu->innerTrack().isNonnull() ? mu->innerTrack()->pt() : 0));
+
     double miniIso[7]={0};
     getPFIsolation(miniIso, pfcands, dynamic_cast<const reco::Candidate *>(&(*mu)), 
 		   eAreasMuons, -999.,
@@ -254,6 +256,10 @@ patMuonTree::SetBranches(){
   AddBranch(&patMuonNeHadIso, "muNeHadIso");
   AddBranch(&patMuonGamIso, "muGamIso");
   AddBranch(&patMuonPUPt, "muPUPt");
+  AddBranch(&patMuonInnerTrkPt, "muInnerTrkPt");
+
+
+
   AddBranch(&patMuonMiniIso_ch,"muMiniIso_ch");
   AddBranch(&patMuonMiniIso_nh,"muMiniIso_nh");
   AddBranch(&patMuonMiniIso_ph,"muMiniIso_ph");
@@ -318,6 +324,8 @@ patMuonTree::Clear(){
   patMuonNeHadIso.clear();
   patMuonGamIso.clear();
   patMuonPUPt.clear();
+  patMuonInnerTrkPt.clear();
+
 
   patMuonMiniIso_ch.clear();
   patMuonMiniIso_nh.clear();
