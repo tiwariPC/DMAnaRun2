@@ -53,10 +53,10 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundMu45=trigName.find("HLT_Mu45");
 
       // jet, met triggers
-      size_t foundMET120HT120                = trigName.find("HLT_PFMET120_PFMHT120_IDLoose_v");
+      size_t foundMET120HT120                = trigName.find("HLT_PFMET120_PFMHT120_");
       size_t foundMETBTag                    = trigName.find("HLT_PFMET120_NoiseCleaned_BTagCSV07");
       size_t foundPFMET170                   = trigName.find("HLT_PFMET170_NoiseCleaned");
-      size_t foundPFMET190MHT90              = trigName.find("HLT_PFMET90_PFMHT90_IDLoose");
+      size_t foundPFMET190MHT90              = trigName.find("HLT_PFMET90_PFMHT90_");
       size_t founfPFMET120MHT120             = trigName.find("HLT_PFMETNoMu120_NoiseCleaned_PFMHTNoMu120_IDTight");
       size_t foundPFMET170NoiseClean         = trigName.find("HLT_PFMET170_NoiseCleaned");
       size_t foundDiCEntralPFJet70PFMET120   = trigName.find("HLT_DiCentralPFJet70_PFMET120_NoiseCleaned");
