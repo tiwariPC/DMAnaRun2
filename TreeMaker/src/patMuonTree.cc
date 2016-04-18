@@ -74,8 +74,8 @@ patMuonTree::Fill(const edm::Event& iEvent){
   
   for(mu=muColl.begin(); mu!=muColl.end(); mu++){
 
-    if(mu->pt() < 10.) continue;
-    if(TMath::Abs(mu->eta()) > 2.5) continue;
+    if(mu->pt() < 5.) continue;
+    if(TMath::Abs(mu->eta()) > 2.4) continue;
     nMu++;
     patMuonType.push_back(mu->type());
     patMuonCharge.push_back(mu->charge());

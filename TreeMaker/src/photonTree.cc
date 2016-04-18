@@ -52,8 +52,8 @@ void photonTree::Fill(const edm::Event& iEvent){
   edm::View<pat::Photon>::const_iterator ph;
   //pat::PhotonCollection::const_iterator ph;
   for(ph=photonHandle->begin(); ph!=photonHandle->end(); ph++){
-    if(ph->pt() < 10.) continue;
-    if(TMath::Abs(ph->eta()) > 2.7) continue;
+    if(ph->pt() < 14.) continue;
+    if(TMath::Abs(ph->eta()) > 2.5) continue;
     nPho_++;
     new( (*photonP4_)[nPho_-1]) TLorentzVector(
 					       ph->p4().px(),

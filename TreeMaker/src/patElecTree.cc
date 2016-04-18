@@ -118,8 +118,8 @@ patElecTree::Fill(const edm::Event& iEvent){
   
   for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {
 
-    if(ele->pt() < 10.) continue;
-    if(TMath::Abs(ele->eta()) > 2.7) continue;
+    if(ele->pt() < 5.) continue;
+    if(TMath::Abs(ele->eta()) > 2.5) continue;
     nEle_++;
 
     new( (*patElecP4_)[nEle_-1]) TLorentzVector(
@@ -153,8 +153,12 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecHoverE_.push_back(ele->hcalOverEcal());
     
     // fix this 
-    patElecD0_.push_back(ele->gsfTrack()->dxy(firstGoodVertex->position()));
-    patElecDz_.push_back(ele->gsfTrack()->dz(firstGoodVertex->position()));
+    // patElecD0_.push_back(ele->gsfTrack()->dxy(firstGoodVertex->position()));
+    // patElecDz_.push_back(ele->gsfTrack()->dz(firstGoodVertex->position()));
+
+    patElecD0_.push_back(ele->gsfTrack()->dxy(recVtxs->front().position()));
+    patElecDz_.push_back(ele->gsfTrack()->dz(recVtxs->front().position()));
+
     patElecEoverP_.push_back(ele->eSuperClusterOverP());
     patElecBrem_.push_back(ele->fbrem());
     patElecdEtaAtVtx_.push_back(ele->deltaEtaSuperClusterTrackAtVtx());
