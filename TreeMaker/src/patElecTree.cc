@@ -153,11 +153,8 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecHoverE_.push_back(ele->hcalOverEcal());
     
     // fix this 
-    // patElecD0_.push_back(ele->gsfTrack()->dxy(firstGoodVertex->position()));
-    // patElecDz_.push_back(ele->gsfTrack()->dz(firstGoodVertex->position()));
-
-    patElecD0_.push_back(ele->gsfTrack()->dxy(recVtxs->front().position()));
-    patElecDz_.push_back(ele->gsfTrack()->dz(recVtxs->front().position()));
+    patElecD0_.push_back(ele->gsfTrack()->dxy(firstGoodVertex->position()));
+    patElecDz_.push_back(ele->gsfTrack()->dz(firstGoodVertex->position()));
 
     patElecEoverP_.push_back(ele->eSuperClusterOverP());
     patElecBrem_.push_back(ele->fbrem());
