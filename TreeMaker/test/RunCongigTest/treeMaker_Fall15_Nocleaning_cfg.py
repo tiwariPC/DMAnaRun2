@@ -725,14 +725,14 @@ for idmod in my_phoid_modules:
 #process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
 
 ## For normal AK4 jets jet energy correction on top of miniAOD
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetCorrFactorsUpdated
-process.patJetCorrFactorsReapplyJECAK4 = patJetCorrFactorsUpdated.clone(
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
+process.patJetCorrFactorsReapplyJECAK4 = updatedPatJetCorrFactors.clone(
 	src = cms.InputTag("slimmedJets"),
 	levels = jetCorrectionLevelsFullCHS,
 	payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
 
-from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import patJetsUpdated
-process.patJetsReapplyJECAK4 = patJetsUpdated.clone(
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJets
+process.patJetsReapplyJECAK4 = updatedPatJets.clone(
 	jetSource = cms.InputTag("slimmedJets"),
 	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECAK4"))
   )
@@ -743,12 +743,12 @@ process.jetCorrSequenceAK4 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK
 
 
 ### For normal AK8 jet energy correction on top of miniAOD
-process.patJetCorrFactorsReapplyJECAK8 = patJetCorrFactorsUpdated.clone(
+process.patJetCorrFactorsReapplyJECAK8 = updatedPatJetCorrFactors.clone(
 	src = cms.InputTag("slimmedJetsAK8"),
 	levels = jetCorrectionLevelsFullCHS,
 	payload = 'AK8PFchs' ) # Make sure to choose the appropriate levels and payload here!
 
-process.patJetsReapplyJECAK8 = patJetsUpdated.clone(
+process.patJetsReapplyJECAK8 = updatedPatJets.clone(
 	jetSource = cms.InputTag("slimmedJetsAK8"),
 	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECAK8"))
   )
@@ -759,13 +759,13 @@ process.jetCorrSequenceAK8 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK
 
 
 ## For correcting pruned jet mass
-process.patJetCorrFactorsReapplyJECForPrunedMass = patJetCorrFactorsUpdated.clone(
+process.patJetCorrFactorsReapplyJECForPrunedMass = updatedPatJetCorrFactors.clone(
 	src = cms.InputTag("slimmedJetsAK8"),
 	levels = jetCorrectionLevels23CHS,
 	payload = 'AK8PFchs' ) # Make sure to choose the appropriate levels and payload here!
 
 
-process.patJetsReapplyJECForPrunedMass = patJetsUpdated.clone(
+process.patJetsReapplyJECForPrunedMass = updatedPatJets.clone(
 	jetSource = cms.InputTag("slimmedJetsAK8"),
 	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECForPrunedMass"))
 	)

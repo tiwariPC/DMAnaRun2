@@ -1,11 +1,11 @@
 
 # DMAnaRun2
 
-# For CMSSW_7_6_3_patch1
+# For CMSSW_7_6_4
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc493
-cmsrel CMSSW_7_6_3_patch1
-cd CMSSW_7_6_3_patch1/src/
+cmsrel CMSSW_7_6_4
+cd CMSSW_7_6_4/src/
 cmsenv
 ```
 
