@@ -58,5 +58,6 @@ cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Fall15_Nocleaning_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_data.py crabConfig.py
+wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions15/13TeV/Reprocessing/Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_Silver_v2.txt
 python MultiCrab_nocleaning.py submit
 ```
