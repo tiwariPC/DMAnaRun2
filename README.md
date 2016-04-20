@@ -22,7 +22,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout jectext
+git checkout 74X_lep
 
 cd -
 
@@ -57,7 +57,7 @@ cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_MC.py crabConfig.py
-python MultiCrab_nocleaning.py submit
+python MultiCrab_zh.py submit
 ```
 
 ## To submit data crab jobs
@@ -67,5 +67,5 @@ cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_data.py crabConfig.py
-python MultiCrab_nocleaning.py submit
+python MultiCrab_zh.py submit
 ```
