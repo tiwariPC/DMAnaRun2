@@ -44,6 +44,7 @@ scramv1 b
 
 ```
 cp -p DelPanj/miniIso_effectiveArea/*txt .
+voms-proxy-init --voms cms
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py
  
 ```
@@ -57,6 +58,7 @@ cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_MC.py crabConfig.py
+voms-proxy-init --voms cms
 python MultiCrab_zh.py submit
 ```
 
@@ -67,5 +69,6 @@ cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_data.py crabConfig.py
+voms-proxy-init --voms cms
 python MultiCrab_zh.py submit
 ```
