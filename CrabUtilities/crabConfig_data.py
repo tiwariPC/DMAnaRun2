@@ -6,16 +6,16 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'dihiggs'
-config.General.workArea = 'crab_20160223'
+config.General.workArea = 'crab_20160517'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
-#config.JobType.psetName = 'miniAODTreeMaker_MC_cfg.py'
 config.JobType.psetName = 'MVA-And-PFUnCorrectedMET.py'
-config.JobType.pyCfgParams = ['runOnMC=False']
+#config.JobType.pyCfgParams = ['runOnMC=False']  ## When running on Rereco data such as 05Oct
+config.JobType.pyCfgParams = ['runOnMC=False', 'isReReco=False'] ### when running on PromptReco data
 config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt','effAreasMuons_cone03_Spring15_25ns.txt']
 config.section_("Data")
 config.Data.inputDataset = '/JetHT/Run2015D-05Oct2015-v1/MINIAOD'
