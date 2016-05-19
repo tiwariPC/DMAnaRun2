@@ -28,17 +28,21 @@ genInfoTree::~genInfoTree()
 void 
 genInfoTree::GetRunInfo(const edm::Run& iRun)
 {
-  edm::Handle<LHERunInfoProduct> run; 
+  edm::Handle<LHERunInfoProduct> run;
   typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
- 
+
   if(iRun.getByToken( lheRunToken, run )){
 
     LHERunInfoProduct myLHERunInfoProduct = *(run.product());
     for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
-      std::cout << iter->tag() << std::endl;
+      // std::cout << iter->tag() << std::endl;                                                                                                                                                              
       std::vector<std::string> lines = iter->lines();
       for (unsigned int iLine = 0; iLine<lines.size(); iLine++) {
-	std::cout << lines.at(iLine);
+	std::string thisline = lines.at(iLine);
+	// only print out lines with weight information, otherwise the log file will be too big
+        if(thisline.find("weight id")!=std::string::npos ||
+           thisline.find("weightgroup")!=std::string::npos)
+	  std::cout << thisline;
       }
 
     }
