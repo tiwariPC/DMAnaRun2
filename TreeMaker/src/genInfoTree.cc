@@ -10,7 +10,8 @@ genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet&
   genPartLabel_ (iConfig.getParameter<edm::InputTag>("genPartLabel")),
   MAXNGENPAR_(iConfig.getParameter<unsigned int>("maxNumGenPar")),
   applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection")),
-  applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection"))
+  applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection")),
+  saveLHEWeights_(iConfig.getParameter<bool>("saveLHEWeights"))
 {
   genParP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -26,6 +27,29 @@ genInfoTree::~genInfoTree()
 //
 // member functions
 //
+
+void
+genInfoTree::GetRunInfo(const edm::Run& iRun)
+{
+  edm::Handle<LHERunInfoProduct> run;
+  typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
+  if(iRun.getByLabel( "externalLHEProducer", run )){
+    LHERunInfoProduct myLHERunInfoProduct = *(run.product());
+    for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
+      // std::cout << iter->tag() << std::endl;
+      std::vector<std::string> lines = iter->lines();
+      for (unsigned int iLine = 0; iLine<lines.size(); iLine++) {
+	std::string thisline = lines.at(iLine);
+	// only print out lines with weight information, otherwise the log file will be too big
+	if(thisline.find("weight id")!=std::string::npos ||
+	   thisline.find("weightgroup")!=std::string::npos)
+	  std::cout << thisline;
+      }
+    }
+  }
+}
+
+
 
 // ------------ method called to for each event  ------------
 void
@@ -65,6 +89,18 @@ genInfoTree::Fill(const edm::Event& iEvent)
   // add HT information
   edm::Handle<LHEEventProduct> evt;
   if(iEvent.getByLabel( "externalLHEProducer", evt )){
+
+    originalLHEweight_ = evt->originalXWGTUP();
+    // get PDF and scale weights
+    if(saveLHEWeights_){
+      for (unsigned int i=0; i< evt->weights().size(); i++) {
+	float tempMCWeight = genEventInfoHandle->weight() > 0? 1: -1;
+	float sysLHEweight = tempMCWeight* evt->weights()[i].wgt/evt->originalXWGTUP();
+	pdfscaleSysWeights_.push_back( sysLHEweight );
+      }
+    }
+
+
     HT_=0;
     const lhef::HEPEUP hepeup_ = evt->hepeup();
 
@@ -198,6 +234,9 @@ genInfoTree::SetBranches(){
 
   AddBranch(&HT_, "HT");
   AddBranch(&pdf_, "pdf");
+  AddBranch(&originalLHEweight_, "originalLHEweight");
+  AddBranch(&pdfscaleSysWeights_, "pdfscaleSysWeights");
+  
 
   AddBranch(&nGenPar_, "nGenPar");
   AddBranch(&genParP4_, "genParP4");
@@ -227,6 +266,8 @@ genInfoTree::Clear(){
 
   HT_    = -9999.0;
   pdf_.clear();
+  originalLHEweight_ = 1;
+  pdfscaleSysWeights_.clear();
   nGenPar_ =0;
   genParP4_->Clear();
 

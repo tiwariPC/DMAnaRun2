@@ -103,6 +103,18 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   tree_->Fill();
 }
 
+
+
+void
+TreeMaker::beginRun(const edm::Run& iRun, const edm::EventSetup& iSetup) {
+}
+void
+TreeMaker::endRun(const edm::Run& iRun, const edm::EventSetup& iSetup){
+  if( fillGenInfo_ )
+    genInfoTree_ ->GetRunInfo(iRun);
+}
+
+
 void
 TreeMaker::beginJob(){
 }

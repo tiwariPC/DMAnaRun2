@@ -7,6 +7,7 @@
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -29,6 +30,7 @@ class genInfoTree : public baseTree{
  public:
   genInfoTree(std::string name, TTree* tree, const edm::ParameterSet& cfg);
   ~genInfoTree();
+  void GetRunInfo(const edm::Run& iRun);
   void Fill(const edm::Event& iEvent);
   void SetBranches();
   void Clear();
@@ -38,12 +40,19 @@ class genInfoTree : public baseTree{
   unsigned int MAXNGENPAR_;
   bool applyStatusSelection_;  // keep only particles with status code <=30
   bool applyPromptSelection_;  // keep only prompt particles or particles with status<=30
+  bool saveLHEWeights_; // save all LHE weights
+
 
 
   float ptHat_;      // added by Eiko
   float mcWeight_;   // added by Eiko
   Float_t HT_;       // added by Eiko
   std::vector<float>      pdf_;
+  float originalLHEweight_;
+  std::vector<float> pdfscaleSysWeights_;
+
+
+
   int nGenPar_;
   TClonesArray       *genParP4_;
   std::vector<int>   genParQ_;
