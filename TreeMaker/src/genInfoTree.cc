@@ -96,7 +96,8 @@ genInfoTree::Fill(const edm::Event& iEvent)
     // get PDF and scale weights
     if(saveLHEWeights_){
       for (unsigned int i=0; i< evt->weights().size(); i++) {      
-	float sysLHEweight = genEventInfoHandle->weight()* evt->weights()[i].wgt/evt->originalXWGTUP();
+	float tempMCWeight = genEventInfoHandle->weight() > 0? 1: -1;
+	float sysLHEweight = tempMCWeight* evt->weights()[i].wgt/evt->originalXWGTUP();
 	pdfscaleSysWeights_.push_back( sysLHEweight );
       }
     }
