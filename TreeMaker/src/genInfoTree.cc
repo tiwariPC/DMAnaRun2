@@ -7,7 +7,8 @@ genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet&
   baseTree(name,tree),
   MAXNGENPAR_(iConfig.getParameter<unsigned int>("maxNumGenPar")),
   applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection")),
-  applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection"))
+  applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection")),
+  saveLHEWeights_(iConfig.getParameter<bool>("saveLHEWeights"))
 {
   genParP4_ =   new TClonesArray("TLorentzVector");
   SetBranches();
@@ -23,6 +24,30 @@ genInfoTree::~genInfoTree()
 //
 // member functions
 //
+
+void 
+genInfoTree::GetRunInfo(const edm::Run& iRun)
+{
+  edm::Handle<LHERunInfoProduct> run; 
+  typedef std::vector<LHERunInfoProduct::Header>::const_iterator headers_const_iterator;
+ 
+  if(iRun.getByToken( lheRunToken, run )){
+
+    LHERunInfoProduct myLHERunInfoProduct = *(run.product());
+    for (headers_const_iterator iter=myLHERunInfoProduct.headers_begin(); iter!=myLHERunInfoProduct.headers_end(); iter++){
+      std::cout << iter->tag() << std::endl;
+      std::vector<std::string> lines = iter->lines();
+      for (unsigned int iLine = 0; iLine<lines.size(); iLine++) {
+	std::cout << lines.at(iLine);
+      }
+
+    }
+
+  }
+
+}
+
+
 
 // ------------ method called to for each event  ------------
 void
@@ -61,7 +86,22 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   // add HT information
   edm::Handle<LHEEventProduct> evt;
+  
+
   if(iEvent.getByToken( lheEventToken, evt )){
+
+    // nominal LHE weight for this event
+    originalLHEweight_ = evt->originalXWGTUP(); 
+
+    // get PDF and scale weights
+    if(saveLHEWeights_){
+      for (unsigned int i=0; i< evt->weights().size(); i++) {      
+	float sysLHEweight = genEventInfoHandle->weight()* evt->weights()[i].wgt/evt->originalXWGTUP();
+	lheweight_.push_back( sysLHEweight );
+      }
+    }
+
+
     HT_=0;
     const lhef::HEPEUP hepeup_ = evt->hepeup();
 
@@ -195,6 +235,8 @@ genInfoTree::SetBranches(){
 
   AddBranch(&HT_, "HT");
   AddBranch(&pdf_, "pdf");
+  AddBranch(&originalLHEweight_, "originalLHEweight");
+  AddBranch(&lheweight_, "lheweight");
 
   AddBranch(&nGenPar_, "nGenPar");
   AddBranch(&genParP4_, "genParP4");
@@ -221,9 +263,10 @@ genInfoTree::Clear(){
 
   ptHat_ = -9999.0;
   mcWeight_ = -9999.0; 
-
   HT_    = -9999.0;
   pdf_.clear();
+  originalLHEweight_ = 1;
+  lheweight_.clear();
   nGenPar_ =0;
   genParP4_->Clear();
 

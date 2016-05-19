@@ -4,6 +4,7 @@
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -32,7 +33,9 @@ class TreeMaker : public edm::EDAnalyzer {
 
    private:
       virtual void beginJob() ;
+      virtual void beginRun(const edm::Run&, const edm::EventSetup& ) ;
       virtual void analyze(const edm::Event&, const edm::EventSetup& );
+      virtual void endRun(const edm::Run&, const edm::EventSetup& );
       virtual void endJob() ;
       TFile* file;
       TTree* tree_;

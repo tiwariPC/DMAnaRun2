@@ -97,6 +97,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       genInfoTree_                           = new genInfoTree("",tree_,iConfig);
       genInfoTree_->genParticleToken         = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genPartLabel"));
       genInfoTree_->genEventToken            = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
+      genInfoTree_->lheRunToken              = consumes<LHERunInfoProduct,edm::InRun>(edm::InputTag("externalLHEProducer"));
       genInfoTree_->lheEventToken            = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));
     }
   
@@ -218,10 +219,23 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   tree_->Fill();
 }
 
+
+void
+TreeMaker::beginRun(const edm::Run& iRun, const edm::EventSetup& iSetup) {
+  
+}
+
+void
+TreeMaker::endRun(const edm::Run& iRun, const edm::EventSetup& iSetup){
+
+  if( fillGenInfo_ )
+    genInfoTree_   ->GetRunInfo(iRun);
+
+}
+
 void
 TreeMaker::beginJob(){
 }
-
 
 
 
