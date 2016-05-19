@@ -1,6 +1,7 @@
 #include "DelPanj/TreeMaker/interface/genInfoTree.h"
-#include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/LHEEventProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/LHERunInfoProduct.h"
+
 #include <bitset>
 #include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 #include "TLorentzVector.h"
