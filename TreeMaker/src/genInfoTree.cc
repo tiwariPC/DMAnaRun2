@@ -97,7 +97,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
     if(saveLHEWeights_){
       for (unsigned int i=0; i< evt->weights().size(); i++) {      
 	float sysLHEweight = genEventInfoHandle->weight()* evt->weights()[i].wgt/evt->originalXWGTUP();
-	lheweight_.push_back( sysLHEweight );
+	pdfscaleSysWeights_.push_back( sysLHEweight );
       }
     }
 
@@ -236,7 +236,7 @@ genInfoTree::SetBranches(){
   AddBranch(&HT_, "HT");
   AddBranch(&pdf_, "pdf");
   AddBranch(&originalLHEweight_, "originalLHEweight");
-  AddBranch(&lheweight_, "lheweight");
+  AddBranch(&pdfscaleSysWeights_, "pdfscaleSysWeights");
 
   AddBranch(&nGenPar_, "nGenPar");
   AddBranch(&genParP4_, "genParP4");
@@ -266,7 +266,7 @@ genInfoTree::Clear(){
   HT_    = -9999.0;
   pdf_.clear();
   originalLHEweight_ = 1;
-  lheweight_.clear();
+  pdfscaleSysWeights_.clear();
   nGenPar_ =0;
   genParP4_->Clear();
 

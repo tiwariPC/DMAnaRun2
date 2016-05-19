@@ -63,7 +63,7 @@ class genInfoTree : public baseTree{
   float HT_;       // added by Eiko
   std::vector<float>       pdf_;
   float                    originalLHEweight_;
-  std::vector<float>       lheweight_;
+  std::vector<float>       pdfscaleSysWeights_;
 
   int nGenPar_;
   TClonesArray       *genParP4_;
