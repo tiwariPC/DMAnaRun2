@@ -63,10 +63,10 @@ void
 eventInfo::Clear(){
 
   isData_  = false;
-  nEvt_   = -99999;
-  nRun_   = -99999;
-  nLumiS_ = -99999;
-  bunchX_ = -99999;
+  nEvt_   = 0;
+  nRun_   = 0;
+  nLumiS_ = 0;
+  bunchX_ = 0;
   nVtx_ = 0;
   vertexP3_->Clear();
 }

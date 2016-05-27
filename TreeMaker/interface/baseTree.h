@@ -34,6 +34,7 @@ class baseTree{
   void AddBranch(bool* x, std::string name);
   void AddBranch(int* x, std::string name);
   void AddBranch(unsigned int* x, std::string name);
+  void AddBranch(unsigned long* x, std::string name);
   void AddBranch(float* x, std::string name);
 
   void AddBranch(std::vector<bool>* vec, std::string name);

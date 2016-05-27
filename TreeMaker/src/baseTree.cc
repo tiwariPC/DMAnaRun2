@@ -24,6 +24,12 @@ void baseTree::AddBranch(unsigned int* x, std::string name){
 }
 
 
+void baseTree::AddBranch(unsigned long* x, std::string name){
+  std::string brName = identifier_+name;
+  tree_->Branch(brName.c_str(),x,(brName+"/l").c_str());
+}
+
+
 void baseTree::AddBranch(float* x, std::string name){
   std::string brName = identifier_+name;
   tree_->Branch(brName.c_str(),x,(brName+"/F").c_str());

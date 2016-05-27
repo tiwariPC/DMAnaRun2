@@ -37,10 +37,10 @@ class eventInfo : public baseTree {
 
   bool isData_;
 
-  int nEvt_;
-  int nRun_;
-  int nLumiS_;
-  int bunchX_;
+  unsigned long nEvt_;
+  unsigned long nRun_;
+  unsigned long nLumiS_;
+  unsigned long bunchX_;
 
   int nVtx_;
   
