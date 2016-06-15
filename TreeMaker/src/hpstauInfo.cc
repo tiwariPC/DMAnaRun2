@@ -46,11 +46,11 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     //disc_againstElectronLoose.push_back(tau->tauID("againstElectronLoose"));
     //disc_againstElectronMedium.push_back(tau->tauID("againstElectronMedium"));
     //disc_againstElectronTight.push_back(tau->tauID("againstElectronTight"));
-    disc_againstElectronLooseMVA5.push_back(tau->tauID("againstElectronLooseMVA5"));
-    disc_againstElectronMediumMVA5.push_back(tau->tauID("againstElectronMediumMVA5"));
-    disc_againstElectronTightMVA5.push_back(tau->tauID("againstElectronTightMVA5"));
-    disc_againstElectronVLooseMVA5.push_back(tau->tauID("againstElectronVLooseMVA5"));
-    disc_againstElectronVTightMVA5.push_back(tau->tauID("againstElectronVTightMVA5"));
+    disc_againstElectronLooseMVA5.push_back(tau->tauID("againstElectronLooseMVA6"));
+    disc_againstElectronMediumMVA5.push_back(tau->tauID("againstElectronMediumMVA6"));
+    disc_againstElectronTightMVA5.push_back(tau->tauID("againstElectronTightMVA6"));
+    disc_againstElectronVLooseMVA5.push_back(tau->tauID("againstElectronVLooseMVA6"));
+    disc_againstElectronVTightMVA5.push_back(tau->tauID("againstElectronVTightMVA6"));
     //disc_againstMuonLoose.push_back(tau->tauID("againstMuonLoose"));
     //disc_againstMuonMedium.push_back(tau->tauID("againstMuonMedium"));
     //disc_againstMuonTight.push_back(tau->tauID("againstMuonTight"));
@@ -70,33 +70,19 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     
     //disc_byLooseIsolation.push_back(tau->tauID("byLooseIsolation"));
     
-    disc_byVLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byVLooseIsolationMVA3newDMwLT"));
-    disc_byLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byLooseIsolationMVA3newDMwLT"));
-    disc_byMediumIsolationMVA3newDMwLT.push_back(tau->tauID("byMediumIsolationMVA3newDMwLT"));
-    disc_byTightIsolationMVA3newDMwLT.push_back(tau->tauID("byTightIsolationMVA3newDMwLT"));
-    disc_byVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVTightIsolationMVA3newDMwLT"));
-    disc_byVVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVVTightIsolationMVA3newDMwLT"));
-    
-    //disc_byVLooseIsolationMVA3newDMwoLT.push_back(tau->tauID("byVLooseIsolationMVA3newDMwoLT"));
-    //disc_byLooseIsolationMVA3newDMwoLT.push_back(tau->tauID("byLooseIsolationMVA3newDMwoLT"));
-    //disc_byMediumIsolationMVA3newDMwoLT.push_back(tau->tauID("byMediumIsolationMVA3newDMwoLT"));
-    //disc_byTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byTightIsolationMVA3newDMwoLT"));
-    //disc_byVTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byVTightIsolationMVA3newDMwoLT"));
-    //disc_byVVTightIsolationMVA3newDMwoLT.push_back(tau->tauID("byVVTightIsolationMVA3newDMwoLT"));
-    
-    disc_byVLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byVLooseIsolationMVA3oldDMwLT"));
-    disc_byLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byLooseIsolationMVA3oldDMwLT"));
-    disc_byMediumIsolationMVA3oldDMwLT.push_back(tau->tauID("byMediumIsolationMVA3oldDMwLT"));
-    disc_byTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byTightIsolationMVA3oldDMwLT"));
-    disc_byVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVTightIsolationMVA3oldDMwLT"));
-    disc_byVVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVVTightIsolationMVA3oldDMwLT"));
-    
-    //disc_byVLooseIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVLooseIsolationMVA3oldDMwoLT"));
-    //disc_byLooseIsolationMVA3oldDMwoLT.push_back(tau->tauID("byLooseIsolationMVA3oldDMwoLT"));
-    //disc_byMediumIsolationMVA3oldDMwoLT.push_back(tau->tauID("byMediumIsolationMVA3oldDMwoLT"));
-    //disc_byTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byTightIsolationMVA3oldDMwoLT"));
-    //disc_byVTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVTightIsolationMVA3oldDMwoLT"));
-    //disc_byVVTightIsolationMVA3oldDMwoLT.push_back(tau->tauID("byVVTightIsolationMVA3oldDMwoLT"));
+    disc_byVLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2v1PWnewDMwLT"));
+    disc_byLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byLooseIsolationMVArun2v1PWnewDMwLT"));
+    disc_byMediumIsolationMVA3newDMwLT.push_back(tau->tauID("byMediumIsolationMVArun2v1PWnewDMwLT"));
+    disc_byTightIsolationMVA3newDMwLT.push_back(tau->tauID("byTightIsolationMVArun2v1PWnewDMwLT"));
+    disc_byVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVTightIsolationMVArun2v1PWnewDMwLT"));
+    disc_byVVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVVTightIsolationMVArun2v1PWnewDMwLT"));
+
+    disc_byVLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2v1PWoldDMwLT"));
+    disc_byLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byLooseIsolationMVArun2v1PWoldDMwLT"));
+    disc_byMediumIsolationMVA3oldDMwLT.push_back(tau->tauID("byMediumIsolationMVArun2v1PWoldDMwLT"));
+    disc_byTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byTightIsolationMVArun2v1PWoldDMwLT"));
+    disc_byVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVTightIsolationMVArun2v1PWoldDMwLT"));
+    disc_byVVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVVTightIsolationMVArun2v1PWoldDMwLT"));
     
     disc_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back(tau->tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits"));
     disc_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau->tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));

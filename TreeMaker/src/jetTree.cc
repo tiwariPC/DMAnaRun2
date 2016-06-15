@@ -485,9 +485,9 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       // 	jetATLASmassL2L3Corr_.push_back(DUMMY); 
 
       jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
-      jetTRmass_.push_back(jet->userFloat("ak8PFJetsCHSTrimmedMass")); 
+      //jetTRmass_.push_back(jet->userFloat("ak8PFJetsCHSTrimmedMass")); 
       jetPRmass_.push_back(jet->userFloat("ak8PFJetsCHSPrunedMass"));
-      jetFimass_.push_back(jet->userFloat("ak8PFJetsCHSFilteredMass"));
+      //jetFimass_.push_back(jet->userFloat("ak8PFJetsCHSFilteredMass"));
       
 
     }
@@ -712,9 +712,9 @@ jetTree::SetBranches(){
     AddBranch(&jetTau21_, "jetTau21");
     
     AddBranch(&jetSDmass_, "jetSDmass");
-    AddBranch(&jetTRmass_, "jetTRmass");
+    //AddBranch(&jetTRmass_, "jetTRmass");
     AddBranch(&jetPRmass_, "jetPRmass");
-    AddBranch(&jetFimass_, "jetFimass");
+    //AddBranch(&jetFimass_, "jetFimass");
     AddBranch(&jetPRmassL2L3Corr_, "jetPRmassL2L3Corr");
     // AddBranch(&jetSDmassPuppiL2L3Corr_, "jetSDmassPuppiL2L3Corr");
     // AddBranch(&jetPRmassPuppiL2L3Corr_, "jetPRmassPuppiL2L3Corr");

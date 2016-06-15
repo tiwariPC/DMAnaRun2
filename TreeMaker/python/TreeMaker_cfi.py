@@ -16,7 +16,7 @@ tree = cms.EDAnalyzer(
 
     fillJetInfo      = cms.bool(True), 
     fillFATJetInfo   = cms.bool(True), 
-    fillAddJetInfo   = cms.bool(True),
+    fillAddJetInfo   = cms.bool(False),
 
     pvSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
 
@@ -24,7 +24,7 @@ tree = cms.EDAnalyzer(
     patMet           = cms.InputTag("slimmedMETs"),
     pfMetRaw         = cms.InputTag("pfMet"),
     pfType1Met       = cms.InputTag("slimmedMETs"),
-    pfMVAMET         = cms.InputTag("pfMVAMEt"),
+    pfMVAMET         = cms.InputTag("slimmedMETs"),
 
     triggerLabel     = cms.InputTag("TriggerResults::HLT"),
     filterLabel      = cms.InputTag("TriggerResults::PAT"),
@@ -34,7 +34,7 @@ tree = cms.EDAnalyzer(
     maxNumGenPar         =  cms.uint32(30),
     applyStatusSelection = cms.bool(True),
     applyPromptSelection = cms.bool(False),
-    saveLHEWeights       = cms.bool(True),
+    saveLHEWeights       = cms.bool(False),
 ##### when applyPromptSelection is True
 #    maxNumGenPar  =  cms.uint32(60), 
     

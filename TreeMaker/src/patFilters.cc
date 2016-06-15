@@ -21,7 +21,8 @@ patFilters::Fill(const edm::Event& iEvent)
 {
   Clear();
   using namespace edm;
- 
+  
+  /*
   edm::Handle<bool> HBHET;
   iEvent.getByToken(HBHETToken,HBHET);
   hbhet_ = (*HBHET.product());
@@ -33,7 +34,7 @@ patFilters::Fill(const edm::Event& iEvent)
   edm::Handle<bool> HBHEIso;
   iEvent.getByToken(HBHEIsoToken,HBHEIso);
   hbheIso_ = (*HBHEIso.product());
-  
+  */
   
   edm::Handle<edm::TriggerResults> trigResults;
   if (not iEvent.getByToken(filterTrigResultsToken, trigResults)) {
