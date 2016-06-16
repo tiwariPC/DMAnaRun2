@@ -494,7 +494,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
   
 
-    if(isADDJet_){
+    if(isADDJet_ || isFATJet_){
       //HBB tagger
       jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
     
@@ -722,18 +722,12 @@ jetTree::SetBranches(){
 
   }
 
-
-  if(isADDJet_)
+  if(isFATJet_ || isADDJet_)
     {
       AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
       AddBranch(&jet_nSV_, "jet_nSV");
       AddBranch(&jet_SVMass_, "jet_SVMass");
       // AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
-    }
-
-  if(isFATJet_ || isADDJet_)
-    {
-
       AddBranch(&nSubSDJet_,"nSubSDJet");
       AddBranch(&subjetSDFatJetIndex_,"subjetSDFatJetIndex");
       AddBranch(&subjetSDPx_, "subjetSDPx");     
