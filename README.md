@@ -1,11 +1,11 @@
 
 # DMAnaRun2
 
-# For CMSSW_7_6_4
+# For CMSSW_8_0_8
 ```
-setenv SCRAM_ARCH slc6_amd64_gcc493
-cmsrel CMSSW_7_6_4
-cd CMSSW_7_6_4/src/
+setenv SCRAM_ARCH slc6_amd64_gcc530
+cmsrel CMSSW_8_0_8
+cd CMSSW_8_0_8/src/
 cmsenv
 ```
 
@@ -16,7 +16,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 76X_dev
+git checkout 80X_dev
 
 cd -
 
