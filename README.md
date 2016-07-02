@@ -39,13 +39,15 @@ wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_
 tar xvzf Spring16_25nsV3_MC.tar.gz
 tar xvzf Spring16_25nsV3_DATA.tar.gz
 
-mv Spring16_25nsV3_MC/*PFachs.txt .
+mv Spring16_25nsV3_MC/*PFchs.txt .
 mv Spring16_25nsV3_MC/*AK8PFPuppi.txt .
-mv Spring16_25nsV3_DATA/*PFachs.txt .
+mv Spring16_25nsV3_DATA/*PFchs.txt .
 mv Spring16_25nsV3_DATA/*AK8PFPuppi.txt .
 
 rm -rf Spring16_25nsV3_MC
 rm -rf Spring16_25nsV3_DATA
+rm -rf Spring16_25nsV3_MC.tar.gz
+rm -rf Spring16_25nsV3_DATA.tar.gz
 
 voms-proxy-init --voms cms
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=True
@@ -65,9 +67,10 @@ cp -p ../miniIso_effectiveArea/*txt .
 
 wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_MC.tar.gz 
 tar xvzf Spring16_25nsV3_MC.tar.gz
-mv Spring16_25nsV3_MC/*PFachs.txt .
+mv Spring16_25nsV3_MC/*PFchs.txt .
 mv Spring16_25nsV3_MC/*AK8PFPuppi.txt .
 rm -rf Spring16_25nsV3_MC
+rm -rf Spring16_25nsV3_MC.tar.gz
 
 
 cp -p crabConfig_MC.py crabConfig.py
@@ -83,9 +86,10 @@ cp -p ../miniIso_effectiveArea/*txt .
 
 wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_DATA.tar.gz
 tar xvzf Spring16_25nsV3_DATA.tar.gz
-mv Spring16_25nsV3_DATA/*PFachs.txt .
+mv Spring16_25nsV3_DATA/*PFchs.txt .
 mv Spring16_25nsV3_DATA/*AK8PFPuppi.txt .
 rm -rf Spring16_25nsV3_DATA
+rm -rf Spring16_25nsV3_DATA.tar.gz
 
 cp -p crabConfig_data.py crabConfig.py
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt
