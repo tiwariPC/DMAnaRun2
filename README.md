@@ -74,6 +74,9 @@ rm -rf Spring16_25nsV3_MC.tar.gz
 
 
 cp -p crabConfig_MC.py crabConfig.py
+
+source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
+voms-proxy-init --voms cms
 python MultiCrab_nocleaning.py submit
 ```
 
@@ -93,5 +96,8 @@ rm -rf Spring16_25nsV3_DATA.tar.gz
 
 cp -p crabConfig_data.py crabConfig.py
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt
+
+source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
+voms-proxy-init --voms cms
 python MultiCrab_nocleaning.py submit
 ```
