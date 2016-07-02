@@ -80,7 +80,7 @@ if options.runOnMC:
 		# 50-ns global tag
 		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
 else:## Data no global tag yet
-        process.GlobalTag = GlobalTag(process.GlobalTag, '76X_dataRun2_16Dec2015_v0', '')
+        process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_v9', '')
 
 
 
