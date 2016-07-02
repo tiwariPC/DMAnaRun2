@@ -46,16 +46,22 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   genjetP4_    = new TClonesArray("TLorentzVector");
   jetP4_       = new TClonesArray("TLorentzVector");
   unCorrJetP4_ = new TClonesArray("TLorentzVector");
+  jetPuppiP4_  = new TClonesArray("TLorentzVector");
+  jetPuppiSDRawP4_  = new TClonesArray("TLorentzVector");
+
   SetBranches();
 
 
   if(isFATJet_)
     {
       prunedMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%sprunedMassJecNames",desc.data()));
+      softdropMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%ssoftdropMassJecNames",desc.data()));
 
       if(useJECText_){
 
 	std::vector<JetCorrectorParameters> vPar;
+
+	// pruned mass
 
 	for ( std::vector<std::string>::const_iterator payloadBegin = 
 		prunedMassJecNames_.begin(),
@@ -66,6 +72,22 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
 	    vPar.push_back(pars);
 	  }
 	prunedjecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
+
+
+
+	// softdrop mass
+	vPar.clear();
+	for ( std::vector<std::string>::const_iterator payloadBegin = 
+		softdropMassJecNames_.begin(),
+		payloadEnd = softdropMassJecNames_.end(), ipayload = payloadBegin; 
+	      ipayload != payloadEnd; ++ipayload ) 
+	  {
+	    JetCorrectorParameters pars(*ipayload);
+	    vPar.push_back(pars);
+	  }
+	softdropjecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
+
+
       }
 
     } // if it's FATjet
@@ -97,7 +119,8 @@ jetTree::~jetTree(){
   delete genjetP4_;
   delete jetP4_;
   delete unCorrJetP4_;
-
+  delete jetPuppiP4_;
+  delete jetPuppiSDRawP4_;
 }
 
 
@@ -142,54 +165,30 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   edm::Handle<pat::JetCollection> JetHandleForPrunedMass;
   pat::JetCollection jetsForPrunedMass;
 
-  // edm::Handle<pat::JetCollection> JetHandleForPuppiPrunedMass;
-  // pat::JetCollection jetsForPuppiPrunedMass;
-
-  // edm::Handle<pat::JetCollection> JetHandleForPuppiSoftDropMass;
-  // pat::JetCollection jetsForPuppiSoftDropMass;
-
-  // edm::Handle<pat::JetCollection> JetHandleForATLASTrimMass;
-  // pat::JetCollection jetsForATLASTrimMass;
-
   if(isFATJet_ && not iEvent.getByToken(prunedMToken,JetHandleForPrunedMass))
     {
       std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
     	       <<"PrunedMassJet"<<std::endl; 
       exit(0);
     }
-  // else if(isFATJet_ && 
-  //    not iEvent.getByLabel(puppiPrunedMassJetLabel_,JetHandleForPuppiPrunedMass))
-  //   {
-  //     std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-  //   	       <<puppiPrunedMassJetLabel_<<std::endl; 
-  //     exit(0);
-  //   }
-  // else if(isFATJet_ && 
-  //    not iEvent.getByLabel(puppiSoftDropMassJetLabel_,JetHandleForPuppiSoftDropMass))
-  //   {
-  //     std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-  //   	       <<puppiSoftDropMassJetLabel_<<std::endl; 
-  //     exit(0);
-  //   }
-  // else if(isFATJet_ && 
-  //    not iEvent.getByLabel(ATLASTrimMassJetLabel_,JetHandleForATLASTrimMass))
-  //   {
-  //     std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-  //   	       << ATLASTrimMassJetLabel_<<std::endl; 
-  //     exit(0);
-  //   }
-  else if(isFATJet_ && iEvent.getByToken(prunedMToken,JetHandleForPrunedMass)
-	  //&&
-	  // iEvent.getByLabel(puppiPrunedMassJetLabel_,JetHandleForPuppiPrunedMass) && 
-	  // iEvent.getByLabel(puppiSoftDropMassJetLabel_,JetHandleForPuppiSoftDropMass) &&
-	  // iEvent.getByLabel(ATLASTrimMassJetLabel_,JetHandleForATLASTrimMass)
-	  )
+  else if(isFATJet_ && iEvent.getByToken(prunedMToken,JetHandleForPrunedMass))
+    jetsForPrunedMass       = *(JetHandleForPrunedMass.product());
+
+
+  // for getting the L2+L3 correction factor of softdrop jet mass
+  edm::Handle<pat::JetCollection> JetHandleForSoftDropMass;
+  pat::JetCollection jetsForSoftDropMass;
+
+  if(isFATJet_ && not iEvent.getByToken(softdropMToken,JetHandleForSoftDropMass))
     {
-      jetsForPrunedMass       = *(JetHandleForPrunedMass.product());
-      // jetsForPuppiPrunedMass  = *(JetHandleForPuppiPrunedMass.product());
-      // jetsForPuppiSoftDropMass= *(JetHandleForPuppiSoftDropMass.product());
-      // jetsForATLASTrimMass    = *(JetHandleForATLASTrimMass.product());
+      std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
+    	       <<"SoftDropMassJet"<<std::endl; 
+      exit(0);
     }
+  else if(isFATJet_ && iEvent.getByToken(softdropMToken,JetHandleForSoftDropMass))
+    jetsForSoftDropMass       = *(JetHandleForSoftDropMass.product());
+
+
 
   // for jet energy uncertainty, using global tag
   JetCorrectionUncertainty *jecUnc_=0;
@@ -415,12 +414,73 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
       jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
       jetTau21_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
- 
-    
-      //      using a different way to get corrected pruned mass
+
+      //Puppi related information
+      
+
+      jetPuppiTau1_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1"));
+      jetPuppiTau2_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau2"));
+      jetPuppiTau3_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau3"));
+
+
+      TLorentzVector temp_puppi;
+      temp_puppi.SetPtEtaPhiM(jet->userFloat("ak8PFJetsPuppiValueMap:pt"),
+			      jet->userFloat("ak8PFJetsPuppiValueMap:eta"),
+			      jet->userFloat("ak8PFJetsPuppiValueMap:phi"),
+			      jet->userFloat("ak8PFJetsPuppiValueMap:mass"));
+			      
+
+      new( (*jetPuppiP4_)[nJet_-1]) TLorentzVector(temp_puppi);
+
+
+
+      unsigned int nSubSoftDropjets_puppi=0;	
+  	
+      std::vector<int>   subjetSDFatJetIndex_puppi;
+      std::vector<float> subjetSDPx_puppi; 
+      std::vector<float> subjetSDPy_puppi; 
+      std::vector<float> subjetSDPz_puppi; 
+      std::vector<float> subjetSDE_puppi; 	
+
+      subjetSDFatJetIndex_puppi.clear();
+      subjetSDPx_puppi.clear();
+      subjetSDPy_puppi.clear();
+      subjetSDPz_puppi.clear();
+      subjetSDE_puppi.clear();
+
+      TLorentzVector puppi_softdrop(0,0,0,0);
+      TLorentzVector puppi_softdrop_raw(0,0,0,0);
+      auto const & sdSubjetsPuppi = jet->subjets("SoftDropPuppi");
+      for ( auto const & it : sdSubjetsPuppi ) {
+	nSubSoftDropjets_puppi++;
+
+	subjetSDFatJetIndex_puppi.push_back(nJet_-1);
+	subjetSDPx_puppi.push_back(it->px());
+	subjetSDPy_puppi.push_back(it->py());
+	subjetSDPz_puppi.push_back(it->pz());
+	subjetSDE_puppi.push_back(it->energy());	
+
+	puppi_softdrop += TLorentzVector(it->px(),
+					 it->py(),
+					 it->pz(),
+					 it->energy());
+
+	puppi_softdrop_raw += TLorentzVector(it->correctedP4(0).px(),
+					     it->correctedP4(0).py(),
+					     it->correctedP4(0).pz(),
+					     it->correctedP4(0).energy());
+      } //subjet loop
+
+      new( (*jetPuppiSDRawP4_)[nJet_-1]) TLorentzVector(puppi_softdrop_raw);
+
+
+      //      using a different way to get corrected pruned/softdrop mass
       // if reading global tag
       float corr=-1;
-      if(!useJECText_){
+      float corrSD=-1;
+
+      if(!useJECText_){	
+	// pruned mass: CHS
 	std::vector<pat::Jet>::const_iterator jetForPrunedMass = 
 	  find_if(jetsForPrunedMass.begin(),
 		  jetsForPrunedMass.end(),
@@ -428,9 +488,19 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     
 	if(jetForPrunedMass!=jetsForPrunedMass.end())
 	  corr = jetForPrunedMass->pt()/jetForPrunedMass->correctedP4(0).pt();
-	
+
+	// softdrop mass: Puppi
+	std::vector<pat::Jet>::const_iterator jetForSoftDropMass = 
+	  find_if(jetsForSoftDropMass.begin(),
+		  jetsForSoftDropMass.end(),
+		  [&jet](const pat::Jet& item)->bool{return fabs(jet->correctedP4(0).pt()-item.correctedP4(0).pt())<1e-3;});	
+    
+	if(jetForSoftDropMass!=jetsForSoftDropMass.end())
+	  corrSD = jetForSoftDropMass->pt()/jetForSoftDropMass->correctedP4(0).pt();
+
       }
       else if(useJECText_){
+	// pruned mass: CHS
 	prunedjecText_->setJetEta( uncorrJet.eta() );
 	prunedjecText_->setJetPt ( uncorrJet.pt() );
 	prunedjecText_->setJetE  ( uncorrJet.energy() );
@@ -438,6 +508,16 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	prunedjecText_->setRho   ( *(h_rho.product()) );
 	prunedjecText_->setNPV   ( h_pv->size() );
 	corr = prunedjecText_->getCorrection();
+
+	//softdrop mass: puppi
+	softdropjecText_->setJetEta( puppi_softdrop_raw.Eta() );
+	softdropjecText_->setJetPt ( puppi_softdrop_raw.Pt() );
+	softdropjecText_->setJetE  ( puppi_softdrop_raw.E() );
+	softdropjecText_->setJetA  ( jet->jetArea() );
+	softdropjecText_->setRho   ( *(h_rho.product()) );
+	softdropjecText_->setNPV   ( h_pv->size() );
+	corrSD = softdropjecText_->getCorrection();
+
       }
 
       if(corr<0)
@@ -445,56 +525,46 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       else
 	jetPRmassL2L3Corr_.push_back(corr*jet->userFloat("ak8PFJetsCHSPrunedMass"));
 
-      
-
-      // std::vector<pat::Jet>::const_iterator jetForPuppiPrunedMass= find_if(jetsForPuppiPrunedMass.begin(),
-      // 									   jetsForPuppiPrunedMass.end(),
-      // 									   [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
-
-      // if(jetForPuppiPrunedMass!=jetsForPuppiPrunedMass.end())
-      // 	{
-      // 	  jetPRmassPuppiL2L3Corr_.push_back(jetForPuppiPrunedMass->mass()); 
-      // 	}
-      // else
-      // 	jetPRmassPuppiL2L3Corr_.push_back(DUMMY);
-
-
-
-      // std::vector<pat::Jet>::const_iterator jetForPuppiSoftDropMass= find_if(jetsForPuppiSoftDropMass.begin(),
-      // 									   jetsForPuppiSoftDropMass.end(),
-      // 									   [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
-      
-      // if(jetForPuppiSoftDropMass!=jetsForPuppiSoftDropMass.end())
-      // 	{
-      // 	  jetSDmassPuppiL2L3Corr_.push_back(jetForPuppiSoftDropMass->mass()); 
-      // 	}
-      // else
-      // 	jetSDmassPuppiL2L3Corr_.push_back(DUMMY); 
-
-
-
-      // std::vector<pat::Jet>::const_iterator jetForATLASTrimMass= find_if(jetsForATLASTrimMass.begin(),
-      // 									 jetsForATLASTrimMass.end(),
-      // 									 [&jet](const pat::Jet& item)->bool{return deltaR(jet->eta(),jet->phi(),item.eta(),item.phi())<0.4;});
-      
-      // if(jetForATLASTrimMass!=jetsForATLASTrimMass.end())
-      // 	{
-      // 	  jetATLASmassL2L3Corr_.push_back(jetForATLASTrimMass->mass()); 
-      // 	}
-      // else
-      // 	jetATLASmassL2L3Corr_.push_back(DUMMY); 
 
       jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
-      //jetTRmass_.push_back(jet->userFloat("ak8PFJetsCHSTrimmedMass")); 
       jetPRmass_.push_back(jet->userFloat("ak8PFJetsCHSPrunedMass"));
-      //jetFimass_.push_back(jet->userFloat("ak8PFJetsCHSFilteredMass"));
-      
+ 
+
+
+      if(nSubSoftDropjets_puppi==0)
+   	{
+   	  subjetSDFatJetIndex_puppi.push_back(DUMMY);
+   	  subjetSDPx_puppi.push_back(DUMMY);
+   	  subjetSDPy_puppi.push_back(DUMMY);
+   	  subjetSDPz_puppi.push_back(DUMMY);
+   	  subjetSDE_puppi.push_back(DUMMY);	
+	  jetPuppiSDmass_.push_back(DUMMY);
+	  jetPuppiSDmassL2L3Corr_.push_back(DUMMY);
+   	}
+      else
+	{
+	  jetPuppiSDmass_.push_back(puppi_softdrop_raw.M());
+	  if(corrSD<0)
+	    jetPuppiSDmassL2L3Corr_.push_back(DUMMY);
+	  else
+	    jetPuppiSDmassL2L3Corr_.push_back(corrSD*puppi_softdrop_raw.M());
+	}
+
+           
+      nSubSDPuppiJet_.push_back(nSubSoftDropjets_puppi); 
+      subjetSDPuppiFatJetIndex_.push_back(subjetSDFatJetIndex_puppi);
+      subjetSDPuppiPx_.push_back(subjetSDPx_puppi);
+      subjetSDPuppiPy_.push_back(subjetSDPy_puppi);
+      subjetSDPuppiPz_.push_back(subjetSDPz_puppi);
+      subjetSDPuppiE_.push_back(subjetSDE_puppi);
+
+
 
     }
 
   
 
-    if(isADDJet_){
+    if(isADDJet_ || isFATJet_){
       //HBB tagger
       jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
     
@@ -652,97 +722,103 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 void
 jetTree::SetBranches(){
   
-  AddBranch(&nJet_, "nJet");
+  AddBranch(&nJet_,   "nJet");
   AddBranch(&jetRho_, "jetRho");
   AddBranch(&jetNPV_, "jetNPV");
 
-  AddBranch(&genjetP4_,"genjetP4");
-  AddBranch(&genjetEM_ ,"genjetEM");
-  AddBranch(&genjetHAD_ ,"genjetHAD");
-  AddBranch(&genjetINV_ ,"genjetINV");
-  AddBranch(&genjetAUX_ ,"genjetAUX");
-  AddBranch(&matchedDR_ ,"matchedDR");
+  AddBranch(&genjetP4_,   "genjetP4");
+  AddBranch(&genjetEM_ ,  "genjetEM");
+  AddBranch(&genjetHAD_ , "genjetHAD");
+  AddBranch(&genjetINV_ , "genjetINV");
+  AddBranch(&genjetAUX_ , "genjetAUX");
+  AddBranch(&matchedDR_ , "matchedDR");
 
-  AddBranch(&jetRawFactor_,"jetRawFactor");
+  AddBranch(&jetRawFactor_, "jetRawFactor");
 
-  AddBranch(&jetP4_, "jetP4");
+  AddBranch(&jetP4_,       "jetP4");
   AddBranch(&unCorrJetP4_, "unCorrJetP4");
 
-  AddBranch(&jetArea_,"jetArea");
-  AddBranch(&jetCorrUncUp_,"jetCorrUncUp");
-  AddBranch(&jetCorrUncDown_,"jetCorrUncDown");
+  AddBranch(&jetArea_,        "jetArea");
+  AddBranch(&jetCorrUncUp_,   "jetCorrUncUp");
+  AddBranch(&jetCorrUncDown_, "jetCorrUncDown");
 
-  AddBranch(&jetCharge_, "jetCharge");
+  AddBranch(&jetCharge_,       "jetCharge");
   AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
   AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
-  AddBranch(&jetPassIDLoose_, "jetPassIDLoose");
-  AddBranch(&jetPassIDTight_, "jetPassIDTight");
+  AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
+  AddBranch(&jetPassIDTight_,  "jetPassIDTight");
 
   if(!isFATJet_ && !isADDJet_){
-    AddBranch(&PUJetID_,"PUJetID");
-    AddBranch(&isPUJetID_,"isPUJetID");
+    AddBranch(&PUJetID_,   "PUJetID");
+    AddBranch(&isPUJetID_, "isPUJetID");
   }
 
-  AddBranch(&jetCEmEF_, "jetCEmEF");
+  AddBranch(&jetCEmEF_,  "jetCEmEF");
   AddBranch(&jetCHadEF_, "jetCHadEF");
-  AddBranch(&jetPhoEF_, "jetPhoEF");
-  AddBranch(&jetNEmEF_, "jetNEmEF");
+  AddBranch(&jetPhoEF_,  "jetPhoEF");
+  AddBranch(&jetNEmEF_,  "jetNEmEF");
   AddBranch(&jetNHadEF_, "jetNHadEF");
-
-  AddBranch(&jetMuEF_, "jetMuEF");
-  
+  AddBranch(&jetMuEF_,   "jetMuEF");
   AddBranch(&jetCMulti_, "jetCMulti");
 
-  AddBranch(&jetSSV_, "jetSSV");
-  AddBranch(&jetCSV_, "jetCSV");        
-  AddBranch(&jetSSVHE_,"jetSSVHE");
+  AddBranch(&jetSSV_,   "jetSSV");
+  AddBranch(&jetCSV_,   "jetCSV");        
+  AddBranch(&jetSSVHE_, "jetSSVHE");
   AddBranch(&jetCISVV2_,"jetCISVV2");
-  AddBranch(&jetTCHP_, "jetTCHP");
-  AddBranch(&jetTCHE_, "jetTCHE");
-  AddBranch(&jetJP_, "jetJP");
-  AddBranch(&jetJBP_, "jetJBP");
+  AddBranch(&jetTCHP_,  "jetTCHP");
+  AddBranch(&jetTCHE_,  "jetTCHE");
+  AddBranch(&jetJP_,    "jetJP");
+  AddBranch(&jetJBP_,   "jetJBP");
 
 
   
   if(isFATJet_){
 
-    AddBranch(&jetTau1_, "jetTau1");
-    AddBranch(&jetTau2_, "jetTau2");
-    AddBranch(&jetTau3_, "jetTau3");
+    AddBranch(&jetTau1_,  "jetTau1");
+    AddBranch(&jetTau2_,  "jetTau2");
+    AddBranch(&jetTau3_,  "jetTau3");
     AddBranch(&jetTau21_, "jetTau21");
     
-    AddBranch(&jetSDmass_, "jetSDmass");
-    //AddBranch(&jetTRmass_, "jetTRmass");
-    AddBranch(&jetPRmass_, "jetPRmass");
-    //AddBranch(&jetFimass_, "jetFimass");
+    AddBranch(&jetSDmass_,         "jetSDmass");
+    AddBranch(&jetPRmass_,         "jetPRmass");
     AddBranch(&jetPRmassL2L3Corr_, "jetPRmassL2L3Corr");
-    // AddBranch(&jetSDmassPuppiL2L3Corr_, "jetSDmassPuppiL2L3Corr");
-    // AddBranch(&jetPRmassPuppiL2L3Corr_, "jetPRmassPuppiL2L3Corr");
-    // AddBranch(&jetATLASmassL2L3Corr_, "jetATLASmassL2L3Corr");
+
+    AddBranch(&jetPuppiTau1_,   "jetPuppiTau1");
+    AddBranch(&jetPuppiTau2_,   "jetPuppiTau2");
+    AddBranch(&jetPuppiTau3_,   "jetPuppiTau3");
+
+    AddBranch(&jetPuppiSDmass_,         "jetPuppiSDmass");
+    AddBranch(&jetPuppiSDmassL2L3Corr_, "jetPuppiSDmassL2L3Corr");
+
+    AddBranch(&jetPuppiP4_, "jetPuppiP4");
+    AddBranch(&jetPuppiSDRawP4_, "jetPuppiSDRawP4");
+
+    AddBranch(&nSubSDPuppiJet_,           "nSubSDPuppiJet");
+    AddBranch(&subjetSDPuppiFatJetIndex_, "subjetSDPuppiFatJetIndex");
+    AddBranch(&subjetSDPuppiPx_,          "subjetSDPuppiPx");     
+    AddBranch(&subjetSDPuppiPy_,          "subjetSDPuppiPy");     
+    AddBranch(&subjetSDPuppiPz_,          "subjetSDPuppiPz");     
+    AddBranch(&subjetSDPuppiE_,           "subjetSDPuppiE");     
 
   }
 
 
-  if(isADDJet_)
-    {
-      AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
-      AddBranch(&jet_nSV_, "jet_nSV");
-      AddBranch(&jet_SVMass_, "jet_SVMass");
-      // AddBranch(&jet_SVEnergyRatio_, "jet_SVEnergyRatio");
-    }
-
   if(isFATJet_ || isADDJet_)
     {
 
-      AddBranch(&nSubSDJet_,"nSubSDJet");
-      AddBranch(&subjetSDFatJetIndex_,"subjetSDFatJetIndex");
-      AddBranch(&subjetSDPx_, "subjetSDPx");     
-      AddBranch(&subjetSDPy_, "subjetSDPy");     
-      AddBranch(&subjetSDPz_, "subjetSDPz");     
-      AddBranch(&subjetSDE_, "subjetSDE");     
-      AddBranch(&subjetSDPartonFlavor_,"subjetSDPartonFlavor");
-      AddBranch(&subjetSDHadronFlavor_,"subjetSDHadronFlavor");
-      AddBranch(&subjetSDCSV_, "subjetSDCSV");     
+      AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+      AddBranch(&jet_nSV_,     "jet_nSV");
+      AddBranch(&jet_SVMass_,  "jet_SVMass");
+
+      AddBranch(&nSubSDJet_,            "nSubSDJet");
+      AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
+      AddBranch(&subjetSDPx_,           "subjetSDPx");     
+      AddBranch(&subjetSDPy_,           "subjetSDPy");     
+      AddBranch(&subjetSDPz_,           "subjetSDPz");     
+      AddBranch(&subjetSDE_,            "subjetSDE");     
+      AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
+      AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
+      AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
 
     }
   
@@ -829,14 +905,25 @@ jetTree::Clear(){
   //ak8jet mass
  
   jetSDmass_.clear(); 
-  jetTRmass_.clear();
-  jetPRmass_.clear();
-  jetFimass_.clear();
-  
+  jetPRmass_.clear();  
   jetPRmassL2L3Corr_.clear();
-  // jetSDmassPuppiL2L3Corr_.clear();
-  // jetPRmassPuppiL2L3Corr_.clear();
-  // jetATLASmassL2L3Corr_.clear();
+
+  // puppi related stuff
+  
+  jetPuppiTau1_.clear();
+  jetPuppiTau2_.clear();
+  jetPuppiTau3_.clear();
+  jetPuppiSDmass_.clear();
+  jetPuppiSDmassL2L3Corr_.clear();
+
+  jetPuppiP4_->Clear();
+  jetPuppiSDRawP4_->Clear();
+  nSubSDPuppiJet_.clear();
+  subjetSDPuppiFatJetIndex_.clear(); 
+  subjetSDPuppiPx_.clear();
+  subjetSDPuppiPy_.clear();
+  subjetSDPuppiPz_.clear();
+  subjetSDPuppiE_.clear();
 
 
   //jet  Hbb tagger for fat and add jet

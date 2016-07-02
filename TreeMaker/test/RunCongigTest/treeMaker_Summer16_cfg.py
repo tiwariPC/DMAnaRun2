@@ -35,7 +35,7 @@ options.register ('useMiniAOD',
 		  "useMiniAOD")
 
 options.register ('useJECText',
-		  False,
+		  True,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useJECText")
@@ -75,12 +75,11 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
 	if options.runOn25ns:
 		# 25-ns global tag
-		#process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_RunIIFall15DR76_v1', '')  
-		process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_v6', '')  
+		process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_miniAODv2', '')  
 	else:
 		# 50-ns global tag
 		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
-else:
+else:## Data no global tag yet
         process.GlobalTag = GlobalTag(process.GlobalTag, '76X_dataRun2_16Dec2015_v0', '')
 
 
@@ -130,7 +129,7 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 if options.runOnMC:
 	testFile='/store/mc/RunIISpring16MiniAODv2/ZprimeToA0hToA0chichihbb_2HDM_MZp-1000_MA0-300_13TeV-madgraph/MINIAODSIM/PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/10000/4E2DAE88-FE25-E611-BABE-02163E01186C.root'
 else:
-	testFile='/store/data/Run2015D/JetHT/MINIAOD/16Dec2015-v1/00000/403D42F6-6BB0-E511-8B40-003048FFD71E.root'
+	testFile='/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/02D9C19F-571A-E611-AD8E-02163E013732.root'
 
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
@@ -330,21 +329,25 @@ if options.runOnMC:
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
 
 	AK4JECTextFiles = [
-		'Summer15_25nsV6_MC_L1FastJet_AK4PFchs.txt',
-		'Summer15_25nsV6_MC_L2Relative_AK4PFchs.txt',
-		'Summer15_25nsV6_MC_L3Absolute_AK4PFchs.txt'
+		'Spring16_25nsV3_MC_L1FastJet_AK4PFchs.txt',
+		'Spring16_25nsV3_MC_L2Relative_AK4PFchs.txt',
+		'Spring16_25nsV3_MC_L3Absolute_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Summer15_25nsV6_MC_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = 'Spring16_25nsV3_MC_Uncertainty_AK4PFchs.txt'
 
 	AK8JECTextFiles = [
-		'Summer15_25nsV6_MC_L1FastJet_AK8PFchs.txt',
-		'Summer15_25nsV6_MC_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV6_MC_L3Absolute_AK8PFchs.txt'
+		'Spring16_25nsV3_MC_L1FastJet_AK8PFchs.txt',
+		'Spring16_25nsV3_MC_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_MC_L3Absolute_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Summer15_25nsV6_MC_Uncertainty_AK8PFchs.txt'  
+	AK8JECUncTextFile = 'Spring16_25nsV3_MC_Uncertainty_AK8PFchs.txt'  
 	prunedMassJECTextFiles = [
-		'Summer15_25nsV6_MC_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV6_MC_L3Absolute_AK8PFchs.txt'
+		'Spring16_25nsV3_MC_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_MC_L3Absolute_AK8PFchs.txt'
+		]
+	softdropMassJECTextFiles = [
+		'Spring16_25nsV3_MC_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV3_MC_L3Absolute_AK8PFPuppi.txt'
 		]
 
 else:
@@ -356,25 +359,30 @@ else:
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 
 	AK4JECTextFiles = [
-		'Summer15_25nsV6_DATA_L1FastJet_AK4PFchs.txt',
-		'Summer15_25nsV6_DATA_L2Relative_AK4PFchs.txt',
-		'Summer15_25nsV6_DATA_L3Absolute_AK4PFchs.txt',
-		'Summer15_25nsV6_DATA_L2L3Residual_AK4PFchs.txt'
+		'Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt',
+		'Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt',
+		'Spring16_25nsV3_DATA_L2L3Residual_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Summer15_25nsV6_DATA_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK4PFchs.txt'
 
 	AK8JECTextFiles = [
-		'Summer15_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
-		'Summer15_25nsV6_DATA_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
-		'Summer15_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
+		'Spring16_25nsV3_DATA_L1FastJet_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Summer15_25nsV6_DATA_Uncertainty_AK8PFchs.txt'
+	AK8JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK8PFchs.txt'
 
 	prunedMassJECTextFiles = [
-		'Summer15_25nsV6_DATA_L2Relative_AK8PFchs.txt',
-		'Summer15_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
-		'Summer15_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFchs.txt'
+		]
+	softdropMassJECTextFiles = [
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFPuppi.txt',
+		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFPuppi.txt'
 		]
 
 
@@ -778,6 +786,21 @@ process.patJetsReapplyJECForPrunedMass = updatedPatJets.clone(
 process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForPrunedMass + process.patJetsReapplyJECForPrunedMass )
 
 
+## For correcting softdrop jet mass
+process.patJetCorrFactorsReapplyJECForSoftDropMass = updatedPatJetCorrFactors.clone(
+	src = cms.InputTag("slimmedJetsAK8"),
+	levels = jetCorrectionLevels23CHS,
+	payload = 'AK8PFPuppi' ) # Make sure to choose the appropriate levels and payload here!
+
+
+process.patJetsReapplyJECForSoftDropMass = updatedPatJets.clone(
+	jetSource = cms.InputTag("slimmedJetsAK8"),
+	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECForSoftDropMass"))
+	)
+
+process.jetCorrSequenceForSoftDropMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForSoftDropMass + process.patJetsReapplyJECForSoftDropMass )
+
+
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
 process.tree.filterLabel           = cms.InputTag(filterlabel)
@@ -785,6 +808,7 @@ process.tree.useJECText            = cms.bool(options.useJECText)
 process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
 process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
+process.tree.FATsoftdropMassJecNames = cms.vstring(softdropMassJECTextFiles)
 process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
 process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
@@ -829,9 +853,10 @@ process.analysis = cms.Path(
     process.jetCorrSequenceAK4+
     process.jetCorrSequenceAK8+
     process.jetCorrSequenceForPrunedMass+
+    process.jetCorrSequenceForSoftDropMass+
     #process.HBHENoiseFilterResultProducer+ ## by raman
     process.tree
     )
 
 
-#print process.dumpPython()
+print process.dumpPython()

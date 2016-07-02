@@ -174,6 +174,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       FATjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
       FATjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
       FATjetTree_->prunedMToken   = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJetsForPrunedMass",desc.data())));
+      FATjetTree_->softdropMToken   = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJetsForSoftDropMass",desc.data())));
     }
 
   if( fillAddJetInfo_)

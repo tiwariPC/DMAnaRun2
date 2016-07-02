@@ -62,6 +62,7 @@ class jetTree  : public baseTree{
   edm::EDGetTokenT<double>                          rhoForJetToken;
   edm::EDGetTokenT<pat::JetCollection>              jetToken;
   edm::EDGetTokenT<pat::JetCollection>              prunedMToken;
+  edm::EDGetTokenT<pat::JetCollection>              softdropMToken;
   
     
  private:
@@ -77,6 +78,7 @@ class jetTree  : public baseTree{
 
   std::string jecUncPayLoadName_; // for global tag
   std::vector<std::string> prunedMassJecNames_; // for reading text file
+  std::vector<std::string> softdropMassJecNames_; // for reading text file
   std::vector<std::string> jecNames_; // for reading text file
   std::string              jecUncName_; // for reading text file
 
@@ -84,6 +86,7 @@ class jetTree  : public baseTree{
 
 
   boost::shared_ptr<FactorizedJetCorrector> prunedjecText_;
+  boost::shared_ptr<FactorizedJetCorrector> softdropjecText_;
   boost::shared_ptr<FactorizedJetCorrector> jecText_;
   boost::shared_ptr<JetCorrectionUncertainty> jecUncText_;
 
@@ -165,13 +168,26 @@ class jetTree  : public baseTree{
   //
     
   std::vector<float>  jetSDmass_; 
-  std::vector<float>  jetTRmass_;
   std::vector<float>  jetPRmass_; // from miniAOD
-  std::vector<float>  jetFimass_;
   std::vector<float>  jetPRmassL2L3Corr_; 
-  /* std::vector<float>  jetSDmassPuppiL2L3Corr_;  */
-  /* std::vector<float>  jetPRmassPuppiL2L3Corr_;  */
-  /* std::vector<float>  jetATLASmassL2L3Corr_;  */
+  
+
+  //puppi related stuff
+  std::vector<float> jetPuppiTau1_;
+  std::vector<float> jetPuppiTau2_;
+  std::vector<float> jetPuppiTau3_;
+  std::vector<float> jetPuppiSDmass_;
+  std::vector<float> jetPuppiSDmassL2L3Corr_;
+
+  TClonesArray *jetPuppiP4_;
+  TClonesArray *jetPuppiSDRawP4_;
+  std::vector<int>   nSubSDPuppiJet_;
+  std::vector<std::vector<int> >   subjetSDPuppiFatJetIndex_; 
+  std::vector<std::vector<float> > subjetSDPuppiPx_;
+  std::vector<std::vector<float> > subjetSDPuppiPy_;
+  std::vector<std::vector<float> > subjetSDPuppiPz_;
+  std::vector<std::vector<float> > subjetSDPuppiE_;
+  
   
   //jet  Hbb tagger for fat and add jet
 
