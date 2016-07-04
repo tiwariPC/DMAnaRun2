@@ -358,6 +358,27 @@ else:
 	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
+	AK4JECTextFiles = [
+		'Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt',
+		'Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt'
+		]
+	AK4JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK4PFchs.txt'
+
+	AK8JECTextFiles = [
+		'Spring16_25nsV3_DATA_L1FastJet_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
+		]
+	AK8JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK8PFchs.txt'
+	prunedMassJECTextFiles = [
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
+		]
+	softdropMassJECTextFiles = [
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFPuppi.txt'
+		]
 
 ### Will put back the following once L2L3Residual corrections are available in data
 '''
@@ -388,30 +409,6 @@ else:
 		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFPuppi.txt'
 		]
 '''
-### Temporary remove L2L3 correction for data when reading with JEC text file
-
-	AK4JECTextFiles = [
-		'Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt',
-		'Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt'
-		]
-	AK4JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK4PFchs.txt'
-
-	AK8JECTextFiles = [
-		'Spring16_25nsV3_DATA_L1FastJet_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
-		]
-	AK8JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK8PFchs.txt'
-
-	prunedMassJECTextFiles = [
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
-		]
-	softdropMassJECTextFiles = [
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFPuppi.txt'
-		]
 
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
@@ -905,4 +902,4 @@ else:
 		)
 
 
-#print process.dumpPython()
+print process.dumpPython()
