@@ -352,13 +352,15 @@ if options.runOnMC:
 		]
 
 else:
-	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+        jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 
+### Will put back the following once L2L3Residual corrections are available in data
+'''
 	AK4JECTextFiles = [
 		'Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt',
 		'Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt',
@@ -384,6 +386,31 @@ else:
 		'Spring16_25nsV3_DATA_L2Relative_AK8PFPuppi.txt',
 		'Spring16_25nsV3_DATA_L3Absolute_AK8PFPuppi.txt',
 		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFPuppi.txt'
+		]
+'''
+### Temporary remove L2L3 correction for data when reading with JEC text file
+
+	AK4JECTextFiles = [
+		'Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt',
+		'Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt'
+		]
+	AK4JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK4PFchs.txt'
+
+	AK8JECTextFiles = [
+		'Spring16_25nsV3_DATA_L1FastJet_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
+		]
+	AK8JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK8PFchs.txt'
+
+	prunedMassJECTextFiles = [
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
+		]
+	softdropMassJECTextFiles = [
+		'Spring16_25nsV3_DATA_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV3_DATA_L3Absolute_AK8PFPuppi.txt'
 		]
 
 
@@ -772,7 +799,7 @@ process.jetCorrSequenceAK8 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK
 
 
 
-## For correcting pruned jet mass
+## For correcting pruned jet mass + CHS
 process.patJetCorrFactorsReapplyJECForPrunedMass = updatedPatJetCorrFactors.clone(
 	src = cms.InputTag("slimmedJetsAK8"),
 	levels = jetCorrectionLevels23CHS,
@@ -787,7 +814,7 @@ process.patJetsReapplyJECForPrunedMass = updatedPatJets.clone(
 process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForPrunedMass + process.patJetsReapplyJECForPrunedMass )
 
 
-## For correcting softdrop jet mass
+## For correcting softdrop jet mass + Puppi
 process.patJetCorrFactorsReapplyJECForSoftDropMass = updatedPatJetCorrFactors.clone(
 	src = cms.InputTag("slimmedJetsAK8"),
 	levels = jetCorrectionLevels23CHS,
