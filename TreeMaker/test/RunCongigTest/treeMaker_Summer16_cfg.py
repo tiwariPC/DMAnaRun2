@@ -361,8 +361,7 @@ else:
 	AK4JECTextFiles = [
 		'Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt',
 		'Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt',
-		'Spring16_25nsV3_DATA_L2L3Residual_AK4PFchs.txt'
+		'Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt'
 		]
 	AK4JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK4PFchs.txt'
 	AK8JECTextFiles = [
