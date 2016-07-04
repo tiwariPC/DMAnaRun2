@@ -35,7 +35,7 @@ options.register ('useMiniAOD',
 		  "useMiniAOD")
 
 options.register ('useJECText',
-		  True,
+		  False,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useJECText")
@@ -47,6 +47,7 @@ options.register ('textfiletovetoEvents',
 		  "textfiletovetoEvents")
 
 options.parseArguments()
+
 
 
 listEventsToSkip = []
@@ -80,7 +81,7 @@ if options.runOnMC:
 		# 50-ns global tag
 		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
 else:## Data no global tag yet
-        process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_v9', '')
+        process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_v8', '')
 
 
 
@@ -814,6 +815,12 @@ process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
 process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
 
+if options.useJECText:
+	process.tree.THINJets      = cms.InputTag("slimmedJets")
+	process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
+	process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
+	process.tree.FATJetsForSoftDropMass     = cms.InputTag("slimmedJetsAK8")
+
 if not options.runOn25ns:
 ### Electron
 	process.tree.eleVetoIdMap      = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto")
@@ -842,21 +849,33 @@ process.allEventsCounter = cms.EDFilter(
  )
 
 
-process.analysis = cms.Path(
-    process.allEventsCounter+
-    #process.ncuslimmer+
-    process.egmGsfElectronIDSequence+## by raman
-    process.egmPhotonIDSequence+ ## by raman
-#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
-    process.pfMet+
-   # process.miniAODjetSequence+   ## by raman        
-    process.jetCorrSequenceAK4+
-    process.jetCorrSequenceAK8+
-    process.jetCorrSequenceForPrunedMass+
-    process.jetCorrSequenceForSoftDropMass+
-    #process.HBHENoiseFilterResultProducer+ ## by raman
-    process.tree
-    )
+if not options.useJECText:
+	process.analysis = cms.Path(
+		process.allEventsCounter+
+		#process.ncuslimmer+
+		process.egmGsfElectronIDSequence+## by raman
+		process.egmPhotonIDSequence+ ## by raman
+		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
+		process.pfMet+
+		# process.miniAODjetSequence+   ## by raman        
+		process.jetCorrSequenceAK4+
+		process.jetCorrSequenceAK8+
+		process.jetCorrSequenceForPrunedMass+
+		process.jetCorrSequenceForSoftDropMass+
+		#process.HBHENoiseFilterResultProducer+ ## by raman
+		process.tree
+		)
+else:
+	process.analysis = cms.Path(
+		process.allEventsCounter+
+		process.egmGsfElectronIDSequence+## by raman
+		process.egmPhotonIDSequence+ ## by raman
+		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
+		process.pfMet+
+		# process.miniAODjetSequence+   ## by raman        
+		#process.HBHENoiseFilterResultProducer+ ## by raman
+		process.tree
+		)
 
 
 #print process.dumpPython()
