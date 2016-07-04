@@ -9,22 +9,17 @@ fout = open("datasetdetails_Fall15.txt","w")
 ## And number of files canbe used as number of lumis in that case. 
 
 ## data
-fout.write("JetHT-Run2015D-16Dec2015-v1 treeMaker_Fall15_Nocleaning_cfg.py /JetHT/Run2015D-16Dec2015-v1/MINIAOD 20 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-1400_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1400_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-1800_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1800_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-2500_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-2500_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-3000_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-3000_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-4000_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-4000_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
+fout.write("BulkGravTohhTohbbhbb_narrow_M-4500_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-4500_13TeV-madgraph/RunIISpring16MiniAODv2-PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM 1 \n")
 
 ## MC
 
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-3500_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py  1 \n")
-
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-1000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-1400_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1400_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-1800_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1800_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-2500_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-2500_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-3000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-3000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-4000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-4000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("BulkGravTohhTohbbhbb_narrow_M-4500_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /BulkGravTohhTohbbhbb_narrow_M-4500_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
 
 #fout.write("QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Fall15_Nocleaning_cfg.py /QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
 #fout.write("QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Fall15_Nocleaning_cfg.py /QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
@@ -38,16 +33,6 @@ fout.write("JetHT-Run2015D-16Dec2015-v1 treeMaker_Fall15_Nocleaning_cfg.py /JetH
 #fout.write("QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Fall15_Nocleaning_cfg.py /QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
 #fout.write("QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_2 treeMaker_Fall15_Nocleaning_cfg.py /QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/MINIAODSIM 1 \n")
 
-#fout.write("RadionTohhTohaahbb_narrow_M-1000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-1000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-1200_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-1200_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-1400_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-1400_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-1600_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-1600_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-1800_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-1800_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-2000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-2000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-2500_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-2500_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-3000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-3000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-4000_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-4000_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
-#fout.write("RadionTohhTohaahbb_narrow_M-4500_13TeV-madgraph treeMaker_Fall15_Nocleaning_cfg.py /RadionTohhTohaahbb_narrow_M-4500_13TeV-madgraph/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM 1 \n")
 
 
 fout.close()
