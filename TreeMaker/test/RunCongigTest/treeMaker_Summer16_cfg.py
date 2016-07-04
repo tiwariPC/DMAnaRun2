@@ -35,7 +35,7 @@ options.register ('useMiniAOD',
 		  "useMiniAOD")
 
 options.register ('useJECText',
-		  False,
+		  True,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useJECText")
