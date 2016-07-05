@@ -33,9 +33,9 @@ scramv1 b
 
 ```
 cp -p DelPanj/miniIso_effectiveArea/*txt .
+
 mkdir jec
 cd jec
-
 wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_MC.tar.gz 
 wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_DATA.tar.gz
 tar xvzf Spring16_25nsV3_MC.tar.gz
