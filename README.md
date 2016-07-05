@@ -44,10 +44,7 @@ tar xvzf Spring16_25nsV3_DATA.tar.gz
 cd -
 mv jec/*PFchs.txt .
 mv jec/*AK8PFPuppi.txt .
-
 rm -rf jec
-rm -rf Spring16_25nsV3_MC.tar.gz
-rm -rf Spring16_25nsV3_DATA.tar.gz
 
 voms-proxy-init --voms cms
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=True
@@ -72,7 +69,6 @@ cd -
 mv jec/*PFchs.txt .
 mv jec/*AK8PFPuppi.txt .
 rm -rf jec
-rm -rf Spring16_25nsV3_MC.tar.gz
 
 
 cp -p crabConfig_MC.py crabConfig.py
@@ -96,7 +92,6 @@ tar xvzf Spring16_25nsV3_DATA.tar.gz
 cd -
 mv jec/*PFchs.txt .
 mv jec/*AK8PFPuppi.txt .
-rm -rf Spring16_25nsV3_DATA.tar.gz
 rm -rf jec
 
 cp -p crabConfig_data.py crabConfig.py
