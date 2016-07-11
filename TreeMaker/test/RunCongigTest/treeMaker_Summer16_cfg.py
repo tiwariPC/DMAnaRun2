@@ -330,25 +330,25 @@ if options.runOnMC:
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
 
 	AK4JECTextFiles = [
-		'Spring16_25nsV3_MC_L1FastJet_AK4PFchs.txt',
-		'Spring16_25nsV3_MC_L2Relative_AK4PFchs.txt',
-		'Spring16_25nsV3_MC_L3Absolute_AK4PFchs.txt'
+		'Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt',
+		'Spring16_25nsV6_MC_L2Relative_AK4PFchs.txt',
+		'Spring16_25nsV6_MC_L3Absolute_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Spring16_25nsV3_MC_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt'
 
 	AK8JECTextFiles = [
-		'Spring16_25nsV3_MC_L1FastJet_AK8PFchs.txt',
-		'Spring16_25nsV3_MC_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_MC_L3Absolute_AK8PFchs.txt'
+		'Spring16_25nsV6_MC_L1FastJet_AK8PFchs.txt',
+		'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV6_MC_L3Absolute_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Spring16_25nsV3_MC_Uncertainty_AK8PFchs.txt'  
+	AK8JECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK8PFchs.txt'  
 	prunedMassJECTextFiles = [
-		'Spring16_25nsV3_MC_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_MC_L3Absolute_AK8PFchs.txt'
+		'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV6_MC_L3Absolute_AK8PFchs.txt'
 		]
 	softdropMassJECTextFiles = [
-		'Spring16_25nsV3_MC_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV3_MC_L3Absolute_AK8PFPuppi.txt'
+		'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
 		]
 
 else:
@@ -359,46 +359,46 @@ else:
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 	AK4JECTextFiles = [
-		'Spring16_25nsV3_DATA_L1FastJet_AK4PFchs.txt',
-		'Spring16_25nsV3_DATA_L2Relative_AK4PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK4PFchs.txt'
+		'Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt',
+		'Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt'
 	AK8JECTextFiles = [
-		'Spring16_25nsV3_DATA_L1FastJet_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
+		'Spring16_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK8PFchs.txt'
+	AK8JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK8PFchs.txt'
 	prunedMassJECTextFiles = [
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt'
+		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt'
 		]
 	softdropMassJECTextFiles = [
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFPuppi.txt'
+		'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt'
 		]
 
 ### Will put back the following once L2L3Residual corrections are available in data
 '''
 
 	AK8JECTextFiles = [
-		'Spring16_25nsV3_DATA_L1FastJet_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFchs.txt'
+		'Spring16_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Spring16_25nsV3_DATA_Uncertainty_AK8PFchs.txt'
+	AK8JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK8PFchs.txt'
 
 	prunedMassJECTextFiles = [
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFchs.txt',
-		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFchs.txt'
+		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
+		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
 		]
 	softdropMassJECTextFiles = [
-		'Spring16_25nsV3_DATA_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV3_DATA_L3Absolute_AK8PFPuppi.txt',
-		'Spring16_25nsV3_DATA_L2L3Residual_AK8PFPuppi.txt'
+		'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt'
 		]
 '''
 

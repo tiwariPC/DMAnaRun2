@@ -36,10 +36,10 @@ cp -p DelPanj/miniIso_effectiveArea/*txt .
 
 mkdir jec
 cd jec
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_MC.tar.gz 
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_DATA.tar.gz
-tar xvzf Spring16_25nsV3_MC.tar.gz
-tar xvzf Spring16_25nsV3_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV6_MC.tar.gz 
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV6_DATA.tar.gz
+tar xvzf Spring16_25nsV6_MC.tar.gz
+tar xvzf Spring16_25nsV6_DATA.tar.gz
 
 cd -
 mv jec/*PFchs.txt .
@@ -63,8 +63,8 @@ cp -p ../miniIso_effectiveArea/*txt .
 
 mkdir jec
 cd jec
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_MC.tar.gz 
-tar xvzf Spring16_25nsV3_MC.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV6_MC.tar.gz 
+tar xvzf Spring16_25nsV6_MC.tar.gz
 cd -
 mv jec/*PFchs.txt .
 mv jec/*AK8PFPuppi.txt .
@@ -87,8 +87,8 @@ cp -p ../miniIso_effectiveArea/*txt .
 
 mkdir jec
 cd jec
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV3_DATA.tar.gz
-tar xvzf Spring16_25nsV3_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV6_DATA.tar.gz
+tar xvzf Spring16_25nsV6_DATA.tar.gz
 cd -
 mv jec/*PFchs.txt .
 mv jec/*AK8PFPuppi.txt .
