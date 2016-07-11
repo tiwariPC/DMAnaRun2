@@ -361,27 +361,10 @@ else:
 	AK4JECTextFiles = [
 		'Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt',
 		'Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt'
+		'Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt',
+		'Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt'
 		]
 	AK4JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt'
-	AK8JECTextFiles = [
-		'Spring16_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt'
-		]
-	AK8JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK8PFchs.txt'
-	prunedMassJECTextFiles = [
-		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt'
-		]
-	softdropMassJECTextFiles = [
-		'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt'
-		]
-
-### Will put back the following once L2L3Residual corrections are available in data
-'''
-
 	AK8JECTextFiles = [
 		'Spring16_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
 		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
@@ -389,7 +372,6 @@ else:
 		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
 		]
 	AK8JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK8PFchs.txt'
-
 	prunedMassJECTextFiles = [
 		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
 		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
@@ -400,7 +382,6 @@ else:
 		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt',
 		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt'
 		]
-'''
 
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
