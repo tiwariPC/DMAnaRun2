@@ -1,12 +1,21 @@
 
 # DMAnaRun2
 
-# For CMSSW_8_0_8
+# For CMSSW_8_0_8_patch1
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc530
-cmsrel CMSSW_8_0_8
-cd CMSSW_8_0_8/src/
+cmsrel CMSSW_8_0_8_patch1
+cd CMSSW_8_0_8_patch1/src
 cmsenv
+```
+
+## For double b-tagger
+```
+setenv CMSSW_GIT_REFERENCE /cvmfs/cms.cern.ch/cmssw.git.daily
+git cms-init
+git remote add btv-cmssw https://github.com/cms-btv-pog/cmssw.git
+git fetch --tags btv-cmssw
+git cms-merge-topic -u cms-btv-pog:BoostedDoubleSVTaggerV3-WithWeightFiles-v1_from-CMSSW_8_0_8_patch1
 ```
 
 ## For DelPanj and related dependencies

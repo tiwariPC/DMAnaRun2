@@ -189,6 +189,7 @@ process.pfMet.calculateSignificance = False # this can't be easily implemented o
 
 
 
+'''
 
 ### for adding jet collection
 
@@ -207,10 +208,31 @@ process.PFJetsCHSAK8 = ak4PFJets.clone(
     src = getattr(process,"ak4PFJets").src ,
     srcPVs = getattr(process,"ak4PFJets").srcPVs ,
     doAreaFastjet = cms.bool(True),
-    jetPtMin = cms.double(170.0)
+    jetPtMin = cms.double(150.0)
 )
 ## produce Pruned ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
 from RecoJets.JetProducers.SubJetParameters_cfi import SubJetParameters
+process.genJetsNoNuPrunedAK8 = ak4GenJets.clone(
+    SubJetParameters,
+    jetAlgorithm = cms.string('AntiKt'),
+    rParam = cms.double(0.8),
+    src = cms.InputTag("packedGenParticlesForJetsNoNu") ,
+    usePruning = cms.bool(True),
+    writeCompound = cms.bool(True),
+    jetCollInstanceName=cms.string("SubJets")
+)
+from RecoJets.JetProducers.ak4PFJetsPruned_cfi import ak4PFJetsPruned
+process.PFJetsCHSPrunedAK8 = ak4PFJetsPruned.clone(
+    jetAlgorithm = cms.string('AntiKt'),
+    rParam = cms.double(0.8),
+    src = getattr(process,"ak4PFJets").src ,
+    srcPVs = getattr(process,"ak4PFJets").srcPVs ,
+    doAreaFastjet = cms.bool(True),
+    writeCompound = cms.bool(True),
+    jetCollInstanceName=cms.string("SubJets"),
+    jetPtMin = cms.double(150.0)
+)
+
 
 ## Produce SoftDrop ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
 process.genJetsNoNuSoftDrop = ak4GenJets.clone(
@@ -247,6 +269,7 @@ process.PFJetsCHSSoftDrop = ak4PFJetsSoftDrop.clone(
 
 
 
+'''
 
 postfix = "PFlow"
 pfCandidates = 'packedPFCandidates'
@@ -365,6 +388,7 @@ from PhysicsTools.PatAlgos.tools.jetTools import *
 
 
 NOTADDHBBTag=False
+'''
 # add PFJetsCHSAK8
 
 addJetCollection(
@@ -441,10 +465,58 @@ process.selectedPatJetsSoftDropPFCHSPacked = cms.EDProducer("BoostedJetMerger",
 
 
 
+#add pruned PFJetsCHSAK8
+addJetCollection(
+        process,
+        labelName='PrunedPFCHSAK8',
+        jetSource=cms.InputTag('PFJetsCHSPrunedAK8'),
+        algo='AK',
+        btagInfos=['None'],
+        btagDiscriminators=['None'],
+        jetCorrections=jetCorrectionsAK8CHS,
+        genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+        genParticles = cms.InputTag(genParticles),
+        getJetMCFlavour = False, # jet flavor disabled
+        postfix = postfix
+    )
+
+#add subjet from pruned PFJetsCHSAK8
+
+addJetCollection(
+        process,
+        labelName='PrunedSubjetsPFCHSAK8',
+        jetSource=cms.InputTag('PFJetsCHSPrunedAK8','SubJets'),
+        algo='AK',           # needed for subjet flavor clustering
+        rParam=0.8, # needed for subjet flavor clustering
+        pfCandidates = cms.InputTag(pfCandidates),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        btagInfos = bTagInfos,
+        btagDiscriminators = bTagDiscriminators,
+        jetCorrections = jetCorrectionsAK4CHS,
+        genJetCollection = cms.InputTag('genJetsNoNuPrunedAK8','SubJets'),
+        genParticles = cms.InputTag(genParticles),
+        explicitJTA = True,  # needed for subjet b tagging
+        svClustering = True, # needed for subjet b tagging
+        fatJets = cms.InputTag('PFJetsCHSAK8'),              # needed for subjet flavor clustering
+        groomedFatJets = cms.InputTag('PFJetsCHSPrunedAK8'), # needed for subjet flavor clustering
+        runIVF = False,
+        postfix = postfix
+)
+
+
+
 
 
 
 ## Establish references between PATified fat jets and subjets using the BoostedJetMerger
+
+process.selectedPatJetsPrunedPFCHSAK8Packed = cms.EDProducer("BoostedJetMerger",
+    jetSrc=cms.InputTag("selectedPatJetsPrunedPFCHSAK8"+postfix),
+    subjetSrc=cms.InputTag("selectedPatJetsPrunedSubjetsPFCHSAK8"+postfix)
+)
 
 
 
@@ -457,12 +529,22 @@ process.packedPatJetsPFCHSAK8 = cms.EDProducer("JetSubstructurePacker",
             fixDaughters = cms.bool(False)
 )
 
-process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsSoftDropPFCHSPacked') )
-process.packedPatJetsPFCHSAK8.algoLabels.append( 'SoftDrop' )
+SaveSoftDrop=True;
+
+if SaveSoftDrop:
+        process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsSoftDropPFCHSPacked') )
+        process.packedPatJetsPFCHSAK8.algoLabels.append( 'SoftDrop' )
+else:
+        process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsPrunedPFCHSAK8Packed') )
+        process.packedPatJetsPFCHSAK8.algoLabels.append( 'Pruned' )
 
 
 
-for m in ['patJets'+postfix, 'patJetsPFCHSAK8'+postfix, 'patJetsSoftDropSubjetsPFCHS'+postfix]:
+#process.packedPatJetsPFCHSAK8.algoTags.append( cms.InputTag('selectedPatJetsPrunedPFCHSAK8Packed') )
+#process.packedPatJetsPFCHSAK8.algoLabels.append( 'Pruned' )
+
+
+for m in ['patJets'+postfix, 'patJetsPFCHSAK8'+postfix, 'patJetsSoftDropSubjetsPFCHS'+postfix, 'patJetsPrunedSubjetsPFCHSAK8'+postfix]:
     if hasattr(process,m) and getattr( getattr(process,m), 'addBTagInfo' ):
         print "Switching 'addTagInfos' for " + m + " to 'True'"
         setattr( getattr(process,m), 'addTagInfos', cms.bool(True) )
@@ -472,8 +554,85 @@ for m in ['patJets'+postfix, 'patJetsPFCHSAK8'+postfix, 'patJetsSoftDropSubjetsP
 
 
 
+jetRadius=0.8
+
+        # Set the cone size for the jet-track association to the jet radius
+getattr(process,'pfImpactParameterTagInfosPFCHSAK8'+postfix).maxDeltaR = cms.double(jetRadius) # default is 0.4
+getattr(process,'pfSecondaryVertexTagInfosPFCHSAK8'+postfix).trackSelection.jetDeltaRMax = cms.double(jetRadius)   # default is 0.3
+getattr(process,'pfSecondaryVertexTagInfosPFCHSAK8'+postfix).vertexCuts.maxDeltaRToJetAxis = cms.double(jetRadius) # default is 0.4
+        # Set the jet-SV dR to the jet radius
+getattr(process,'pfInclusiveSecondaryVertexFinderTagInfosPFCHSAK8'+postfix).vertexCuts.maxDeltaRToJetAxis = cms.double(jetRadius) # default is 0.4
+getattr(process,'pfInclusiveSecondaryVertexFinderTagInfosPFCHSAK8'+postfix).extSVDeltaRToJet = cms.double(jetRadius) # default is 0.3
+        # Set the JP track dR cut to the jet radius
+process.candidateJetProbabilityComputerFat = process.candidateJetProbabilityComputer.clone( deltaR = cms.double(jetRadius) ) # default is 0.3
+getattr(process,'pfJetProbabilityBJetTagsPFCHSAK8'+postfix).jetTagComputer = cms.string('candidateJetProbabilityComputerFat')
+        # Set the JBP track dR cut to the jet radius
+process.candidateJetBProbabilityComputerFat = process.candidateJetBProbabilityComputer.clone( deltaR = cms.double(jetRadius) ) # default is 0.4
+getattr(process,'pfJetBProbabilityBJetTagsPFCHSAK8'+postfix).jetTagComputer = cms.string('candidateJetBProbabilityComputerFat')
+        # Set the CSV track dR cut to the jet radius
+process.candidateCombinedSecondaryVertexComputerFat = process.candidateCombinedSecondaryVertexComputer.clone()
+process.candidateCombinedSecondaryVertexComputerFat.trackSelection.jetDeltaRMax = cms.double(jetRadius) # default is 0.3
+process.candidateCombinedSecondaryVertexComputerFat.trackPseudoSelection.jetDeltaRMax = cms.double(jetRadius) # default is 0.3
+getattr(process,'pfCombinedSecondaryVertexV2BJetTagsPFCHSAK8'+postfix).jetTagComputer = cms.string('candidateCombinedSecondaryVertexComputerFat')
+        # Set the CSVv2 track dR cut to the jet radius
+process.candidateCombinedSecondaryVertexV2ComputerFat = process.candidateCombinedSecondaryVertexV2Computer.clone()
+process.candidateCombinedSecondaryVertexV2ComputerFat.trackSelection.jetDeltaRMax = cms.double(jetRadius) # default is 0.3
+process.candidateCombinedSecondaryVertexV2ComputerFat.trackPseudoSelection.jetDeltaRMax = cms.double(jetRadius) # default is 0.3
+getattr(process,'pfCombinedInclusiveSecondaryVertexV2BJetTagsPFCHSAK8'+postfix).jetTagComputer = cms.string('candidateCombinedSecondaryVertexV2ComputerFat')
+
+
+
+
+from PhysicsTools.SelectorUtils.pfJetIDSelector_cfi import pfJetIDSelector
+
+process.goodaddJets = cms.EDFilter("PFJetIDSelectionFunctorFilter",
+                        filterParams = pfJetIDSelector.clone(),
+                        src = cms.InputTag("packedPatJetsPFCHSAK8")
+                        )
+
+### Cleaning
+# We want to make sure that the jets are not the electrons or muons done previously
+
+import PhysicsTools.PatAlgos.cleaningLayer1.jetCleaner_cfi as jetCleaner_cfi
+
+process.cleanaddJets = jetCleaner_cfi.cleanPatJets.clone()
+process.cleanaddJets.src = "goodaddJets"
+process.cleanaddJets.checkOverlaps.muons.src = "slimmedMuons"
+process.cleanaddJets.checkOverlaps.muons.deltaR = 0.8
+process.cleanaddJets.checkOverlaps.muons.requireNoOverlaps = True
+process.cleanaddJets.checkOverlaps.electrons.src = "slimmedElectrons"
+process.cleanaddJets.checkOverlaps.electrons.deltaR = 0.8
+process.cleanaddJets.checkOverlaps.electrons.requireNoOverlaps = True
+process.cleanaddJets.checkOverlaps.photons = cms.PSet()
+process.cleanaddJets.checkOverlaps.taus = cms.PSet()
+process.cleanaddJets.checkOverlaps.tkIsoElectrons = cms.PSet()
+process.cleanaddJets.finalCut = "pt > 20 & abs(eta) < 2.4"
+
+process.fataddJetsSequence = cms.Sequence(
+               process.goodaddJets + 
+               process.cleanaddJets
+               )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #process.patJetsAK8.addTagInfos = cms.bool(True)
+
+
+'''
 
 ## Filter for good primary vertex
 process.primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
@@ -489,6 +648,7 @@ from PhysicsTools.PatAlgos.tools.pfTools import *
 adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 
 
+'''
 addJetCollection(
         process,
         labelName='PFCHSAK8',
@@ -513,7 +673,9 @@ addJetCollection(
 
 
 process.miniAODjetSequence = cms.Sequence(
-                             process.selectedPatJetsPFCHSAK8PFlow
+                             process.selectedPatJetsPFCHSAK8PFlow+
+                             process.selectedPatJetsPrunedPFCHSAK8Packed +
+                             process.fataddJetsSequence
                              )
 
 
@@ -529,6 +691,7 @@ process.miniAODjetSequence = cms.Sequence(
 
 
 
+'''
 
 ## add value maps for electron IDs
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
@@ -648,7 +811,6 @@ process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
 process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
-process.tree.fillAddJetInfo        = cms.bool(True)
 
 if options.useJECText:
 	process.tree.THINJets      = cms.InputTag("slimmedJets")
@@ -687,11 +849,12 @@ process.allEventsCounter = cms.EDFilter(
 if not options.useJECText:
 	process.analysis = cms.Path(
 		process.allEventsCounter+
+		#process.ncuslimmer+
 		process.egmGsfElectronIDSequence+## by raman
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
 		process.pfMet+
-	        process.miniAODjetSequence+   ## by raman        
+		# process.miniAODjetSequence+   ## by raman        
 		process.jetCorrSequenceAK4+
 		process.jetCorrSequenceAK8+
 		process.jetCorrSequenceForPrunedMass+
@@ -706,7 +869,7 @@ else:
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
 		process.pfMet+
-		process.miniAODjetSequence+   ## by raman        
+		# process.miniAODjetSequence+   ## by raman        
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)
