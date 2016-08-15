@@ -92,6 +92,10 @@ modify directories in crabConfig.py and JSON file dataset in MultiCrab_nocleanin
 
 Check this hypernews for the latest JSON file name: 
 https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation.html
+
+If you are adding data, you do not need to re-run the full dataset, you could just add data by comparing the difference between the updated JSON and the old JSON files
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideGoodLumiSectionsJSONFile#How_to_compare_Good_Luminosity_f
+
 ```
 cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py .
@@ -109,6 +113,7 @@ rm -rf jec
 cp -p crabConfig_data.py crabConfig.py
 
 ### Remember to update your JSON file
+
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-277933_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt
 
 source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
