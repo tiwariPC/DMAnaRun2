@@ -87,8 +87,11 @@ voms-proxy-init --voms cms
 python MultiCrab_nocleaning.py submit
 ```
 
-## To submit data crab jobs
-modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need
+## To submit data crab jobs (Remember to update your JSON file)
+modify directories in crabConfig.py and JSON file dataset in MultiCrab_nocleaning.py according to your need
+
+Check this hypernews for the latest JSON file name: 
+https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation.html
 ```
 cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py .
@@ -104,7 +107,9 @@ mv jec/*AK8PFPuppi.txt .
 rm -rf jec
 
 cp -p crabConfig_data.py crabConfig.py
-wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt
+
+### Remember to update your JSON file
+wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-277933_13TeV_PromptReco_Collisions16_JSON_NoL1T_v2.txt
 
 source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
 voms-proxy-init --voms cms
