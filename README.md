@@ -35,7 +35,7 @@ cd -
 ```
 scramv1 b clean
 
-scramv1 b
+scramv1 b -j 5
 ```
 
 ## Download files that store effective area and JEC files
