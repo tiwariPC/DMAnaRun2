@@ -567,19 +567,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     if(isADDJet_ || isFATJet_){
       //HBB tagger
       jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
-    
-    
-      // fill discriminator histograms
-      //     const reco::VertexCompositePtrCandidate *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());        
-    
-      //   const reco::Vertex *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());
-      //   cout<<"numbers of 2nd vtx "<<svTagInfo->nVertices()<<endl;               
-    
-      //         const reco::TemplatedSecondaryVertexTagInfo<reco::TrackIPTagInfo,reco::Vertex> *SecondaryVertexTagInfo=jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());
-      //       const reco::SecondaryVertexTagInfo &svTagInfo =*jet->tagInfoSecondaryVertex("secondaryVertex");  
-    
-      //cout<<" has tag info: "<<jet->hasTagInfo("pfInclusiveSecondaryVertexFinder") <<endl;
-    
+        
       std::vector<float> jet_SVMass_float;
   	  
       jet_SVMass_float.clear();
@@ -599,9 +587,9 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jet_nSV_.push_back(nSV);  
       jet_SVMass_.push_back(jet_SVMass_float);
     
-    } /// if its ADDJET
+    } /// if its ADDJET or FATjet
  
-    if(isFATJet_ || isADDJet_){
+    if(isFATJet_ ){
       // the following lines are common to FAT Jet and ADDJets
     
       std::vector<reco::Candidate const *> constituents;
@@ -620,17 +608,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
    	}
 
       std::sort( constituents.begin(), constituents.end(), [] (reco::Candidate const * ida, reco::Candidate const * jda){return ida->pt() > jda->pt();} );
-
-      // for ( unsigned int ida = 0; ida < constituents.size(); ++ida ) {
-      // 	const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*constituents[ida]);
-      // 	//	  printf(" constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d\n", ida,cand.pt(),cand.dz(PV.position()),cand.pdgId());
-      // }
-
-
-      //   const reco::SecondaryVertexTagInfo *svTagInfo =   jet->tagInfoSecondaryVertex( svTagInfosCstr_.data());        
-    
-      //   const reco::SecondaryVertexTagInfo *svTagInfo =   jet->tagInfoSecondaryVertex("secondaryVertex");
-      //  cout<<"numbers of 2nd vtx "<<svTagInfo->nVertices()<<endl;               
 
       //turn off subjet for not patified now 
       pat::Jet const *jetptr = &*jet;  
@@ -704,7 +681,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
      
   	  
 
-    }//if is Fat jet or add jets
+    }//if is Fat jet 
 
 
   }//jet loop
@@ -783,6 +760,18 @@ jetTree::SetBranches(){
     AddBranch(&jetPRmass_,         "jetPRmass");
     AddBranch(&jetPRmassL2L3Corr_, "jetPRmassL2L3Corr");
 
+    // subjet information
+    AddBranch(&nSubSDJet_,            "nSubSDJet");
+    AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
+    AddBranch(&subjetSDPx_,           "subjetSDPx");     
+    AddBranch(&subjetSDPy_,           "subjetSDPy");     
+    AddBranch(&subjetSDPz_,           "subjetSDPz");     
+    AddBranch(&subjetSDE_,            "subjetSDE");     
+    AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
+    AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
+    AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
+
+    // puppi information
     AddBranch(&jetPuppiTau1_,   "jetPuppiTau1");
     AddBranch(&jetPuppiTau2_,   "jetPuppiTau2");
     AddBranch(&jetPuppiTau3_,   "jetPuppiTau3");
@@ -809,17 +798,6 @@ jetTree::SetBranches(){
       AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
       AddBranch(&jet_nSV_,     "jet_nSV");
       AddBranch(&jet_SVMass_,  "jet_SVMass");
-
-      AddBranch(&nSubSDJet_,            "nSubSDJet");
-      AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
-      AddBranch(&subjetSDPx_,           "subjetSDPx");     
-      AddBranch(&subjetSDPy_,           "subjetSDPy");     
-      AddBranch(&subjetSDPz_,           "subjetSDPz");     
-      AddBranch(&subjetSDE_,            "subjetSDE");     
-      AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
-      AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
-      AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
-
     }
   
   

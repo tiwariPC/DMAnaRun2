@@ -114,7 +114,7 @@ tree = cms.EDAnalyzer(
     FATjecUncPayLoad     = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
     
     ### AddJets
-    ADDJets              = cms.InputTag("packedPatJetsPFCHSAK8"),
+    ADDJets              = cms.InputTag("selectedPatJetsPFCHSAK8PFlow"),
     svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),    
     ADDjecNames          = cms.vstring(
         'Spring16_25nsV6_MC_L1FastJet_AK8PFchs.txt',

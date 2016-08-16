@@ -209,6 +209,7 @@ process.PFJetsCHSAK8 = ak4PFJets.clone(
     doAreaFastjet = cms.bool(True),
     jetPtMin = cms.double(170.0)
 )
+'''
 ## produce Pruned ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
 from RecoJets.JetProducers.SubJetParameters_cfi import SubJetParameters
 
@@ -234,9 +235,9 @@ process.PFJetsCHSSoftDrop = ak4PFJetsSoftDrop.clone(
     doAreaFastjet = cms.bool(True),
     writeCompound = cms.bool(True),
     jetCollInstanceName=cms.string("SubJets"),
-    jetPtMin = cms.double(150.0)
+    jetPtMin = cms.double(170.0)
 )
-
+'''
 
 
 
@@ -366,7 +367,7 @@ from PhysicsTools.PatAlgos.tools.jetTools import *
 
 NOTADDHBBTag=False
 # add PFJetsCHSAK8
-
+'''
 addJetCollection(
         process,
         labelName='PFCHSAK8',
@@ -474,7 +475,7 @@ for m in ['patJets'+postfix, 'patJetsPFCHSAK8'+postfix, 'patJetsSoftDropSubjetsP
 
 
 #process.patJetsAK8.addTagInfos = cms.bool(True)
-
+'''
 ## Filter for good primary vertex
 process.primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
     vertexCollection = cms.InputTag(pvSource),
