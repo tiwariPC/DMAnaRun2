@@ -65,6 +65,22 @@ patFilters::Fill(const edm::Event& iEvent)
       filterResult_.push_back(trigResult);
       nfilters_++;
     }
+
+  
+  // Bad Muon and Bad Ch Filters
+  /*
+  edm::EDGetTokenT<bool> BadChCandFilterToken_;
+  
+  edm::Handle<bool> ifilterbadChCand;
+  iEvent.getByToken(BadChCandFilterToken_, ifilterbadChCand);
+  filterbadChCandidate = *ifilterbadChCand;
+  
+  edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
+    
+  edm::Handle<bool> ifilterbadPFMuon;
+  iEvent.getByToken(BadPFMuonFilterToken_, ifilterbadPFMuon);
+  filterbadPFMuon = *ifilterbadPFMuon;
+  */
 }
 
 void patFilters::SetBranches(){
@@ -73,7 +89,8 @@ void patFilters::SetBranches(){
   AddBranch(&filterResult_,"filterResult");
   AddBranch(&hbhet_,"hbhet");
   AddBranch(&filterName_,"filterName");
-
+  AddBranch(&filterbadChCandidate,"filterbadChCandidate");
+  AddBranch(&filterbadPFMuon,"filterbadPFMuon");
 
 }
 

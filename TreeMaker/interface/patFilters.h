@@ -28,7 +28,10 @@ class patFilters : public baseTree{
   edm::EDGetTokenT<bool>                            HBHELToken;
   edm::EDGetTokenT<bool>                            HBHEIsoToken;
   edm::EDGetTokenT<edm::TriggerResults>             filterTrigResultsToken;
-  
+
+  edm::EDGetTokenT<bool> BadChCandFilterToken_;
+  edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
+
  private:
 
   patFilters(){};
@@ -39,6 +42,8 @@ class patFilters : public baseTree{
   bool hbhet_;
   bool hbhel_;
   bool hbheIso_;
+  bool  filterbadChCandidate;
+  bool filterbadPFMuon;
   std::vector<std::string> filterName_;
   edm::InputTag filterTag;
 };

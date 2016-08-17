@@ -680,6 +680,16 @@ process.TFileService = cms.Service("TFileService",
 
 
 
+## New MET Filters
+##process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+##process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+##process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+##
+##process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+##process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+##process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+##
+
 process.allEventsCounter = cms.EDFilter(
 	"EventCounter"
  )
@@ -697,6 +707,8 @@ if not options.useJECText:
 		process.jetCorrSequenceAK8+
 		process.jetCorrSequenceForPrunedMass+
 		process.jetCorrSequenceForSoftDropMass+
+		#process.BadPFMuonFilter *
+		#process.BadChargedCandidateFilter *
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)
@@ -708,6 +720,8 @@ else:
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
 		process.pfMet+
 		process.miniAODjetSequence+   ## by raman        
+		#process.BadPFMuonFilter *
+		#process.BadChargedCandidateFilter *
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)

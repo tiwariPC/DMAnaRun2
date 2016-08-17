@@ -26,6 +26,10 @@ tree = cms.EDAnalyzer(
     pfType1Met       = cms.InputTag("slimmedMETs"),
     pfMVAMET         = cms.InputTag("slimmedMETs"),
 
+    ## filter
+    #BadChargedCandidateFilter = cms.InputTag>("BadChargedCandidateFilter"),
+    #BadPFMuonFilter = cms.InputTag>("BadPFMuonFilter"),
+
     triggerLabel     = cms.InputTag("TriggerResults::HLT"),
     filterLabel      = cms.InputTag("TriggerResults::PAT"),
 
