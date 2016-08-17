@@ -651,6 +651,10 @@ process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
 process.tree.fillAddJetInfo        = cms.bool(True)
 
+if options.runOnMC:
+	process.tree.triggerLabel  = cms.InputTag("TriggerResults::HLT2")
+
+
 if options.useJECText:
 	process.tree.THINJets      = cms.InputTag("slimmedJets")
 	process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
