@@ -24,7 +24,8 @@ https://github.com/syuvivida/DMAnaRun2
 
 ## Submit CRAB jobs
 
-under the directory DelPanj/CrabUtilities 
+under the directory DelPanj/CrabUtilities, 
+
 copy the file ana_inputdataset.txt to this directory
 
 ```
