@@ -6,7 +6,7 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'dihiggs'
-config.General.workArea = 'crab_20151114'
+config.General.workArea = 'crab_20160904'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
@@ -44,5 +44,6 @@ config.JobType.allowUndistributedCMSSW=True
 
 
 config.section_("Site")
-config.Site.storageSite = "T2_CH_CERN"
+config.Site.storageSite = "T3_TW_NCU"
+#config.Site.storageSite = "T2_CH_CERN"
 ##config.Site.storageSite = "T2_US_Wisconsin"

@@ -6,7 +6,7 @@ config = Configuration()
 
 config.section_("General")
 config.General.requestName = 'dihiggs'
-config.General.workArea = 'crab_20151114'
+config.General.workArea = 'crab_20160904'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
@@ -37,7 +37,13 @@ config.Data.inputDataset = '/DYJetsToLL_M-50_HT-100to200_Tune4C_13TeV-madgraph-t
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 5
+##config.Data.outLFNDirBase = '/store/user/khurana/MonoH2016/V3/'
+
+
 config.JobType.allowUndistributedCMSSW=True
 
+
 config.section_("Site")
-config.Site.storageSite = "T2_CH_CERN"
+config.Site.storageSite = "T3_TW_NCU"
+#config.Site.storageSite = "T2_CH_CERN"
+##config.Site.storageSite = "T2_US_Wisconsin"
