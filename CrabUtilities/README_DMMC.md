@@ -25,6 +25,7 @@ https://github.com/syuvivida/DMAnaRun2
 ## Submit CRAB jobs
 
 under the directory DelPanj/CrabUtilities 
+copy the file ana_inputdataset.txt to this directory
 
 ```
 source /cvmfs/cms.cern.ch/crab3/crab_standalone.csh (bash: source /cvmfs/cms.cern.ch/crab3/crab_standalone.sh)
