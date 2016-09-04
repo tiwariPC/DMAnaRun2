@@ -11,7 +11,7 @@ def prepare(dataset):
         a,b = line.split()
         datasetdetail=[a,b]
         print datasetdetail
-        name='crab status -d crab_projects_MonoHStep4/crab_step4-'+datasetdetail[1]+' | grep -a "Output dataset:" | awk -v my_var='+datasetdetail[1]+' \'{print my_var" treeMaker_Summer16_cfg.py "$3"  1"}\'>> ana_inputdataset.txt'
+        name='crab status -d crab_projects_MonoHStep4/crab_step4-'+datasetdetail[1]+' | grep -a "Output dataset:" | awk -v my_var='+datasetdetail[1]+' \'{print my_var" treeMaker_Summer16_cfg.py "$3" 1"}\'>> ana_inputdataset.txt'
         print name
         os.system(name)
 
