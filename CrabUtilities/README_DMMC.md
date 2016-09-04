@@ -34,3 +34,10 @@ curl https://raw.githubusercontent.com/syuvivida/DMAnaRun2/80X_dev/CrabUtilities
 voms-proxy-init --voms cms
 python MultiCrab_DMAna.py submit
 ```
+
+## Check status of CRAB jobs
+```
+source /cvmfs/cms.cern.ch/crab3/crab_standalone.csh (bash: source /cvmfs/cms.cern.ch/crab3/crab_standalone.sh)
+voms-proxy-init --voms cms
+python MultiCrab_DMAna.py status <dirName>
+```
