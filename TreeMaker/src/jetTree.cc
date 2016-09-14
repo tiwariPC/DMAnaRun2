@@ -263,7 +263,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
    							);
    
     jetArea_.push_back(jet->jetArea());
-
+  
     // if reading text files, set jet 4-momentum
     // make correction using jecText files
     if(useJECText_){
@@ -314,7 +314,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetHadronFlavor_.push_back(jet->hadronFlavour());
 
 
-
+  
     std::map<std::string, bool> Pass = jet2012ID_.LooseJetCut(*jet);
     bool passOrNot = PassAll(Pass); 
     jetPassIDLoose_.push_back(passOrNot);
@@ -330,32 +330,18 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
       //std::cout<<" jpumva = "<<jpumva<<std::endl;
       PUJetID_.push_back(jpumva);
-  
-      float jpt = jet->pt();
-      float jeta = jet->eta();
-  
-      bool passPU = true;
-      if(jpt>20){
-	if(jeta>3.){
-	  if(jpumva<=-0.45)passPU=false;
-	}else if(jeta>2.75){
-	  if(jpumva<=-0.55)passPU=false;
-	}else if(jeta>2.5){
-	  if(jpumva<=-0.6)passPU=false;
-	}else if(jpumva<=-0.63)passPU=false;
-      }else{
-	if(jeta>3.){
-	  if(jpumva<=-0.95)passPU=false;
-	}else if(jeta>2.75){
-	  if(jpumva<=-0.94)passPU=false;
-	}else if(jeta>2.5){
-	  if(jpumva<=-0.96)passPU=false;
-	}else if(jpumva<=-0.95)passPU=false;
-      }
-  
-      isPUJetID_.push_back(passPU);
+          
+      // float jpt = jet->pt();
+      // float jeta = jet->eta();
+
+      isPUJetIDLoose_.push_back(
+				bool(jet->userInt("pileupJetId:fullId") & (1 << 2)));
+      isPUJetIDMedium_.push_back(
+				 bool(jet->userInt("pileupJetId:fullId") & (1 << 1)));
+      isPUJetIDTight_.push_back(
+				bool(jet->userInt("pileupJetId:fullId") & (1 << 0)));
     }
-  
+        
     jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
     jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
     jetPhoEF_.push_back(jet->photonEnergyFraction());
@@ -365,28 +351,27 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetEleEF_.push_back(jet->electronEnergyFraction());
     jetMuoEF_.push_back(jet->muonEnergyFraction());
     jetChMuEF_.push_back(jet->chargedMuEnergyFraction());
-
+      
     jetHFHadEF_.push_back(jet->HFHadronEnergyFraction());
     jetHFEMEF_.push_back(jet->HFEMEnergyFraction());
     jetHOEnergy_.push_back(jet->hoEnergy());
     jetHOEF_.push_back(jet->hoEnergyFraction());
-
+      
     if(false) std::cout<<"jetHFHadEF_ = "<<(jet->HFHadronEnergyFraction())
-   		       <<"  jetHFEMEF_ = "<<(jet->HFEMEnergyFraction())
-   		       <<"  jetCHHadMultiplicity_ = "<<(jet->chargedHadronMultiplicity())
-   		       <<"  jetNHadMulplicity_ = "<<(jet->neutralHadronMultiplicity())
-   		       <<"  jetPhMultiplicity_ = "<<(jet->photonMultiplicity())
-   		       <<"  jetEleMultiplicity_ = "<<(jet->electronMultiplicity())
-   		       <<"  jetHFHadMultiplicity_ = "<<(jet->HFHadronMultiplicity())
-   		       <<"  jetHFEMMultiplicity_ = "<<(jet->HFEMMultiplicity())
-   		       <<"  jetChMuEF_ = "<<(jet->chargedMuEnergyFraction())
-   		       <<"  jetNMultiplicity_ = "<<(jet->neutralMultiplicity())
-   		       <<"  jetHOEnergy_ = "<<(jet->hoEnergy())
-   		       <<"  jetHOEF_ = "<<(jet->hoEnergyFraction())
-   		       <<std::endl;
+		       <<"  jetHFEMEF_ = "<<(jet->HFEMEnergyFraction())
+		       <<"  jetCHHadMultiplicity_ = "<<(jet->chargedHadronMultiplicity())
+		       <<"  jetNHadMulplicity_ = "<<(jet->neutralHadronMultiplicity())
+		       <<"  jetPhMultiplicity_ = "<<(jet->photonMultiplicity())
+		       <<"  jetEleMultiplicity_ = "<<(jet->electronMultiplicity())
+		       <<"  jetHFHadMultiplicity_ = "<<(jet->HFHadronMultiplicity())
+		       <<"  jetHFEMMultiplicity_ = "<<(jet->HFEMMultiplicity())
+		       <<"  jetChMuEF_ = "<<(jet->chargedMuEnergyFraction())
+		       <<"  jetNMultiplicity_ = "<<(jet->neutralMultiplicity())
+		       <<"  jetHOEnergy_ = "<<(jet->hoEnergy())
+		       <<"  jetHOEF_ = "<<(jet->hoEnergyFraction())
+		       <<std::endl;
 
-    jetCMulti_.push_back(jet->chargedMultiplicity());
-
+    jetCMulti_.push_back(jet->chargedMultiplicity());      
     jetEleMultiplicity_.push_back(jet->electronMultiplicity());
     jetMuoMultiplicity_.push_back(jet->muonMultiplicity());
 
@@ -397,7 +382,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetHFHadMultiplicity_.push_back(jet->HFHadronMultiplicity());
     jetHFEMMultiplicity_.push_back(jet->HFEMMultiplicity());
 
-
+    
 
 
     // b-tagging
@@ -536,15 +521,15 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
       if(nSubSoftDropjets_puppi==0)
-   	{
-   	  subjetSDFatJetIndex_puppi.push_back(DUMMY);
-   	  subjetSDPx_puppi.push_back(DUMMY);
-   	  subjetSDPy_puppi.push_back(DUMMY);
-   	  subjetSDPz_puppi.push_back(DUMMY);
-   	  subjetSDE_puppi.push_back(DUMMY);	
+	{
+	  subjetSDFatJetIndex_puppi.push_back(DUMMY);
+	  subjetSDPx_puppi.push_back(DUMMY);
+	  subjetSDPy_puppi.push_back(DUMMY);
+	  subjetSDPz_puppi.push_back(DUMMY);
+	  subjetSDE_puppi.push_back(DUMMY);	
 	  jetPuppiSDmass_.push_back(DUMMY);
 	  jetPuppiSDmassL2L3Corr_.push_back(DUMMY);
-   	}
+	}
       else
 	{
 	  jetPuppiSDmass_.push_back(puppi_softdrop_raw.M());
@@ -578,16 +563,16 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       unsigned int nSV=0;  
 
       if(jet->hasTagInfo(svTagInfosCstr_.data()))
-   	{
-   	  const reco::CandSecondaryVertexTagInfo *candSVTagInfo = jet->tagInfoCandSecondaryVertex("pfInclusiveSecondaryVertexFinder");
-   	  nSV = candSVTagInfo->nVertices();                       
+	{
+	  const reco::CandSecondaryVertexTagInfo *candSVTagInfo = jet->tagInfoCandSecondaryVertex("pfInclusiveSecondaryVertexFinder");
+	  nSV = candSVTagInfo->nVertices();                       
   	  
-   	  for(unsigned int n_2ndvtx=0;n_2ndvtx< nSV;n_2ndvtx++)
-   	    jet_SVMass_float.push_back(candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass());
+	  for(unsigned int n_2ndvtx=0;n_2ndvtx< nSV;n_2ndvtx++)
+	    jet_SVMass_float.push_back(candSVTagInfo->secondaryVertex(n_2ndvtx).p4().mass());
   	  
-   	} // if there is tagging information
+	} // if there is tagging information
       if(nSV==0)
-   	jet_SVMass_float.push_back(DUMMY);	    
+	jet_SVMass_float.push_back(DUMMY);	    
       jet_nSV_.push_back(nSV);  
       jet_SVMass_.push_back(jet_SVMass_float);
     
@@ -598,18 +583,18 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     
       std::vector<reco::Candidate const *> constituents;
       for ( unsigned ida = 0; ida < jet->numberOfDaughters(); ++ida ) 
-   	{
-   	  reco::Candidate const * cand = jet->daughter(ida);
-   	  if ( cand->numberOfDaughters() == 0 ) constituents.push_back( cand ) ;
-   	  else 
-   	    {
-   	      for ( unsigned jda = 0; jda < cand->numberOfDaughters(); ++jda ) 
-   		{
-   		  reco::Candidate const * cand2 = cand->daughter(jda);
-   		  constituents.push_back( cand2 );
-   		}
-   	    }
-   	}
+	{
+	  reco::Candidate const * cand = jet->daughter(ida);
+	  if ( cand->numberOfDaughters() == 0 ) constituents.push_back( cand ) ;
+	  else 
+	    {
+	      for ( unsigned jda = 0; jda < cand->numberOfDaughters(); ++jda ) 
+		{
+		  reco::Candidate const * cand2 = cand->daughter(jda);
+		  constituents.push_back( cand2 );
+		}
+	    }
+	}
 
       std::sort( constituents.begin(), constituents.end(), [] (reco::Candidate const * ida, reco::Candidate const * jda){return ida->pt() > jda->pt();} );
 
@@ -644,33 +629,33 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
       for ( auto const & iw : wSubjets ) 
-   	{
+	{
 
-   	  nSubSoftDropjets++;
+	  nSubSoftDropjets++;
   	      
-   	  subjetSDFatJetIndex.push_back(nJet_-1);
-   	  subjetSDPx.push_back(iw->px());
-   	  subjetSDPy.push_back(iw->py());
-   	  subjetSDPz.push_back(iw->pz());
-   	  subjetSDE.push_back(iw->energy());	
-   	  subjetSDCharge.push_back(iw->charge());
-   	  subjetSDPartonFlavor.push_back(iw->partonFlavour());
-   	  subjetSDHadronFlavor.push_back(iw->hadronFlavour());	      
-   	  subjetSDCSV.push_back(iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
+	  subjetSDFatJetIndex.push_back(nJet_-1);
+	  subjetSDPx.push_back(iw->px());
+	  subjetSDPy.push_back(iw->py());
+	  subjetSDPz.push_back(iw->pz());
+	  subjetSDE.push_back(iw->energy());	
+	  subjetSDCharge.push_back(iw->charge());
+	  subjetSDPartonFlavor.push_back(iw->partonFlavour());
+	  subjetSDHadronFlavor.push_back(iw->hadronFlavour());	      
+	  subjetSDCSV.push_back(iw->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));   
 
-   	}//subjet loop
+	}//subjet loop
       if(nSubSoftDropjets==0)
-   	{
-   	  subjetSDFatJetIndex.push_back(DUMMY);
-   	  subjetSDPx.push_back(DUMMY);
-   	  subjetSDPy.push_back(DUMMY);
-   	  subjetSDPz.push_back(DUMMY);
-   	  subjetSDE.push_back(DUMMY);	
-   	  subjetSDCharge.push_back(DUMMY);
-   	  subjetSDPartonFlavor.push_back(DUMMY);
-   	  subjetSDHadronFlavor.push_back(DUMMY);	      
-   	  subjetSDCSV.push_back(DUMMY);   
-   	}
+	{
+	  subjetSDFatJetIndex.push_back(DUMMY);
+	  subjetSDPx.push_back(DUMMY);
+	  subjetSDPy.push_back(DUMMY);
+	  subjetSDPz.push_back(DUMMY);
+	  subjetSDE.push_back(DUMMY);	
+	  subjetSDCharge.push_back(DUMMY);
+	  subjetSDPartonFlavor.push_back(DUMMY);
+	  subjetSDHadronFlavor.push_back(DUMMY);	      
+	  subjetSDCSV.push_back(DUMMY);   
+	}
   	    
       nSubSDJet_.push_back(nSubSoftDropjets); 
       subjetSDFatJetIndex_.push_back(subjetSDFatJetIndex);
@@ -689,7 +674,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
   }//jet loop
-
+    
 
   // fat jet uncertainty does not exist yet
   if(!useJECText_)
@@ -731,7 +716,9 @@ jetTree::SetBranches(){
 
   if(!isFATJet_ && !isADDJet_){
     AddBranch(&PUJetID_,   "PUJetID");
-    AddBranch(&isPUJetID_, "isPUJetID");
+    AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
+    AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
+    AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
 
   AddBranch(&jetCEmEF_,  "jetCEmEF");
@@ -740,11 +727,11 @@ jetTree::SetBranches(){
   AddBranch(&jetNEmEF_,  "jetNEmEF");
   AddBranch(&jetNHadEF_, "jetNHadEF");
   AddBranch(&jetEleEF_,  "jetEleEF");
-  AddBranch(&jetMuoEF_,  "jetMuEF");
+  AddBranch(&jetMuoEF_,  "jetMuoEF");
 
   AddBranch(&jetCMulti_, "jetCMulti");
-  AddBranch(&jetEleMultiplicity_,"jetEleMultiplicity");
-  AddBranch(&jetMuoMultiplicity_,"jetMuoMultiplicity");
+  AddBranch(&jetEleMultiplicity_,"jetEleMulti");
+  AddBranch(&jetMuoMultiplicity_,"jetMuoMulti");
   
   AddBranch(&jetSSV_,   "jetSSV");
   AddBranch(&jetCSV_,   "jetCSV");        
@@ -842,7 +829,9 @@ jetTree::Clear(){
   jetPassIDLoose_.clear();
   jetPassIDTight_.clear();
   PUJetID_.clear();
-  isPUJetID_.clear();
+  isPUJetIDLoose_.clear();
+  isPUJetIDMedium_.clear();
+  isPUJetIDTight_.clear();
 
   //Energy Fraction and Multiplicity 
 

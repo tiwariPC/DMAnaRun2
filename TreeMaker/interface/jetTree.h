@@ -117,7 +117,9 @@ class jetTree  : public baseTree{
   std::vector<bool>  jetPassIDLoose_;
   std::vector<bool>  jetPassIDTight_;
   std::vector<float> PUJetID_;
-  std::vector<bool>  isPUJetID_;
+  std::vector<bool>  isPUJetIDLoose_;
+  std::vector<bool>  isPUJetIDMedium_;
+  std::vector<bool>  isPUJetIDTight_;
 
   //Energy Fraction and Multiplicity 
 
