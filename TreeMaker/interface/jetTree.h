@@ -127,7 +127,8 @@ class jetTree  : public baseTree{
   std::vector<float> jetNEmEF_;
   std::vector<float> jetNHadEF_;
 
-  std::vector<float> jetMuEF_;
+  std::vector<float> jetEleEF_;
+  std::vector<float> jetMuoEF_;
   std::vector<float> jetChMuEF_;
 
   std::vector<float> jetHFHadEF_;
@@ -138,6 +139,7 @@ class jetTree  : public baseTree{
 
   std::vector<int>   jetCMulti_;
   std::vector<int>   jetEleMultiplicity_;
+  std::vector<int>   jetMuoMultiplicity_;
   std::vector<int>   jetCHHadMultiplicity_;
   std::vector<int>   jetPhMultiplicity_;
   std::vector<int>   jetNMultiplicity_;
