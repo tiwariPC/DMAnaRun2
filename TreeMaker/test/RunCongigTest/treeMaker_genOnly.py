@@ -1,3 +1,5 @@
+### NOTE, this python can not run on miniAOD, object names are for GEN-SIM, AODSIM
+
 import FWCore.ParameterSet.Config as cms
 ## removed cleaning from Exo VV package 
 ## 
