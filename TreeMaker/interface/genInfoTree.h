@@ -18,7 +18,11 @@
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "DataFormats/METReco/interface/GenMET.h"
+#include "DataFormats/METReco/interface/GenMETCollection.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "DataFormats/JetReco/interface/GenJet.h"
+#include "DataFormats/JetReco/interface/GenJetCollection.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
 
@@ -48,11 +52,17 @@ class genInfoTree : public baseTree{
   edm::EDGetTokenT<LHERunInfoProduct>               lheRunToken;
   edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;
 
+  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_true;
+  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_calo;
+  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_caloNonPrompt;
+  edm::EDGetTokenT<reco::GenJetCollection>          ak4genJetsToken;
+  edm::EDGetTokenT<reco::GenJetCollection>          ak8genJetsToken;
+
   unsigned int MAXNGENPAR_;
   bool applyStatusSelection_;  // keep only particles with status code <=30
   bool applyPromptSelection_;  // keep only prompt particles or particles with status<=30
   bool saveLHEWeights_;        // save all LHE weights
-
+  bool saveGenJets_;           // save genJets information
  private:
 
   genInfoTree(){};
@@ -61,6 +71,10 @@ class genInfoTree : public baseTree{
   float ptHat_;      // added by Eiko
   float mcWeight_;   // added by Eiko
   float HT_;       // added by Eiko
+  float genMET_true_; // added by Eiko
+  float genMET_calo_;  // added by Eiko
+  float genMET_caloNonPrompt_; // added by Eiko
+
   std::vector<float>       pdf_;
   float                    originalLHEweight_;
   std::vector<float>       pdfscaleSysWeights_;
@@ -79,6 +93,14 @@ class genInfoTree : public baseTree{
   std::vector<int>   genDa1_;
   std::vector<int>   genDa2_;
   std::vector<int>   genStFlag_;
+
+  // save this informatio if saveGenJets is true
+
+  int ak4nGenJet_;
+  TClonesArray       *ak4GenJetP4_;
+
+  int ak8nGenJet_;
+  TClonesArray       *ak8GenJetP4_;
 
   
 };

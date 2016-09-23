@@ -8,9 +8,13 @@ genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet&
   MAXNGENPAR_(iConfig.getParameter<unsigned int>("maxNumGenPar")),
   applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection")),
   applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection")),
-  saveLHEWeights_(iConfig.getParameter<bool>("saveLHEWeights"))
+  saveLHEWeights_(iConfig.getParameter<bool>("saveLHEWeights")),
+  saveGenJets_(iConfig.getParameter<bool>("saveGenJets"))
 {
   genParP4_ =   new TClonesArray("TLorentzVector");
+  ak4GenJetP4_ =   new TClonesArray("TLorentzVector");
+  ak8GenJetP4_ =   new TClonesArray("TLorentzVector");
+  
   SetBranches();
 }
 
@@ -18,6 +22,9 @@ genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet&
 genInfoTree::~genInfoTree()
 {
   delete genParP4_;
+  delete ak4GenJetP4_;
+  delete ak8GenJetP4_;
+
 }
 
 
@@ -227,6 +234,58 @@ genInfoTree::Fill(const edm::Event& iEvent)
       
   } // end of loop over particles
 
+
+  //add variables for generator-level study
+  Handle<reco::GenMETCollection> metHandle_true;
+  if(iEvent.getByToken(genMETToken_true, metHandle_true))
+    genMET_true_ = metHandle_true.product()->begin()->pt();
+    
+  Handle<reco::GenMETCollection> metHandle_calo;
+  if(iEvent.getByToken(genMETToken_calo, metHandle_calo))
+    genMET_calo_ = metHandle_calo.product()->begin()->pt();
+  
+  Handle<reco::GenMETCollection> metHandle_caloNonPrompt;
+  if(iEvent.getByToken(genMETToken_caloNonPrompt, metHandle_caloNonPrompt))
+    genMET_caloNonPrompt_ = metHandle_caloNonPrompt.product()->begin()->pt();
+
+  if(!saveGenJets_)return;
+
+  //ak4genjets
+  Handle<reco::GenJetCollection> ak4genJetsHandle;
+  if(iEvent.getByToken(ak4genJetsToken,ak4genJetsHandle)){ 
+    const reco::GenJetCollection* genJetColl = &(*ak4genJetsHandle);
+    reco::GenJetCollection::const_iterator gjeti = genJetColl->begin();   
+
+    for(; gjeti!=genJetColl->end();gjeti++){
+	reco::GenJet gjet = *gjeti;
+	if(gjet.pt()<=15)continue;
+	if(fabs(gjet.eta())>3.0)continue;
+	TLorentzVector thisGJet_l4(gjet.px(),gjet.py(),gjet.pz(),gjet.energy());
+	new( (*ak4GenJetP4_)[ak4nGenJet_]) TLorentzVector(thisGJet_l4);
+	ak4nGenJet_++;
+    }
+      
+  } // end of ak4jet block
+
+
+  //ak8genjets
+  Handle<reco::GenJetCollection> ak8genJetsHandle;
+  if(iEvent.getByToken(ak8genJetsToken,ak8genJetsHandle)){ 
+    const reco::GenJetCollection* genJetColl = &(*ak8genJetsHandle);
+    reco::GenJetCollection::const_iterator gjeti = genJetColl->begin();   
+
+    for(; gjeti!=genJetColl->end();gjeti++){
+	reco::GenJet gjet = *gjeti;
+	if(gjet.pt()<=100)continue;
+	if(fabs(gjet.eta())>3.0)continue;
+	TLorentzVector thisGJet_l4(gjet.px(),gjet.py(),gjet.pz(),gjet.energy());
+	new( (*ak8GenJetP4_)[ak8nGenJet_]) TLorentzVector(thisGJet_l4);
+	ak8nGenJet_++;
+    }
+      
+  } // end of ak8jet block
+
+    
    
 }
 
@@ -234,6 +293,11 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
 void  
 genInfoTree::SetBranches(){
+
+  AddBranch(&genMET_true_,"genMET_true");
+  AddBranch(&genMET_calo_,"genMET_calo");
+  AddBranch(&genMET_caloNonPrompt_,"genMET_caloNonPrompt");
+  
 
   AddBranch(&ptHat_, "ptHat");
   AddBranch(&mcWeight_, "mcWeight");
@@ -258,6 +322,13 @@ genInfoTree::SetBranches(){
   AddBranch(&genDa1_,"genDa1");
   AddBranch(&genDa2_,"genDa2");
   AddBranch(&genStFlag_,"genStFlag");
+
+
+  AddBranch(&ak4nGenJet_,  "ak4nGenJet");
+  AddBranch(&ak4GenJetP4_, "ak4GenJetP4");
+
+  AddBranch(&ak8nGenJet_,  "ak8nGenJet");
+  AddBranch(&ak8GenJetP4_, "ak8GenJetP4");
   
   
 }
@@ -266,9 +337,13 @@ genInfoTree::SetBranches(){
 void  
 genInfoTree::Clear(){
 
-  ptHat_ = -9999.0;
-  mcWeight_ = -9999.0; 
-  HT_    = -9999.0;
+  ptHat_                = -9999.0;
+  mcWeight_             = -9999.0; 
+  HT_                   = -9999.0;
+  genMET_true_          = -9999.0;
+  genMET_calo_          = -9999.0;  
+  genMET_caloNonPrompt_ = -9999.0; 
+
   pdf_.clear();
   originalLHEweight_ = 1;
   pdfscaleSysWeights_.clear();
@@ -287,6 +362,12 @@ genInfoTree::Clear(){
   genDa1_.clear();
   genDa2_.clear();
   genStFlag_.clear();
+
+  ak4nGenJet_=0;
+  ak4GenJetP4_->Clear();
+
+  ak8nGenJet_=0;
+  ak8GenJetP4_->Clear();
 
   
 }
