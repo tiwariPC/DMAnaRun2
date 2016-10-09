@@ -17,7 +17,7 @@ tree = cms.EDAnalyzer(
     fillJetInfo      = cms.bool(True), 
     fillFATJetInfo   = cms.bool(True), 
     fillAddJetInfo   = cms.bool(False),
-    fillAK4PuppiJetInfo = cms.bool(True),
+    fillAK4PuppiJetInfo = cms.bool(False),
     fillAK8PuppiJetInfo = cms.bool(True),
 
     pvSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
