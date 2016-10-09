@@ -73,6 +73,8 @@ class jetTree  : public baseTree{
   bool isTHINJet_;
   bool isFATJet_;
   bool isADDJet_;
+  bool isAK4PuppiJet_;
+  bool isAK8PuppiJet_;
   bool useJECText_;
   
   std::string svTagInfosCstr_;

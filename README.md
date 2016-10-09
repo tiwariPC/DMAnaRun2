@@ -1,23 +1,13 @@
 
 # DMAnaRun2
 
-# For CMSSW_8_0_11
+# For CMSSW_8_0_20
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc530
-cmsrel CMSSW_8_0_11
-cd CMSSW_8_0_11/src
+cmsrel CMSSW_8_0_20
+cd CMSSW_8_0_20/src
 cmsenv
 ```
-
-## For double b-tagger
-```
-setenv CMSSW_GIT_REFERENCE /cvmfs/cms.cern.ch/cmssw.git.daily
-git cms-init
-git remote add btv-cmssw https://github.com/cms-btv-pog/cmssw.git
-git fetch --tags btv-cmssw
-git cms-merge-topic -u cms-btv-pog:BoostedDoubleSVTaggerV3-WithWeightFiles-v1_from-CMSSW_8_0_8_patch1
-```
-
 ## For DelPanj and related dependencies
 
 ```
@@ -25,7 +15,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 80X_dev
+git checkout 80X_jet
 
 cd -
 
@@ -52,7 +42,7 @@ tar xvzf Spring16_25nsV6_DATA.tar.gz
 
 cd -
 mv jec/*PFchs.txt .
-mv jec/*AK8PFPuppi.txt .
+mv jec/*PFPuppi.txt .
 rm -rf jec
 
 voms-proxy-init --voms cms
@@ -76,7 +66,7 @@ wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV6_
 tar xvzf Spring16_25nsV6_MC.tar.gz
 cd -
 mv jec/*PFchs.txt .
-mv jec/*AK8PFPuppi.txt .
+mv jec/*PFPuppi.txt .
 rm -rf jec
 
 
@@ -107,7 +97,7 @@ wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV6_
 tar xvzf Spring16_25nsV6_DATA.tar.gz
 cd -
 mv jec/*PFchs.txt .
-mv jec/*AK8PFPuppi.txt .
+mv jec/*PFPuppi.txt .
 rm -rf jec
 
 cp -p crabConfig_data.py crabConfig.py

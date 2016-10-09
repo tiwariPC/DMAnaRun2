@@ -249,6 +249,7 @@ process.PFJetsCHSSoftDrop = ak4PFJetsSoftDrop.clone(
 
 
 
+
 postfix = "PFlow"
 pfCandidates = 'packedPFCandidates'
 jetSource = 'ak4PFJets'
@@ -301,8 +302,10 @@ bTagDiscriminators = [
 ## For jet energy correction
 if options.runOnMC:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionsAK8Puppi     = ('AK8PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
@@ -329,10 +332,25 @@ if options.runOnMC:
 		'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
 		]
 
+	AK4PuppiJECTextFiles = [
+		'Spring16_25nsV6_MC_L1FastJet_AK4PFPuppi.txt',
+		'Spring16_25nsV6_MC_L2Relative_AK4PFPuppi.txt',
+		'Spring16_25nsV6_MC_L3Absolute_AK4PFPuppi.txt'
+		]
+	AK4PuppiJECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK4PFPuppi.txt'  
+
+	AK8PuppiJECTextFiles = [
+		'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
+		'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
+		]
+	AK8PuppiJECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK8PFPuppi.txt'  
 else:
         jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionsAK8Puppi     = ('AK8PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
@@ -361,6 +379,21 @@ else:
 		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt'
 		]
 
+	AK4PuppiJECTextFiles = [
+		'Spring16_25nsV6_DATA_L1FastJet_AK4PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L2Relative_AK4PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK4PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L2L3Residual_AK4PFPuppi.txt'
+		]
+	AK4PuppiJECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK4PFPuppi.txt'
+
+	AK8PuppiJECTextFiles = [
+		'Spring16_25nsV6_DATA_L1FastJet_AK8PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt',
+		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt'
+		]
+	AK8PuppiJECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK8PFPuppi.txt'
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
@@ -513,8 +546,169 @@ addJetCollection(
     )
 
 
+#### Add reclustered AK8 Puppi jet by Eiko
+
+### For AK8 puppi (imported from Bacon)
+#process.load("RecoBTag.ImpactParameter.impactParameter_cff")
+
+#process.load('DelPanj.TreeMaker.myPUPPICorrections_cff')
+#process.load('DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff')
+
+#from DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff  import setMiniAODAK8Puppi
+#from DelPanj.TreeMaker.myBtagging_cff           import addBTagging
+
+#process.btagging = cms.Sequence()
+#addBTagging(process,'AK8PFJetsPuppi' ,0.8,'AK8' ,'Puppi')
+
+#setMiniAODAK8Puppi (process)
+
+process.load('CommonTools/PileupAlgos/Puppi_cff')
+process.puppi.candName       = cms.InputTag('packedPFCandidates')
+process.puppi.vertexName     = cms.InputTag('offlineSlimmedPrimaryVertices')
+
+# take the default AK4 PFJet producer and modify accordingly for cone size and clustering algorithm
+from RecoJets.JetProducers.ak4PFJets_cfi import ak4PFJets
+process.AK8PFJetsPuppi = ak4PFJets.clone(
+    src          = cms.InputTag('puppi'),
+    jetAlgorithm = cms.string("AntiKt"),
+    rParam       = cms.double(0.8),
+    jetPtMin     = cms.double(170)
+    )
+
+process.AK8PFJetsPuppi.doAreaFastjet = True
+
+addJetCollection(
+	process,
+        labelName = "PuppiAK8",
+        jetSource = cms.InputTag('AK8PFJetsPuppi'),
+	algo = 'AK',
+	rParam = 0.8,
+        pfCandidates = cms.InputTag(pfCandidates),
+	genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+        genParticles = cms.InputTag(genParticles),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        jetCorrections = jetCorrectionsAK8Puppi,
+        btagInfos = bTagInfos,
+        #btagDiscriminators = bTagDiscriminators,
+        btagDiscriminators = (bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
+        postfix = postfix
+	)
+
+
+# add Njetiness
+process.load('RecoJets.JetProducers.nJettinessAdder_cfi')
+process.NjettinessAK8Puppi = process.Njettiness.clone()
+process.NjettinessAK8Puppi.src = cms.InputTag("AK8PFJetsPuppi")
+process.NjettinessAK8Puppi.cone = cms.double(0.8)
+process.patJetsPuppiAK8PFlow.userData.userFloats.src += ['NjettinessAK8Puppi:tau1','NjettinessAK8Puppi:tau2','NjettinessAK8Puppi:tau3']
+
+## Add groomed mass
+
+from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsPuppiSoftDrop
+process.ak8PFJetsPuppiSoftDrop = ak8PFJetsPuppiSoftDrop.clone()
+process.load("RecoJets.JetProducers.ak8PFJetsPuppi_groomingValueMaps_cfi")
+process.ak8PFJetsPuppiSoftDropMass.src = cms.InputTag("AK8PFJetsPuppi")
+process.patJetsPuppiAK8PFlow.userData.userFloats.src += ['ak8PFJetsPuppiSoftDropMass']
+
+
+### add softdrop subjets
+process.genJetsNoNuSoftDrop = ak4GenJets.clone(
+    jetAlgorithm = cms.string('AntiKt'),
+    rParam = cms.double(0.8),
+    src = cms.InputTag("packedGenParticlesForJetsNoNu"),
+#    useSoftDrop = cms.bool(False),# because it crashes for PHYS14 samples
+    zcut = cms.double(0.1),
+    beta = cms.double(0.0),
+    R0 = cms.double(0.8),
+    writeCompound = cms.bool(True),
+    jetCollInstanceName=cms.string("SubJets"),
+    jetPtMin = cms.double(170.0)
+)
+from RecoJets.JetProducers.ak4PFJetsSoftDrop_cfi import ak4PFJetsSoftDrop
+process.PFJetsPuppiSoftDrop = ak4PFJetsSoftDrop.clone(
+    jetAlgorithm = cms.string('AntiKt'),
+    rParam = cms.double(0.8),
+    R0 = cms.double(0.8),
+    src          = cms.InputTag('puppi'),
+    srcPVs = getattr(process,"ak4PFJets").srcPVs,
+    doAreaFastjet = cms.bool(True),
+    writeCompound = cms.bool(True),
+    jetCollInstanceName=cms.string("SubJets"),
+    jetPtMin = cms.double(170.0)
+)
+
+# Add SoftDrop jet
+addJetCollection(
+        process,
+        labelName='SoftDropPFPuppi',
+        jetSource=cms.InputTag('PFJetsPuppiSoftDrop'),
+        algo='AK',
+        pfCandidates = cms.InputTag(pfCandidates),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        btagInfos=['None'],
+        btagDiscriminators=['None'],
+        jetCorrections=jetCorrectionsAK8Puppi,
+        genJetCollection = cms.InputTag('genJetsNoNuAK8'),
+        genParticles = cms.InputTag(genParticles),
+        getJetMCFlavour = False, # jet flavor disabled
+        postfix = postfix
+    )
+
+# Add SoftDrop subjet
+addJetCollection(
+        process,
+        labelName='SoftDropSubjetsPFPuppi',
+        jetSource=cms.InputTag('PFJetsPuppiSoftDrop','SubJets'),
+        algo='AK',           # needed for subjet flavor clustering
+        rParam=0.8, # needed for subjet flavor clustering
+        pfCandidates = cms.InputTag(pfCandidates),
+        pvSource = cms.InputTag(pvSource),
+        svSource = cms.InputTag(svSource),
+        muSource = cms.InputTag(muSource),
+        elSource = cms.InputTag(elSource),
+        btagInfos = bTagInfos,
+        btagDiscriminators = bTagDiscriminators,
+        jetCorrections = jetCorrectionsAK4Puppi,
+        genJetCollection = cms.InputTag('genJetsNoNuSoftDrop','SubJets'),
+        genParticles = cms.InputTag(genParticles),
+        explicitJTA = True,  # needed for subjet b tagging
+        svClustering = True, # needed for subjet b tagging
+        fatJets = cms.InputTag('AK8PFJetsPuppi'),              # needed for subjet flavor clustering
+        groomedFatJets = cms.InputTag('PFJetsPuppiSoftDrop'), # needed for subjet flavor clustering
+        runIVF = False,
+        postfix = postfix
+	)
+
+
+
+## Softdrop  Establish references between PATified fat jets and subjets using the BoostedJetMerger
+process.selectedPatJetsSoftDropPFPuppiPacked = cms.EDProducer("BoostedJetMerger",
+        jetSrc=cms.InputTag("selectedPatJetsSoftDropPFPuppi"+postfix),
+        subjetSrc=cms.InputTag("selectedPatJetsSoftDropSubjetsPFPuppi"+postfix)
+)
+
+
+
+## Pack fat jets with subjets
+process.packedPatJetsPFPuppiAK8 = cms.EDProducer("JetSubstructurePacker",
+            jetSrc = cms.InputTag('selectedPatJetsPuppiAK8'+postfix),
+            distMax = cms.double(0.8),
+            algoTags = cms.VInputTag(),
+            algoLabels = cms.vstring(),
+            fixDaughters = cms.bool(False)
+)
+process.packedPatJetsPFPuppiAK8.algoTags.append( cms.InputTag('selectedPatJetsSoftDropPFPuppiPacked') )
+process.packedPatJetsPFPuppiAK8.algoLabels.append( 'SoftDrop' )
+
 process.miniAODjetSequence = cms.Sequence(
-                             process.selectedPatJetsPFCHSAK8PFlow
+                             process.selectedPatJetsPFCHSAK8PFlow*
+			     process.selectedPatJetsPuppiAK8PFlow
                              )
 
 
@@ -573,6 +767,8 @@ for idmod in my_phoid_modules:
 #process.egmPhotonIDs.physicsObjectSrc = cms.InputTag("ncuslimmedPhoton")
 #process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
 
+
+
 ## For normal AK4 jets jet energy correction on top of miniAOD
 from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
 process.patJetCorrFactorsReapplyJECAK4 = updatedPatJetCorrFactors.clone(
@@ -605,6 +801,22 @@ process.patJetsReapplyJECAK8 = updatedPatJets.clone(
 
 process.jetCorrSequenceAK8 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK8 + process.patJetsReapplyJECAK8 )
 
+
+
+## For normal AK4Puppi jets jet energy correction on top of miniAOD
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
+process.patJetCorrFactorsReapplyJECAK4Puppi = updatedPatJetCorrFactors.clone(
+	src = cms.InputTag("slimmedJetsPuppi"),
+	levels = jetCorrectionLevelsFullCHS,
+	payload = 'AK4PFPuppi' ) # Make sure to choose the appropriate levels and payload here!
+
+from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJets
+process.patJetsReapplyJECAK4Puppi = updatedPatJets.clone(
+	jetSource = cms.InputTag("slimmedJetsPuppi"),
+	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECAK4Puppi"))
+  )
+
+process.jetCorrSequenceAK4Puppi = cms.Sequence( process.patJetCorrFactorsReapplyJECAK4Puppi + process.patJetsReapplyJECAK4Puppi )
 
 
 ## For correcting pruned jet mass + CHS
@@ -649,6 +861,10 @@ process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
 process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
+process.tree.AK4PuppijecNames      = cms.vstring(AK4PuppiJECTextFiles)
+process.tree.AK4PuppijecUncName    = cms.string(AK4PuppiJECUncTextFile)
+process.tree.AK8PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.AK8PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
 process.tree.fillAddJetInfo        = cms.bool(True)
 
 if options.runOnMC:
@@ -660,6 +876,7 @@ if options.useJECText:
 	process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
 	process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
 	process.tree.FATJetsForSoftDropMass     = cms.InputTag("slimmedJetsAK8")
+	process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
 
 if not options.runOn25ns:
 ### Electron
@@ -706,9 +923,10 @@ if not options.useJECText:
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
 		process.pfMet+
-	        process.miniAODjetSequence+   ## by raman        
+	        process.miniAODjetSequence+   ## by Eiko        
 		process.jetCorrSequenceAK4+
 		process.jetCorrSequenceAK8+
+		process.jetCorrSequenceAK4Puppi+
 		process.jetCorrSequenceForPrunedMass+
 		process.jetCorrSequenceForSoftDropMass+
 		#process.BadPFMuonFilter *
@@ -723,7 +941,7 @@ else:
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
 		process.pfMet+
-		process.miniAODjetSequence+   ## by raman        
+		process.miniAODjetSequence+   ## by Eiko
 		#process.BadPFMuonFilter *
 		#process.BadChargedCandidateFilter *
 		#process.HBHENoiseFilterResultProducer+ ## by raman

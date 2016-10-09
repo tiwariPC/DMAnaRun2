@@ -30,6 +30,8 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   isTHINJet_(false),
   isFATJet_(false),
   isADDJet_(false),
+  isAK4PuppiJet_(false),
+  isAK8PuppiJet_(false),
   useJECText_(iConfig.getParameter<bool>("useJECText")),
   svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
   jecUncPayLoadName_(iConfig.getParameter<std::string>(Form("%sjecUncPayLoad",desc.data()))),
@@ -44,7 +46,12 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
     isFATJet_=true;
   if (desc.find("ADD")!=std::string::npos)
     isADDJet_=true; 
+  if (desc.find("AK4Puppi")!=std::string::npos)
+    isAK4PuppiJet_=true; 
+  if (desc.find("AK8Puppi")!=std::string::npos)
+    isAK8PuppiJet_=true; 
 
+  std::cout << desc << std::endl;
 
   genjetP4_    = new TClonesArray("TLorentzVector");
   jetP4_       = new TClonesArray("TLorentzVector");
@@ -155,6 +162,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
   jetNPV_=  h_pv->size();
 
+
  
   edm::Handle<pat::JetCollection> JetHandle;
   if(not iEvent.getByToken(jetToken,JetHandle))
@@ -163,6 +171,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	       <<"jetToken"<<std::endl; 
       exit(0);
     }
+
 
   // for getting the L2+L3 correction factor of pruned jet mass
   edm::Handle<pat::JetCollection> JetHandleForPrunedMass;
@@ -208,13 +217,14 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
   std::sort(jets.begin(),jets.end(),PtGreater());
   std::vector<pat::Jet>::const_iterator jet =jets.begin();   
 
+
   for(;jet!=jets.end();jet++){
+
     if(jet->pt() < 10.) continue;
   
     nJet_++;
     //Stuff common for all jets.
     
-
 
     if (jet->genJet()){
 
@@ -328,7 +338,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetPassIDTight_.push_back(passOrNotT);
 
 
-    if(!isFATJet_ && !isADDJet_){
+    if(isTHINJet_){
       float jpumva=0.;
       jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
       //std::cout<<" jpumva = "<<jpumva<<std::endl;
@@ -400,14 +410,22 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetJBP_.push_back(jet->bDiscriminator("pfJetBProbabilityBJetTags"));
 
 
+    if(isAK8PuppiJet_){
+      jetTau1_.push_back(jet->userFloat("NjettinessAK8Puppi:tau1"));
+      jetTau2_.push_back(jet->userFloat("NjettinessAK8Puppi:tau2"));
+      jetTau3_.push_back(jet->userFloat("NjettinessAK8Puppi:tau3"));
+      jetTau21_.push_back(jet->userFloat("NjettinessAK8Puppi:tau2")/jet->userFloat("NjettinessAK8Puppi:tau1"));
+      jetSDmass_.push_back(jet->userFloat("ak8PFJetsPuppiSoftDropMass"));
+    }
+
     if(isFATJet_){
 
+
+      //Puppi related information
       jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
       jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
       jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
       jetTau21_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
-
-      //Puppi related information
       
 
       jetPuppiTau1_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1"));
@@ -556,7 +574,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
   
 
-    if(isADDJet_ || isFATJet_){
+    if(!isTHINJet_ && !isAK4PuppiJet_){
       //HBB tagger
       jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
         
@@ -581,7 +599,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     
     } /// if its ADDJET or FATjet
  
-    if(isFATJet_ ){
+    if(isFATJet_ || isAK8PuppiJet_){
       // the following lines are common to FAT Jet and ADDJets
     
       std::vector<reco::Candidate const *> constituents;
@@ -637,6 +655,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  nSubSoftDropjets++;
   	      
 	  subjetSDFatJetIndex.push_back(nJet_-1);
+	  // subjetSDPx.push_back(iw->correctedP4(0).px());
+	  // subjetSDPy.push_back(iw->correctedP4(0).py());
+	  // subjetSDPz.push_back(iw->correctedP4(0).pz());
+	  // subjetSDE.push_back(iw->correctedP4(0).energy());	
 	  subjetSDPx.push_back(iw->px());
 	  subjetSDPy.push_back(iw->py());
 	  subjetSDPz.push_back(iw->pz());
@@ -706,7 +728,6 @@ jetTree::SetBranches(){
   AddBranch(&matchedDR_ , "matchedDR");
 
   AddBranch(&jetRawFactor_, "jetRawFactor");
-
   AddBranch(&unCorrJetP4_, "unCorrJetP4");
 
   AddBranch(&jetArea_,        "jetArea");
@@ -750,17 +771,13 @@ jetTree::SetBranches(){
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
 
-  
-  if(isFATJet_){
+  if(isFATJet_ || isAK8PuppiJet_){
 
     AddBranch(&jetTau1_,  "jetTau1");
     AddBranch(&jetTau2_,  "jetTau2");
     AddBranch(&jetTau3_,  "jetTau3");
     AddBranch(&jetTau21_, "jetTau21");
-    
     AddBranch(&jetSDmass_,         "jetSDmass");
-    AddBranch(&jetPRmass_,         "jetPRmass");
-    AddBranch(&jetPRmassL2L3Corr_, "jetPRmassL2L3Corr");
 
     // subjet information
     AddBranch(&nSubSDJet_,            "nSubSDJet");
@@ -772,6 +789,15 @@ jetTree::SetBranches(){
     AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
     AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
     AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
+
+  }
+  
+  if(isFATJet_){
+
+    
+    AddBranch(&jetPRmass_,         "jetPRmass");
+    AddBranch(&jetPRmassL2L3Corr_, "jetPRmassL2L3Corr");
+
 
     // puppi information
     AddBranch(&jetPuppiTau1_,   "jetPuppiTau1");
@@ -794,7 +820,7 @@ jetTree::SetBranches(){
   }
 
 
-  if(isFATJet_ || isADDJet_)
+  if(!isTHINJet_ && !isAK4PuppiJet_)
     {
 
       AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
