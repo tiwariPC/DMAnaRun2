@@ -70,6 +70,7 @@ class jetTree  : public baseTree{
   jetTree(){};
   void SetBranches();
 
+  bool isTHINJet_;
   bool isFATJet_;
   bool isADDJet_;
   bool useJECText_;

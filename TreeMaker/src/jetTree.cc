@@ -27,6 +27,7 @@ const math::XYZPoint & position(const reco::VertexCompositePtrCandidate & sv) {r
 
 jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(desc, tree),
+  isTHINJet_(false),
   isFATJet_(false),
   isADDJet_(false),
   useJECText_(iConfig.getParameter<bool>("useJECText")),
@@ -37,6 +38,8 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   jet2012ID_()
 {
   
+  if (desc.find("THIN")!=std::string::npos)
+    isTHINJet_=true;
   if (desc.find("FAT")!=std::string::npos)
     isFATJet_=true;
   if (desc.find("ADD")!=std::string::npos)
@@ -689,6 +692,9 @@ void
 jetTree::SetBranches(){
   
   AddBranch(&nJet_,   "nJet");
+  AddBranch(&jetP4_,       "jetP4");
+
+  if(!isADDJet_){
   AddBranch(&jetRho_, "jetRho");
   AddBranch(&jetNPV_, "jetNPV");
 
@@ -701,7 +707,6 @@ jetTree::SetBranches(){
 
   AddBranch(&jetRawFactor_, "jetRawFactor");
 
-  AddBranch(&jetP4_,       "jetP4");
   AddBranch(&unCorrJetP4_, "unCorrJetP4");
 
   AddBranch(&jetArea_,        "jetArea");
@@ -713,13 +718,6 @@ jetTree::SetBranches(){
   AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
   AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
   AddBranch(&jetPassIDTight_,  "jetPassIDTight");
-
-  if(!isFATJet_ && !isADDJet_){
-    AddBranch(&PUJetID_,   "PUJetID");
-    AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
-    AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
-    AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
-  }
 
   AddBranch(&jetCEmEF_,  "jetCEmEF");
   AddBranch(&jetCHadEF_, "jetCHadEF");
@@ -742,6 +740,15 @@ jetTree::SetBranches(){
   AddBranch(&jetJP_,    "jetJP");
   AddBranch(&jetJBP_,   "jetJBP");
 
+
+  }
+
+  if(isTHINJet_){
+    AddBranch(&PUJetID_,   "PUJetID");
+    AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
+    AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
+    AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
+  }
 
   
   if(isFATJet_){
