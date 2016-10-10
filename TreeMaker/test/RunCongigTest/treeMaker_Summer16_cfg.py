@@ -707,7 +707,7 @@ process.packedPatJetsPFPuppiAK8.algoTags.append( cms.InputTag('selectedPatJetsSo
 process.packedPatJetsPFPuppiAK8.algoLabels.append( 'SoftDrop' )
 
 process.miniAODjetSequence = cms.Sequence(
-                             process.selectedPatJetsPFCHSAK8PFlow*
+                             process.selectedPatJetsPFCHSAK8PFlow+
 			     process.selectedPatJetsPuppiAK8PFlow
                              )
 
