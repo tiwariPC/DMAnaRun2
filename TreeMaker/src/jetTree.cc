@@ -551,6 +551,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  subjetSDPy_puppi.push_back(DUMMY);
 	  subjetSDPz_puppi.push_back(DUMMY);
 	  subjetSDE_puppi.push_back(DUMMY);	
+	  subjetSDCSV_puppi.push_back(DUMMY);	
 	  jetPuppiSDmass_.push_back(DUMMY);
 	  jetPuppiSDmassL2L3Corr_.push_back(DUMMY);
 	}
