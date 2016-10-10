@@ -121,7 +121,7 @@ tree = cms.EDAnalyzer(
     FATjecUncPayLoad     = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
     
     ### AddJets
-    ADDJets              = cms.InputTag("selectedPatJetsPFCHSAK8PFlow"),
+    ADDJets              = cms.InputTag("selectedPatJetsAK8PFCHS"),
     svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),    
     ADDjecNames          = cms.vstring(
         'Spring16_25nsV6_MC_L1FastJet_AK8PFchs.txt',
@@ -143,7 +143,7 @@ tree = cms.EDAnalyzer(
     AK4PuppijecUncPayLoad     = cms.string('AK4PFPuppi'),
 
     ### AK8PuppiJets
-    AK8PuppiJets              = cms.InputTag("packedPatJetsPFPuppiAK8"),
+    AK8PuppiJets              = cms.InputTag("packedPatJetsAK8PFPuppi"),
     AK8PuppijecNames          = cms.vstring(
         'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
         'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',

@@ -194,6 +194,7 @@ class jetTree  : public baseTree{
   std::vector<std::vector<float> > subjetSDPuppiPy_;
   std::vector<std::vector<float> > subjetSDPuppiPz_;
   std::vector<std::vector<float> > subjetSDPuppiE_;
+  std::vector<std::vector<float> > subjetSDPuppiCSV_;
   
   
   //jet  Hbb tagger for fat and add jet

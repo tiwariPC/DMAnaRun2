@@ -451,12 +451,14 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       std::vector<float> subjetSDPy_puppi; 
       std::vector<float> subjetSDPz_puppi; 
       std::vector<float> subjetSDE_puppi; 	
+      std::vector<float> subjetSDCSV_puppi; 	
 
       subjetSDFatJetIndex_puppi.clear();
       subjetSDPx_puppi.clear();
       subjetSDPy_puppi.clear();
       subjetSDPz_puppi.clear();
       subjetSDE_puppi.clear();
+      subjetSDCSV_puppi.clear();
 
       TLorentzVector puppi_softdrop(0,0,0,0);
       TLorentzVector puppi_softdrop_raw(0,0,0,0);
@@ -469,6 +471,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	subjetSDPy_puppi.push_back(it->py());
 	subjetSDPz_puppi.push_back(it->pz());
 	subjetSDE_puppi.push_back(it->energy());	
+	subjetSDCSV_puppi.push_back(it->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));	
 
 	puppi_softdrop += TLorentzVector(it->px(),
 					 it->py(),
@@ -567,6 +570,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       subjetSDPuppiPy_.push_back(subjetSDPy_puppi);
       subjetSDPuppiPz_.push_back(subjetSDPz_puppi);
       subjetSDPuppiE_.push_back(subjetSDE_puppi);
+      subjetSDPuppiCSV_.push_back(subjetSDCSV_puppi);
 
 
 
@@ -817,6 +821,7 @@ jetTree::SetBranches(){
     AddBranch(&subjetSDPuppiPy_,          "subjetSDPuppiPy");     
     AddBranch(&subjetSDPuppiPz_,          "subjetSDPuppiPz");     
     AddBranch(&subjetSDPuppiE_,           "subjetSDPuppiE");     
+    AddBranch(&subjetSDPuppiCSV_,           "subjetSDPuppiCSV");     
 
   }
 
@@ -935,6 +940,7 @@ jetTree::Clear(){
   subjetSDPuppiPy_.clear();
   subjetSDPuppiPz_.clear();
   subjetSDPuppiE_.clear();
+  subjetSDPuppiCSV_.clear();
 
 
   //jet  Hbb tagger for fat and add jet

@@ -8,6 +8,8 @@ cmsrel CMSSW_8_0_20
 cd CMSSW_8_0_20/src
 cmsenv
 ```
+
+
 ## For DelPanj and related dependencies
 
 ```
@@ -20,6 +22,14 @@ git checkout 80X_puppi
 cd -
 
 ```
+
+## For jetToolBox
+```
+git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_80X_V2
+cp -p DelPanj/myJetToolBox/jetToolbox_cff.py JMEAnalysis/JetToolbox/python/.
+
+```
+
 
 ## Compile And Run 
 ```
