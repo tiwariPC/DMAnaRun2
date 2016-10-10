@@ -421,13 +421,13 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     if(isFATJet_){
 
 
-      //Puppi related information
       jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
       jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
       jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
       jetTau21_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
       
 
+      //Puppi related information
       jetPuppiTau1_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1"));
       jetPuppiTau2_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau2"));
       jetPuppiTau3_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau3"));
@@ -570,10 +570,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
 
-    }
+    } // only for AK8CHS jets
 
   
-
+    // if this is a AK8 jet
     if(!isTHINJet_ && !isAK4PuppiJet_){
       //HBB tagger
       jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
@@ -597,27 +597,28 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jet_nSV_.push_back(nSV);  
       jet_SVMass_.push_back(jet_SVMass_float);
     
-    } /// if its ADDJET or FATjet
+    } /// if its ADDJET or FATjet or AK8PuppiJet
  
+    // softdrop subjets
     if(isFATJet_ || isAK8PuppiJet_){
-      // the following lines are common to FAT Jet and ADDJets
+      // the following lines are common to FAT Jet and AK8PuppiJets
     
-      std::vector<reco::Candidate const *> constituents;
-      for ( unsigned ida = 0; ida < jet->numberOfDaughters(); ++ida ) 
-	{
-	  reco::Candidate const * cand = jet->daughter(ida);
-	  if ( cand->numberOfDaughters() == 0 ) constituents.push_back( cand ) ;
-	  else 
-	    {
-	      for ( unsigned jda = 0; jda < cand->numberOfDaughters(); ++jda ) 
-		{
-		  reco::Candidate const * cand2 = cand->daughter(jda);
-		  constituents.push_back( cand2 );
-		}
-	    }
-	}
+      // std::vector<reco::Candidate const *> constituents;
+      // for ( unsigned ida = 0; ida < jet->numberOfDaughters(); ++ida ) 
+      // 	{
+      // 	  reco::Candidate const * cand = jet->daughter(ida);
+      // 	  if ( cand->numberOfDaughters() == 0 ) constituents.push_back( cand ) ;
+      // 	  else 
+      // 	    {
+      // 	      for ( unsigned jda = 0; jda < cand->numberOfDaughters(); ++jda ) 
+      // 		{
+      // 		  reco::Candidate const * cand2 = cand->daughter(jda);
+      // 		  constituents.push_back( cand2 );
+      // 		}
+      // 	    }
+      // 	}
 
-      std::sort( constituents.begin(), constituents.end(), [] (reco::Candidate const * ida, reco::Candidate const * jda){return ida->pt() > jda->pt();} );
+      // std::sort( constituents.begin(), constituents.end(), [] (reco::Candidate const * ida, reco::Candidate const * jda){return ida->pt() > jda->pt();} );
 
       //turn off subjet for not patified now 
       pat::Jet const *jetptr = &*jet;  
@@ -695,7 +696,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
      
   	  
 
-    }//if is Fat jet 
+    }//if is Fat jet  or AK8Puppijet
 
 
   }//jet loop

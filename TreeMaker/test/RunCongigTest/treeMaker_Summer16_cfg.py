@@ -572,10 +572,9 @@ process.AK8PFJetsPuppi = ak4PFJets.clone(
     src          = cms.InputTag('puppi'),
     jetAlgorithm = cms.string("AntiKt"),
     rParam       = cms.double(0.8),
-    jetPtMin     = cms.double(170)
+    jetPtMin     = cms.double(170),
+    doAreaFastjet = cms.bool(True)
     )
-
-process.AK8PFJetsPuppi.doAreaFastjet = True
 
 addJetCollection(
 	process,
@@ -608,7 +607,17 @@ process.patJetsPuppiAK8PFlow.userData.userFloats.src += ['NjettinessAK8Puppi:tau
 ## Add groomed mass
 
 from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsPuppiSoftDrop
-process.ak8PFJetsPuppiSoftDrop = ak8PFJetsPuppiSoftDrop.clone()
+process.ak8PFJetsPuppiSoftDrop = ak8PFJetsPuppiSoftDrop.clone(
+	jetAlgorithm = cms.string('AntiKt'),
+	rParam = cms.double(0.8),
+	R0 = cms.double(0.8),
+	src          = cms.InputTag('puppi'),
+	srcPVs = getattr(process,"ak4PFJets").srcPVs,
+	doAreaFastjet = cms.bool(True),
+	writeCompound = cms.bool(True),
+	jetCollInstanceName=cms.string("SubJets"),
+	jetPtMin = cms.double(170.0)	
+    )
 process.load("RecoJets.JetProducers.ak8PFJetsPuppi_groomingValueMaps_cfi")
 process.ak8PFJetsPuppiSoftDropMass.src = cms.InputTag("AK8PFJetsPuppi")
 process.patJetsPuppiAK8PFlow.userData.userFloats.src += ['ak8PFJetsPuppiSoftDropMass']
@@ -619,32 +628,20 @@ process.genJetsNoNuSoftDrop = ak4GenJets.clone(
     jetAlgorithm = cms.string('AntiKt'),
     rParam = cms.double(0.8),
     src = cms.InputTag("packedGenParticlesForJetsNoNu"),
-#    useSoftDrop = cms.bool(False),# because it crashes for PHYS14 samples
     zcut = cms.double(0.1),
     beta = cms.double(0.0),
     R0 = cms.double(0.8),
-    writeCompound = cms.bool(True),
-    jetCollInstanceName=cms.string("SubJets"),
-    jetPtMin = cms.double(170.0)
-)
-from RecoJets.JetProducers.ak4PFJetsSoftDrop_cfi import ak4PFJetsSoftDrop
-process.PFJetsPuppiSoftDrop = ak4PFJetsSoftDrop.clone(
-    jetAlgorithm = cms.string('AntiKt'),
-    rParam = cms.double(0.8),
-    R0 = cms.double(0.8),
-    src          = cms.InputTag('puppi'),
-    srcPVs = getattr(process,"ak4PFJets").srcPVs,
     doAreaFastjet = cms.bool(True),
     writeCompound = cms.bool(True),
-    jetCollInstanceName=cms.string("SubJets"),
-    jetPtMin = cms.double(170.0)
+    jetCollInstanceName=cms.string("SubJets")
 )
+
 
 # Add SoftDrop jet
 addJetCollection(
         process,
         labelName='SoftDropPFPuppi',
-        jetSource=cms.InputTag('PFJetsPuppiSoftDrop'),
+        jetSource=cms.InputTag('ak8PFJetsPuppiSoftDrop'),
         algo='AK',
         pfCandidates = cms.InputTag(pfCandidates),
         pvSource = cms.InputTag(pvSource),
@@ -664,7 +661,7 @@ addJetCollection(
 addJetCollection(
         process,
         labelName='SoftDropSubjetsPFPuppi',
-        jetSource=cms.InputTag('PFJetsPuppiSoftDrop','SubJets'),
+        jetSource=cms.InputTag('ak8PFJetsPuppiSoftDrop','SubJets'),
         algo='AK',           # needed for subjet flavor clustering
         rParam=0.8, # needed for subjet flavor clustering
         pfCandidates = cms.InputTag(pfCandidates),
@@ -680,7 +677,7 @@ addJetCollection(
         explicitJTA = True,  # needed for subjet b tagging
         svClustering = True, # needed for subjet b tagging
         fatJets = cms.InputTag('AK8PFJetsPuppi'),              # needed for subjet flavor clustering
-        groomedFatJets = cms.InputTag('PFJetsPuppiSoftDrop'), # needed for subjet flavor clustering
+        groomedFatJets = cms.InputTag('ak8PFJetsPuppiSoftDrop'), # needed for subjet flavor clustering
         runIVF = False,
         postfix = postfix
 	)
