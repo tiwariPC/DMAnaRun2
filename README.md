@@ -25,9 +25,7 @@ cd -
 
 ## For jetToolBox
 ```
-git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_80X_V2
-cp -p DelPanj/myJetToolBox/jetToolbox_cff.py JMEAnalysis/JetToolbox/python/.
-
+git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_80X
 ```
 
 
