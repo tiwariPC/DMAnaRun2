@@ -143,7 +143,7 @@ tree = cms.EDAnalyzer(
     AK4PuppijecUncPayLoad     = cms.string('AK4PFPuppi'),
 
     ### AK8PuppiJets
-    AK8PuppiJets              = cms.InputTag("packedPatJetsAK8PFPuppi"),
+    AK8PuppiJets              = cms.InputTag("packedPatJetsAK8PFPuppiSoftDrop"),
     AK8PuppijecNames          = cms.vstring(
         'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
         'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
