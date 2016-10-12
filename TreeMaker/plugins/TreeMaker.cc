@@ -35,6 +35,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillAddJetInfo_  =false;
   fillAK4PuppiJetInfo_ = false;
   fillAK8PuppiJetInfo_ = false;
+  fillCA15PuppiJetInfo_ = false;
 
   fillPUweightInfo_ = iConfig.getParameter<bool>("fillPUweightInfo");
   fillEventInfo_    = iConfig.getParameter<bool>("fillEventInfo");
@@ -51,6 +52,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillAddJetInfo_   = iConfig.getParameter<bool>("fillAddJetInfo");
   fillAK4PuppiJetInfo_   = iConfig.getParameter<bool>("fillAK4PuppiJetInfo");
   fillAK8PuppiJetInfo_   = iConfig.getParameter<bool>("fillAK8PuppiJetInfo");
+  fillCA15PuppiJetInfo_   = iConfig.getParameter<bool>("fillCA15PuppiJetInfo");
    
   
   edm::Service<TFileService> fs;
@@ -216,6 +218,15 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       AK8PuppijetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
     }
 
+  if( fillCA15PuppiJetInfo_)
+    {
+      std::string desc            = "CA15Puppi";
+      CA15PuppijetTree_                 = new jetTree(desc,tree_,iConfig);
+      CA15PuppijetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
+      CA15PuppijetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
+      CA15PuppijetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
+    }
+
   
   
 }
@@ -247,6 +258,7 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillAddJetInfo_ )   ADDjetTree_    ->Fill(iEvent, iSetup);  
   if( fillAK4PuppiJetInfo_ ) AK4PuppijetTree_->Fill(iEvent, iSetup); 
   if( fillAK8PuppiJetInfo_ ) AK8PuppijetTree_->Fill(iEvent, iSetup); 
+  if( fillCA15PuppiJetInfo_ ) CA15PuppijetTree_->Fill(iEvent, iSetup); 
   tree_->Fill();
 }
 

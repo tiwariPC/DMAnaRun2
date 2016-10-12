@@ -75,6 +75,7 @@ class jetTree  : public baseTree{
   bool isADDJet_;
   bool isAK4PuppiJet_;
   bool isAK8PuppiJet_;
+  bool isCA15PuppiJet_;
   bool useJECText_;
   
   std::string svTagInfosCstr_;

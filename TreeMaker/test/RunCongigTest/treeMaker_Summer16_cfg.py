@@ -427,6 +427,18 @@ process.puppi.candName       = cms.InputTag('packedPFCandidates')
 process.puppi.vertexName     = cms.InputTag('offlineSlimmedPrimaryVertices')
 
 from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
+
+
+### CA15Puppi
+jetToolbox( process, 'ca15', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
+	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexCA15BJetTags'])),
+	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsFullCHS, 
+	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsFullCHS, 
+	    Cut='pt>120',
+	    addSoftDrop=True,addSoftDropSubjets=True, betaCut=1.0, zCutSD=0.15,
+	    addNsub=True ) 
+
+### AK8Puppi
 jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
 	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
 	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsFullCHS, 
@@ -434,7 +446,7 @@ jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=opti
 	    Cut='pt>170',
 	    addSoftDrop=True,addSoftDropSubjets=True,addNsub=True ) 
 
-
+### ADDjet for doubleb-tagger
 jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='CHS', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC,
 	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
 	    JETCorrPayload="AK8PFchs", JETCorrLevels=jetCorrectionLevelsFullCHS,
@@ -591,6 +603,8 @@ process.tree.AK4PuppijecNames      = cms.vstring(AK4PuppiJECTextFiles)
 process.tree.AK4PuppijecUncName    = cms.string(AK4PuppiJECUncTextFile)
 process.tree.AK8PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
 process.tree.AK8PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
+process.tree.CA15PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.CA15PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
 process.tree.fillAddJetInfo        = cms.bool(True)
 
 if options.runOnMC:

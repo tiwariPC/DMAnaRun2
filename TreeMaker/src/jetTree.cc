@@ -32,6 +32,7 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   isADDJet_(false),
   isAK4PuppiJet_(false),
   isAK8PuppiJet_(false),
+  isCA15PuppiJet_(false),
   useJECText_(iConfig.getParameter<bool>("useJECText")),
   svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
   jecUncPayLoadName_(iConfig.getParameter<std::string>(Form("%sjecUncPayLoad",desc.data()))),
@@ -50,6 +51,8 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
     isAK4PuppiJet_=true; 
   if (desc.find("AK8Puppi")!=std::string::npos)
     isAK8PuppiJet_=true; 
+  if (desc.find("CA15Puppi")!=std::string::npos)
+    isCA15PuppiJet_=true; 
 
   std::cout << desc << std::endl;
 
@@ -418,6 +421,15 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jetSDmass_.push_back(jet->userFloat("ak8PFJetsPuppiSoftDropMass"));
     }
 
+
+    if(isCA15PuppiJet_){
+      jetTau1_.push_back(jet->userFloat("NjettinessCA15Puppi:tau1"));
+      jetTau2_.push_back(jet->userFloat("NjettinessCA15Puppi:tau2"));
+      jetTau3_.push_back(jet->userFloat("NjettinessCA15Puppi:tau3"));
+      jetTau21_.push_back(jet->userFloat("NjettinessCA15Puppi:tau2")/jet->userFloat("NjettinessCA15Puppi:tau1"));
+      jetSDmass_.push_back(jet->userFloat("ca15PFJetsPuppiSoftDropMass"));
+    }
+
     if(isFATJet_){
 
 
@@ -581,7 +593,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     // if this is a AK8 jet
     if(!isTHINJet_ && !isAK4PuppiJet_){
       //HBB tagger
-      jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
+      if(isCA15PuppiJet_)
+	jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexCA15BJetTags"));
+      else
+	jet_DoubleSV_.push_back(jet->bDiscriminator("pfBoostedDoubleSecondaryVertexAK8BJetTags"));
         
       std::vector<float> jet_SVMass_float;
   	  
@@ -602,10 +617,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jet_nSV_.push_back(nSV);  
       jet_SVMass_.push_back(jet_SVMass_float);
     
-    } /// if its ADDJET or FATjet or AK8PuppiJet
+    } /// if its ADDJET or FATjet or AK8PuppiJet or CA15PuppiJet
  
     // softdrop subjets
-    if(isFATJet_ || isAK8PuppiJet_){
+    if(isFATJet_ || isAK8PuppiJet_ || isCA15PuppiJet_){
       // the following lines are common to FAT Jet and AK8PuppiJets
     
       // std::vector<reco::Candidate const *> constituents;
@@ -701,7 +716,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
      
   	  
 
-    }//if is Fat jet  or AK8Puppijet
+    }//if is Fat jet  or AK8Puppijet or CA15Puppijet
 
 
   }//jet loop
@@ -777,7 +792,7 @@ jetTree::SetBranches(){
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
 
-  if(isFATJet_ || isAK8PuppiJet_){
+  if(isFATJet_ || isAK8PuppiJet_ || isCA15PuppiJet_){
 
     AddBranch(&jetTau1_,  "jetTau1");
     AddBranch(&jetTau2_,  "jetTau2");

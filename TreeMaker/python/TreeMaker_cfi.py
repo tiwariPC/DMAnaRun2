@@ -19,6 +19,7 @@ tree = cms.EDAnalyzer(
     fillAddJetInfo   = cms.bool(False),
     fillAK4PuppiJetInfo = cms.bool(False),
     fillAK8PuppiJetInfo = cms.bool(True),
+    fillCA15PuppiJetInfo = cms.bool(False),
 
     pvSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
 
@@ -151,6 +152,17 @@ tree = cms.EDAnalyzer(
         ),
     AK8PuppijecUncName        = cms.string('Spring16_25nsV6_MC_Uncertainty_AK8PFPuppi.txt'),
     AK8PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),    
+
+    ### CA15PuppiJets
+    CA15PuppiJets              = cms.InputTag("packedPatJetsCA15PFPuppiSoftDrop"),
+    CA15PuppijecNames          = cms.vstring(
+        'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
+        'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
+        'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
+        ),
+    CA15PuppijecUncName        = cms.string('Spring16_25nsV6_MC_Uncertainty_AK8PFPuppi.txt'),
+    CA15PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),    
+
     outFileName=cms.string('outputFileName.root')
 
 )
