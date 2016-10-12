@@ -126,7 +126,9 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(
-        '/store/data/Run2015D/JetHT/MINIAOD/05Oct2015-v1/50000/0067D1EA-EE6F-E511-B561-0050560207C5.root'
+#        '/store/data/Run2015D/JetHT/MINIAOD/05Oct2015-v1/50000/0067D1EA-EE6F-E511-B561-0050560207C5.root'
+		'/store/mc/RunIISpring15DR74/BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph-herwigpp/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/20000/B6A4C69B-A7C2-E511-98BC-0CC47A4C8E34.root'	
+#		'/store/mc/RunIISpring15DR74/BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v1/30000/E8ACFA59-E233-E511-9FEB-002618943948.root'
         #'file:DelPanj/TreeMaker/test/RunCongigTest/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
 #        'file:/afs/cern.ch/work/s/syu/public/miniAOD/ZprimeToZhToZlephbb_narrow_M-2000_13TeV-madgraph_miniAODv2.root'
 		#'file:met_2015D_V4.root'
@@ -763,7 +765,7 @@ for idmod in my_phoid_modules:
 
 process.tree = cms.EDAnalyzer(
     'TreeMaker',
-    fillPUweightInfo = cms.bool(True),
+    fillPUweightInfo = cms.bool(False),
     fillEventInfo    = cms.bool(True),
     fillMetInfo      = cms.bool(True),
     fillTrigInfo     = cms.bool(True),
@@ -793,10 +795,10 @@ process.tree = cms.EDAnalyzer(
 
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
-    maxNumGenPar  =  cms.uint32(30),
+    maxNumGenPar  =  cms.uint32(3000),
     applyStatusSelection = cms.bool(True),
     applyPromptSelection = cms.bool(False),
-    saveLHEWeights       = cms.bool(True),
+    saveLHEWeights       = cms.bool(False),
 ##### when applyPromptSelection is True
 #    maxNumGenPar  =  cms.uint32(60), 
     

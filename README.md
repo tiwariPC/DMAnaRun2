@@ -22,7 +22,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 74X_lep
+git checkout 74X_neutrino
 
 cd -
 
@@ -60,17 +60,6 @@ cp -p ../miniIso_effectiveArea/*txt .
 cp -p crabConfig_MC.py crabConfig.py
 source /cvmfs/cms.cern.ch/crab3/crab.csh (for tcsh) or source /cvmfs/cms.cern.ch/crab3/crab.sh (for bash)
 voms-proxy-init --voms cms
-python MultiCrab_zh.py submit
+python MultiCrab_dihiggs.py submit
 ```
 
-## To submit data crab jobs
-modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need
-```
-cd DelPanj/CrabUtilities
-cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Spring15_Nocleaning_cfg.py .
-cp -p ../miniIso_effectiveArea/*txt .
-cp -p crabConfig_data.py crabConfig.py
-source /cvmfs/cms.cern.ch/crab3/crab.csh (for tcsh) or source /cvmfs/cms.cern.ch/crab3/crab.sh (for bash)
-voms-proxy-init --voms cms
-python MultiCrab_zh.py submit
-```
