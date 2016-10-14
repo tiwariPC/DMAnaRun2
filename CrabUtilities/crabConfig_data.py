@@ -41,7 +41,7 @@ config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 20
 
 #config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-278290_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt'
-config.Data.lumiMask = 'Cert_271036-278290_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt'
+config.Data.lumiMask = 'Cert_271036-282037_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt'
 config.Data.ignoreLocality = True
 
 
