@@ -671,11 +671,24 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       subjetSDHadronFlavor.clear();
       subjetSDCSV.clear(); 
 
+      float genjet_softdropmass=DUMMY;
+      TLorentzVector genjet_softdrop_l4;
+      genjet_softdrop_l4.SetPxPyPzE(0,0,0,0);
 
       for ( auto const & iw : wSubjets ) 
 	{
 
 	  nSubSoftDropjets++;
+
+	  // build genjet softdrop mass
+	  if (iw->genJet()){
+	    genjet_softdrop_l4 +=TLorentzVector(
+						iw->genJet()->p4().px(),
+						iw->genJet()->p4().py(),
+						iw->genJet()->p4().pz(),
+						iw->genJet()->p4().energy()
+						);
+	  }
   	      
 	  subjetSDFatJetIndex.push_back(nJet_-1);
 
@@ -703,7 +716,13 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  subjetSDHadronFlavor.push_back(DUMMY);	      
 	  subjetSDCSV.push_back(DUMMY);   
 	}
-  	    
+      
+      if(nSubSoftDropjets==0 || genjet_softdrop_l4.E()<1e-6)
+	genjet_softdropmass = DUMMY;
+      else
+	genjet_softdropmass = genjet_softdrop_l4.M();
+
+      jetGenSDmass_.push_back(genjet_softdropmass);
       nSubSDJet_.push_back(nSubSoftDropjets); 
       subjetSDFatJetIndex_.push_back(subjetSDFatJetIndex);
       subjetSDPx_.push_back(subjetSDPx);
@@ -803,6 +822,7 @@ jetTree::SetBranches(){
     AddBranch(&jetSDmass_,         "jetSDmass");
 
     // subjet information
+    AddBranch(&jetGenSDmass_,         "jetGenSDmass");
     AddBranch(&nSubSDJet_,            "nSubSDJet");
     AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
     AddBranch(&subjetSDPx_,           "subjetSDPx");     
@@ -977,7 +997,7 @@ jetTree::Clear(){
 
 
   // subjet of jets
-
+  jetGenSDmass_.clear();
   nSubSDJet_.clear();
   subjetSDPx_.clear();
   subjetSDPy_.clear();

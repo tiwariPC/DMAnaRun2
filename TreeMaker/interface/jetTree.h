@@ -212,6 +212,7 @@ class jetTree  : public baseTree{
 
   // subjet of jets
 
+  std::vector<float> jetGenSDmass_; // build from genJets of subjets
   std::vector<int>   nSubSDJet_;
   std::vector<std::vector<int> >   subjetSDFatJetIndex_; 
   std::vector<std::vector<float> > subjetSDPx_;
