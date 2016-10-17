@@ -218,6 +218,7 @@ class jetTree  : public baseTree{
   std::vector<std::vector<float> > subjetSDPy_;
   std::vector<std::vector<float> > subjetSDPz_;
   std::vector<std::vector<float> > subjetSDE_;
+  std::vector<std::vector<float> > subjetSDRawFactor_;
   std::vector<std::vector<int> >   subjetSDCharge_; 
   std::vector<std::vector<int> >   subjetSDPartonFlavor_;
   std::vector<std::vector<int> >   subjetSDHadronFlavor_;

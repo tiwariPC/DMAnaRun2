@@ -654,6 +654,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       std::vector<float> subjetSDPy; 
       std::vector<float> subjetSDPz; 
       std::vector<float> subjetSDE; 	
+      std::vector<float> subjetSDRawFactor; 
       std::vector<int>   subjetSDCharge;
       std::vector<int>   subjetSDPartonFlavor;
       std::vector<int>   subjetSDHadronFlavor;
@@ -664,6 +665,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       subjetSDPy.clear();
       subjetSDPz.clear();
       subjetSDE.clear();
+      subjetSDRawFactor.clear();
       subjetSDCharge.clear();
       subjetSDPartonFlavor.clear();
       subjetSDHadronFlavor.clear();
@@ -676,14 +678,12 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  nSubSoftDropjets++;
   	      
 	  subjetSDFatJetIndex.push_back(nJet_-1);
-	  // subjetSDPx.push_back(iw->correctedP4(0).px());
-	  // subjetSDPy.push_back(iw->correctedP4(0).py());
-	  // subjetSDPz.push_back(iw->correctedP4(0).pz());
-	  // subjetSDE.push_back(iw->correctedP4(0).energy());	
+
 	  subjetSDPx.push_back(iw->px());
 	  subjetSDPy.push_back(iw->py());
 	  subjetSDPz.push_back(iw->pz());
 	  subjetSDE.push_back(iw->energy());	
+	  subjetSDRawFactor.push_back(iw->jecFactor("Uncorrected"));
 	  subjetSDCharge.push_back(iw->charge());
 	  subjetSDPartonFlavor.push_back(iw->partonFlavour());
 	  subjetSDHadronFlavor.push_back(iw->hadronFlavour());	      
@@ -697,6 +697,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  subjetSDPy.push_back(DUMMY);
 	  subjetSDPz.push_back(DUMMY);
 	  subjetSDE.push_back(DUMMY);	
+	  subjetSDRawFactor.push_back(DUMMY);
 	  subjetSDCharge.push_back(DUMMY);
 	  subjetSDPartonFlavor.push_back(DUMMY);
 	  subjetSDHadronFlavor.push_back(DUMMY);	      
@@ -709,6 +710,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       subjetSDPy_.push_back(subjetSDPy);
       subjetSDPz_.push_back(subjetSDPz);
       subjetSDE_.push_back(subjetSDE);
+      subjetSDRawFactor_.push_back(subjetSDRawFactor);
       subjetSDCharge_.push_back(subjetSDCharge);
       subjetSDPartonFlavor_.push_back(subjetSDPartonFlavor);
       subjetSDHadronFlavor_.push_back(subjetSDHadronFlavor);	      
@@ -807,6 +809,7 @@ jetTree::SetBranches(){
     AddBranch(&subjetSDPy_,           "subjetSDPy");     
     AddBranch(&subjetSDPz_,           "subjetSDPz");     
     AddBranch(&subjetSDE_,            "subjetSDE");     
+    AddBranch(&subjetSDRawFactor_,    "subjetSDRawFactor");     
     AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
     AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
     AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
@@ -980,6 +983,7 @@ jetTree::Clear(){
   subjetSDPy_.clear();
   subjetSDPz_.clear();
   subjetSDE_.clear();
+  subjetSDRawFactor_.clear();
   subjetSDCharge_.clear();
   subjetSDFatJetIndex_.clear();
   subjetSDPartonFlavor_.clear();
