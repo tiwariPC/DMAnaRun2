@@ -179,6 +179,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
   for(unsigned int genIndex=0; genIndex < MAXNGENPAR_ && genIndex < myParticles.size(); genIndex++){
     
     std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
+    if(genIndex>30 && abs(geni->pdgId())!=12 && abs(geni->pdgId())!=14 && abs(geni->pdgId())!=16)continue;
     nGenPar_++;
 
    TLorentzVector p4(geni->px(),geni->py(),geni->pz(),geni->energy());
@@ -189,12 +190,22 @@ genInfoTree::Fill(const edm::Event& iEvent)
     genParSt_.push_back(geni->status());
 
     int mompid = -9999;
+    int gmompid = -9999;
     if( geni->numberOfMothers() ==1 ) 
-      mompid = geni->mother()->pdgId();
+      {
+	mompid = geni->mother()->pdgId();
+	gmompid = geni->mother()->mother()->pdgId();
+	else
+	  gmompid = 10000+geni->mother()->numberOfMothers();
+      }
     else
-      mompid = 10000+geni->numberOfMothers();
+      {
+	mompid = 10000+geni->numberOfMothers();
+	gmompid = -1;
+      }
 
     genMomParId_.push_back(mompid);
+    genGMomParId_.push_back(gmompid);
 
     genParIndex_.push_back(genIndex);
 
@@ -313,6 +324,7 @@ genInfoTree::SetBranches(){
   AddBranch(&genParId_,"genParId");
   AddBranch(&genParSt_,"genParSt");
   AddBranch(&genMomParId_,"genMomParId");
+  AddBranch(&genGMomParId_,"genGMomParId");
   AddBranch(&genParIndex_,"genParIndex");
 
   AddBranch(&genNMo_,"genNMo");
@@ -354,6 +366,7 @@ genInfoTree::Clear(){
   genParId_.clear();
   genParSt_.clear();
   genMomParId_.clear();
+  genGMomParId_.clear();
   genParIndex_.clear();
   genNMo_.clear();
   genNDa_.clear();
