@@ -195,8 +195,6 @@ genInfoTree::Fill(const edm::Event& iEvent)
       {
 	mompid = geni->mother()->pdgId();
 	gmompid = geni->mother()->mother()->pdgId();
-	else
-	  gmompid = 10000+geni->mother()->numberOfMothers();
       }
     else
       {
