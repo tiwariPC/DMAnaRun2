@@ -17,7 +17,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 80X_puppi
+git checkout 80X_neutrino
 
 cd -
 
