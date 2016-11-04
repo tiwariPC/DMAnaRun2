@@ -63,7 +63,6 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t foundPFHT350_PFMET120           = trigName.find("HLT_PFHT350_PFMET120_NoiseCleaned");
 
 
-
       size_t DiHiggs_1  = trigName.find("HLT_AK8PFJet360_TrimMass30_v");
       size_t DiHiggs_2  = trigName.find("HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v");
       size_t DiHiggs_3  = trigName.find("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV0p4");
@@ -72,6 +71,7 @@ patHltTree::Fill(const edm::Event& iEvent)
       size_t DiHiggs_6  = trigName.find("HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_v");
       size_t DiHiggs_7  = trigName.find("HLT_PFHT800");
       size_t DiHiggs_8  = trigName.find("HLT_PFHT650_v");      
+      size_t DiHiggs_9  = trigName.find("HLT_AK8DiPFJet300_200_TrimMass30_BTagCSV_p20");
 
       if(false) std::cout<<" trigName = "<<trigName
 			<<" : "<<trigResults->accept(i)
@@ -105,7 +105,8 @@ patHltTree::Fill(const edm::Event& iEvent)
            DiHiggs_5==std::string::npos  &&
            DiHiggs_6==std::string::npos  &&
            DiHiggs_7==std::string::npos  &&
-           DiHiggs_8==std::string::npos 
+           DiHiggs_8==std::string::npos  &&
+	   DiHiggs_9==std::string::npos
 	   )
        	continue;
 
