@@ -37,6 +37,10 @@ process.tree.fillPhotInfo     = cms.bool(False)
 process.tree.fillJetInfo      = cms.bool(False) 
 process.tree.fillFATJetInfo   = cms.bool(False) 
 process.tree.fillAddJetInfo   = cms.bool(False)
+process.tree.fillAK4PuppiJetInfo  = cms.bool(False)
+process.tree.fillAK8PuppiJetInfo  = cms.bool(False)
+process.tree.fillCA15PuppiJetInfo = cms.bool(False)
+
 process.tree.genPartLabel     = cms.InputTag("genParticles")
 
 process.TFileService = cms.Service("TFileService",
