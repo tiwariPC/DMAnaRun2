@@ -167,7 +167,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
   for(unsigned int genIndex=0; genIndex < MAXNGENPAR_ && genIndex < myParticles.size(); genIndex++){
     
     std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
-    if(genIndex>30 && abs(geni->pdgId())!=12 && abs(geni->pdgId())!=14 && abs(geni->pdgId())!=16)continue;
+    int pid=abs(geni->pdgId());
     nGenPar_++;
 
    TLorentzVector p4(geni->px(),geni->py(),geni->pz(),geni->energy());
@@ -179,19 +179,20 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     int mompid = -9999;
     int gmompid = -9999;
-    if( geni->numberOfMothers() ==1 ) 
+    if( geni->numberOfMothers() >0 )
       {
-	mompid = geni->mother()->pdgId();
-	if(geni->mother()->numberOfMothers() ==1)
-	  gmompid = geni->mother()->mother()->pdgId();
-	else
-	  gmompid = 10000+geni->mother()->numberOfMothers();
+        mompid = geni->mother(0)->pdgId();
+        if(geni->mother(0)->numberOfMothers() >0)
+          gmompid = geni->mother(0)->mother(0)->pdgId();
+        else
+          gmompid = -9999;
       }
     else
       {
-	mompid = 10000+geni->numberOfMothers();
-	gmompid = -1;
+        mompid = -9999;
+        gmompid = -9999;
       }
+
 	
     genMomParId_.push_back(mompid);
     genGMomParId_.push_back(gmompid);

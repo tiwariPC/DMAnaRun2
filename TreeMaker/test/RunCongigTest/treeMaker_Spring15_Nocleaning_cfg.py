@@ -796,7 +796,7 @@ process.tree = cms.EDAnalyzer(
     genPartLabel=cms.InputTag("prunedGenParticles"),
     genJetLabel=cms.InputTag("slimmedGenJets"),
     maxNumGenPar  =  cms.uint32(3000),
-    applyStatusSelection = cms.bool(True),
+    applyStatusSelection = cms.bool(False),
     applyPromptSelection = cms.bool(False),
     saveLHEWeights       = cms.bool(False),
 ##### when applyPromptSelection is True
