@@ -167,7 +167,6 @@ genInfoTree::Fill(const edm::Event& iEvent)
   for(unsigned int genIndex=0; genIndex < MAXNGENPAR_ && genIndex < myParticles.size(); genIndex++){
     
     std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
-    int pid=abs(geni->pdgId());
     nGenPar_++;
 
    TLorentzVector p4(geni->px(),geni->py(),geni->pz(),geni->energy());
