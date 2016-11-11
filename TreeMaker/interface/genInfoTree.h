@@ -89,6 +89,7 @@ class genInfoTree : public baseTree{
   std::vector<int>   genParIndex_;    // added by Eiko
   std::vector<int>   genNMo_;
   std::vector<int>   genNDa_;
+  std::vector<int>   genGMo1_;
   std::vector<int>   genMo1_;
   std::vector<int>   genMo2_;
   std::vector<int>   genDa1_;

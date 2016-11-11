@@ -173,13 +173,13 @@ genInfoTree::Fill(const edm::Event& iEvent)
       cands.push_back(&*it_gen);
       myParticles.push_back(it_gen);
     }
+  
 
   // now loop
   std::vector<const reco::Candidate*>::const_iterator found = cands.begin();
   for(unsigned int genIndex=0; genIndex < MAXNGENPAR_ && genIndex < myParticles.size(); genIndex++){
     
     std::vector<reco::GenParticle>::const_iterator geni = myParticles[genIndex];
-    if(genIndex>30 && abs(geni->pdgId())!=12 && abs(geni->pdgId())!=14 && abs(geni->pdgId())!=16)continue;
     nGenPar_++;
 
    TLorentzVector p4(geni->px(),geni->py(),geni->pz(),geni->energy());
@@ -191,18 +191,18 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     int mompid = -9999;
     int gmompid = -9999;
-    if( geni->numberOfMothers() ==1 ) 
+    if( geni->numberOfMothers() >0 ) 
       {
-	mompid = geni->mother()->pdgId();
-	if(geni->mother()->numberOfMothers() ==1)
-          gmompid = geni->mother()->mother()->pdgId();
+	mompid = geni->mother(0)->pdgId();
+	if(geni->mother(0)->numberOfMothers() >0)
+          gmompid = geni->mother(0)->mother(0)->pdgId();
         else
-          gmompid = 10000+geni->mother()->numberOfMothers();
+          gmompid = -9999;
       }
     else
       {
-	mompid = 10000+geni->numberOfMothers();
-	gmompid = -1;
+	mompid = -9999;
+	gmompid = -9999;
       }
 
     genMomParId_.push_back(mompid);
@@ -214,8 +214,15 @@ genInfoTree::Fill(const edm::Event& iEvent)
     int iMo2 = -1;
     int iDa1 = -1;
     int iDa2 = -1;
+    int iGMo1 = -1;
     int NMo = geni->numberOfMothers();
     int NDa = geni->numberOfDaughters();
+
+    
+    if(NMo>0 && geni->mother(0)->numberOfMothers() >0){
+      found = find(cands.begin(), cands.end(), geni->mother(0)->mother(0));
+      if(found != cands.end()) iGMo1 = found - cands.begin() ;
+    }
 
     found = find(cands.begin(), cands.end(), geni->mother(0));
     if(found != cands.end()) iMo1 = found - cands.begin() ;
@@ -231,6 +238,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
     genNMo_.push_back(NMo);
     genNDa_.push_back(NDa);
+    genGMo1_.push_back(iGMo1);
     genMo1_.push_back(iMo1);
     genMo2_.push_back(iMo2);
     genDa1_.push_back(iDa1);
@@ -330,6 +338,7 @@ genInfoTree::SetBranches(){
 
   AddBranch(&genNMo_,"genNMo");
   AddBranch(&genNDa_,"genNDa");
+  AddBranch(&genGMo1_,"genGMo1");
   AddBranch(&genMo1_,"genMo1");
   AddBranch(&genMo2_,"genMo2");
   AddBranch(&genDa1_,"genDa1");
@@ -371,6 +380,7 @@ genInfoTree::Clear(){
   genParIndex_.clear();
   genNMo_.clear();
   genNDa_.clear();
+  genGMo1_.clear();
   genMo1_.clear();
   genMo2_.clear();
   genDa1_.clear();

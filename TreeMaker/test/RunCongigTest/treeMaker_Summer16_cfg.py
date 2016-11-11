@@ -609,7 +609,8 @@ process.tree.fillAddJetInfo        = cms.bool(True)
 
 if options.runOnMC:
 	process.tree.triggerLabel  = cms.InputTag("TriggerResults::HLT2")
-
+	process.tree.maxNumGenPar  = cms.uint32(3000)
+	process.tree.applyStatusSelection = cms.bool(False)
 
 if options.useJECText:
 	process.tree.THINJets      = cms.InputTag("slimmedJets")

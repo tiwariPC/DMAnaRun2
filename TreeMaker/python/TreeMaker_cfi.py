@@ -38,7 +38,7 @@ tree = cms.EDAnalyzer(
 
     genPartLabel         = cms.InputTag("prunedGenParticles"),
     genJetLabel          = cms.InputTag("slimmedGenJets"),
-    maxNumGenPar         =  cms.uint32(3000),
+    maxNumGenPar         =  cms.uint32(30),
     applyStatusSelection = cms.bool(True),
     applyPromptSelection = cms.bool(False),
     saveLHEWeights       = cms.bool(False),
