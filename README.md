@@ -12,7 +12,16 @@ cmsenv
 
 ## For DelPanj and related dependencies
 
+
 ```
+## For MET Filters
+
+git cms-init
+
+git cms-merge-topic -u cms-met:CMSSW_8_0_X-METFilterUpdate
+
+## For DelPanj
+
 git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
