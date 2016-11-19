@@ -68,19 +68,17 @@ patFilters::Fill(const edm::Event& iEvent)
 
   
   // Bad Muon and Bad Ch Filters
-  /*
-  edm::EDGetTokenT<bool> BadChCandFilterToken_;
-  
+
+  //  edm::EDGetTokenT<bool> BadChCandFilterToken_;
   edm::Handle<bool> ifilterbadChCand;
   iEvent.getByToken(BadChCandFilterToken_, ifilterbadChCand);
   filterbadChCandidate = *ifilterbadChCand;
   
-  edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
-    
+  //edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
   edm::Handle<bool> ifilterbadPFMuon;
   iEvent.getByToken(BadPFMuonFilterToken_, ifilterbadPFMuon);
   filterbadPFMuon = *ifilterbadPFMuon;
-  */
+
 }
 
 void patFilters::SetBranches(){
@@ -100,6 +98,8 @@ patFilters::Clear(){
   filterResult_.clear();
   filterName_.clear();
   hbhet_ = false;
+  filterbadChCandidate  = false;
+  filterbadPFMuon       = false;
 }
 
 

@@ -642,13 +642,13 @@ process.TFileService = cms.Service("TFileService",
 
 
 ## New MET Filters
-##process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
-##process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
-##process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 ##
-##process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
-##process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
-##process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 ##
 
 process.allEventsCounter = cms.EDFilter(
@@ -668,8 +668,8 @@ if not options.useJECText:
 		process.jetCorrSequenceAK4Puppi+
 		process.jetCorrSequenceForPrunedMass+
 		process.jetCorrSequenceForSoftDropMass+
-		#process.BadPFMuonFilter *
-		#process.BadChargedCandidateFilter *
+		process.BadPFMuonFilter *
+		process.BadChargedCandidateFilter *
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)
@@ -680,8 +680,8 @@ else:
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
 		process.pfMet+
-		#process.BadPFMuonFilter *
-		#process.BadChargedCandidateFilter *
+		process.BadPFMuonFilter *
+		process.BadChargedCandidateFilter *
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)

@@ -34,6 +34,7 @@
 <use   name="DataFormats/Common"/>
 <use   name="CondFormats/PhysicsToolsObjects"/>
 <use   name="PhysicsTools/Utilities"/>
+<use   name="RecoMET/METFilters"/>
 <export>
   <lib   name="1"/>
 </export>

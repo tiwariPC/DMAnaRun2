@@ -28,10 +28,11 @@ tree = cms.EDAnalyzer(
     pfMetRaw         = cms.InputTag("pfMet"),
     pfType1Met       = cms.InputTag("slimmedMETs"),
     pfMVAMET         = cms.InputTag("slimmedMETs"),
-
+    puppiMET         = cms.InputTag("slimmedMETsPuppi"),
+    
     ## filter
-    #BadChargedCandidateFilter = cms.InputTag>("BadChargedCandidateFilter"),
-    #BadPFMuonFilter = cms.InputTag>("BadPFMuonFilter"),
+    BadChargedCandidateFilter = cms.InputTag("BadChargedCandidateFilter"),
+    BadPFMuonFilter = cms.InputTag("BadPFMuonFilter"),
 
     triggerLabel     = cms.InputTag("TriggerResults::HLT"),
     filterLabel      = cms.InputTag("TriggerResults::PAT"),

@@ -46,6 +46,8 @@ class patFilters : public baseTree{
   bool filterbadPFMuon;
   std::vector<std::string> filterName_;
   edm::InputTag filterTag;
+  //edm::EDGetTokenT<bool> BadChCandFilterToken_;
+  //edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
 };
 
 #endif

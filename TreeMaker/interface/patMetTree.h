@@ -47,7 +47,9 @@ class patMetTree : public baseTree{
   edm::EDGetTokenT<reco::PFMETCollection>           pfMETRawToken;
   edm::EDGetTokenT<pat::METCollection>              pfMETToken;
   edm::EDGetTokenT<reco::PFMETCollection>           pfMVAMETToken;
-   
+  edm::EDGetTokenT<pat::METCollection>             puppimetToken;
+  
+  
  private:
 
   patMetTree(){};
@@ -57,6 +59,8 @@ class patMetTree : public baseTree{
   float patMetCorrPhi_; 
   float patMetCorrSumEt_;
   float patMetCorrSig_;
+  std::vector<float> patMetCorrUnc_;
+
   float patMetRawPt_;
   float patMetRawPhi_;
   float patMetRawSumEt_;
@@ -70,8 +74,13 @@ class patMetTree : public baseTree{
   float mvaMetPhi_;
   float mvaMetSumEt_;
   float mvaMetSig_;
-  
 
+  float puppiMETPt_; 
+  float puppiMETPhi_; 
+  float puppiMETSumEt_; 
+  float puppiMETSig_; 
+  std::vector<float>  puppiMETUnc_; 
+  
 };
 
 #endif
