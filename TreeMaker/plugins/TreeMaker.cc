@@ -84,7 +84,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
 
   if( fillTrigInfo_ )
     {
-      patHltTree_                             = new patHltTree("hlt_",tree_); 
+      patHltTree_                             = new patHltTree("hlt_",tree_,iConfig); 
       patHltTree_->trigResultsToken           = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("triggerLabel"));
       patHltTree_->triggerPrescalesToken      = consumes<pat::PackedTriggerPrescales>(edm::InputTag("patTrigger"));
 	

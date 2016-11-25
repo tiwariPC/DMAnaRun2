@@ -22,7 +22,7 @@
 class patHltTree : public baseTree{
 
  public:
-  patHltTree(std::string name,TTree* tree);
+  patHltTree(std::string name,TTree* tree,const edm::ParameterSet& iConfig);
   void Fill(const edm::Event& iEvent);
   void Clear();
 
@@ -33,7 +33,8 @@ class patHltTree : public baseTree{
 
   patHltTree(){};
   void SetBranches();
-
+  bool saveAllTrigPaths_;
+  
   int nTrigs_;
   std::vector<bool> trigResult_;
   std::vector<std::string> trigName_;

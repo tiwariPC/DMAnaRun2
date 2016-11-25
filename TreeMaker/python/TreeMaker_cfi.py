@@ -35,6 +35,7 @@ tree = cms.EDAnalyzer(
     BadPFMuonFilter = cms.InputTag("BadPFMuonFilter"),
 
     triggerLabel     = cms.InputTag("TriggerResults::HLT"),
+    saveAllTrigPaths = cms.bool(False),
     filterLabel      = cms.InputTag("TriggerResults::PAT"),
 
     genPartLabel         = cms.InputTag("prunedGenParticles"),
