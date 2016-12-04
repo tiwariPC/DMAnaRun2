@@ -23,11 +23,6 @@ options.register ('isReReco',
 		  VarParsing.varType.bool,
 		  "isReReco")
 
-options.register ('runOn25ns',
-		  True ,
-		  VarParsing.multiplicity.singleton,
-		  VarParsing.varType.bool,
-		  "runOn25ns")
 options.register ('useMiniAOD',
 		  True,
 		  VarParsing.multiplicity.singleton,
@@ -74,12 +69,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
-	if options.runOn25ns:
-		# 25-ns global tag
-		process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_miniAODv2_v1', '')  
-	else:
-		# 50-ns global tag
-		process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_startup_v2', '')   
+	process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_miniAODv2_v1', '')  
 else:## Data no global tag yet
         process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_ICHEP16JEC_v0', '')
 
@@ -294,13 +284,13 @@ bTagDiscriminators = [
 ## For jet energy correction
 if options.runOnMC:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
-	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute'], 'None')
-	jetCorrectionsAK8Puppi     = ('AK8PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
-	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
+	jetCorrectionsAK8Puppi     = ('AK8PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
+	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute']
 
 	AK4JECTextFiles = [
 		'Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt',
@@ -319,33 +309,27 @@ if options.runOnMC:
 		'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
 		'Spring16_25nsV6_MC_L3Absolute_AK8PFchs.txt'
 		]
-	softdropMassJECTextFiles = [
-		'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
-		]
 
 	AK4PuppiJECTextFiles = [
-		'Spring16_25nsV6_MC_L1FastJet_AK4PFPuppi.txt',
 		'Spring16_25nsV6_MC_L2Relative_AK4PFPuppi.txt',
 		'Spring16_25nsV6_MC_L3Absolute_AK4PFPuppi.txt'
 		]
 	AK4PuppiJECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK4PFPuppi.txt'  
 
 	AK8PuppiJECTextFiles = [
-		'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
 		'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
 		'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
 		]
 	AK8PuppiJECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK8PFPuppi.txt'  
 else:
         jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
-	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
-	jetCorrectionsAK8Puppi     = ('AK8PFPuppi', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
-	jetCorrectionsAK8PuppiL23  = ('AK8PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+	jetCorrectionsAK8Puppi     = ('AK8PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
+	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute','L2L3Residual']
 	AK4JECTextFiles = [
 		'Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt',
 		'Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt',
@@ -365,14 +349,8 @@ else:
 		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
 		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
 		]
-	softdropMassJECTextFiles = [
-		'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt',
-		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt'
-		]
 
 	AK4PuppiJECTextFiles = [
-		'Spring16_25nsV6_DATA_L1FastJet_AK4PFPuppi.txt',
 		'Spring16_25nsV6_DATA_L2Relative_AK4PFPuppi.txt',
 		'Spring16_25nsV6_DATA_L3Absolute_AK4PFPuppi.txt',
 		'Spring16_25nsV6_DATA_L2L3Residual_AK4PFPuppi.txt'
@@ -380,7 +358,6 @@ else:
 	AK4PuppiJECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK4PFPuppi.txt'
 
 	AK8PuppiJECTextFiles = [
-		'Spring16_25nsV6_DATA_L1FastJet_AK8PFPuppi.txt',
 		'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
 		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt',
 		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt'
@@ -432,8 +409,8 @@ from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
 ### CA15Puppi
 jetToolbox( process, 'ca15', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
 	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexCA15BJetTags'])),
-	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsFullCHS, 
-	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsFullCHS, 
+	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi, 
+	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi, 
 	    Cut='pt>120',
 	    addSoftDrop=True,addSoftDropSubjets=True, betaCut=1.0, zCutSD=0.15,
 	    addNsub=True ) 
@@ -441,8 +418,8 @@ jetToolbox( process, 'ca15', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=opt
 ### AK8Puppi
 jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
 	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
-	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsFullCHS, 
-	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsFullCHS, 
+	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi, 
+	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi, 
 	    Cut='pt>170',
 	    addSoftDrop=True,addSoftDropSubjets=True,addNsub=True ) 
 
@@ -450,7 +427,8 @@ jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=opti
 jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='CHS', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC,
 	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
 	    JETCorrPayload="AK8PFchs", JETCorrLevels=jetCorrectionLevelsFullCHS,
-	    Cut='pt>170') 
+	    Cut='pt>170')
+
 
 ###end of add jet collection
 ### FOR adding new hbb b-tags in miniaod?
@@ -475,25 +453,17 @@ else :
 switchOnVIDElectronIdProducer(process, dataFormat)
 switchOnVIDPhotonIdProducer(process, dataFormat)
 # define which IDs we want to produce
-if options.runOn25ns:
-	my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
-			 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-			 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
-else:
-	my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_50ns_V2_cff',
-			 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-			 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_50ns_Trig_V1_cff']
+my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
+                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
+		 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
+
 
 #add them to the VID producer
 for idmod in my_id_modules:
     setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
 
-if options.runOn25ns:
-    #my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_PHYS14_PU20bx25_V2_cff']
-    my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring15_25ns_V1_cff',
-                        'RecoEgamma.PhotonIdentification.Identification.mvaPhotonID_Spring15_25ns_nonTrig_V2_cff']
-else:
-    my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring15_50ns_V1_cff']
+my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring15_25ns_V1_cff',
+		    'RecoEgamma.PhotonIdentification.Identification.mvaPhotonID_Spring15_25ns_nonTrig_V2_cff']
 
 #add them to the VID producer
 for idmod in my_phoid_modules:
@@ -545,7 +515,7 @@ process.jetCorrSequenceAK8 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK
 from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
 process.patJetCorrFactorsReapplyJECAK4Puppi = updatedPatJetCorrFactors.clone(
 	src = cms.InputTag("slimmedJetsPuppi"),
-	levels = jetCorrectionLevelsFullCHS,
+	levels = jetCorrectionLevelsPuppi,
 	payload = 'AK4PFPuppi' ) # Make sure to choose the appropriate levels and payload here!
 
 from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJets
@@ -572,20 +542,6 @@ process.patJetsReapplyJECForPrunedMass = updatedPatJets.clone(
 process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForPrunedMass + process.patJetsReapplyJECForPrunedMass )
 
 
-## For correcting softdrop jet mass + Puppi
-process.patJetCorrFactorsReapplyJECForSoftDropMass = updatedPatJetCorrFactors.clone(
-	src = cms.InputTag("slimmedJetsAK8"),
-	levels = jetCorrectionLevels23CHS,
-	payload = 'AK8PFPuppi' ) # Make sure to choose the appropriate levels and payload here!
-
-
-process.patJetsReapplyJECForSoftDropMass = updatedPatJets.clone(
-	jetSource = cms.InputTag("slimmedJetsAK8"),
-	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECForSoftDropMass"))
-	)
-
-process.jetCorrSequenceForSoftDropMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForSoftDropMass + process.patJetsReapplyJECForSoftDropMass )
-
 
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
@@ -594,7 +550,6 @@ process.tree.useJECText            = cms.bool(options.useJECText)
 process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
 process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
-process.tree.FATsoftdropMassJecNames = cms.vstring(softdropMassJECTextFiles)
 process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
 process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
@@ -615,23 +570,8 @@ if options.useJECText:
 	process.tree.THINJets      = cms.InputTag("slimmedJets")
 	process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
 	process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
-	process.tree.FATJetsForSoftDropMass     = cms.InputTag("slimmedJetsAK8")
 	process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
 
-if not options.runOn25ns:
-### Electron
-	process.tree.eleVetoIdMap      = cms.InputTag  ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-veto")
-	process.tree.eleLooseIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-loose")
-        process.tree.eleMediumIdMap    = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-medium")
-        process.tree.eleTightIdMap     = cms.InputTag ("egmGsfElectronIDs:cutBasedElectronID-Spring15-50ns-V2-standalone-tight")
-        process.tree.eleMVAMediumIdMap = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp90")
-        process.tree.eleMVATightIdMap  = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring15-50ns-Trig-V1-wp80")
-        process.tree.mvaValuesMap      = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Values")
-        process.tree.mvaCategoriesMap  = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig50nsV1Categories")    
-### Photon
-        process.tree.phoLooseIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-loose")
-        process.tree.phoMediumIdMap    = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-medium")
-        process.tree.phoTightIdMap     = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring15-50ns-V1-standalone-tight")
 
 
 process.TFileService = cms.Service("TFileService",
@@ -667,7 +607,6 @@ if not options.useJECText:
 		process.jetCorrSequenceAK8+
 		process.jetCorrSequenceAK4Puppi+
 		process.jetCorrSequenceForPrunedMass+
-		process.jetCorrSequenceForSoftDropMass+
 		process.BadPFMuonFilter *
 		process.BadChargedCandidateFilter *
 		#process.HBHENoiseFilterResultProducer+ ## by raman

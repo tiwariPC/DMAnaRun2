@@ -68,7 +68,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   if(isFATJet_)
     {
       prunedMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%sprunedMassJecNames",desc.data()));
-      softdropMassJecNames_          = iConfig.getParameter<std::vector<std::string> >(Form("%ssoftdropMassJecNames",desc.data()));
 
       if(useJECText_){
 
@@ -85,20 +84,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
 	    vPar.push_back(pars);
 	  }
 	prunedjecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
-
-
-
-	// softdrop mass
-	vPar.clear();
-	for ( std::vector<std::string>::const_iterator payloadBegin = 
-		softdropMassJecNames_.begin(),
-		payloadEnd = softdropMassJecNames_.end(), ipayload = payloadBegin; 
-	      ipayload != payloadEnd; ++ipayload ) 
-	  {
-	    JetCorrectorParameters pars(*ipayload);
-	    vPar.push_back(pars);
-	  }
-	softdropjecText_ = boost::shared_ptr<FactorizedJetCorrector> ( new FactorizedJetCorrector(vPar) );
 
 
       }
@@ -188,20 +173,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     }
   else if(isFATJet_ && iEvent.getByToken(prunedMToken,JetHandleForPrunedMass))
     jetsForPrunedMass       = *(JetHandleForPrunedMass.product());
-
-
-  // for getting the L2+L3 correction factor of softdrop jet mass
-  edm::Handle<pat::JetCollection> JetHandleForSoftDropMass;
-  pat::JetCollection jetsForSoftDropMass;
-
-  if(isFATJet_ && not iEvent.getByToken(softdropMToken,JetHandleForSoftDropMass))
-    {
-      std::cout<<"FATAL EXCEPTION: in beginging "<<"Following Not Found: "
-    	       <<"SoftDropMassJet"<<std::endl; 
-      exit(0);
-    }
-  else if(isFATJet_ && iEvent.getByToken(softdropMToken,JetHandleForSoftDropMass))
-    jetsForSoftDropMass       = *(JetHandleForSoftDropMass.product());
 
 
 
@@ -502,7 +473,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       //      using a different way to get corrected pruned/softdrop mass
       // if reading global tag
       float corr=-1;
-      float corrSD=-1;
 
       if(!useJECText_){	
 	// pruned mass: CHS
@@ -513,17 +483,8 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     
 	if(jetForPrunedMass!=jetsForPrunedMass.end())
 	  corr = jetForPrunedMass->pt()/jetForPrunedMass->correctedP4(0).pt();
-
-	// softdrop mass: Puppi
-	std::vector<pat::Jet>::const_iterator jetForSoftDropMass = 
-	  find_if(jetsForSoftDropMass.begin(),
-		  jetsForSoftDropMass.end(),
-		  [&jet](const pat::Jet& item)->bool{return fabs(jet->correctedP4(0).pt()-item.correctedP4(0).pt())<1e-3;});	
-    
-	if(jetForSoftDropMass!=jetsForSoftDropMass.end())
-	  corrSD = jetForSoftDropMass->pt()/jetForSoftDropMass->correctedP4(0).pt();
-
       }
+
       else if(useJECText_){
 	// pruned mass: CHS
 	prunedjecText_->setJetEta( uncorrJet.eta() );
@@ -533,15 +494,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	prunedjecText_->setRho   ( *(h_rho.product()) );
 	prunedjecText_->setNPV   ( h_pv->size() );
 	corr = prunedjecText_->getCorrection();
-
-	//softdrop mass: puppi
-	softdropjecText_->setJetEta( puppi_softdrop_raw.Eta() );
-	softdropjecText_->setJetPt ( puppi_softdrop_raw.Pt() );
-	softdropjecText_->setJetE  ( puppi_softdrop_raw.E() );
-	softdropjecText_->setJetA  ( jet->jetArea() );
-	softdropjecText_->setRho   ( *(h_rho.product()) );
-	softdropjecText_->setNPV   ( h_pv->size() );
-	corrSD = softdropjecText_->getCorrection();
 
       }
 
@@ -565,15 +517,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	  subjetSDE_puppi.push_back(DUMMY);	
 	  subjetSDCSV_puppi.push_back(DUMMY);	
 	  jetPuppiSDmass_.push_back(DUMMY);
-	  jetPuppiSDmassL2L3Corr_.push_back(DUMMY);
 	}
       else
 	{
 	  jetPuppiSDmass_.push_back(puppi_softdrop_raw.M());
-	  if(corrSD<0)
-	    jetPuppiSDmassL2L3Corr_.push_back(DUMMY);
-	  else
-	    jetPuppiSDmassL2L3Corr_.push_back(corrSD*puppi_softdrop_raw.M());
 	}
 
            
@@ -849,7 +796,6 @@ jetTree::SetBranches(){
     AddBranch(&jetPuppiTau3_,   "jetPuppiTau3");
 
     AddBranch(&jetPuppiSDmass_,         "jetPuppiSDmass");
-    AddBranch(&jetPuppiSDmassL2L3Corr_, "jetPuppiSDmassL2L3Corr");
 
     AddBranch(&jetPuppiP4_, "jetPuppiP4");
     AddBranch(&jetPuppiSDRawP4_, "jetPuppiSDRawP4");
@@ -969,7 +915,6 @@ jetTree::Clear(){
   jetPuppiTau2_.clear();
   jetPuppiTau3_.clear();
   jetPuppiSDmass_.clear();
-  jetPuppiSDmassL2L3Corr_.clear();
 
   jetPuppiP4_->Clear();
   jetPuppiSDRawP4_->Clear();

@@ -57,10 +57,10 @@ tree = cms.EDAnalyzer(
 
     ### Electrons
     eleLabel       = cms.InputTag("slimmedElectrons"),
-    eleVetoIdMap   = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
-    eleLooseIdMap  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose"),
-    eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
-    eleTightIdMap  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
+    eleVetoIdMap   = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"),
+    eleLooseIdMap  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose"),
+    eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium"),
+    eleTightIdMap  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
     eleHEEPIdMap   = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV60"),
     #
     # ID decisions (common to all formats)
@@ -110,11 +110,6 @@ tree = cms.EDAnalyzer(
         'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
         'Spring16_25nsV6_MC_L3Absolute_AK8PFchs.txt'
         ),
-    FATJetsForSoftDropMass = cms.InputTag("patJetsReapplyJECForSoftDropMass"),
-    FATsoftdropMassJecNames= cms.vstring(
-        'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
-        'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
-        ),
     FATjecNames          = cms.vstring(
         'Spring16_25nsV6_MC_L1FastJet_AK8PFchs.txt',
         'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
@@ -138,7 +133,6 @@ tree = cms.EDAnalyzer(
 #    AK4PuppiJets=cms.InputTag("slimmedJetsPuppi"),
     AK4PuppiJets              = cms.InputTag("patJetsReapplyJECAK4Puppi"),
     AK4PuppijecNames          = cms.vstring(
-        'Spring16_25nsV6_MC_L1FastJet_AK4PFPuppi.txt',
         'Spring16_25nsV6_MC_L2Relative_AK4PFPuppi.txt',
         'Spring16_25nsV6_MC_L3Absolute_AK4PFPuppi.txt'
         ),
@@ -148,7 +142,6 @@ tree = cms.EDAnalyzer(
     ### AK8PuppiJets
     AK8PuppiJets              = cms.InputTag("packedPatJetsAK8PFPuppiSoftDrop"),
     AK8PuppijecNames          = cms.vstring(
-        'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
         'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
         'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
         ),
@@ -158,7 +151,6 @@ tree = cms.EDAnalyzer(
     ### CA15PuppiJets
     CA15PuppiJets              = cms.InputTag("packedPatJetsCA15PFPuppiSoftDrop"),
     CA15PuppijecNames          = cms.vstring(
-        'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
         'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
         'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
         ),

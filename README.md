@@ -10,18 +10,24 @@ cmsenv
 ```
 
 
-## For DelPanj and related dependencies
+# For DelPanj and related dependencies
 
+## For Egamma cut-based ID
+```
+git cms-merge-topic ikrav:egm_id_80X_v1
 
 ```
 ## For MET Filters
 
+``` 
 git cms-init
 
 git cms-merge-topic -u cms-met:CMSSW_8_0_X-METFilterUpdate
+```
 
 ## For DelPanj
 
+```
 git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
