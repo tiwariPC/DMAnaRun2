@@ -1,11 +1,11 @@
 
 # DMAnaRun2
 
-# For CMSSW_8_0_21
+# For CMSSW_8_0_22
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc530
-cmsrel CMSSW_8_0_21
-cd CMSSW_8_0_21/src
+cmsrel CMSSW_8_0_22
+cd CMSSW_8_0_22/src
 cmsenv
 ```
 
