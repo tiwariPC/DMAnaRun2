@@ -1,11 +1,11 @@
 
 # DMAnaRun2
 
-# For CMSSW_8_0_20
+# For CMSSW_8_0_21
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc530
-cmsrel CMSSW_8_0_20
-cd CMSSW_8_0_20/src
+cmsrel CMSSW_8_0_21
+cd CMSSW_8_0_21/src
 cmsenv
 ```
 
@@ -14,14 +14,14 @@ cmsenv
 
 ## For Egamma cut-based ID
 ```
+git cms-init
+
 git cms-merge-topic ikrav:egm_id_80X_v1
 
 ```
 ## For MET Filters
 
 ``` 
-git cms-init
-
 git cms-merge-topic -u cms-met:CMSSW_8_0_X-METFilterUpdate
 ```
 
