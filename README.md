@@ -51,6 +51,21 @@ scramv1 b clean
 scramv1 b -j 5
 ```
 
+## Checkout the electron MVA weight files
+
+```
+cd $CMSSW_BASE/external
+cd slc6_amd64_gcc530/
+
+git clone https://github.com/ikrav/RecoEgamma-ElectronIdentification.git data/RecoEgamma/ElectronIdentification/data
+
+cd data/RecoEgamma/ElectronIdentification/data
+git checkout egm_id_80X_v1
+
+cd $CMSSW_BASE/src
+cmsenv
+```
+
 ## Download files that store effective area and JEC files
 
 ```
