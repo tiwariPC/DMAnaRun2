@@ -48,7 +48,7 @@ git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToo
 ```
 scramv1 b clean
 
-scramv1 b -j 10
+scramv1 b -j 5
 ```
 
 ## Checkout the electron MVA weight files
