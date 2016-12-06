@@ -154,6 +154,11 @@ class patElecTree : public baseTree {
   std::vector<float> patElecNeHadIso_;
   std::vector<float> patElecGamIso_;
   std::vector<float> patElecPUPt_;
+
+  // for MVA preselection
+  std::vector<float> patElecEcalPFClusterIso_;
+  std::vector<float> patElecHcalPFClusterIso_;  
+
   // miniIso input
   std::vector<float> patElecMiniIso_ch_;
   std::vector<float> patElecMiniIso_nh_;

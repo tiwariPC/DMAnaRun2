@@ -33,6 +33,7 @@ config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25n
 'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt',
 'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt',
 'Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt']
+config.JobType.sendExternalFolder      = True
 
 config.section_("Data")
 config.Data.inputDataset = '/SingleMuon/Run2016B-PromptReco-v2/MINIAOD'

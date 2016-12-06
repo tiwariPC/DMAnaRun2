@@ -236,6 +236,10 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecDr03TkSumPt_ .push_back(ele->dr03TkSumPt());
 
 
+    // for MVA preselection
+    patElecEcalPFClusterIso_.push_back(ele->ecalPFClusterIso());
+    patElecHcalPFClusterIso_.push_back(ele->hcalPFClusterIso());
+
 
     // reco::GsfTrackRef trackref = ele->gsfTrack();
     // Fix this impact parameter
@@ -341,6 +345,9 @@ patElecTree::SetBranches(){
   AddBranch(&patElecNeHadIso_, "eleNeHadIso");
   AddBranch(&patElecGamIso_, "eleGamIso");
   AddBranch(&patElecPUPt_, "elePUPt");
+  AddBranch(&patElecEcalPFClusterIso_, "eleEcalPFClusterIso");
+  AddBranch(&patElecHcalPFClusterIso_, "eleHcalPFClusterIso");
+
   AddBranch(&patElecMiniIso_ch_,"eleMiniIso_ch");
   AddBranch(&patElecMiniIso_nh_,"eleMiniIso_nh");
   AddBranch(&patElecMiniIso_ph_,"eleMiniIso_ph");
@@ -436,6 +443,8 @@ patElecTree::Clear(){
   patElecNeHadIso_.clear();
   patElecGamIso_.clear();
   patElecPUPt_.clear();
+  patElecEcalPFClusterIso_.clear();
+  patElecHcalPFClusterIso_.clear();  
   patElecMiniIso_ch_.clear();
   patElecMiniIso_nh_.clear();
   patElecMiniIso_ph_.clear();

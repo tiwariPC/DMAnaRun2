@@ -31,6 +31,7 @@ config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25n
 'Spring16_25nsV6_MC_L1FastJet_AK8PFchs.txt',
 'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
 'Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt']
+config.JobType.sendExternalFolder      = True
 
 config.section_("Data")
 config.Data.inputDataset = '/DYJetsToLL_M-50_HT-100to200_Tune4C_13TeV-madgraph-tauola/Phys14DR-PU20bx25_PHYS14_25_V1-v1/MINIAODSIM'

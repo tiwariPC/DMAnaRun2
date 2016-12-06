@@ -16,7 +16,7 @@ cmsenv
 ```
 git cms-init
 
-git cms-merge-topic ikrav:egm_id_80X_v1
+git cms-merge-topic ikrav:egm_id_80X_v2
 
 ```
 ## For MET Filters
