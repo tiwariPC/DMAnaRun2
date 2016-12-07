@@ -562,8 +562,6 @@ process.tree.CA15PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
 process.tree.CA15PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
 process.tree.fillAddJetInfo        = cms.bool(True)
 
-if options.runOnMC:
-	process.tree.triggerLabel  = cms.InputTag("TriggerResults::HLT2")
 
 
 if options.useJECText:
