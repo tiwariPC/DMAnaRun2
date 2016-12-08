@@ -18,6 +18,8 @@ git cms-init
 
 git cms-merge-topic ikrav:egm_id_80X_v3_photons
 
+git cms-merge-topic ikrav:egm_id_80X_v2
+
 ```
 ## For MET Filters
 
