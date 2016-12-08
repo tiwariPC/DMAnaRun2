@@ -11,7 +11,7 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 DATAJEC='Spring16_25nsV10PERIOD_DATA'
-print config.Data.inputDataset 
+
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'MVA-And-PFUnCorrectedMET.py'
