@@ -161,13 +161,13 @@ cd -
 mv jec/*PFchs.txt .
 mv jec/*PFPuppi.txt .
 rm -rf jec
-
+```
 ### Modify crabConfig_data.py and MultiCrab_2016data.py
 
 Change workdirectory and dataset names
 
 #### Remember to update your JSON file
-
+```
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 
 or 
