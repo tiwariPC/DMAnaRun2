@@ -48,8 +48,8 @@ def submit():
         os.system('cp -p crabConfig_data.py crabConfig.py')
         os.system('sed -i \'s/PERIOD/'+period+'/g\' crabConfig.py')
 
-#        print datasetdetail
-#        os.system('crab submit General.requestName='+datasetdetail[0]+' JobType.psetName='+datasetdetail[1]+' Data.inputDataset='+datasetdetail[2]+' Data.unitsPerJob='+datasetdetail[3])
+        print datasetdetail
+        os.system('crab submit General.requestName='+datasetdetail[0]+' JobType.psetName='+datasetdetail[1]+' Data.inputDataset='+datasetdetail[2]+' Data.unitsPerJob='+datasetdetail[3])
     #name =  'crab submit General.requestName='+datasetdetail[0]+' JobType.psetName='+datasetdetail[1]+' Data.inputDataset='+datasetdetail[2]+' Data.unitsPerJob='+datasetdetail[3]
     #print name 
         
