@@ -35,6 +35,13 @@ options.register ('useJECText',
 		  VarParsing.varType.bool,
 		  "useJECText")
 
+options.register ('period',
+		  'p2',
+		  VarParsing.multiplicity.singleton,
+		  VarParsing.varType.string,
+		  "period")
+
+
 options.register ('textfiletovetoEvents',
 		  'MET_Oct29/eventlist_MET_csc2015.txt',
 		  VarParsing.multiplicity.singleton,
@@ -55,6 +62,8 @@ listEventsToSkip = []
 
 #print listEventsToSkip
 
+MCJEC='Spring16_25nsV10_MC'
+DATAJEC='Spring16_25nsV10'+options.period+'_DATA'
 
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
@@ -293,34 +302,34 @@ if options.runOnMC:
 	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute']
 
 	AK4JECTextFiles = [
-		'Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt',
-		'Spring16_25nsV6_MC_L2Relative_AK4PFchs.txt',
-		'Spring16_25nsV6_MC_L3Absolute_AK4PFchs.txt'
+		MCJEC+'_L1FastJet_AK4PFchs.txt',
+		MCJEC+'_L2Relative_AK4PFchs.txt',
+		MCJEC+'_L3Absolute_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = MCJEC+'_Uncertainty_AK4PFchs.txt'
 
 	AK8JECTextFiles = [
-		'Spring16_25nsV6_MC_L1FastJet_AK8PFchs.txt',
-		'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV6_MC_L3Absolute_AK8PFchs.txt'
+		MCJEC+'_L1FastJet_AK8PFchs.txt',
+		MCJEC+'_L2Relative_AK8PFchs.txt',
+		MCJEC+'_L3Absolute_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK8PFchs.txt'  
+	AK8JECUncTextFile = MCJEC+'_Uncertainty_AK8PFchs.txt'  
 	prunedMassJECTextFiles = [
-		'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV6_MC_L3Absolute_AK8PFchs.txt'
+		MCJEC+'_L2Relative_AK8PFchs.txt',
+		MCJEC+'_L3Absolute_AK8PFchs.txt'
 		]
 
 	AK4PuppiJECTextFiles = [
-		'Spring16_25nsV6_MC_L2Relative_AK4PFPuppi.txt',
-		'Spring16_25nsV6_MC_L3Absolute_AK4PFPuppi.txt'
+		MCJEC+'_L2Relative_AK4PFPuppi.txt',
+		MCJEC+'_L3Absolute_AK4PFPuppi.txt'
 		]
-	AK4PuppiJECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK4PFPuppi.txt'  
+	AK4PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK4PFPuppi.txt'  
 
 	AK8PuppiJECTextFiles = [
-		'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt'
+		MCJEC+'_L2Relative_AK8PFPuppi.txt',
+		MCJEC+'_L3Absolute_AK8PFPuppi.txt'
 		]
-	AK8PuppiJECUncTextFile = 'Spring16_25nsV6_MC_Uncertainty_AK8PFPuppi.txt'  
+	AK8PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK8PFPuppi.txt'  
 else:
         jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
@@ -331,38 +340,38 @@ else:
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute','L2L3Residual']
 	AK4JECTextFiles = [
-		'Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt',
-		'Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt',
-		'Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt'
+		DATAJEC+'_L1FastJet_AK4PFchs.txt',
+		DATAJEC+'_L2Relative_AK4PFchs.txt',
+		DATAJEC+'_L3Absolute_AK4PFchs.txt',
+		DATAJEC+'_L2L3Residual_AK4PFchs.txt'
 		]
-	AK4JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt'
+	AK4JECUncTextFile = DATAJEC+'_Uncertainty_AK4PFchs.txt'
 	AK8JECTextFiles = [
-		'Spring16_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
+		DATAJEC+'_L1FastJet_AK8PFchs.txt',
+		DATAJEC+'_L2Relative_AK8PFchs.txt',
+		DATAJEC+'_L3Absolute_AK8PFchs.txt',
+		DATAJEC+'_L2L3Residual_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK8PFchs.txt'
+	AK8JECUncTextFile = DATAJEC+'_Uncertainty_AK8PFchs.txt'
 	prunedMassJECTextFiles = [
-		'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
-		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt'
+		DATAJEC+'_L2Relative_AK8PFchs.txt',
+		DATAJEC+'_L3Absolute_AK8PFchs.txt',
+		DATAJEC+'_L2L3Residual_AK8PFchs.txt'
 		]
 
 	AK4PuppiJECTextFiles = [
-		'Spring16_25nsV6_DATA_L2Relative_AK4PFPuppi.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK4PFPuppi.txt',
-		'Spring16_25nsV6_DATA_L2L3Residual_AK4PFPuppi.txt'
+		DATAJEC+'_L2Relative_AK4PFPuppi.txt',
+		DATAJEC+'_L3Absolute_AK4PFPuppi.txt',
+		DATAJEC+'_L2L3Residual_AK4PFPuppi.txt'
 		]
-	AK4PuppiJECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK4PFPuppi.txt'
+	AK4PuppiJECUncTextFile = DATAJEC+'_Uncertainty_AK4PFPuppi.txt'
 
 	AK8PuppiJECTextFiles = [
-		'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
-		'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt',
-		'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt'
+		DATAJEC+'_L2Relative_AK8PFPuppi.txt',
+		DATAJEC+'_L3Absolute_AK8PFPuppi.txt',
+		DATAJEC+'_L2L3Residual_AK8PFPuppi.txt'
 		]
-	AK8PuppiJECUncTextFile = 'Spring16_25nsV6_DATA_Uncertainty_AK8PFPuppi.txt'
+	AK8PuppiJECUncTextFile = DATAJEC+'_Uncertainty_AK8PFPuppi.txt'
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
