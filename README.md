@@ -16,7 +16,7 @@ cmsenv
 ```
 git cms-init
 
-git cms-merge-topic ikrav:egm_id_80X_v2
+git cms-merge-topic ikrav:egm_id_80X_v3_photon
 
 ```
 ## For MET Filters
@@ -51,7 +51,7 @@ scramv1 b clean
 scramv1 b -j 5
 ```
 
-## Checkout the electron MVA weight files
+## Checkout the electron/photon MVA weight files
 
 ```
 cd $CMSSW_BASE/external
@@ -59,7 +59,14 @@ cd slc6_amd64_gcc530/
 
 git clone https://github.com/ikrav/RecoEgamma-ElectronIdentification.git data/RecoEgamma/ElectronIdentification/data
 
+git clone https://github.com/ikrav/RecoEgamma-PhotonIdentification.git data/RecoEgamma/PhotonIdentification/data
+
 cd data/RecoEgamma/ElectronIdentification/data
+git checkout egm_id_80X_v1
+
+cd -
+
+cd data/RecoEgamma/PhotonIdentification/data
 git checkout egm_id_80X_v1
 
 cd $CMSSW_BASE/src
