@@ -128,7 +128,7 @@ cp -p crabConfig_MC.py crabConfig.py
 
 source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
 voms-proxy-init --voms cms
-python MultiCrab_nocleaning.py submit
+python MultiCrab_dihiggs.py submit
 ```
 
 ## To submit data crab jobs (Remember to update your JSON file)
