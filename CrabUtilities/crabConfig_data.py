@@ -10,29 +10,30 @@ config.General.workArea = 'crab_20160419'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
-
+DATAJEC='Spring16_25nsV10PERIOD_DATA'
+print config.Data.inputDataset 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'MVA-And-PFUnCorrectedMET.py'
-config.JobType.pyCfgParams = ['runOnMC=False']
+config.JobType.pyCfgParams = ['runOnMC=False','period=PERIOD']
 config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt','effAreasMuons_cone03_Spring15_25ns.txt',
-'Spring16_25nsV6_DATA_Uncertainty_AK8PFchs.txt',
-'Spring16_25nsV6_DATA_Uncertainty_AK8PFPuppi.txt',
-'Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt',
-'Spring16_25nsV6_DATA_L3Absolute_AK8PFchs.txt',
-'Spring16_25nsV6_DATA_L3Absolute_AK8PFPuppi.txt',
-'Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt',
-'Spring16_25nsV6_DATA_L2Relative_AK8PFchs.txt',
-'Spring16_25nsV6_DATA_L2Relative_AK8PFPuppi.txt',
-'Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt',
-'Spring16_25nsV6_DATA_L1RC_AK8PFchs.txt',
-'Spring16_25nsV6_DATA_L1RC_AK4PFchs.txt',
-'Spring16_25nsV6_DATA_L1FastJet_AK8PFchs.txt',
-'Spring16_25nsV6_DATA_L1FastJet_AK8PFPuppi.txt',
-'Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt',
-'Spring16_25nsV6_DATA_L2L3Residual_AK8PFchs.txt',
-'Spring16_25nsV6_DATA_L2L3Residual_AK8PFPuppi.txt',
-'Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt']
+DATAJEC+'_Uncertainty_AK8PFchs.txt',
+DATAJEC+'_Uncertainty_AK8PFPuppi.txt',
+DATAJEC+'_Uncertainty_AK4PFchs.txt',
+DATAJEC+'_L3Absolute_AK8PFchs.txt',
+DATAJEC+'_L3Absolute_AK8PFPuppi.txt',
+DATAJEC+'_L3Absolute_AK4PFchs.txt',
+DATAJEC+'_L2Relative_AK8PFchs.txt',
+DATAJEC+'_L2Relative_AK8PFPuppi.txt',
+DATAJEC+'_L2Relative_AK4PFchs.txt',
+DATAJEC+'_L1RC_AK8PFchs.txt',
+DATAJEC+'_L1RC_AK4PFchs.txt',
+DATAJEC+'_L1FastJet_AK8PFchs.txt',
+DATAJEC+'_L1FastJet_AK8PFPuppi.txt',
+DATAJEC+'_L1FastJet_AK4PFchs.txt',
+DATAJEC+'_L2L3Residual_AK8PFchs.txt',
+DATAJEC+'_L2L3Residual_AK8PFPuppi.txt',
+DATAJEC+'_L2L3Residual_AK4PFchs.txt']
 config.JobType.sendExternalFolder      = True
 
 config.section_("Data")

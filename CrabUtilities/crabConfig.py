@@ -14,23 +14,23 @@ config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'MVA-And-PFUnCorrectedMET.py'
 config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt','effAreasMuons_cone03_Spring15_25ns.txt',
-'Spring16_25nsV6_MC_Uncertainty_AK8PFchs.txt',
-'Spring16_25nsV6_MC_Uncertainty_AK8PFPuppi.txt',
-'Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt',
-'Spring16_25nsV6_MC_L3Absolute_AK8PFchs.txt',
-'Spring16_25nsV6_MC_L3Absolute_AK8PFPuppi.txt',
-'Spring16_25nsV6_MC_L3Absolute_AK4PFchs.txt',
-'Spring16_25nsV6_MC_L2Relative_AK8PFchs.txt',
-'Spring16_25nsV6_MC_L2Relative_AK8PFPuppi.txt',
-'Spring16_25nsV6_MC_L2Relative_AK4PFchs.txt',
-'Spring16_25nsV6_MC_L2L3Residual_AK8PFchs.txt',
-'Spring16_25nsV6_MC_L2L3Residual_AK8PFPuppi.txt',
-'Spring16_25nsV6_MC_L2L3Residual_AK4PFchs.txt',
-'Spring16_25nsV6_MC_L1RC_AK8PFchs.txt',
-'Spring16_25nsV6_MC_L1RC_AK4PFchs.txt',
-'Spring16_25nsV6_MC_L1FastJet_AK8PFchs.txt',
-'Spring16_25nsV6_MC_L1FastJet_AK8PFPuppi.txt',
-'Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt']
+'Spring16_25nsV10_MC_Uncertainty_AK8PFchs.txt',
+'Spring16_25nsV10_MC_Uncertainty_AK8PFPuppi.txt',
+'Spring16_25nsV10_MC_Uncertainty_AK4PFchs.txt',
+'Spring16_25nsV10_MC_L3Absolute_AK8PFchs.txt',
+'Spring16_25nsV10_MC_L3Absolute_AK8PFPuppi.txt',
+'Spring16_25nsV10_MC_L3Absolute_AK4PFchs.txt',
+'Spring16_25nsV10_MC_L2Relative_AK8PFchs.txt',
+'Spring16_25nsV10_MC_L2Relative_AK8PFPuppi.txt',
+'Spring16_25nsV10_MC_L2Relative_AK4PFchs.txt',
+'Spring16_25nsV10_MC_L2L3Residual_AK8PFchs.txt',
+'Spring16_25nsV10_MC_L2L3Residual_AK8PFPuppi.txt',
+'Spring16_25nsV10_MC_L2L3Residual_AK4PFchs.txt',
+'Spring16_25nsV10_MC_L1RC_AK8PFchs.txt',
+'Spring16_25nsV10_MC_L1RC_AK4PFchs.txt',
+'Spring16_25nsV10_MC_L1FastJet_AK8PFchs.txt',
+'Spring16_25nsV10_MC_L1FastJet_AK8PFPuppi.txt',
+'Spring16_25nsV10_MC_L1FastJet_AK4PFchs.txt']
 config.JobType.sendExternalFolder      = True
 
 config.section_("Data")

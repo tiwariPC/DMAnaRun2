@@ -162,9 +162,11 @@ mv jec/*PFchs.txt .
 mv jec/*PFPuppi.txt .
 rm -rf jec
 
-cp -p crabConfig_data.py crabConfig.py
+### Modify crabConfig_data.py and MultiCrab_2016data.py
 
-### Remember to update your JSON file
+Change workdirectory and dataset names
+
+#### Remember to update your JSON file
 
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 
@@ -174,5 +176,5 @@ cp -p /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReR
 
 source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
 voms-proxy-init --voms cms
-python MultiCrab_nocleaning.py submit
+python MultiCrab_2016data.py submit
 ```
