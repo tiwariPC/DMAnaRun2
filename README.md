@@ -75,7 +75,7 @@ cd $CMSSW_BASE/src
 cmsenv
 ```
 
-## Download files that store effective area and JEC files
+## To test the job locally
 
 ```
 cp -p DelPanj/miniIso_effectiveArea/*txt .
