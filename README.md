@@ -46,7 +46,7 @@ git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToo
 ```
 
 
-## Compile And Run 
+## Compile (due to the external packages, will take about 15-20 mins)
 ```
 scramv1 b clean
 
