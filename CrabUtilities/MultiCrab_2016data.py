@@ -8,7 +8,6 @@ fout = open("datasetdetails_Summer16.txt","w")
 ## cfg.py is configurable because data and MC will have different configurations.
 ## And number of files canbe used as number of lumis in that case. 
 
-fout.write("JetHT-Run2016B treeMaker_Summer16_cfg.py /JetHT/Run2016B-23Sep2016-v1/MINIAOD 20 \n")
 fout.write("JetHT-Run2016B treeMaker_Summer16_cfg.py /JetHT/Run2016B-23Sep2016-v3/MINIAOD 20 \n")
 fout.write("JetHT-Run2016C treeMaker_Summer16_cfg.py /JetHT/Run2016C-23Sep2016-v1/MINIAOD 20 \n")
 fout.write("JetHT-Run2016D treeMaker_Summer16_cfg.py /JetHT/Run2016D-23Sep2016-v1/MINIAOD 20 \n")
