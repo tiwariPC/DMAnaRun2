@@ -11,7 +11,7 @@ postfix="_MC25ns_ReMiniAOD_20151026"
 ##var='/ZJetsToNuNu_HT-100To200_13TeV-madgraph/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM'
 
 outfile = open('datasetdetails_Spring15.txt','w')
-datasetfile = open('newlist.txt','r')
+datasetfile = open('datasetdetails_Summer16.txt','r')
 for dataset in datasetfile:
     a=dataset.split('/')
     b=a[1]
@@ -48,6 +48,13 @@ def submit():
 def status(crabdirname):
     import os
     os.system ("./Statusall.sh "+crabdirname)
+
+
+def resubmit(crabdirname):
+    import os
+    os.system ("./Resubmit.sh "+crabdirname)
+
+    
     
 
 ## Add a help or usage function here 
@@ -82,12 +89,21 @@ if len(sys.argv) == 2 :
         submit()
 
 
+
+
 ## check status of jobs 
 ## send the crab directory 
 if len(sys.argv) == 3 : 
     if sys.argv[1] == "status" :
         crabdir = sys.argv[2]
         status(crabdir)
+
+
+
+if len(sys.argv) == 3 : 
+    if sys.argv[1] == "resubmit" :
+        crabdir = sys.argv[2]
+        resubmit(crabdir)
 
 
 
