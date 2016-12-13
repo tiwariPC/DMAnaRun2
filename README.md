@@ -24,7 +24,7 @@ git cms-merge-topic ikrav:egm_id_80X_v2
 ## For MET Filters
 
 ``` 
-git cms-merge-topic -u cms-met:CMSSW_8_0_X-METFilterUpdate
+git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
 ```
 
 ## For DelPanj
