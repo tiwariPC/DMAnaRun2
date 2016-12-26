@@ -38,11 +38,13 @@ def submit():
         elif '2016D' in c:
             period='BCD'
         elif '2016E' in c:
-            period='E'
+            period='EF'
         elif '2016F' in c:
-            period='F'
+            period='EF'
+        elif '2016G' in c:
+            period='G'
         else:
-            period='p2'
+            period='H'
         print c, period
         os.system('cp -p crabConfig_data.py crabConfig.py')
         os.system('sed -i \'s/PERIOD/'+period+'/g\' crabConfig.py')

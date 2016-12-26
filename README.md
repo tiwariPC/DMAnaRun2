@@ -82,17 +82,17 @@ cp -p DelPanj/miniIso_effectiveArea/*txt .
 
 mkdir jec
 cd jec
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10_MC.tar.gz
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10BCD_DATA.tar.gz
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10E_DATA.tar.gz
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10F_DATA.tar.gz
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10p2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016V2_MC.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016BCDV2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016EFV2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016GV2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016HV2_DATA.tar.gz
 
-tar xvzf Spring16_25nsV10_MC.tar.gz
-tar xvzf Spring16_25nsV10BCD_DATA.tar.gz
-tar xvzf Spring16_25nsV10E_DATA.tar.gz
-tar xvzf Spring16_25nsV10F_DATA.tar.gz
-tar xvzf Spring16_25nsV10p2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016V2_MC.tar.gz
+tar xvzf Spring16_23Sep2016BCDV2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016EFV2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016GV2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016HV2_DATA.tar.gz
 
 cd -
 mv jec/*PFchs.txt .
@@ -116,8 +116,9 @@ cp -p ../miniIso_effectiveArea/*txt .
 
 mkdir jec
 cd jec
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10_MC.tar.gz
-tar xvzf Spring16_25nsV10_MC.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016V2_MC.tar.gz
+tar xvzf Spring16_23Sep2016V2_MC.tar.gz
+
 cd -
 mv jec/*PFchs.txt .
 mv jec/*PFPuppi.txt .
@@ -147,15 +148,15 @@ cp -p ../miniIso_effectiveArea/*txt .
 
 mkdir jec
 cd jec
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10BCD_DATA.tar.gz
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10E_DATA.tar.gz
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10F_DATA.tar.gz
-wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_25nsV10p2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016BCDV2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016EFV2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016GV2_DATA.tar.gz
+wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep2016HV2_DATA.tar.gz
 
-tar xvzf Spring16_25nsV10BCD_DATA.tar.gz
-tar xvzf Spring16_25nsV10E_DATA.tar.gz
-tar xvzf Spring16_25nsV10F_DATA.tar.gz
-tar xvzf Spring16_25nsV10p2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016BCDV2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016EFV2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016GV2_DATA.tar.gz
+tar xvzf Spring16_23Sep2016HV2_DATA.tar.gz
 
 cd -
 mv jec/*PFchs.txt .
