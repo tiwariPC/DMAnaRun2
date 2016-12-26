@@ -78,9 +78,9 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
-	process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_miniAODv2_v1', '')  
+	process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_TrancheIV_v7', '')  
 else:## Data no global tag yet
-        process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_Prompt_ICHEP16JEC_v0', '')
+        process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v6', '')
 
 
 
@@ -127,9 +127,9 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 
 # Input source
 if options.runOnMC:
-	testFile='/store/mc/RunIISpring16MiniAODv2/ZprimeToA0hToA0chichihbb_2HDM_MZp-1000_MA0-300_13TeV-madgraph/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/80000/1C0089C1-163B-E611-9931-FA163EA5733B.root'
+	testFile='/store/mc/RunIISummer16MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/EC905616-A5B5-E611-A1CB-008CFA14FA64.root'
 else:
-	testFile='/store/data/Run2016B/SingleMuon/MINIAOD/PromptReco-v2/000/273/158/00000/02D9C19F-571A-E611-AD8E-02163E013732.root'
+	testFile='/store/data/Run2016G/JetHT/MINIAOD/23Sep2016-v1/100000/023A19A6-D389-E611-A37E-0025907DC9CC.root'
 
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
