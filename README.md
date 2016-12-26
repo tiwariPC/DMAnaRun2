@@ -95,8 +95,8 @@ tar xvzf Spring16_23Sep2016GV2_DATA.tar.gz
 tar xvzf Spring16_23Sep2016HV2_DATA.tar.gz
 
 cd -
-mv jec/*PFchs.txt .
-mv jec/*PFPuppi.txt .
+mv jec/*/*/*PFchs.txt .
+mv jec/*/*/*PFPuppi.txt .
 rm -rf jec
 
 voms-proxy-init --voms cms
@@ -120,8 +120,8 @@ wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Spring16_23Sep20
 tar xvzf Spring16_23Sep2016V2_MC.tar.gz
 
 cd -
-mv jec/*PFchs.txt .
-mv jec/*PFPuppi.txt .
+mv jec/*/*/*PFchs.txt .
+mv jec/*/*/*PFPuppi.txt .
 rm -rf jec
 
 
@@ -159,8 +159,8 @@ tar xvzf Spring16_23Sep2016GV2_DATA.tar.gz
 tar xvzf Spring16_23Sep2016HV2_DATA.tar.gz
 
 cd -
-mv jec/*PFchs.txt .
-mv jec/*PFPuppi.txt .
+mv jec/*/*/*PFchs.txt .
+mv jec/*/*/*PFPuppi.txt .
 rm -rf jec
 ```
 ### Modify crabConfig_data.py and MultiCrab_2016data.py
