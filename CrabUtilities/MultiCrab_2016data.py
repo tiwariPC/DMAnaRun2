@@ -14,7 +14,9 @@ fout.write("JetHT-Run2016D treeMaker_Summer16_cfg.py /JetHT/Run2016D-23Sep2016-v
 fout.write("JetHT-Run2016E treeMaker_Summer16_cfg.py /JetHT/Run2016E-23Sep2016-v1/MINIAOD 20 \n")
 fout.write("JetHT-Run2016F treeMaker_Summer16_cfg.py /JetHT/Run2016F-23Sep2016-v1/MINIAOD 20 \n")
 fout.write("JetHT-Run2016G treeMaker_Summer16_cfg.py /JetHT/Run2016G-23Sep2016-v1/MINIAOD 20 \n")
-fout.write("JetHT-Run2016H treeMaker_Summer16_cfg.py /JetHT/Run2016H-PromptReco-v3/MINIAOD 20 \n")
+fout.write("JetHT-Run2016H-v1 treeMaker_Summer16_cfg.py /JetHT/Run2016H-PromptReco-v1/MINIAOD 20 \n")
+fout.write("JetHT-Run2016H-v2 treeMaker_Summer16_cfg.py /JetHT/Run2016H-PromptReco-v2/MINIAOD 20 \n")
+fout.write("JetHT-Run2016H-v3 treeMaker_Summer16_cfg.py /JetHT/Run2016H-PromptReco-v3/MINIAOD 20 \n")
 
 
 fout.close()
