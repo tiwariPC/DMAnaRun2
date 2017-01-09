@@ -12,6 +12,18 @@ cmsenv
 
 # For DelPanj and related dependencies
 
+## For v4 Double b-tagger
+
+```
+setenv CMSSW_GIT_REFERENCE /cvmfs/cms.cern.ch/cmssw.git.daily
+git cms-init
+
+git remote add btv-cmssw https://github.com/cms-btv-pog/cmssw.git
+git fetch --tags btv-cmssw
+
+git cms-merge-topic -u cms-btv-pog:BoostedDoubleSVTaggerV4-WithWeightFiles-v1_from-CMSSW_8_0_21
+```
+
 ## For Egamma cut-based ID
 ```
 git cms-init
@@ -101,7 +113,7 @@ rm -rf jec
 
 voms-proxy-init --voms cms
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=True
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=False
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=False period=G
  
 ```
 
