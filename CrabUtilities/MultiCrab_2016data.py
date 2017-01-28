@@ -17,6 +17,15 @@ fout.write("JetHT-Run2016G treeMaker_Summer16_cfg.py /JetHT/Run2016G-23Sep2016-v
 fout.write("JetHT-Run2016H-v2 treeMaker_Summer16_cfg.py /JetHT/Run2016H-PromptReco-v2/MINIAOD 20 \n")
 fout.write("JetHT-Run2016H-v3 treeMaker_Summer16_cfg.py /JetHT/Run2016H-PromptReco-v3/MINIAOD 20 \n")
 
+fout.write("SingleMuon-Run2016B treeMaker_Summer16_cfg.py /SingleMuon/Run2016B-23Sep2016-v3/MINIAOD 20 \n")
+fout.write("SingleMuon-Run2016C treeMaker_Summer16_cfg.py /SingleMuon/Run2016C-23Sep2016-v1/MINIAOD 20 \n")
+fout.write("SingleMuon-Run2016D treeMaker_Summer16_cfg.py /SingleMuon/Run2016D-23Sep2016-v1/MINIAOD 20 \n")
+fout.write("SingleMuon-Run2016E treeMaker_Summer16_cfg.py /SingleMuon/Run2016E-23Sep2016-v1/MINIAOD 20 \n")
+fout.write("SingleMuon-Run2016F treeMaker_Summer16_cfg.py /SingleMuon/Run2016F-23Sep2016-v1/MINIAOD 20 \n")
+fout.write("SingleMuon-Run2016G treeMaker_Summer16_cfg.py /SingleMuon/Run2016G-23Sep2016-v1/MINIAOD 20 \n")
+fout.write("SingleMuon-Run2016H-v2 treeMaker_Summer16_cfg.py /SingleMuon/Run2016H-PromptReco-v2/MINIAOD 20 \n")
+fout.write("SingleMuon-Run2016H-v3 treeMaker_Summer16_cfg.py /SingleMuon/Run2016H-PromptReco-v3/MINIAOD 20 \n")
+
 
 fout.close()
 
