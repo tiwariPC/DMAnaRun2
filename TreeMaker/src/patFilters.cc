@@ -79,6 +79,14 @@ patFilters::Fill(const edm::Event& iEvent)
   iEvent.getByToken(BadPFMuonFilterToken_, ifilterbadPFMuon);
   filterbadPFMuon = *ifilterbadPFMuon;
 
+  edm::Handle<bool> ifilterbadGlobalMuon;
+  iEvent.getByToken(BadGlobalMuonFilterToken_, ifilterbadGlobalMuon);
+  filterbadGlobalMuon = *ifilterbadGlobalMuon;
+
+  edm::Handle<bool> ifiltercloneGlobalMuon;
+  iEvent.getByToken(CloneGlobalMuonFilterToken_, ifiltercloneGlobalMuon);
+  filtercloneGlobalMuon = *ifiltercloneGlobalMuon;
+
 }
 
 void patFilters::SetBranches(){
@@ -89,6 +97,8 @@ void patFilters::SetBranches(){
   AddBranch(&filterName_,"filterName");
   AddBranch(&filterbadChCandidate,"filterbadChCandidate");
   AddBranch(&filterbadPFMuon,"filterbadPFMuon");
+  AddBranch(&filterbadGlobalMuon,"filterbadGlobalMuon");
+  AddBranch(&filtercloneGlobalMuon,"filtercloneGlobalMuon");
 
 }
 
@@ -100,6 +110,8 @@ patFilters::Clear(){
   hbhet_ = false;
   filterbadChCandidate  = false;
   filterbadPFMuon       = false;
+  filterbadGlobalMuon       = false;
+  filtercloneGlobalMuon       = false;
 }
 
 

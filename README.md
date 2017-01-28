@@ -1,11 +1,11 @@
 
 # DMAnaRun2
 
-# For CMSSW_8_0_22
+# For CMSSW_8_0_25
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc530
-cmsrel CMSSW_8_0_22
-cd CMSSW_8_0_22/src
+cmsrel CMSSW_8_0_25
+cd CMSSW_8_0_25/src
 cmsenv
 ```
 
@@ -37,6 +37,7 @@ git cms-merge-topic ikrav:egm_id_80X_v2
 
 ``` 
 git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
+git cms-merge-topic gpetruc:badMuonFilters_80X_v2
 ```
 
 ## For DelPanj
@@ -50,6 +51,7 @@ git checkout 80X_puppi
 
 cd -
 
+cp -p DelPanj/tempfix/BadGlobalMuonTagger.cc RecoMET/METFilters/plugins/BadGlobalMuonTagger.cc
 ```
 
 ## For jetToolBox

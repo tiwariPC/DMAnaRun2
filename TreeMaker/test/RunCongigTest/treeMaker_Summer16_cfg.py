@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 ## removed cleaning from Exo VV package 
 ## 
 
-process = cms.Process('MVAMET')
+process = cms.Process('NCUANA')
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options = cms.untracked.PSet(
     allowUnscheduled = cms.untracked.bool(True)
@@ -593,6 +593,11 @@ process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
 process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
 process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 process.BadPFMuonFilter.taggingMode = cms.bool(True)
+
+process.load('RecoMET.METFilters.badGlobalMuonTaggersMiniAOD_cff')
+process.badGlobalMuonTagger.taggingMode = cms.bool(True)
+process.cloneGlobalMuonTagger.taggingMode = cms.bool(True)
+
 ##
 process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
 process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
@@ -618,6 +623,8 @@ if not options.useJECText:
 		process.jetCorrSequenceForPrunedMass+
 		process.BadPFMuonFilter +
 		process.BadChargedCandidateFilter +
+		process.badGlobalMuonTagger + 
+		process.cloneGlobalMuonTagger +
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)
@@ -630,6 +637,8 @@ else:
 		process.pfMet+
 		process.BadPFMuonFilter +
 		process.BadChargedCandidateFilter +
+		process.badGlobalMuonTagger + 
+		process.cloneGlobalMuonTagger +
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)

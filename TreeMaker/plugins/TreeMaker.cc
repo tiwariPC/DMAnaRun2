@@ -95,8 +95,11 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patFilterTree_->HBHETToken              = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET"));
       patFilterTree_->HBHELToken              = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Loose","MVAMET"));
       patFilterTree_->HBHEIsoToken            = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHEIsoNoiseFilterResult","MVAMET"));
-      patFilterTree_->BadChCandFilterToken_   = (consumes<bool>(iConfig.getParameter<edm::InputTag>("BadChargedCandidateFilter")));
-      patFilterTree_->BadPFMuonFilterToken_   = (consumes<bool>(iConfig.getParameter<edm::InputTag>("BadPFMuonFilter")));
+      patFilterTree_->BadChCandFilterToken_   = consumes<bool>(edm::InputTag("BadChargedCandidateFilter"));
+      patFilterTree_->BadPFMuonFilterToken_   = consumes<bool>(edm::InputTag("BadPFMuonFilter"));
+      patFilterTree_->BadGlobalMuonFilterToken_     = consumes<bool>(edm::InputTag("badGlobalMuonTagger"));
+      patFilterTree_->CloneGlobalMuonFilterToken_   = consumes<bool>(edm::InputTag("cloneGlobalMuonTagger"));
+
       
       patFilterTree_->filterTrigResultsToken  = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("filterLabel"));
     }

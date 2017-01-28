@@ -31,8 +31,6 @@ tree = cms.EDAnalyzer(
     puppiMET         = cms.InputTag("slimmedMETsPuppi"),
     
     ## filter
-    BadChargedCandidateFilter = cms.InputTag("BadChargedCandidateFilter"),
-    BadPFMuonFilter = cms.InputTag("BadPFMuonFilter"),
 
     triggerLabel     = cms.InputTag("TriggerResults::HLT"),
     saveAllTrigPaths = cms.bool(False),

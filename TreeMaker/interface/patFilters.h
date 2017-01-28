@@ -31,6 +31,8 @@ class patFilters : public baseTree{
 
   edm::EDGetTokenT<bool> BadChCandFilterToken_;
   edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
+  edm::EDGetTokenT<bool> BadGlobalMuonFilterToken_;
+  edm::EDGetTokenT<bool> CloneGlobalMuonFilterToken_;
 
  private:
 
@@ -44,10 +46,10 @@ class patFilters : public baseTree{
   bool hbheIso_;
   bool  filterbadChCandidate;
   bool filterbadPFMuon;
+  bool filterbadGlobalMuon;
+  bool filtercloneGlobalMuon;
   std::vector<std::string> filterName_;
   edm::InputTag filterTag;
-  //edm::EDGetTokenT<bool> BadChCandFilterToken_;
-  //edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
 };
 
 #endif
