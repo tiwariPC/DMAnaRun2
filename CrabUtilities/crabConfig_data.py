@@ -10,7 +10,7 @@ config.General.workArea = 'crab_20161226'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
-DATAJEC='Spring16_23Sep2016PERIODV2_DATA'
+DATAJEC='Spring16_23Sep2016PERIODV3_DATA'
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
