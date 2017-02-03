@@ -109,8 +109,8 @@ tar xvzf Summer16_23Sep2016GV3_DATA.tar.gz
 tar xvzf Summer16_23Sep2016HV3_DATA.tar.gz
 
 cd -
-mv jec/*/*/*PFchs.txt .
-mv jec/*/*/*PFPuppi.txt .
+mv jec/*PFchs.txt .
+mv jec/*PFPuppi.txt .
 rm -rf jec
 
 voms-proxy-init --voms cms
@@ -134,8 +134,8 @@ wget https://github.com/cms-jet/JECDatabase/raw/master/tarballs/Summer16_23Sep20
 tar xvzf Summer16_23Sep2016V3_MC.tar.gz
 
 cd -
-mv jec/*/*/*PFchs.txt .
-mv jec/*/*/*PFPuppi.txt .
+mv jec/*PFchs.txt .
+mv jec/*PFPuppi.txt .
 rm -rf jec
 
 
@@ -173,8 +173,8 @@ tar xvzf Summer16_23Sep2016GV3_DATA.tar.gz
 tar xvzf Summer16_23Sep2016HV3_DATA.tar.gz
 
 cd -
-mv jec/*/*/*PFchs.txt .
-mv jec/*/*/*PFPuppi.txt .
+mv jec/*PFchs.txt .
+mv jec/*PFPuppi.txt .
 rm -rf jec
 ```
 ### Modify crabConfig_data.py and MultiCrab_2016data.py
