@@ -5,8 +5,8 @@ config = Configuration()
 """  Once the Configuration object is created, it is possible to add new sections into it with corresponding parameters."""
 
 config.section_("General")
-config.General.requestName = 'dihiggs'
-config.General.workArea = 'crab_20160419'
+config.General.requestName = 'MonoH2017'
+config.General.workArea = 'MonoH2017'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
@@ -41,8 +41,10 @@ config.Data.inputDataset = '/SingleMuon/Run2016B-PromptReco-v2/MINIAOD'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 20
+config.Data.outLFNDirBase = '/store/user/khurana/MonoH2016/V5_FullDataMC/'
 
 #config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
+#config.Data.lumiMask = 'Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
 config.Data.lumiMask = 'Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
 config.Data.ignoreLocality = True
 
@@ -52,5 +54,6 @@ config.JobType.allowUndistributedCMSSW=True
 
 #maxtarballsize = 50 
 config.section_("Site")
-config.Site.storageSite = "T3_TW_NCU"
+#config.Site.storageSite = "T3_TW_NCU"
 #config.Site.storageSite = "T2_CH_CERN"
+config.Site.storageSite = "T2_US_Wisconsin"

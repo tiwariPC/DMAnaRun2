@@ -1,2 +1,7 @@
-crab_MET-Run2015D-05Oct2015V120151027_1p2fb
-crab_MET-Run2015D-PromptReco-V420151027_1p2fb
+crab_JetHT-Run2016E
+crab_JetHT-Run2016F
+crab_JetHT-Run2016G
+crab_JetHT-Run2016H
+crab_MET-Run2016B
+crab_MET-Run2016C
+crab_MET-Run2016D

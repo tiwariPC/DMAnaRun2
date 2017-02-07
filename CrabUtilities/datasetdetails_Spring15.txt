@@ -1,1 +1,6 @@
-MET-Run2015D-PromptReco-V42015112_1p5fb_METTextFile Cert_246908-259891_13TeV_PromptReco_Collisions15_25ns_JSON.txt /MET/Run2015D-PromptReco-v4/MINIAOD 25 
+JetHT_MC25ns_ReMiniAOD_20151026 treeMaker_Summer16_cfg.py JetHT-Run2016B treeMaker_Summer16_cfg.py /JetHT/Run2016B-23Sep2016-v3/MINIAOD 20 1 
+JetHT_MC25ns_ReMiniAOD_20151026 treeMaker_Summer16_cfg.py JetHT-Run2016C treeMaker_Summer16_cfg.py /JetHT/Run2016C-23Sep2016-v1/MINIAOD 20 1 
+JetHT_MC25ns_ReMiniAOD_20151026 treeMaker_Summer16_cfg.py JetHT-Run2016D treeMaker_Summer16_cfg.py /JetHT/Run2016D-23Sep2016-v1/MINIAOD 20 1 
+MET_MC25ns_ReMiniAOD_20151026 treeMaker_Summer16_cfg.py MET-Run2016B treeMaker_Summer16_cfg.py /MET/Run2016B-23Sep2016-v3/MINIAOD 20 1 
+MET_MC25ns_ReMiniAOD_20151026 treeMaker_Summer16_cfg.py MET-Run2016C treeMaker_Summer16_cfg.py /MET/Run2016C-23Sep2016-v1/MINIAOD 20 1 
+MET_MC25ns_ReMiniAOD_20151026 treeMaker_Summer16_cfg.py MET-Run2016D treeMaker_Summer16_cfg.py /MET/Run2016D-23Sep2016-v1/MINIAOD 20 1 

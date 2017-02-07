@@ -5,6 +5,11 @@
   Updated by: Shin-Shan Yu
   Date      : 20 March 2016
   Replace getByLabel with getByToken
+
+  Updated by: Raman Khurana
+  Date      : 27 Jan 2017
+  Adding CA15 doble b-tagger
+  ECF variables 
 */
 
 
@@ -44,6 +49,22 @@
 #include "DelPanj/TreeMaker/interface/baseTree.h"
 #include "DelPanj/TreeMaker/interface/jetSelector.h"
 
+//#include "DelPanj/TreeMaker/interface/BoostedBtaggingMVACalculator.h"
+#include "BoostedBtaggingMVACalculator.h"
+
+// For ECFs
+#include "PFatJet.h"
+#include "EnergyCorrelations.h"
+#include "fastjet/PseudoJet.hh"
+#include "fastjet/JetDefinition.hh"
+#include "fastjet/GhostedAreaSpec.hh"
+#include "fastjet/AreaDefinition.hh"
+#include "fastjet/ClusterSequenceArea.hh"
+#include "fastjet/contrib/SoftDrop.hh"
+#include "fastjet/contrib/NjettinessPlugin.hh"
+#include "fastjet/contrib/MeasureDefinition.hh"
+#include "fastjet/contrib/EnergyCorrelator.hh"
+
 using namespace std;
 using namespace edm;
 
@@ -57,6 +78,8 @@ class jetTree  : public baseTree{
 
   void Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup) ; 
   void Clear();
+  
+  BoostedBtaggingMVACalculator mJetBoostedBtaggingMVACalc;
 
   edm::EDGetTokenT<reco::VertexCollection>          vertexToken;
   edm::EDGetTokenT<double>                          rhoForJetToken;
@@ -67,6 +90,16 @@ class jetTree  : public baseTree{
  private:
 
   jetTree(){};
+  
+  /* For ECF: starts here  */
+  fastjet::AreaDefinition *areaDef;
+  fastjet::GhostedAreaSpec *activeArea;
+  fastjet::JetDefinition *jetDefCA=0;
+  fastjet::contrib::SoftDrop *softdrop=0;
+  fastjet::contrib::Njettiness *tau=0;
+  ECFNManager *ecfnmanager;
+  float radius=1.5;
+  /* For ECF: ends here    */
   void SetBranches();
 
   bool isTHINJet_;
@@ -193,6 +226,20 @@ class jetTree  : public baseTree{
   std::vector<std::vector<float> > subjetSDPuppiE_;
   std::vector<std::vector<float> > subjetSDPuppiCSV_;
   
+
+  // For CA15 double b-tagger and ECFs: start here
+  /*
+    betas = {0.5,1.,2.,4.};
+    Ns = {1,2,3,4};
+    orders = {1,2,3};
+    ECF( O, N, beta) 
+  */
+  std::vector<float> ca15_doublebtag;
+  std::vector<float> ECF_2_3_10;
+  std::vector<float> ECF_1_2_10;
+  
+  // For CA15 double b-tagger and ECFs: ends here
+  
   
   //jet  Hbb tagger for fat and add jet
 
@@ -222,6 +269,7 @@ class jetTree  : public baseTree{
   std::vector<std::vector<float> > subjetSDCSV_;        
 
 
+ protected:
 
 };
 

@@ -1,13 +1,8 @@
-
-// This class need a new version
-// Take care of gen Jets from configuation 
-// take care of subjets
-// Tau variables now Fixed
-// take care of tau variables : access using new methods. 
-// add additional info related to soft drop (??) 
-// remove branches which are not needed. 
-// Replace pt, eta, phi, E, px. py, pz by TLorentzVector to check size of the tuple. :: do this for all the classes. 
-
+/* 
+-- added CA15 double b-tagger 
+-- added ECFs
+-- including many files from the external packages of CMSSW (fastjet) to recluster the jet. 
+ */
 #include "FWCore/Framework/interface/EDConsumerBase.h"
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "DataFormats/BTauReco/interface/SecondaryVertexTagInfo.h"
@@ -17,6 +12,24 @@
 #include <CLHEP/Vector/LorentzVector.h>
 #include "TMath.h"
 #include "Math/VectorUtil.h"
+#include <algorithm>
+
+// for CA15 double b-tagger variables. 
+#include "DataFormats/BTauReco/interface/TaggingVariable.h"
+#include "DataFormats/BTauReco/interface/JetTag.h"
+#include "DataFormats/BTauReco/interface/BoostedDoubleSVTagInfo.h"
+
+
+// Fastjet 
+#include "fastjet/PseudoJet.hh"
+#include "fastjet/JetDefinition.hh"
+#include "fastjet/GhostedAreaSpec.hh"
+#include "fastjet/AreaDefinition.hh"
+#include "fastjet/ClusterSequenceArea.hh"
+#include "fastjet/contrib/SoftDrop.hh"
+#include "fastjet/contrib/NjettinessPlugin.hh"
+#include "fastjet/contrib/MeasureDefinition.hh"
+#include "fastjet/contrib/EnergyCorrelator.hh"
 
 const double DUMMY=-99999.;
 
@@ -55,7 +68,27 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
     isCA15PuppiJet_=true; 
 
   std::cout << desc << std::endl;
+  
+  
+  /* ECF: Starts here */
+  jetDefCA = new fastjet::JetDefinition(fastjet::cambridge_algorithm, radius);
+  double sdZcut, sdBeta;
+  if (radius<1) {
+    sdZcut=0.1; sdBeta=0.;
+  } else {
+    sdZcut=0.15; sdBeta=1.;
+  }
+  softdrop = new fastjet::contrib::SoftDrop(sdBeta,sdZcut,radius);
 
+  int activeAreaRepeats = 1;
+  double ghostArea = 0.01;
+  double ghostEtaMax = 7.0;
+  activeArea = new fastjet::GhostedAreaSpec(ghostEtaMax,activeAreaRepeats,ghostArea);
+  areaDef = new fastjet::AreaDefinition(fastjet::active_area_explicit_ghosts,*activeArea);
+  ecfnmanager = new ECFNManager();
+
+  /* ECF: Starts here */
+  
   genjetP4_    = new TClonesArray("TLorentzVector");
   jetP4_       = new TClonesArray("TLorentzVector");
   unCorrJetP4_ = new TClonesArray("TLorentzVector");
@@ -108,6 +141,11 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
       jecUncText_ = boost::shared_ptr<JetCorrectionUncertainty>( new JetCorrectionUncertainty(jecUncName_) );
     }
 
+  std::string cmssw_base = getenv("CMSSW_BASE");
+  std::string fweight = cmssw_base+"/src//DelPanj/CrabUtilities/BoostedSVDoubleCA15_withSubjet_v4.weights.xml";
+  mJetBoostedBtaggingMVACalc.initialize("BDT",fweight);
+
+
 
 }
 
@@ -119,6 +157,21 @@ jetTree::~jetTree(){
   delete unCorrJetP4_;
   delete jetPuppiP4_;
   delete jetPuppiSDRawP4_;
+  
+  /* EFC: starts here */
+  delete areaDef;
+  delete activeArea;
+  delete jetDefCA;
+  delete softdrop;
+  delete tau;
+  delete ecfnmanager;
+  delete softdrop;
+  /* EFC: ends here */
+
+  //delete htt;
+  //delete mMCJetCorrector;
+  //delete mDataJetCorrector;
+
 }
 
 
@@ -394,13 +447,204 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
     if(isCA15PuppiJet_){
+      
+      // For ECFs 
+      // reset the ECFs  
+      std::cout<<" now starting ECF"<<std::endl;
+      PFatJet *p_jet = new PFatJet(); // choose a better place for this..
+      std::vector<float> betas = {0.5,1.,2.,4.};
+      std::vector<int> Ns = {1,2,3,4};
+      std::vector<int> orders = {1,2,3};
+      for (unsigned int iB=0; iB!=4; ++iB) {
+        for (auto N : Ns) {
+          for (auto o : orders) {
+	    p_jet->set_ecf(o,N,iB,-1);
+          }
+        }
+      }
+      std::vector<edm::Ptr<reco::Candidate>> constituentPtrs = jet->getJetConstituents();
+      /* commented by raman
+      if (pfcands!=0) { // associate to pf cands in tree
+	const std::map<const reco::Candidate*, UShort_t> &pfmap = pfcands->get_map();
+	jet->constituents = new std::vector<UShort_t>();
+	std::vector<UShort_t> *constituents = jet->constituents;
+	
+	for (auto ptr : constituentPtrs) {
+	  const reco::Candidate *constituent = ptr.get();
+	  
+	  auto result_ = pfmap.find(constituent); // check if we know about this pf cand
+	  if (result_ == pfmap.end()) {
+	    PError("PandaProdNtupler::FatJetFiller",TString::Format("could not PF [%s] ...\n",treename.Data()));
+	  } else {
+	    constituents->push_back(result_->second);
+	  } 
+	} // loop through constituents from input
+      } // pfcands!=0 
+      
+      */
+      // if (!minimal && data->size()<2)   commented by raman
+      {
+	// calculate ECFs, groomed tauN
+	typedef std::vector<fastjet::PseudoJet> VPseudoJet;
+	VPseudoJet vjet;
+	for (auto ptr : constituentPtrs) { 
+	  // create vector of PseudoJets
+	  const reco::Candidate *constituent = ptr.get();
+	  if (constituent->pt()<0.01) 
+	    continue;
+	  vjet.emplace_back(constituent->px(),constituent->py(),constituent->pz(),constituent->energy());
+	}
+	
+	fastjet::ClusterSequenceArea seq(vjet, *jetDefCA, *areaDef); 
+	VPseudoJet alljets = fastjet::sorted_by_pt(seq.inclusive_jets(0.1));
+	
+	if (alljets.size()>0){
+	  fastjet::PseudoJet *leadingJet = &(alljets[0]);
+	  fastjet::PseudoJet sdJet = (*softdrop)(*leadingJet);
+	  // get and filter constituents of groomed jet
+	  VPseudoJet sdconsts = fastjet::sorted_by_pt(sdJet.constituents());
+	  int nFilter = TMath::Min(100,(int)sdconsts.size());
+	  VPseudoJet sdconstsFiltered(sdconsts.begin(),sdconsts.begin()+nFilter);
+	  // calculate ECFs
+	  for (unsigned int iB=0; iB!=4; ++iB) {
+	    calcECFN(betas[iB],sdconstsFiltered,ecfnmanager); // calculate for all Ns and os
+	    for (auto N : Ns) {
+	      for (auto o : orders) {
+		float x = ecfnmanager->ecfns[TString::Format("%i_%i",N,o)];
+		int r = p_jet->set_ecf(o,N,iB,x);
+		std::cout<<"r,o,N,beta,x =  "
+			 <<" "<<r
+			 <<" "<<o
+			 <<" "<<N
+			 <<" "<<betas[iB]
+			 <<" "<<x
+			 <<std::endl;
+		std::cout<< " using the get function = "<< p_jet->get_ecf(o,N,iB)<<std::endl;
+
+		if (r) {
+		  std::cout<<"FatJetFiller eoor "<<std::endl;
+		}
+	      } // o loop
+	    } // N loop
+	  } // beta loop
+	  
+	}/* // by raman
+	    jet->tau3SD = tau->getTau(3,sdconsts);
+	  jet->tau2SD = tau->getTau(2,sdconsts);
+	  jet->tau1SD = tau->getTau(1,sdconsts);
+	  
+	  // HTT
+	  fastjet::PseudoJet httJet = htt->result(*leadingJet);
+	  if (httJet!=0) {
+	    fastjet::HEPTopTaggerV2Structure *s = 
+	      (fastjet::HEPTopTaggerV2Structure*)httJet.structure_non_const_ptr();
+	    jet->htt_mass = s->top_mass();
+	    jet->htt_frec = s->fRec();
+	  }
+	  
+	} else {
+	  PError("PandaProd::Ntupler::FatJetFiller","Jet could not be clustered");
+	}
+*/	
+      } // if not minimal and fewer than 2 
+      // End of ECFs computation 
+      
+      std::cout<< " using the get function outside  = "<< p_jet->get_ecf(2,3,1)<<"   "<<p_jet->get_ecf(1,2,1)<<std::endl;
+      const reco::TaggingVariableList vars = jet->tagInfoBoostedDoubleSV()->taggingVariables();
+      float z_ratio_                       = vars.get(reco::btau::z_ratio);
+      float trackSipdSig_3_                = vars.get(reco::btau::trackSip3dSig_3);
+      float trackSipdSig_2_                = vars.get(reco::btau::trackSip3dSig_2);
+      float trackSipdSig_1_                = vars.get(reco::btau::trackSip3dSig_1);
+      float trackSipdSig_0_                = vars.get(reco::btau::trackSip3dSig_0);
+      float trackSipdSig_1_0_              = vars.get(reco::btau::tau2_trackSip3dSig_0);
+      float trackSipdSig_0_0_              = vars.get(reco::btau::tau1_trackSip3dSig_0);
+      float trackSipdSig_1_1_              = vars.get(reco::btau::tau2_trackSip3dSig_1);
+      float trackSipdSig_0_1_              = vars.get(reco::btau::tau1_trackSip3dSig_1);
+      float trackSip2dSigAboveCharm_0_     = vars.get(reco::btau::trackSip2dSigAboveCharm);
+      float trackSip2dSigAboveBottom_0_    = vars.get(reco::btau::trackSip2dSigAboveBottom_0);
+      float trackSip2dSigAboveBottom_1_    = vars.get(reco::btau::trackSip2dSigAboveBottom_1);
+      float tau1_trackEtaRel_0_            = vars.get(reco::btau::tau2_trackEtaRel_0);
+      float tau1_trackEtaRel_1_            = vars.get(reco::btau::tau2_trackEtaRel_1);
+      float tau1_trackEtaRel_2_            = vars.get(reco::btau::tau2_trackEtaRel_2);
+      float tau0_trackEtaRel_0_            = vars.get(reco::btau::tau1_trackEtaRel_0);
+      float tau0_trackEtaRel_1_            = vars.get(reco::btau::tau1_trackEtaRel_1);
+      float tau0_trackEtaRel_2_            = vars.get(reco::btau::tau1_trackEtaRel_2);
+      float tau_vertexMass_0_              = vars.get(reco::btau::tau1_vertexMass);
+      float tau_vertexEnergyRatio_0_       = vars.get(reco::btau::tau1_vertexEnergyRatio);
+      float tau_vertexDeltaR_0_            = vars.get(reco::btau::tau1_vertexDeltaR);
+      float tau_flightDistance2dSig_0_     = vars.get(reco::btau::tau1_flightDistance2dSig);
+      float tau_vertexMass_1_              = vars.get(reco::btau::tau2_vertexMass);
+      float tau_vertexEnergyRatio_1_       = vars.get(reco::btau::tau2_vertexEnergyRatio);
+      float tau_flightDistance2dSig_1_     = vars.get(reco::btau::tau2_flightDistance2dSig);
+      float jetNTracks_                    = vars.get(reco::btau::jetNTracks);
+      float nSV_                           = vars.get(reco::btau::jetNSecondaryVertices);
+      float massPruned_                    = jet->p4().mass(); //jet->m;
+      float flavour_                       = -1;   //j.partonFlavor();   // they're spectator variables
+      float nbHadrons_                     = -1; //j.hadronFlavor(); // 
+      float ptPruned_                      = jet->p4().pt();
+      float etaPruned_                     = jet->p4().eta();
+      
+      std::vector<float> subjetSDCSV_puppi_tmp;
+      subjetSDCSV_puppi_tmp.clear();
+      auto const & sdSubjetsPuppi = jet->subjets("SoftDrop");
+      float SubJet_csv_ = -1.0;
+      for ( auto const & it : sdSubjetsPuppi ) {
+	subjetSDCSV_puppi_tmp.push_back(it->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+	SubJet_csv_                    = *(std::max_element(subjetSDCSV_puppi_tmp.begin(), subjetSDCSV_puppi_tmp.end()));
+	if ((SubJet_csv_ < -1) || (SubJet_csv_ > 1)) SubJet_csv_ = -1;
+      }
+      double double_CA15 = mJetBoostedBtaggingMVACalc.mvaValue(
+							       massPruned_,
+							       flavour_,
+							       nbHadrons_,
+							       ptPruned_,
+							       etaPruned_,
+							       SubJet_csv_,
+							       z_ratio_,
+							       trackSipdSig_3_,
+							       trackSipdSig_2_,
+							       trackSipdSig_1_,
+							       trackSipdSig_0_,
+							       trackSipdSig_1_0_,
+							       trackSipdSig_0_0_,
+							       trackSipdSig_1_1_,
+							       trackSipdSig_0_1_,
+							       trackSip2dSigAboveCharm_0_,
+							       trackSip2dSigAboveBottom_0_,
+							       trackSip2dSigAboveBottom_1_,
+							       tau0_trackEtaRel_0_,
+							       tau0_trackEtaRel_1_,
+							       tau0_trackEtaRel_2_,
+							       tau1_trackEtaRel_0_,
+							       tau1_trackEtaRel_1_,
+							       tau1_trackEtaRel_2_,
+							       tau_vertexMass_0_,
+							       tau_vertexEnergyRatio_0_,
+							       tau_vertexDeltaR_0_,
+							       tau_flightDistance2dSig_0_,
+							       tau_vertexMass_1_,
+							       tau_vertexEnergyRatio_1_,
+							       tau_flightDistance2dSig_1_,
+							       jetNTracks_,
+							       nSV_,
+							       false
+							       );
+      
+      std::cout<<" double_CA15 = "<<double_CA15 << std::endl;
+      ca15_doublebtag.push_back(double_CA15);
+      ECF_2_3_10.push_back(p_jet->get_ecf(2,3,1)) ;
+      ECF_1_2_10.push_back(p_jet->get_ecf(1,2,1));
+      
       jetTau1_.push_back(jet->userFloat("NjettinessCA15Puppi:tau1"));
       jetTau2_.push_back(jet->userFloat("NjettinessCA15Puppi:tau2"));
       jetTau3_.push_back(jet->userFloat("NjettinessCA15Puppi:tau3"));
       jetTau21_.push_back(jet->userFloat("NjettinessCA15Puppi:tau2")/jet->userFloat("NjettinessCA15Puppi:tau1"));
       jetSDmass_.push_back(jet->userFloat("ca15PFJetsPuppiSoftDropMass"));
-    }
-
+      
+      
+    }//     if(isCA15PuppiJet_){
+    
+    
     if(isFATJet_){
 
 
@@ -781,6 +1025,11 @@ jetTree::SetBranches(){
     AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
     AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
 
+    AddBranch(&ca15_doublebtag, "ca15_doublebtag");
+    AddBranch(&ECF_2_3_10, "ECF_2_3_10");
+    AddBranch(&ECF_1_2_10, "ECF_1_2_10");
+    
+    
   }
   
   if(isFATJet_){
@@ -926,6 +1175,11 @@ jetTree::Clear(){
   subjetSDPuppiE_.clear();
   subjetSDPuppiCSV_.clear();
 
+  // CA15 and ECFs 
+  ca15_doublebtag.clear();
+  ECF_2_3_10.clear();
+  ECF_1_2_10.clear();
+  
 
   //jet  Hbb tagger for fat and add jet
 

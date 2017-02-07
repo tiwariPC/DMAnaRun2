@@ -35,6 +35,10 @@
 <use   name="CondFormats/PhysicsToolsObjects"/>
 <use   name="PhysicsTools/Utilities"/>
 <use   name="RecoMET/METFilters"/>
+<use   name="DataFormats/BTauReco"/>
+<use name="fastjet"/>
+<use name="fastjet-contrib"/>
+
 <export>
   <lib   name="1"/>
 </export>
