@@ -122,7 +122,7 @@ cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=Fa
 Note, you need to add these text files as extra input files when submitting CRAB jobs.
 
 ## To submit MC crab jobs 
-modify directories in crabConfig.py and dataset in MultiCrab_nocleaning.py according to your need
+modify directories in crabConfig.py and dataset in MultiCrab_dihiggs.py according to your need
 ```
 cd DelPanj/CrabUtilities
 cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py .
@@ -147,7 +147,7 @@ python MultiCrab_dihiggs.py submit
 ```
 
 ## To submit data crab jobs (Remember to update your JSON file)
-modify directories in crabConfig.py and JSON file dataset in MultiCrab_nocleaning.py according to your need
+modify directories in crabConfig_data.py and dataset in MultiCrab_2016data.py according to your need
 
 Check this hypernews for the latest JSON file name: 
 https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation.html
