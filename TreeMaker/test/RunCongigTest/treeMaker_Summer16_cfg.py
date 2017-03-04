@@ -595,8 +595,8 @@ process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 process.BadPFMuonFilter.taggingMode = cms.bool(True)
 
 process.load('RecoMET.METFilters.badGlobalMuonTaggersMiniAOD_cff')
-process.badGlobalMuonTagger.taggingMode = cms.bool(True)
-process.cloneGlobalMuonTagger.taggingMode = cms.bool(True)
+process.badGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
+process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
 
 ##
 process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
@@ -623,8 +623,8 @@ if not options.useJECText:
 		process.jetCorrSequenceForPrunedMass+
 		process.BadPFMuonFilter +
 		process.BadChargedCandidateFilter +
-		process.badGlobalMuonTagger + 
-		process.cloneGlobalMuonTagger +
+		process.badGlobalMuonTaggerMAOD + 
+		process.cloneGlobalMuonTaggerMAOD +
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)
@@ -637,8 +637,8 @@ else:
 		process.pfMet+
 		process.BadPFMuonFilter +
 		process.BadChargedCandidateFilter +
-		process.badGlobalMuonTagger + 
-		process.cloneGlobalMuonTagger +
+		process.badGlobalMuonTaggerMAOD + 
+		process.cloneGlobalMuonTaggerMAOD +
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
 		)
