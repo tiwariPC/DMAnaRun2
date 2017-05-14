@@ -10,6 +10,14 @@ fout = open("datasetdetails_Summer16.txt","w")
 
 ## Moriond MC
 
+fout.write("GluGluToBulkGravitonToHHTo4B_M-750_narrow_13TeV-madgraph treeMaker_Summer16_cfg.py /GluGluToBulkGravitonToHHTo4B_M-750_narrow_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("GluGluToBulkGravitonToHHTo4B_M-800_narrow_13TeV-madgraph treeMaker_Summer16_cfg.py /GluGluToBulkGravitonToHHTo4B_M-800_narrow_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("GluGluToBulkGravitonToHHTo4B_M-900_narrow_13TeV-madgraph treeMaker_Summer16_cfg.py /GluGluToBulkGravitonToHHTo4B_M-900_narrow_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("GluGluToRadionToHHTo4B_M-750_narrow_13TeV-madgraph treeMaker_Summer16_cfg.py /GluGluToRadionToHHTo4B_M-750_narrow_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("GluGluToRadionToHHTo4B_M-800_narrow_13TeV-madgraph treeMaker_Summer16_cfg.py /GluGluToRadionToHHTo4B_M-800_narrow_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("GluGluToRadionToHHTo4B_M-900_narrow_13TeV-madgraph treeMaker_Summer16_cfg.py /GluGluToRadionToHHTo4B_M-900_narrow_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+
+
 fout.write("BulkGravTohhTohbbhbb_narrow_M-1000_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1000_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
 fout.write("BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1200_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
 fout.write("BulkGravTohhTohbbhbb_narrow_M-1400_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-1400_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
@@ -21,6 +29,33 @@ fout.write("BulkGravTohhTohbbhbb_narrow_M-3000_13TeV-madgraph treeMaker_Summer16
 fout.write("BulkGravTohhTohbbhbb_narrow_M-4000_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-4000_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
 fout.write("BulkGravTohhTohbbhbb_narrow_M-4500_13TeV-madgraph treeMaker_Summer16_cfg.py /BulkGravTohhTohbbhbb_narrow_M-4500_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
 
+fout.write("RadionTohhTohbbhbb_narrow_M-1000_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-1000_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-1200_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-1200_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-1400_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-1400_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-1600_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-1600_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-1800_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-1800_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-2000_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-2000_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-2500_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-2500_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-3000_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-3000_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-3500_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-3500_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+fout.write("RadionTohhTohbbhbb_narrow_M-4500_13TeV-madgraph treeMaker_Summer16_cfg.py /RadionTohhTohbbhbb_narrow_M-4500_13TeV-madgraph/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n")
+
+#fout.write("QCD_HT50to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT50to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext treeMaker_Summer16_cfg.py /QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext treeMaker_Summer16_cfg.py /QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext treeMaker_Summer16_cfg.py /QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext treeMaker_Summer16_cfg.py /QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext treeMaker_Summer16_cfg.py /QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext treeMaker_Summer16_cfg.py /QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8 treeMaker_Summer16_cfg.py /QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM 1 \n") 
+#fout.write("QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8-ext treeMaker_Summer16_cfg.py /QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM 1 \n")
 
 
 
