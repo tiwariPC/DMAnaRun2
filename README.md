@@ -71,7 +71,7 @@ rm -rf jec
 
 voms-proxy-init --voms cms
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer17_cfg.py runOnMC=True
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer17_cfg.py runOnMC=False period=B
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer17_cfg.py runOnMC=False period=G
  
 ```
 
