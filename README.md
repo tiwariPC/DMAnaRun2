@@ -27,12 +27,13 @@ git checkout 92X_2017data
 cd -
 
 cp -p DelPanj/tempfix/BadGlobalMuonTagger.cc RecoMET/METFilters/plugins/BadGlobalMuonTagger.cc
-cp -p DelPanj/tempfix/badGlobalMuonTaggersMiniAOD_cff.py RecoMET/METFilters/python/badGlobalMuonTaggersMiniAOD_cff.py 
 ```
 
 ## For jetToolBox
 ```
-git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_91X_v1
+git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox 
+cd JMEAnalysis/JetToolbox
+git checkout jetToolbox_91X_v1
 ```
 
 
