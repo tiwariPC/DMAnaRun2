@@ -50,11 +50,11 @@
 #include "DelPanj/TreeMaker/interface/jetSelector.h"
 
 //#include "DelPanj/TreeMaker/interface/BoostedBtaggingMVACalculator.h"
-#include "BoostedBtaggingMVACalculator.h"
+#include "DelPanj/TreeMaker/interface/BoostedBtaggingMVACalculator.h"
 
 // For ECFs
-#include "PFatJet.h"
-#include "EnergyCorrelations.h"
+#include "DelPanj/TreeMaker/interface/PFatJet.h"
+#include "DelPanj/TreeMaker/interface/EnergyCorrelations.h"
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/JetDefinition.hh"
 #include "fastjet/GhostedAreaSpec.hh"
