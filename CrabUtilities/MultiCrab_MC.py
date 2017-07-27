@@ -6,12 +6,12 @@ import os
 ## taskname   cfg.py  datasetname  numberofdiles
 ## cfg.py is configurable because data and MC will have different configurations.
 ## And number of files canbe used as number of lumis in that case. 
-postfix="_MC25ns_ReMiniAOD_20151026"
+postfix="_MC25ns_LegacyMC_20170328"
 
 ##var='/ZJetsToNuNu_HT-100To200_13TeV-madgraph/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM'
 
 outfile = open('allmonoHsamples.txt','w')
-datasetfile = open('datasetsMonoHbb.txt','r')
+datasetfile = open('allMCMonoHbb2016Legacy.txt','r')
 #datasetfile = open('datsetsMonoHbb.txt','r')
 for dataset in datasetfile:
     a=dataset.split('/')

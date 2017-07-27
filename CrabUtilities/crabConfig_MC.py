@@ -30,7 +30,8 @@ config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25n
 'Spring16_25nsV10_MC_L1RC_AK4PFchs.txt',
 'Spring16_25nsV10_MC_L1FastJet_AK8PFchs.txt',
 'Spring16_25nsV10_MC_L1FastJet_AK8PFPuppi.txt',
-'Spring16_25nsV10_MC_L1FastJet_AK4PFchs.txt']
+'Spring16_25nsV10_MC_L1FastJet_AK4PFchs.txt',
+'../TreeMaker/data/BoostedSVDoubleCA15_withSubjet_v4.weights.xml']
 config.JobType.sendExternalFolder      = True
 
 config.section_("Data")
@@ -38,7 +39,7 @@ config.Data.inputDataset = '/DYJetsToLL_M-50_HT-100to200_Tune4C_13TeV-madgraph-t
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 5
-config.Data.outLFNDirBase = '/store/user/khurana/MonoH2016/V5_FullDataMC/'
+config.Data.outLFNDirBase = '/store/user/khurana/MonoH2016/DataMC_June17/'
 ##config.Data.outLFNDirBase = '/store/user/khurana/MonoH2016/V3/'
 
 

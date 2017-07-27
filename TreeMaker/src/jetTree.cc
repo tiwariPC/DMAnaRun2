@@ -142,7 +142,7 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
     }
 
   std::string cmssw_base = getenv("CMSSW_BASE");
-  std::string fweight = cmssw_base+"/src//DelPanj/CrabUtilities/BoostedSVDoubleCA15_withSubjet_v4.weights.xml";
+  std::string fweight = cmssw_base+"/src/DelPanj/TreeMaker/data/BoostedSVDoubleCA15_withSubjet_v4.weights.xml";
   mJetBoostedBtaggingMVACalc.initialize("BDT",fweight);
 
 
@@ -512,14 +512,14 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 	      for (auto o : orders) {
 		float x = ecfnmanager->ecfns[TString::Format("%i_%i",N,o)];
 		int r = p_jet->set_ecf(o,N,iB,x);
-		std::cout<<"r,o,N,beta,x =  "
+		/*std::cout<<"r,o,N,beta,x =  "
 			 <<" "<<r
 			 <<" "<<o
 			 <<" "<<N
 			 <<" "<<betas[iB]
 			 <<" "<<x
-			 <<std::endl;
-		std::cout<< " using the get function = "<< p_jet->get_ecf(o,N,iB)<<std::endl;
+			 <<std::endl;*/
+		//std::cout<< " using the get function = "<< p_jet->get_ecf(o,N,iB)<<std::endl;
 
 		if (r) {
 		  std::cout<<"FatJetFiller eoor "<<std::endl;
