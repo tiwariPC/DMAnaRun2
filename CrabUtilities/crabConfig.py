@@ -30,7 +30,8 @@ config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25n
 'Summer16_23Sep2016V3_MC_L1RC_AK4PFchs.txt',
 'Summer16_23Sep2016V3_MC_L1FastJet_AK8PFchs.txt',
 'Summer16_23Sep2016V3_MC_L1FastJet_AK8PFPuppi.txt',
-'Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt']
+'Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt',
+'../TreeMaker/data/BoostedSVDoubleCA15_withSubjet_v4.weights.xml']
 config.JobType.sendExternalFolder      = True
 
 config.section_("Data")

@@ -1,27 +1,12 @@
 
 # DMAnaRun2
 
-# For CMSSW_8_0_26_patch1
+# For CMSSW_9_2_7
 ```
 setenv SCRAM_ARCH slc6_amd64_gcc530
-cmsrel CMSSW_8_0_26_patch1
-cd CMSSW_8_0_26_patch1/src
+cmsrel CMSSW_9_2_7
+cd CMSSW_9_2_7/src
 cmsenv
-```
-
-
-# For DelPanj and related dependencies
-
-## For v4 Double b-tagger
-
-```
-setenv CMSSW_GIT_REFERENCE /cvmfs/cms.cern.ch/cmssw.git.daily
-git cms-init
-
-git remote add btv-cmssw https://github.com/cms-btv-pog/cmssw.git
-git fetch --tags btv-cmssw
-
-git cms-merge-topic -u cms-btv-pog:BoostedDoubleSVTaggerV4-WithWeightFiles-v1_from-CMSSW_8_0_21
 ```
 
 ## For Egamma cut-based ID
@@ -46,7 +31,7 @@ git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 80X_puppi
+git checkout 92X_2017data
 
 cd -
 
