@@ -9,19 +9,10 @@ cd CMSSW_9_2_7/src
 cmsenv
 ```
 
-## For Egamma cut-based ID
-```
-git cms-init
-
-git cms-merge-topic ikrav:egm_id_80X_v3_photons
-
-git cms-merge-topic ikrav:egm_id_80X_v2
-
-```
-## For MET Filters
+## For BadMuon Filters (default code is reversed logic)
 
 ``` 
-git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
+git cms-addpkg RecoMET/METFilters
 ```
 
 ## For DelPanj
@@ -41,7 +32,7 @@ cp -p DelPanj/tempfix/badGlobalMuonTaggersMiniAOD_cff.py RecoMET/METFilters/pyth
 
 ## For jetToolBox
 ```
-git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_80X
+git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_91X_v1
 ```
 
 
@@ -50,28 +41,6 @@ git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToo
 scramv1 b clean
 
 scramv1 b -j 5
-```
-
-## Checkout the electron/photon MVA weight files
-
-```
-cd $CMSSW_BASE/external
-cd slc6_amd64_gcc530/
-
-git clone https://github.com/ikrav/RecoEgamma-ElectronIdentification.git data/RecoEgamma/ElectronIdentification/data
-
-git clone https://github.com/ikrav/RecoEgamma-PhotonIdentification.git data/RecoEgamma/PhotonIdentification/data
-
-cd data/RecoEgamma/ElectronIdentification/data
-git checkout egm_id_80X_v1
-
-cd -
-
-cd data/RecoEgamma/PhotonIdentification/data
-git checkout egm_id_80X_v1
-
-cd $CMSSW_BASE/src
-cmsenv
 ```
 
 ## To test the job locally
@@ -99,8 +68,8 @@ mv jec/*PFPuppi.txt .
 rm -rf jec
 
 voms-proxy-init --voms cms
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=True
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=False period=G
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer17_cfg.py runOnMC=True
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer17_cfg.py runOnMC=False period=B
  
 ```
 
