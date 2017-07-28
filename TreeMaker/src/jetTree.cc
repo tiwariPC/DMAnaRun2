@@ -1015,7 +1015,7 @@ jetTree::SetBranches(){
     AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
 
     if(isCA15PuppiJet_){
-      AddBranch(&ca15_doublebtag, "doublebtag");
+      AddBranch(&ca15_doublebtag, "_doublebtag");
       AddBranch(&ECF_2_3_10, "ECF_2_3_10");
       AddBranch(&ECF_1_2_10, "ECF_1_2_10");
     }
