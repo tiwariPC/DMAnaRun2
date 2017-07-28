@@ -149,34 +149,6 @@ else:
     rangeEventsToSkip = cms.untracked.VEventRange(listEventsToSkip)
     process.source.eventsToSkip = rangeEventsToSkip
 
-## For MVA MET
-## Check this reciepe when using MVA MET
-process.load("RecoJets.JetProducers.ak4PFJets_cfi")
-process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
-
-from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
-
-process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-#process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
-process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
-process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
-process.pfMVAMEt.inputFileNames = cms.PSet(
-        U     = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru_7_4_X_miniAOD_25NS_July2015.root'),
-        DPhi  = cms.FileInPath('RecoMET/METPUSubtraction/data/gbrphi_7_4_X_miniAOD_25NS_July2015.root'),
-        CovU1 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru1cov_7_4_X_miniAOD_25NS_July2015.root'),
-        CovU2 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru2cov_7_4_X_miniAOD_25NS_July2015.root')
-	)
-
-process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
-#process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
-process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
-process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
-
-
-## MVA MET Ends Here 
-##
-
-
 
 ##
 ## This is for Uncorrected MET
@@ -568,10 +540,10 @@ process.tree.AK4PuppijecNames      = cms.vstring(AK4PuppiJECTextFiles)
 process.tree.AK4PuppijecUncName    = cms.string(AK4PuppiJECUncTextFile)
 process.tree.AK8PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
 process.tree.AK8PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
-process.tree.CA15PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
-process.tree.CA15PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
+process.tree.CA15PuppijecNames     = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.CA15PuppijecUncName   = cms.string(AK8PuppiJECUncTextFile)
 process.tree.fillAddJetInfo        = cms.bool(True)
-
+process.tree.fillCA15PuppiJetInfo  = cms.bool(True)
 
 
 if options.useJECText:

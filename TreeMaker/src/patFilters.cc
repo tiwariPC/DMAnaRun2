@@ -35,6 +35,26 @@ patFilters::Fill(const edm::Event& iEvent)
   iEvent.getByToken(HBHEIsoToken,HBHEIso);
   hbheIso_ = (*HBHEIso.product());
   */
+
+  // Bad Muon and Bad Ch Filters
+
+  //  edm::EDGetTokenT<bool> BadChCandFilterToken_;
+  edm::Handle<bool> ifilterbadChCand;
+  iEvent.getByToken(BadChCandFilterToken_, ifilterbadChCand);
+  filterbadChCandidate = *ifilterbadChCand;
+  
+  //edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
+  edm::Handle<bool> ifilterbadPFMuon;
+  iEvent.getByToken(BadPFMuonFilterToken_, ifilterbadPFMuon);
+  filterbadPFMuon = *ifilterbadPFMuon;
+
+  edm::Handle<bool> ifilterbadGlobalMuon;
+  iEvent.getByToken(BadGlobalMuonFilterToken_, ifilterbadGlobalMuon);
+  filterbadGlobalMuon = *ifilterbadGlobalMuon;
+
+  edm::Handle<bool> ifiltercloneGlobalMuon;
+  iEvent.getByToken(CloneGlobalMuonFilterToken_, ifiltercloneGlobalMuon);
+  filtercloneGlobalMuon = *ifiltercloneGlobalMuon;
   
   edm::Handle<edm::TriggerResults> trigResults;
   if (not iEvent.getByToken(filterTrigResultsToken, trigResults)) {
@@ -67,25 +87,6 @@ patFilters::Fill(const edm::Event& iEvent)
     }
 
   
-  // Bad Muon and Bad Ch Filters
-
-  //  edm::EDGetTokenT<bool> BadChCandFilterToken_;
-  edm::Handle<bool> ifilterbadChCand;
-  iEvent.getByToken(BadChCandFilterToken_, ifilterbadChCand);
-  filterbadChCandidate = *ifilterbadChCand;
-  
-  //edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
-  edm::Handle<bool> ifilterbadPFMuon;
-  iEvent.getByToken(BadPFMuonFilterToken_, ifilterbadPFMuon);
-  filterbadPFMuon = *ifilterbadPFMuon;
-
-  edm::Handle<bool> ifilterbadGlobalMuon;
-  iEvent.getByToken(BadGlobalMuonFilterToken_, ifilterbadGlobalMuon);
-  filterbadGlobalMuon = *ifilterbadGlobalMuon;
-
-  edm::Handle<bool> ifiltercloneGlobalMuon;
-  iEvent.getByToken(CloneGlobalMuonFilterToken_, ifiltercloneGlobalMuon);
-  filtercloneGlobalMuon = *ifiltercloneGlobalMuon;
 
 }
 
