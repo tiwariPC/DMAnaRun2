@@ -5,7 +5,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process('NCUANA')
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
 process.options = cms.untracked.PSet(
-    allowUnscheduled = cms.untracked.bool(True)
+	allowUnscheduled = cms.untracked.bool(True)
 )
 
 from FWCore.ParameterSet.VarParsing import VarParsing
@@ -36,7 +36,7 @@ options.register ('useJECText',
 		  "useJECText")
 
 options.register ('period',
-		  'p2',
+		  'G',
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.string,
 		  "period")
@@ -71,31 +71,22 @@ process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
-process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+process.load('Configuration.StandardSequences.MagneticField_cff')
+#process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+#process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+# Other statements
 if options.runOnMC:
 ### Needs to be updated
-	process.GlobalTag = GlobalTag(process.GlobalTag, '90X_upgrade2017_realistic_v20', '')  
+	process.GlobalTag.globaltag='90X_upgrade2017_realistic_v20'
 else:## Data no global tag yet
-        process.GlobalTag = GlobalTag(process.GlobalTag, '92X_dataRun2_Prompt_v7', '')
+        process.GlobalTag.globaltag='92X_dataRun2_Prompt_v4'
 
 
-
-## for Filters
-
-if options.runOnMC:
-	filterlabel="TriggerResults::PAT"
-else:
-	## for re-reco
-	if options.isReReco:
-		filterlabel="TriggerResults::RECO"
-	## for prompt-reco
-	else:
-		filterlabel="TriggerResults::PAT"
 
 
 '''
@@ -150,32 +141,6 @@ else:
     rangeEventsToSkip = cms.untracked.VEventRange(listEventsToSkip)
     process.source.eventsToSkip = rangeEventsToSkip
 
-## For MVA MET
-## Check this reciepe when using MVA MET
-process.load("RecoJets.JetProducers.ak4PFJets_cfi")
-process.ak4PFJets.src = cms.InputTag("packedPFCandidates")
-
-from JetMETCorrections.Configuration.DefaultJEC_cff import ak4PFJetsL1FastL2L3
-
-process.load("RecoMET.METPUSubtraction.mvaPFMET_cff")
-#process.pfMVAMEt.srcLeptons = cms.VInputTag("slimmedElectrons")
-process.pfMVAMEt.srcPFCandidates = cms.InputTag("packedPFCandidates")
-process.pfMVAMEt.srcVertices = cms.InputTag("offlineSlimmedPrimaryVertices")
-process.pfMVAMEt.inputFileNames = cms.PSet(
-        U     = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru_7_4_X_miniAOD_25NS_July2015.root'),
-        DPhi  = cms.FileInPath('RecoMET/METPUSubtraction/data/gbrphi_7_4_X_miniAOD_25NS_July2015.root'),
-        CovU1 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru1cov_7_4_X_miniAOD_25NS_July2015.root'),
-        CovU2 = cms.FileInPath('RecoMET/METPUSubtraction/data/gbru2cov_7_4_X_miniAOD_25NS_July2015.root')
-	)
-
-process.puJetIdForPFMVAMEt.jec =  cms.string('AK4PF')
-#process.puJetIdForPFMVAMEt.jets = cms.InputTag("ak4PFJets")
-process.puJetIdForPFMVAMEt.vertexes = cms.InputTag("offlineSlimmedPrimaryVertices")
-process.puJetIdForPFMVAMEt.rho = cms.InputTag("fixedGridRhoFastjetAll")
-
-
-## MVA MET Ends Here 
-##
 
 
 
@@ -189,78 +154,9 @@ process.pfMet.calculateSignificance = False # this can't be easily implemented o
 
 
 
-
-
-### for adding jet collection
-
-process.packedGenParticlesForJetsNoNu = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedGenParticles"), cut = cms.string("abs(pdgId) != 12 && abs(pdgId) != 14 && abs(pdgId) != 16"))
-## produce Fat ak8 jets (Gen and Reco)
-from RecoJets.JetProducers.ak4GenJets_cfi import ak4GenJets
-process.genJetsNoNuAK8 = ak4GenJets.clone(
-    jetAlgorithm = cms.string('AntiKt'),
-    rParam = cms.double(0.8),
-    src = cms.InputTag("packedGenParticlesForJetsNoNu")
-)
-
-'''
-## produce Pruned ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
-from RecoJets.JetProducers.SubJetParameters_cfi import SubJetParameters
-
-## Produce SoftDrop ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
-process.genJetsNoNuSoftDrop = ak4GenJets.clone(
-    jetAlgorithm = cms.string('AntiKt'),
-    rParam = cms.double(0.8),
-    src = cms.InputTag("packedGenParticlesForJetsNoNu"),
-    useSoftDrop = cms.bool(False),# because it crashes for PHYS14 samples
-    zcut = cms.double(0.1),
-    beta = cms.double(0.0),
-    R0 = cms.double(0.8),
-    writeCompound = cms.bool(True),
-    jetCollInstanceName=cms.string("SubJets")
-)
-from RecoJets.JetProducers.ak4PFJetsSoftDrop_cfi import ak4PFJetsSoftDrop
-process.PFJetsCHSSoftDrop = ak4PFJetsSoftDrop.clone(
-    jetAlgorithm = cms.string('AntiKt'),
-    rParam = cms.double(0.8),
-    R0 = cms.double(0.8),
-    src = getattr(process,"ak4PFJets").src,
-    srcPVs = getattr(process,"ak4PFJets").srcPVs,
-    doAreaFastjet = cms.bool(True),
-    writeCompound = cms.bool(True),
-    jetCollInstanceName=cms.string("SubJets"),
-    jetPtMin = cms.double(170.0)
-)
-'''
-
-
-
-
-
-
-
-
-
-
-
-
-postfix = "PFlow"
-pfCandidates = 'packedPFCandidates'
-jetSource = 'ak4PFJets'
 pvSource = 'offlineSlimmedPrimaryVertices'
-svSource = 'slimmedSecondaryVertices'
-muSource = 'slimmedMuons'
-elSource = 'slimmedElectrons'
-genParticles = 'prunedGenParticles'
-genJetCollection = 'ak4GenJetsNoNu'
 
 
-bTagInfos = [
-    'pfImpactParameterTagInfos'
-   ,'pfSecondaryVertexTagInfos'
-   ,'pfInclusiveSecondaryVertexFinderTagInfos'
-   ,'softPFMuonsTagInfos'
-   ,'softPFElectronsTagInfos'
-]
 bTagDiscriminators = [
      'pfJetBProbabilityBJetTags'
     ,'pfJetProbabilityBJetTags'
@@ -396,19 +292,6 @@ adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 
 #### Add reclustered AK8 Puppi jet by Eiko
 
-### For AK8 puppi (imported from Bacon)
-#process.load("RecoBTag.ImpactParameter.impactParameter_cff")
-
-#process.load('DelPanj.TreeMaker.myPUPPICorrections_cff')
-#process.load('DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff')
-
-#from DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff  import setMiniAODAK8Puppi
-#from DelPanj.TreeMaker.myBtagging_cff           import addBTagging
-
-#process.btagging = cms.Sequence()
-#addBTagging(process,'AK8PFJetsPuppi' ,0.8,'AK8' ,'Puppi')
-
-#setMiniAODAK8Puppi (process)
 
 process.load('CommonTools/PileupAlgos/Puppi_cff')
 process.puppi.candName       = cms.InputTag('packedPFCandidates')
@@ -442,13 +325,6 @@ jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='CHS', miniAOD=option
 
 
 ###end of add jet collection
-### FOR adding new hbb b-tags in miniaod?
-
-#process.load("PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff")
-#process.load("PhysicsTools.PatAlgos.selectionLayer1.selectedPatCandidates_cff")
-
-#from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHS
-
 
 
 
@@ -556,7 +432,6 @@ process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsRe
 
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
-process.tree.filterLabel           = cms.InputTag(filterlabel)
 process.tree.useJECText            = cms.bool(options.useJECText)
 process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
@@ -585,7 +460,7 @@ if options.useJECText:
 
 process.TFileService = cms.Service("TFileService",
 				   fileName = cms.string("NCUGlobalTuples.root")          
-				   # fileName = cms.string('$outputFileName')          
+       
 				   )
 
 
@@ -615,9 +490,8 @@ process.allEventsCounter = cms.EDFilter(
 if not options.useJECText:
 	process.analysis = cms.Path(
 		process.allEventsCounter+
-		process.egmGsfElectronIDSequence+## by raman
-		process.egmPhotonIDSequence+ ## by raman
-		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
+		process.egmGsfElectronIDSequence+
+		process.egmPhotonIDSequence+ 
 		process.pfMet+
 		process.jetCorrSequenceAK4+
 		process.jetCorrSequenceAK8+
@@ -633,15 +507,13 @@ if not options.useJECText:
 else:
 	process.analysis = cms.Path(
 		process.allEventsCounter+
-		process.egmGsfElectronIDSequence+## by raman
-		process.egmPhotonIDSequence+ ## by raman
-		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
+		process.egmGsfElectronIDSequence+
+		process.egmPhotonIDSequence+ 
 		process.pfMet+
-		process.BadPFMuonFilter +
-		process.BadChargedCandidateFilter +
-		process.badGlobalMuonTaggerMAOD + 
-		process.cloneGlobalMuonTaggerMAOD +
-		#process.HBHENoiseFilterResultProducer+ ## by raman
+		process.BadPFMuonFilter+
+		process.BadChargedCandidateFilter+
+		process.badGlobalMuonTaggerMAOD+ 
+		process.cloneGlobalMuonTaggerMAOD+
 		process.tree
 		)
 

@@ -68,26 +68,7 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
     isCA15PuppiJet_=true; 
 
   std::cout << desc << std::endl;
-  
-  
-  /* ECF: Starts here */
-  jetDefCA = new fastjet::JetDefinition(fastjet::cambridge_algorithm, radius);
-  double sdZcut, sdBeta;
-  if (radius<1) {
-    sdZcut=0.1; sdBeta=0.;
-  } else {
-    sdZcut=0.15; sdBeta=1.;
-  }
-  softdrop = new fastjet::contrib::SoftDrop(sdBeta,sdZcut,radius);
-
-  int activeAreaRepeats = 1;
-  double ghostArea = 0.01;
-  double ghostEtaMax = 7.0;
-  activeArea = new fastjet::GhostedAreaSpec(ghostEtaMax,activeAreaRepeats,ghostArea);
-  areaDef = new fastjet::AreaDefinition(fastjet::active_area_explicit_ghosts,*activeArea);
-  ecfnmanager = new ECFNManager();
-
-  /* ECF: Starts here */
+    
   
   genjetP4_    = new TClonesArray("TLorentzVector");
   jetP4_       = new TClonesArray("TLorentzVector");
@@ -123,6 +104,31 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
 
     } // if it's FATjet
 
+  if(isCA15PuppiJet_){
+    /* ECF: Starts here */
+    jetDefCA = new fastjet::JetDefinition(fastjet::cambridge_algorithm, radius);
+    double sdZcut, sdBeta;
+    if (radius<1) {
+      sdZcut=0.1; sdBeta=0.;
+    } else {
+      sdZcut=0.15; sdBeta=1.;
+    }
+    softdrop = new fastjet::contrib::SoftDrop(sdBeta,sdZcut,radius);
+
+    int activeAreaRepeats = 1;
+    double ghostArea = 0.01;
+    double ghostEtaMax = 7.0;
+    activeArea = new fastjet::GhostedAreaSpec(ghostEtaMax,activeAreaRepeats,ghostArea);
+    areaDef = new fastjet::AreaDefinition(fastjet::active_area_explicit_ghosts,*activeArea);
+    ecfnmanager = new ECFNManager();
+
+    /* ECF: Ends here */
+
+    std::string cmssw_base = getenv("CMSSW_BASE");
+    std::string fweight = cmssw_base+"/src/DelPanj/TreeMaker/data/BoostedSVDoubleCA15_withSubjet_v4.weights.xml";
+    mJetBoostedBtaggingMVACalc.initialize("BDT",fweight);
+  } // if it's CA15Puppijet
+
   if(useJECText_)
     {
       
@@ -141,9 +147,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
       jecUncText_ = boost::shared_ptr<JetCorrectionUncertainty>( new JetCorrectionUncertainty(jecUncName_) );
     }
 
-  std::string cmssw_base = getenv("CMSSW_BASE");
-  std::string fweight = cmssw_base+"/src/DelPanj/TreeMaker/data/BoostedSVDoubleCA15_withSubjet_v4.weights.xml";
-  mJetBoostedBtaggingMVACalc.initialize("BDT",fweight);
 
 
 
@@ -450,7 +453,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       
       // For ECFs 
       // reset the ECFs  
-      std::cout<<" now starting ECF"<<std::endl;
+      // std::cout<<" now starting ECF"<<std::endl;
       PFatJet *p_jet = new PFatJet(); // choose a better place for this..
       std::vector<float> betas = {0.5,1.,2.,4.};
       std::vector<int> Ns = {1,2,3,4};
@@ -549,7 +552,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       } // if not minimal and fewer than 2 
       // End of ECFs computation 
       
-      std::cout<< " using the get function outside  = "<< p_jet->get_ecf(2,3,1)<<"   "<<p_jet->get_ecf(1,2,1)<<std::endl;
+      // std::cout<< " using the get function outside  = "<< p_jet->get_ecf(2,3,1)<<"   "<<p_jet->get_ecf(1,2,1)<<std::endl;
       const reco::TaggingVariableList vars = jet->tagInfoBoostedDoubleSV()->taggingVariables();
       float z_ratio_                       = vars.get(reco::btau::z_ratio);
       float trackSipdSig_3_                = vars.get(reco::btau::trackSip3dSig_3);
@@ -630,7 +633,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 							       false
 							       );
       
-      std::cout<<" double_CA15 = "<<double_CA15 << std::endl;
+      // std::cout<<" double_CA15 = "<<double_CA15 << std::endl;
       ca15_doublebtag.push_back(double_CA15);
       ECF_2_3_10.push_back(p_jet->get_ecf(2,3,1)) ;
       ECF_1_2_10.push_back(p_jet->get_ecf(1,2,1));
@@ -646,28 +649,26 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     
     
     if(isFATJet_){
-
-
-      jetTau1_.push_back(jet->userFloat("NjettinessAK8:tau1"));
-      jetTau2_.push_back(jet->userFloat("NjettinessAK8:tau2"));
-      jetTau3_.push_back(jet->userFloat("NjettinessAK8:tau3"));
-      jetTau21_.push_back(jet->userFloat("NjettinessAK8:tau2")/jet->userFloat("NjettinessAK8:tau1"));
+      jetTau1_.push_back(jet->userFloat("ak8PFJetsCHSValueMap:NjettinessAK8CHSTau1"));
+      jetTau2_.push_back(jet->userFloat("ak8PFJetsCHSValueMap:NjettinessAK8CHSTau2"));
+      jetTau3_.push_back(jet->userFloat("ak8PFJetsCHSValueMap:NjettinessAK8CHSTau3"));
+      jetTau21_.push_back(jet->userFloat("ak8PFJetsCHSValueMap:NjettinessAK8CHSTau2")/jet->userFloat("ak8PFJetsCHSValueMap:NjettinessAK8CHSTau1"));
       
 
       //Puppi related information
-      jetPuppiTau1_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1"));
-      jetPuppiTau2_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau2"));
-      jetPuppiTau3_.push_back(jet->userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau3"));
+      jetPuppiTau1_.push_back(jet->userFloat("NjettinessAK8Puppi:tau1"));
+      jetPuppiTau2_.push_back(jet->userFloat("NjettinessAK8Puppi:tau2"));
+      jetPuppiTau3_.push_back(jet->userFloat("NjettinessAK8Puppi:tau3"));
 
 
-      TLorentzVector temp_puppi;
-      temp_puppi.SetPtEtaPhiM(jet->userFloat("ak8PFJetsPuppiValueMap:pt"),
-			      jet->userFloat("ak8PFJetsPuppiValueMap:eta"),
-			      jet->userFloat("ak8PFJetsPuppiValueMap:phi"),
-			      jet->userFloat("ak8PFJetsPuppiValueMap:mass"));
+      // TLorentzVector temp_puppi;
+      // temp_puppi.SetPtEtaPhiM(jet->userFloat("ak8PFJetsPuppiValueMap:pt"),
+      // 			      jet->userFloat("ak8PFJetsPuppiValueMap:eta"),
+      // 			      jet->userFloat("ak8PFJetsPuppiValueMap:phi"),
+      // 			      jet->userFloat("ak8PFJetsPuppiValueMap:mass"));
 			      
 
-      new( (*jetPuppiP4_)[nJet_-1]) TLorentzVector(temp_puppi);
+      // new( (*jetPuppiP4_)[nJet_-1]) TLorentzVector(temp_puppi);
 
 
 
@@ -744,11 +745,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       if(corr<0)
 	jetPRmassL2L3Corr_.push_back(DUMMY);
       else
-	jetPRmassL2L3Corr_.push_back(corr*jet->userFloat("ak8PFJetsCHSPrunedMass"));
+	jetPRmassL2L3Corr_.push_back(corr*jet->userFloat("ak8PFJetsCHSValueMap:ak8PFJetsCHSPrunedMass"));
 
 
-      jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSSoftDropMass"));
-      jetPRmass_.push_back(jet->userFloat("ak8PFJetsCHSPrunedMass"));
+      jetSDmass_.push_back(jet->userFloat("ak8PFJetsCHSValueMap:ak8PFJetsCHSSoftDropMass"));
+      jetPRmass_.push_back(jet->userFloat("ak8PFJetsCHSValueMap:ak8PFJetsCHSPrunedMass"));
  
 
 
@@ -775,8 +776,6 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       subjetSDPuppiPz_.push_back(subjetSDPz_puppi);
       subjetSDPuppiE_.push_back(subjetSDE_puppi);
       subjetSDPuppiCSV_.push_back(subjetSDCSV_puppi);
-
-
 
     } // only for AK8CHS jets
 
@@ -811,27 +810,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     } /// if its ADDJET or FATjet or AK8PuppiJet or CA15PuppiJet
  
     // softdrop subjets
-    if(isFATJet_ || isAK8PuppiJet_ || isCA15PuppiJet_){
-      // the following lines are common to FAT Jet and AK8PuppiJets
-    
-      // std::vector<reco::Candidate const *> constituents;
-      // for ( unsigned ida = 0; ida < jet->numberOfDaughters(); ++ida ) 
-      // 	{
-      // 	  reco::Candidate const * cand = jet->daughter(ida);
-      // 	  if ( cand->numberOfDaughters() == 0 ) constituents.push_back( cand ) ;
-      // 	  else 
-      // 	    {
-      // 	      for ( unsigned jda = 0; jda < cand->numberOfDaughters(); ++jda ) 
-      // 		{
-      // 		  reco::Candidate const * cand2 = cand->daughter(jda);
-      // 		  constituents.push_back( cand2 );
-      // 		}
-      // 	    }
-      // 	}
-
-      // std::sort( constituents.begin(), constituents.end(), [] (reco::Candidate const * ida, reco::Candidate const * jda){return ida->pt() > jda->pt();} );
-
-      //turn off subjet for not patified now 
+    if(isAK8PuppiJet_ || isCA15PuppiJet_){
       pat::Jet const *jetptr = &*jet;  
       
       //	std::cout<<" working before SoftDrop "<<std::endl;
@@ -995,7 +974,7 @@ jetTree::SetBranches(){
   AddBranch(&jetJBP_,   "jetJBP");
 
 
-  }
+  } // only save detailed information for non-ADD jets
 
   if(isTHINJet_){
     AddBranch(&PUJetID_,   "PUJetID");
@@ -1012,25 +991,32 @@ jetTree::SetBranches(){
     AddBranch(&jetTau21_, "jetTau21");
     AddBranch(&jetSDmass_,         "jetSDmass");
 
-    // subjet information
-    AddBranch(&jetGenSDmass_,         "jetGenSDmass");
-    AddBranch(&nSubSDJet_,            "nSubSDJet");
-    AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
-    AddBranch(&subjetSDPx_,           "subjetSDPx");     
-    AddBranch(&subjetSDPy_,           "subjetSDPy");     
-    AddBranch(&subjetSDPz_,           "subjetSDPz");     
-    AddBranch(&subjetSDE_,            "subjetSDE");     
-    AddBranch(&subjetSDRawFactor_,    "subjetSDRawFactor");     
-    AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
-    AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
-    AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
+    AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+    AddBranch(&jet_nSV_,     "jet_nSV");
+    AddBranch(&jet_SVMass_,  "jet_SVMass");
 
-    AddBranch(&ca15_doublebtag, "ca15_doublebtag");
-    AddBranch(&ECF_2_3_10, "ECF_2_3_10");
-    AddBranch(&ECF_1_2_10, "ECF_1_2_10");
+    if(isAK8PuppiJet_ || isCA15PuppiJet_){
+      // subjet information
+      AddBranch(&jetGenSDmass_,         "jetGenSDmass");
+      AddBranch(&nSubSDJet_,            "nSubSDJet");
+      AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
+      AddBranch(&subjetSDPx_,           "subjetSDPx");     
+      AddBranch(&subjetSDPy_,           "subjetSDPy");     
+      AddBranch(&subjetSDPz_,           "subjetSDPz");     
+      AddBranch(&subjetSDE_,            "subjetSDE");     
+      AddBranch(&subjetSDRawFactor_,    "subjetSDRawFactor");     
+      AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
+      AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
+      AddBranch(&subjetSDCSV_,          "subjetSDCSV");     
+    }   
+
+    if(isCA15PuppiJet_){
+      AddBranch(&ca15_doublebtag, "ca15_doublebtag");
+      AddBranch(&ECF_2_3_10, "ECF_2_3_10");
+      AddBranch(&ECF_1_2_10, "ECF_1_2_10");
+    }
     
-    
-  }
+  } // for AK8 and CA15 jets
   
   if(isFATJet_){
 
@@ -1057,17 +1043,7 @@ jetTree::SetBranches(){
     AddBranch(&subjetSDPuppiE_,           "subjetSDPuppiE");     
     AddBranch(&subjetSDPuppiCSV_,           "subjetSDPuppiCSV");     
 
-  }
-
-
-  if(!isTHINJet_ && !isAK4PuppiJet_)
-    {
-
-      AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
-      AddBranch(&jet_nSV_,     "jet_nSV");
-      AddBranch(&jet_SVMass_,  "jet_SVMass");
-    }
-  
+  } // only for AK8CHS jets
   
 
 }
