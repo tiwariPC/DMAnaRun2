@@ -32,7 +32,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillPhotInfo_    =false; 
   fillJetInfo_     =false;
   fillFATJetInfo_  =false;
-  fillAddJetInfo_  =false;
   fillAK4PuppiJetInfo_ = false;
   fillAK8PuppiJetInfo_ = false;
   fillCA15PuppiJetInfo_ = false;
@@ -49,7 +48,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillPhotInfo_     = iConfig.getParameter<bool>("fillPhotInfo");
   fillJetInfo_      = iConfig.getParameter<bool>("fillJetInfo");
   fillFATJetInfo_   = iConfig.getParameter<bool>("fillFATJetInfo"); 
-  fillAddJetInfo_   = iConfig.getParameter<bool>("fillAddJetInfo");
   fillAK4PuppiJetInfo_   = iConfig.getParameter<bool>("fillAK4PuppiJetInfo");
   fillAK8PuppiJetInfo_   = iConfig.getParameter<bool>("fillAK8PuppiJetInfo");
   fillCA15PuppiJetInfo_   = iConfig.getParameter<bool>("fillCA15PuppiJetInfo");
@@ -193,16 +191,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       FATjetTree_->prunedMToken   = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJetsForPrunedMass",desc.data())));
     }
 
-  if( fillAddJetInfo_)
-    {
-      std::string desc            = "ADD";
-      ADDjetTree_                 = new jetTree(desc,tree_,iConfig);
-      ADDjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
-      ADDjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
-      ADDjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
-
-    }
-
   if( fillAK4PuppiJetInfo_)
     {
       std::string desc            = "AK4Puppi";
@@ -258,7 +246,6 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
   if( fillFATJetInfo_ )   FATjetTree_    ->Fill(iEvent, iSetup);
   if( fillJetInfo_ )      THINjetTree_   ->Fill(iEvent, iSetup);
-  if( fillAddJetInfo_ )   ADDjetTree_    ->Fill(iEvent, iSetup);  
   if( fillAK4PuppiJetInfo_ ) AK4PuppijetTree_->Fill(iEvent, iSetup); 
   if( fillAK8PuppiJetInfo_ ) AK8PuppijetTree_->Fill(iEvent, iSetup); 
   if( fillCA15PuppiJetInfo_ ) CA15PuppijetTree_->Fill(iEvent, iSetup); 

@@ -15,10 +15,9 @@ tree = cms.EDAnalyzer(
     fillPhotInfo     = cms.bool(True),
 
     fillJetInfo      = cms.bool(True), 
-    fillFATJetInfo   = cms.bool(True), 
-    fillAddJetInfo   = cms.bool(False),
+    fillFATJetInfo   = cms.bool(True), ## Default is now AK8Puppi
     fillAK4PuppiJetInfo = cms.bool(False),
-    fillAK8PuppiJetInfo = cms.bool(True),
+    fillAK8PuppiJetInfo = cms.bool(False), ## Only if we need to recluster
     fillCA15PuppiJetInfo = cms.bool(True),
 
     pvSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
@@ -109,23 +108,14 @@ tree = cms.EDAnalyzer(
         'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFchs.txt'
         ),
     FATjecNames          = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L1FastJet_AK8PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFchs.txt'
+        'Summer16_23Sep2016V3_MC_L1FastJet_AK8PFPuppi.txt',
+        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFPuppi.txt',
+        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFPuppi.txt'
         ),
-    FATjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFchs.txt'),
-    FATjecUncPayLoad     = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
-    
-    ### AddJets
-    ADDJets              = cms.InputTag("selectedPatJetsAK8PFCHS"),
+    FATjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFPuppi.txt'),
+    FATjecUncPayLoad     = cms.string('AK8PFPuppi'), ## Uncertainty does not exist yet
+
     svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),    
-    ADDjecNames          = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L1FastJet_AK8PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFchs.txt'
-        ),
-    ADDjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFchs.txt'),
-    ADDjecUncPayLoad     = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
 
 
 #    AK4PuppiJets=cms.InputTag("slimmedJetsPuppi"),

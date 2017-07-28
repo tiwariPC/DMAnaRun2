@@ -310,18 +310,12 @@ jetToolbox( process, 'ca15', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=opt
 	    addNsub=True ) 
 
 ### AK8Puppi
-jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
-	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
-	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi, 
-	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi, 
-	    Cut='pt>170',
-	    addSoftDrop=True,addSoftDropSubjets=True,addNsub=True ) 
-
-### ADDjet for doubleb-tagger
-jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='CHS', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC,
-	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
-	    JETCorrPayload="AK8PFchs", JETCorrLevels=jetCorrectionLevelsFullCHS,
-	    Cut='pt>170')
+#jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
+#	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
+#	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi, 
+#	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi, 
+#	    Cut='pt>170',
+#	    addSoftDrop=True,addSoftDropSubjets=True,addNsub=True ) 
 
 
 ###end of add jet collection
@@ -386,7 +380,7 @@ process.jetCorrSequenceAK4 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK
 process.patJetCorrFactorsReapplyJECAK8 = updatedPatJetCorrFactors.clone(
 	src = cms.InputTag("slimmedJetsAK8"),
 	levels = jetCorrectionLevelsFullCHS,
-	payload = 'AK8PFchs' ) # Make sure to choose the appropriate levels and payload here!
+	payload = 'AK8PFPuppi' ) # Make sure to choose the appropriate levels and payload here!
 
 process.patJetsReapplyJECAK8 = updatedPatJets.clone(
 	jetSource = cms.InputTag("slimmedJetsAK8"),
@@ -420,7 +414,6 @@ process.patJetCorrFactorsReapplyJECForPrunedMass = updatedPatJetCorrFactors.clon
 	levels = jetCorrectionLevels23CHS,
 	payload = 'AK8PFchs' ) # Make sure to choose the appropriate levels and payload here!
 
-
 process.patJetsReapplyJECForPrunedMass = updatedPatJets.clone(
 	jetSource = cms.InputTag("slimmedJetsAK8"),
 	jetCorrFactorsSource = cms.VInputTag(cms.InputTag("patJetCorrFactorsReapplyJECForPrunedMass"))
@@ -436,18 +429,15 @@ process.tree.useJECText            = cms.bool(options.useJECText)
 process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
 process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
-process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
-process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
-process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
-process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
+process.tree.FATjecNames           = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.FATjecUncName         = cms.string(AK8PuppiJECUncTextFile)
 process.tree.AK4PuppijecNames      = cms.vstring(AK4PuppiJECTextFiles)
 process.tree.AK4PuppijecUncName    = cms.string(AK4PuppiJECUncTextFile)
 process.tree.AK8PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
 process.tree.AK8PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
-process.tree.CA15PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
-process.tree.CA15PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
-process.tree.fillAddJetInfo        = cms.bool(True)
-
+process.tree.CA15PuppijecNames     = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.CA15PuppijecUncName   = cms.string(AK8PuppiJECUncTextFile)
+process.tree.fillCA15PuppiJetInfo  = cms.bool(True)
 
 
 if options.useJECText:

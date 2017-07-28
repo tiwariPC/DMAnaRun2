@@ -104,7 +104,6 @@ class jetTree  : public baseTree{
 
   bool isTHINJet_;
   bool isFATJet_;
-  bool isADDJet_;
   bool isAK4PuppiJet_;
   bool isAK8PuppiJet_;
   bool isCA15PuppiJet_;
@@ -201,30 +200,22 @@ class jetTree  : public baseTree{
   std::vector<float> jetTau21_;
 
 
-  //ak8jet mass
+  //ak8jet mass // now default is Puppi
  
   //
     
   std::vector<float>  jetSDmass_; 
-  std::vector<float>  jetPRmass_; // from miniAOD
-  std::vector<float>  jetPRmassL2L3Corr_; 
-  
+  TClonesArray *jetSDRawP4_;
 
-  //puppi related stuff
-  std::vector<float> jetPuppiTau1_;
-  std::vector<float> jetPuppiTau2_;
-  std::vector<float> jetPuppiTau3_;
-  std::vector<float> jetPuppiSDmass_;
 
-  TClonesArray *jetPuppiP4_;
-  TClonesArray *jetPuppiSDRawP4_;
-  std::vector<int>   nSubSDPuppiJet_;
-  std::vector<std::vector<int> >   subjetSDPuppiFatJetIndex_; 
-  std::vector<std::vector<float> > subjetSDPuppiPx_;
-  std::vector<std::vector<float> > subjetSDPuppiPy_;
-  std::vector<std::vector<float> > subjetSDPuppiPz_;
-  std::vector<std::vector<float> > subjetSDPuppiE_;
-  std::vector<std::vector<float> > subjetSDPuppiCSV_;
+  //CHS related stuff
+  std::vector<float> jetCHSTau1_;
+  std::vector<float> jetCHSTau2_;
+  std::vector<float> jetCHSTau3_;
+  std::vector<float>  jetCHSSDmass_; 
+  std::vector<float>  jetCHSPRmass_; // from miniAOD
+  std::vector<float>  jetCHSPRmassL2L3Corr_; 
+  TClonesArray *jetCHSP4_;
   
 
   // For CA15 double b-tagger and ECFs: start here
