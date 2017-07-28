@@ -455,7 +455,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       
       // For ECFs 
       // reset the ECFs  
-      std::cout<<" now starting ECF"<<std::endl;
+      // std::cout<<" now starting ECF"<<std::endl;
       PFatJet *p_jet = new PFatJet(); // choose a better place for this..
       std::vector<float> betas = {0.5,1.,2.,4.};
       std::vector<int> Ns = {1,2,3,4};
@@ -554,7 +554,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       } // if not minimal and fewer than 2 
       // End of ECFs computation 
       
-      std::cout<< " using the get function outside  = "<< p_jet->get_ecf(2,3,1)<<"   "<<p_jet->get_ecf(1,2,1)<<std::endl;
+      // std::cout<< " using the get function outside  = "<< p_jet->get_ecf(2,3,1)<<"   "<<p_jet->get_ecf(1,2,1)<<std::endl;
       const reco::TaggingVariableList vars = jet->tagInfoBoostedDoubleSV()->taggingVariables();
       float z_ratio_                       = vars.get(reco::btau::z_ratio);
       float trackSipdSig_3_                = vars.get(reco::btau::trackSip3dSig_3);
@@ -635,7 +635,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 							       false
 							       );
       
-      std::cout<<" double_CA15 = "<<double_CA15 << std::endl;
+      // std::cout<<" double_CA15 = "<<double_CA15 << std::endl;
       ca15_doublebtag.push_back(double_CA15);
       ECF_2_3_10.push_back(p_jet->get_ecf(2,3,1)) ;
       ECF_1_2_10.push_back(p_jet->get_ecf(1,2,1));
