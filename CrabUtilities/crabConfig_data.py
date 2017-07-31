@@ -17,6 +17,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'MVA-And-PFUnCorrectedMET.py'
 config.JobType.pyCfgParams = ['runOnMC=False','period=PERIOD']
 config.JobType.inputFiles = ['effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt','effAreasMuons_cone03_Spring15_25ns.txt',
+'../TreeMaker/data/BoostedSVDoubleCA15_withSubjet_v4.weights.xml',
 DATAJEC+'_Uncertainty_AK8PFchs.txt',
 DATAJEC+'_Uncertainty_AK8PFPuppi.txt',
 DATAJEC+'_Uncertainty_AK4PFchs.txt',
