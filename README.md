@@ -42,7 +42,7 @@ cd -
 ```
 scramv1 b clean
 
-scramv1 b -j 5
+scramv1 b -j 2
 ```
 
 ## To test the job locally
