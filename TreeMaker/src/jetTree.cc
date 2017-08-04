@@ -997,9 +997,6 @@ jetTree::SetBranches(){
     AddBranch(&jetTau21_, "jetTau21");
     AddBranch(&jetSDmass_,         "jetSDmass");
 
-    AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
-    AddBranch(&jet_nSV_,     "jet_nSV");
-    AddBranch(&jet_SVMass_,  "jet_SVMass");
 
     // subjet information
     AddBranch(&jetGenSDmass_,         "jetGenSDmass");
@@ -1049,6 +1046,15 @@ jetTree::SetBranches(){
 
   }
   
+  if(!isTHINJet_ && !isAK4PuppiJet_)
+    {
+
+      AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+      AddBranch(&jet_nSV_,     "jet_nSV");
+      AddBranch(&jet_SVMass_,  "jet_SVMass");
+    }
+
+
 
 }
 
