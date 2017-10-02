@@ -37,12 +37,14 @@ tree = cms.EDAnalyzer(
     filterLabel      = cms.InputTag("TriggerResults::PAT"),
 
     genPartLabel         = cms.InputTag("prunedGenParticles"),
-    genJetLabel          = cms.InputTag("slimmedGenJets"),
+    ak4GenJetLabel       = cms.InputTag("slimmedGenJets"),
+    ak8GenJetLabel       = cms.InputTag("slimmedGenJetsAK8"),
     maxNumGenPar         =  cms.uint32(30),
     applyStatusSelection = cms.bool(True),
     applyPromptSelection = cms.bool(False),
     saveLHEWeights       = cms.bool(False),
     saveGenJets          = cms.bool(False),
+    saveGenJetSub        = cms.bool(False),
 ##### when applyPromptSelection is True
 #    maxNumGenPar  =  cms.uint32(60), 
     

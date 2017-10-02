@@ -2,6 +2,9 @@
 #include <bitset>
 #include "DataFormats/HepMCCandidate/interface/GenStatusFlags.h"
 #include "TLorentzVector.h"
+const double DUMMY=-99999.;
+
+
 
 genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(name,tree),
@@ -9,13 +12,35 @@ genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet&
   applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection")),
   applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection")),
   saveLHEWeights_(iConfig.getParameter<bool>("saveLHEWeights")),
-  saveGenJets_(iConfig.getParameter<bool>("saveGenJets"))
+  saveGenJets_(iConfig.getParameter<bool>("saveGenJets")),
+  saveGenJetSub_(iConfig.getParameter<bool>("saveGenJetSub"))
 {
   genParP4_ =   new TClonesArray("TLorentzVector");
   ak4GenJetP4_ =   new TClonesArray("TLorentzVector");
   ak8GenJetP4_ =   new TClonesArray("TLorentzVector");
   
   SetBranches();
+
+  if(saveGenJets_){
+
+    const double radius=0.8, sdZcut=0.1, sdBeta=0.;
+
+    jetDefAKT = new fastjet::JetDefinition(fastjet::antikt_algorithm, radius);
+    softdrop = new fastjet::contrib::SoftDrop(sdBeta,sdZcut,radius);
+
+    fjtau1 = new fastjet::contrib::Nsubjettiness(1, fastjet::contrib::OnePass_KT_Axes(), fastjet::contrib::NormalizedMeasure(1,radius));
+    fjtau2 = new fastjet::contrib::Nsubjettiness(2, fastjet::contrib::OnePass_KT_Axes(), fastjet::contrib::NormalizedMeasure(1,radius));
+    fjtau3 = new fastjet::contrib::Nsubjettiness(3, fastjet::contrib::OnePass_KT_Axes(), fastjet::contrib::NormalizedMeasure(1,radius));
+    
+
+    int activeAreaRepeats = 1;
+    double ghostArea = 0.01;
+    double ghostEtaMax = 7.0;
+    activeArea = new fastjet::GhostedAreaSpec(ghostEtaMax,activeAreaRepeats,ghostArea);
+    areaDef = new fastjet::AreaDefinition(fastjet::active_area_explicit_ghosts,*activeArea);
+
+  } // if(saveGenJets_) ends here
+
 }
 
 
@@ -281,11 +306,59 @@ genInfoTree::Fill(const edm::Event& iEvent)
 	TLorentzVector thisGJet_l4(gjet.px(),gjet.py(),gjet.pz(),gjet.energy());
 	new( (*ak8GenJetP4_)[ak8nGenJet_]) TLorentzVector(thisGJet_l4);
 	ak8nGenJet_++;
-    }
-      
+
+	if(!saveGenJetSub_)continue;
+
+	// computing generator-level substructure variables, added by Eiko
+	std::vector<const reco::GenParticle*> constituents = gjet.getGenConstituents();
+	
+	typedef std::vector<fastjet::PseudoJet> VPseudoJet;
+	VPseudoJet vjet;
+	for(unsigned int ig=0; ig < constituents.size(); ig++){
+	  // create vector of PseudoJets
+	  const reco::GenParticle *constituent = constituents[ig];
+	  if (constituent->pt()<0.01) 
+	    continue;
+	  vjet.emplace_back(constituent->px(),constituent->py(),constituent->pz(),constituent->energy());
+	}
+	
+	fastjet::ClusterSequenceArea seq(vjet, *jetDefAKT, *areaDef); 
+	VPseudoJet alljets = fastjet::sorted_by_pt(seq.inclusive_jets(0.1));
+
+	if (alljets.size()>0){
+	  fastjet::PseudoJet *leadingJet = &(alljets[0]);
+
+	  //nsubjettiness
+	  
+	  ak8GenJettau1_.push_back((*fjtau1)(*leadingJet));
+	  ak8GenJettau2_.push_back((*fjtau2)(*leadingJet));
+	  ak8GenJettau3_.push_back((*fjtau3)(*leadingJet));
+
+
+	  fastjet::PseudoJet sdJet = (*softdrop)(*leadingJet);
+	  // get and filter constituents of groomed jet
+	  VPseudoJet sdconsts = fastjet::sorted_by_pt(sdJet.constituents());
+
+	  ak8GenJetMSD_.push_back(sdJet.m());    
+	  ak8GenJetSDSJdR_.push_back(sdJet.structure_of<fastjet::contrib::SoftDrop>().delta_R());
+	  ak8GenJetSDSJSymm_.push_back(sdJet.structure_of<fastjet::contrib::SoftDrop>().symmetry());       
+	  ak8GenJetSDMassDrop_.push_back(sdJet.structure_of<fastjet::contrib::SoftDrop>().mu());
+
+	} // if find a softdrop jet
+	else
+	  {
+
+	    ak8GenJetMSD_.push_back(DUMMY);        
+	    ak8GenJetSDSJdR_.push_back(DUMMY);     
+	    ak8GenJetSDSJSymm_.push_back(DUMMY);   
+	    ak8GenJetSDMassDrop_.push_back(DUMMY); 
+
+	  }
+    
+    } // end of loop over ak8jet  
+   
   } // end of ak8jet block
 
-    
    
 }
 
@@ -329,6 +402,16 @@ genInfoTree::SetBranches(){
 
   AddBranch(&ak8nGenJet_,  "ak8nGenJet");
   AddBranch(&ak8GenJetP4_, "ak8GenJetP4");
+
+
+ /// genjet substructure, added by Eiko
+  AddBranch(&ak8GenJetMSD_, "ak8GenJetMSD");       
+  AddBranch(&ak8GenJetSDSJdR_, "ak8GenJetSDSJdR");      
+  AddBranch(&ak8GenJetSDSJSymm_, "ak8GenJetSDSJSymm");   
+  AddBranch(&ak8GenJetSDMassDrop_, "ak8GenJetSDMassDrop"); 
+  AddBranch(&ak8GenJettau1_, "ak8GenJettau1");
+  AddBranch(&ak8GenJettau2_, "ak8GenJettau2");
+  AddBranch(&ak8GenJettau3_, "ak8GenJettau3");
   
   
 }
@@ -337,12 +420,12 @@ genInfoTree::SetBranches(){
 void  
 genInfoTree::Clear(){
 
-  ptHat_                = -9999.0;
-  mcWeight_             = -9999.0; 
-  HT_                   = -9999.0;
-  genMET_true_          = -9999.0;
-  genMET_calo_          = -9999.0;  
-  genMET_caloNonPrompt_ = -9999.0; 
+  ptHat_                = DUMMY;
+  mcWeight_             = DUMMY; 
+  HT_                   = DUMMY;
+  genMET_true_          = DUMMY;
+  genMET_calo_          = DUMMY;  
+  genMET_caloNonPrompt_ = DUMMY; 
 
   pdf_.clear();
   originalLHEweight_ = 1;
@@ -368,6 +451,16 @@ genInfoTree::Clear(){
 
   ak8nGenJet_=0;
   ak8GenJetP4_->Clear();
+
+ /// genjet substructure, added by Eiko
+  ak8GenJetMSD_.clear();       
+  ak8GenJetSDSJdR_.clear();      
+  ak8GenJetSDSJSymm_.clear();   
+  ak8GenJetSDMassDrop_.clear(); 
+  ak8GenJettau1_.clear();
+  ak8GenJettau2_.clear();
+  ak8GenJettau3_.clear();
+
 
   
 }

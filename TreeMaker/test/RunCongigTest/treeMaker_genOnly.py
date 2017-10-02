@@ -12,7 +12,7 @@ options = VarParsing ('analysis')
 options.parseArguments()
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(100)
 )
 
 
@@ -24,6 +24,9 @@ process.source = cms.Source("PoolSource",
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
 process.tree.saveGenJets      = cms.bool(True)
+process.tree.saveGenJetSub    = cms.bool(True)
+process.tree.ak4GenJetLabel   = cms.InputTag("ak4GenJets")
+process.tree.ak8GenJetLabel   = cms.InputTag("ak8GenJets")
 process.tree.fillGenInfo      = cms.bool(True)
 process.tree.fillPUweightInfo = cms.bool(False)
 process.tree.fillEventInfo    = cms.bool(False)
