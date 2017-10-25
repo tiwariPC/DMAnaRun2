@@ -103,7 +103,7 @@ process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
 '''
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
 )
 
 '''
@@ -204,19 +204,10 @@ process.PFJetsCHSSoftDrop = ak4PFJetsSoftDrop.clone(
 '''
 
 
-
-
-
-
-
-
-
-
-
-
 postfix = "PFlow"
 pfCandidates = 'packedPFCandidates'
 jetSource = 'ak4PFJets'
+#jetSource = 'slimmedJets' # did not affect
 pvSource = 'offlineSlimmedPrimaryVertices'
 svSource = 'slimmedSecondaryVertices'
 muSource = 'slimmedMuons'
@@ -259,6 +250,11 @@ bTagDiscriminators = [
     ,'softPFElectronBJetTags'
     ,'positiveSoftPFElectronBJetTags'
     ,'negativeSoftPFElectronBJetTags'
+    #,'deepFlavourJetTags:probudsg'
+    #,'deepFlavourJetTags:probb'
+    #,'deepFlavourJetTags:probc'
+    #,'deepFlavourJetTags:probbb'
+    #,'deepFlavourJetTags:probcc'   
 ]
 
 ## Jet energy corrections
@@ -348,6 +344,15 @@ else:
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
+#----------#update jet collection#----------#
+#updateJetCollection(
+#        process,
+#        jetSource = cms.InputTag('slimmedJets'),
+#        jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
+#        btagDiscriminators = ['pfCombinedSecondaryVertexV2BJetTags','deepFlavourJetTags:probb'], ## to add discriminators
+#        btagPrefix = 'TEST'
+#        )
+#----------##----------##----------##----------#
 
 NOTADDHBBTag=False
 ## Filter for good primary vertex
@@ -523,8 +528,17 @@ process.patJetsReapplyJECForPrunedMass = updatedPatJets.clone(
 
 process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForPrunedMass + process.patJetsReapplyJECForPrunedMass )
 
+###########
+updateJetCollection(
+        process,
+        jetSource = cms.InputTag('slimmedJets'),
+        jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
+        btagDiscriminators = ['deepFlavourJetTags:probudsg', 'deepFlavourJetTags:probb', 'deepFlavourJetTags:probc', 'deepFlavourJetTags:probbb', 'deepFlavourJetTags:probcc'], ## to add discriminators
+        btagPrefix = 'TEST'
+        )
 
-
+process.out.outputCommands.append('keep *_selectedUpdatedPatJets_*_*')
+##########
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
 process.tree.filterLabel           = cms.InputTag(filterlabel)
@@ -616,5 +630,5 @@ else:
 		process.tree
 		)
 
-
+open('pydump.py','w').write(process.dumpPython())
 #print process.dumpPython()
