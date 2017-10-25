@@ -344,16 +344,6 @@ else:
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
-#----------#update jet collection#----------#
-#updateJetCollection(
-#        process,
-#        jetSource = cms.InputTag('slimmedJets'),
-#        jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
-#        btagDiscriminators = ['pfCombinedSecondaryVertexV2BJetTags','deepFlavourJetTags:probb'], ## to add discriminators
-#        btagPrefix = 'TEST'
-#        )
-#----------##----------##----------##----------#
-
 NOTADDHBBTag=False
 ## Filter for good primary vertex
 process.primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
@@ -536,7 +526,6 @@ updateJetCollection(
         btagDiscriminators = ['deepFlavourJetTags:probudsg', 'deepFlavourJetTags:probb', 'deepFlavourJetTags:probc', 'deepFlavourJetTags:probbb', 'deepFlavourJetTags:probcc'], ## to add discriminators
         btagPrefix = 'TEST'
         )
-
 process.out.outputCommands.append('keep *_selectedUpdatedPatJets_*_*')
 ##########
 
