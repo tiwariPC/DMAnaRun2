@@ -53,8 +53,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   genjetP4_    = new TClonesArray("TLorentzVector");
   jetP4_       = new TClonesArray("TLorentzVector");
   unCorrJetP4_ = new TClonesArray("TLorentzVector");
-  jetPuppiP4_  = new TClonesArray("TLorentzVector");
-  jetPuppiSDRawP4_  = new TClonesArray("TLorentzVector");
 
   SetBranches();
 
@@ -88,8 +86,6 @@ jetTree::~jetTree(){
   delete genjetP4_;
   delete jetP4_;
   delete unCorrJetP4_;
-  delete jetPuppiP4_;
-  delete jetPuppiSDRawP4_;
   
   /* EFC: starts here */
   delete areaDef;
@@ -374,7 +370,6 @@ jetTree::SetBranches(){
   AddBranch(&nJet_,   "nJet");
   AddBranch(&jetP4_,       "jetP4");
 
-  if(!isADDJet_){
   AddBranch(&jetRho_, "jetRho");
   AddBranch(&jetNPV_, "jetNPV");
 
@@ -419,8 +414,6 @@ jetTree::SetBranches(){
   AddBranch(&jetJP_,    "jetJP");
   AddBranch(&jetJBP_,   "jetJBP");
 
-
-  }
 
   if(isTHINJet_){
     AddBranch(&PUJetID_,   "PUJetID");
@@ -507,13 +500,6 @@ jetTree::Clear(){
   jetTCHE_.clear();
   jetJP_.clear();
   jetJBP_.clear();
-
-
-  //jet secondary vtx
-
-  jet_nSV_.clear();
-  jet_SVMass_.clear();
-  jet_SVEnergyRatio_.clear();
 
 
 }
