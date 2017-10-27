@@ -262,23 +262,6 @@ from PhysicsTools.PatAlgos.tools.pfTools import *
 adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 
 
-
-#### Add reclustered AK8 Puppi jet by Eiko
-
-### For AK8 puppi (imported from Bacon)
-#process.load("RecoBTag.ImpactParameter.impactParameter_cff")
-
-#process.load('DelPanj.TreeMaker.myPUPPICorrections_cff')
-#process.load('DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff')
-
-#from DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff  import setMiniAODAK8Puppi
-#from DelPanj.TreeMaker.myBtagging_cff           import addBTagging
-
-#process.btagging = cms.Sequence()
-#addBTagging(process,'AK8PFJetsPuppi' ,0.8,'AK8' ,'Puppi')
-
-#setMiniAODAK8Puppi (process)
-
 process.load('CommonTools/PileupAlgos/Puppi_cff')
 process.puppi.candName       = cms.InputTag('packedPFCandidates')
 process.puppi.vertexName     = cms.InputTag('offlineSlimmedPrimaryVertices')
@@ -313,13 +296,6 @@ for idmod in my_phoid_modules:
 	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
 
 
-
-
-#process.egmPhotonIDs.physicsObjectSrc = cms.InputTag("ncuslimmedPhoton")
-#process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
-
-
-
 ## For normal AK4 jets jet energy correction on top of miniAOD
 from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
 process.patJetCorrFactorsReapplyJECAK4 = updatedPatJetCorrFactors.clone(
@@ -337,6 +313,7 @@ process.jetCorrSequenceAK4 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK
 
 
 ###########
+'''
 updateJetCollection(
         process,
         jetSource = cms.InputTag('slimmedJets'),
@@ -345,6 +322,7 @@ updateJetCollection(
         btagPrefix = 'TEST'
         )
 process.out.outputCommands.append('keep *_selectedUpdatedPatJets_*_*')
+'''
 ##########
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
