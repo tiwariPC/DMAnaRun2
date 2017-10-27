@@ -48,7 +48,6 @@ class genInfoTree : public baseTree{
   void Fill(const edm::Event& iEvent);
   void Clear();
 
-  edm::EDGetTokenT<reco::GenParticleCollection>     genParticleToken;
   edm::EDGetTokenT<GenEventInfoProduct>             genEventToken;
   edm::EDGetTokenT<LHERunInfoProduct>               lheRunToken;
   edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;

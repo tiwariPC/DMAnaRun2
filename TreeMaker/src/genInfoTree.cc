@@ -69,12 +69,6 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
   using namespace edm;
   edm::Handle<reco::GenParticleCollection> genParticleHandle;
-  if(not iEvent.getByToken(genParticleToken, genParticleHandle))
-    {
-      std::cout<<
-	"GenAnalyzer: Generator Level Information not found\n"
-	       <<std::endl;
-    }
 
   edm::Handle<GenEventInfoProduct>    genEventInfoHandle;
 
