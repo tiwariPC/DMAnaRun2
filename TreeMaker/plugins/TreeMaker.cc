@@ -195,6 +195,7 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
   cout<<"Debug point 10"<<endl;
   if( fillGenInfo_ )      genInfoTree_   ->Fill(iEvent);
+  cout<<"Debug point 10.5"<<endl;
   if( fillElecInfo_ )     patElecTree_   ->Fill(iEvent);
   if( fillMuonInfo_ )     patMuTree_     ->Fill(iEvent);
   if( fillTauInfo_ )      tauTree_       ->Fill(iEvent, iSetup);
