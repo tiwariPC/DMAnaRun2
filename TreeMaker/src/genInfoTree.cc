@@ -11,7 +11,7 @@ genInfoTree::genInfoTree(std::string name, TTree* tree, const edm::ParameterSet&
   MAXNGENPAR_(iConfig.getParameter<unsigned int>("maxNumGenPar")),
   applyStatusSelection_(iConfig.getParameter<bool>("applyStatusSelection")),
   applyPromptSelection_(iConfig.getParameter<bool>("applyPromptSelection")),
-  saveLHEWeights_(iConfig.getParameter<bool>("saveLHEWeights")),
+  saveLHEWeights_(iConfig.getParameter<bool>("saveLHEWeights"))
 {
   genParP4_ =   new TClonesArray("TLorentzVector");
   ak4GenJetP4_ =   new TClonesArray("TLorentzVector");
