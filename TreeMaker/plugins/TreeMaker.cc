@@ -97,7 +97,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   if( fillGenInfo_ ) 
     {
       genInfoTree_                           = new genInfoTree("",tree_,iConfig);
-      genInfoTree_->genParticleToken         = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genPartLabel"));
       genInfoTree_->genEventToken            = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
       genInfoTree_->lheRunToken              = consumes<LHERunInfoProduct,edm::InRun>(edm::InputTag("externalLHEProducer"));
       genInfoTree_->lheEventToken            = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));
@@ -105,7 +104,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       genInfoTree_->genMETToken_calo         = consumes<reco::GenMETCollection>(edm::InputTag("genMetCalo"));
       genInfoTree_->genMETToken_caloNonPrompt = consumes<reco::GenMETCollection>(edm::InputTag("genMetCaloAndNonPrompt"));
       genInfoTree_->ak4genJetsToken           = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetLabel"));
-      genInfoTree_->ak8genJetsToken           = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak8GenJetLabel"));
   }
   
   if( fillElecInfo_ )

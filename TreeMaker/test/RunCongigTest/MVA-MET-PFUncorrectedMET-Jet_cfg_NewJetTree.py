@@ -654,7 +654,6 @@ process.tree = cms.EDAnalyzer(
     fillGenInfo_   = cms.bool(True),
     fillMuonInfo_  = cms.bool(True),
     fillElecInfo_  = cms.bool(True),
-    fillFATJetInfo_   = cms.bool(True), 
     fillJetInfo_   = cms.bool(True), ## Raman switched it off
     fillAddJetInfo_   = cms.bool(True),
     fillMetInfo_   = cms.bool(True),
@@ -684,7 +683,6 @@ process.tree = cms.EDAnalyzer(
     tauLabel_ = cms.untracked.InputTag("slimmedTaus"),
     rhoSrc = cms.InputTag('kt6PFJets','rho'),
     ### FatJets 
-    FATJets=cms.InputTag("cleanJets"),
     # jec still need to be checked 
     #CA8jecPayloadNames = cms.vstring( CA8jecLevels ),
     #CA8jecUncName = cms.string(CA8jecUnc),    
