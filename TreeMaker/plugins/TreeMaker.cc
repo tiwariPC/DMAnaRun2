@@ -47,20 +47,21 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   
   edm::Service<TFileService> fs;
 
-
+  cout<<"Debug point 1"<<endl;
   tree_ = fs->make<TTree>("treeMaker","tree");
   if( fillPUweightInfo_) 
     {
       puweight_                   = new puweight("pu_",tree_);
       puweight_->puInfoToken      = consumes<std::vector<PileupSummaryInfo>>(edm::InputTag("slimmedAddPileupInfo"));
     }
-
+    cout<<"Debug point 2"<<endl;
   if( fillEventInfo_ ) 
     {
       eventInfo_                  = new eventInfo("",tree_); 
       eventInfo_->vertexToken     = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
     }
-
+    
+    cout<<"Debug point 3"<<endl;
 
   if( fillMetInfo_ )
     {
@@ -70,7 +71,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patMetTree_->puppimetToken  = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("puppiMET"));
       // patMetTree_->pfMVAMETToken  = consumes<reco::PFMETCollection>(iConfig.getParameter<edm::InputTag>("pfMVAMET"));                                                        
     }
-
+    cout<<"Debug point 4"<<endl;
 
   if( fillTrigInfo_ )
     {
@@ -79,6 +80,8 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patHltTree_->triggerPrescalesToken      = consumes<pat::PackedTriggerPrescales>(edm::InputTag("patTrigger"));
 	
     }
+    cout<<"Debug point 5"<<endl;
+
   if( fillFilterInfo_ ) 
     {
       patFilterTree_                          = new patFilters("hlt_",tree_); 
@@ -89,11 +92,9 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patFilterTree_->BadPFMuonFilterToken_   = consumes<bool>(edm::InputTag("BadPFMuonFilter"));
       patFilterTree_->BadGlobalMuonFilterToken_     = consumes<bool>(edm::InputTag("badGlobalMuonTaggerMAOD"));
       patFilterTree_->CloneGlobalMuonFilterToken_   = consumes<bool>(edm::InputTag("cloneGlobalMuonTaggerMAOD"));
-
-      
       patFilterTree_->filterTrigResultsToken  = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("filterLabel"));
     }
-
+    cout<<"Debug point 6"<<endl;
   if( fillGenInfo_ ) 
     {
       genInfoTree_                           = new genInfoTree("",tree_,iConfig);
@@ -105,6 +106,8 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       genInfoTree_->genMETToken_caloNonPrompt = consumes<reco::GenMETCollection>(edm::InputTag("genMetCaloAndNonPrompt"));
       genInfoTree_->ak4genJetsToken           = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetLabel"));
   }
+  
+  cout<<"Debug point 7"<<endl;
   
   if( fillElecInfo_ )
     {
@@ -141,14 +144,14 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patMuTree_->muToken                    = consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muoLabel"));
       patMuTree_->pfCandToken                = consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("pfForMiniIso"));
     }
-
+    cout<<"Debug point 8"<<endl;
   if( fillTauInfo_ ) 
     {
       tauTree_                               = new hpstauInfo("",tree_, false);
       tauTree_->tauToken                     = consumes<pat::TauCollection>(iConfig.getUntrackedParameter<edm::InputTag> ("tauLabel"));
       tauTree_->theBeamSpotToken             = consumes<reco::BeamSpot>(edm::InputTag("offlineBeamSpot"));
     }
-
+    cout<<"Debug point 9"<<endl;
   if( fillPhotInfo_)
     {
       photonTree_                                 = new photonTree("", tree_); 
