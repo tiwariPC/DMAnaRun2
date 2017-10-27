@@ -37,7 +37,6 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   baseTree(desc, tree),
   isTHINJet_(false),
   useJECText_(iConfig.getParameter<bool>("useJECText")),
-  svTagInfosCstr_(iConfig.getParameter<std::string>("svTagInfosPY")),
   jecUncPayLoadName_(iConfig.getParameter<std::string>(Form("%sjecUncPayLoad",desc.data()))),
   jecNames_(iConfig.getParameter<std::vector<std::string> >(Form("%sjecNames",desc.data()) )), 
   jecUncName_(iConfig.getParameter<std::string>(Form("%sjecUncName",desc.data())) ),	
