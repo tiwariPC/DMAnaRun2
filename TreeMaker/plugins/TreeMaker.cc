@@ -199,8 +199,10 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillMuonInfo_ )     patMuTree_     ->Fill(iEvent);
   if( fillTauInfo_ )      tauTree_       ->Fill(iEvent, iSetup);
   if( fillPhotInfo_ )     photonTree_    ->Fill(iEvent);
+  cout<<"Debug point 11"<<endl;
   if( fillJetInfo_ )      THINjetTree_   ->Fill(iEvent, iSetup);
   tree_->Fill();
+  cout<<"Debug point 12"<<endl;
 }
 
 
