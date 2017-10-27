@@ -90,10 +90,6 @@ jetTree::~jetTree(){
   delete areaDef;
   delete activeArea;
   delete jetDefCA;
-  delete softdrop;
-  delete tau;
-  delete ecfnmanager;
-  delete softdrop;
   /* EFC: ends here */
 
   //delete htt;
