@@ -186,7 +186,7 @@ TreeMaker::~TreeMaker()
 void
 TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   using namespace edm;
-
+  cout<<"Debug point 9.5"<<endl;
   if( fillPUweightInfo_ ) puweight_      ->Fill(iEvent);
   if( fillEventInfo_ )    eventInfo_     ->Fill(iEvent);
   if( fillMetInfo_ )      patMetTree_    ->Fill(iEvent);
@@ -199,7 +199,6 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillMuonInfo_ )     patMuTree_     ->Fill(iEvent);
   if( fillTauInfo_ )      tauTree_       ->Fill(iEvent, iSetup);
   if( fillPhotInfo_ )     photonTree_    ->Fill(iEvent);
-
   if( fillJetInfo_ )      THINjetTree_   ->Fill(iEvent, iSetup);
   tree_->Fill();
 }
