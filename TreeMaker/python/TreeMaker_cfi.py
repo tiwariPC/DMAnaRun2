@@ -31,7 +31,7 @@ tree = cms.EDAnalyzer(
     saveAllTrigPaths = cms.bool(False),
     filterLabel      = cms.InputTag("TriggerResults::PAT"),
 
-    genPartLabel         = cms.InputTag("GenParticles"),
+    genPartLabel         = cms.InputTag("genParticles"),
     genJetLabel       = cms.InputTag("slimmedGenJets"),
     maxNumGenPar         =  cms.uint32(30),
     applyStatusSelection = cms.bool(True),
