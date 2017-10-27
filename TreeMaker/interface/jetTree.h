@@ -84,8 +84,7 @@ class jetTree  : public baseTree{
   edm::EDGetTokenT<reco::VertexCollection>          vertexToken;
   edm::EDGetTokenT<double>                          rhoForJetToken;
   edm::EDGetTokenT<pat::JetCollection>              jetToken;
-  edm::EDGetTokenT<pat::JetCollection>              prunedMToken;
-  
+
     
  private:
 
@@ -95,8 +94,6 @@ class jetTree  : public baseTree{
   fastjet::AreaDefinition *areaDef;
   fastjet::GhostedAreaSpec *activeArea;
   fastjet::JetDefinition *jetDefCA=0;
-  fastjet::contrib::SoftDrop *softdrop=0;
-  fastjet::contrib::Njettiness *tau=0;
   ECFNManager *ecfnmanager;
   float radius=1.5;
   /* For ECF: ends here    */
@@ -108,7 +105,6 @@ class jetTree  : public baseTree{
   std::string svTagInfosCstr_;
 
   std::string jecUncPayLoadName_; // for global tag
-  std::vector<std::string> prunedMassJecNames_; // for reading text file
   std::vector<std::string> jecNames_; // for reading text file
   std::string              jecUncName_; // for reading text file
 
