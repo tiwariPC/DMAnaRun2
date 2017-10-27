@@ -103,11 +103,6 @@ class jetTree  : public baseTree{
   void SetBranches();
 
   bool isTHINJet_;
-  bool isFATJet_;
-  bool isADDJet_;
-  bool isAK4PuppiJet_;
-  bool isAK8PuppiJet_;
-  bool isCA15PuppiJet_;
   bool useJECText_;
   
   std::string svTagInfosCstr_;
@@ -120,7 +115,6 @@ class jetTree  : public baseTree{
   jetSelector jet2012ID_;
 
 
-  boost::shared_ptr<FactorizedJetCorrector> prunedjecText_;
   boost::shared_ptr<FactorizedJetCorrector> jecText_;
   boost::shared_ptr<JetCorrectionUncertainty> jecUncText_;
 
@@ -200,75 +194,6 @@ class jetTree  : public baseTree{
   std::vector<float> jetTau2_;
   std::vector<float> jetTau3_;
   std::vector<float> jetTau21_;
-
-
-  //ak8jet mass
- 
-  //
-    
-  std::vector<float>  jetSDmass_; 
-  std::vector<float>  jetPRmass_; // from miniAOD
-  std::vector<float>  jetPRmassL2L3Corr_; 
-  
-
-  //puppi related stuff
-  std::vector<float> jetPuppiTau1_;
-  std::vector<float> jetPuppiTau2_;
-  std::vector<float> jetPuppiTau3_;
-  std::vector<float> jetPuppiSDmass_;
-
-  TClonesArray *jetPuppiP4_;
-  TClonesArray *jetPuppiSDRawP4_;
-  std::vector<int>   nSubSDPuppiJet_;
-  std::vector<std::vector<int> >   subjetSDPuppiFatJetIndex_; 
-  std::vector<std::vector<float> > subjetSDPuppiPx_;
-  std::vector<std::vector<float> > subjetSDPuppiPy_;
-  std::vector<std::vector<float> > subjetSDPuppiPz_;
-  std::vector<std::vector<float> > subjetSDPuppiE_;
-  std::vector<std::vector<float> > subjetSDPuppiCSV_;
-  
-
-  // For CA15 double b-tagger and ECFs: start here
-  /*
-    betas = {0.5,1.,2.,4.};
-    Ns = {1,2,3,4};
-    orders = {1,2,3};
-    ECF( O, N, beta) 
-  */
-  std::vector<float> ca15_doublebtag;
-  std::vector<float> ECF_2_3_10;
-  std::vector<float> ECF_1_2_10;
-  
-  // For CA15 double b-tagger and ECFs: ends here
-  
-  
-  //jet  Hbb tagger for fat and add jet
-
-  std::vector<float> jet_DoubleSV_;
-
-  //jet secondary vtx
-
-  std::vector<int>   jet_nSV_;
-  std::vector<std::vector<float> > jet_SVMass_;
-  std::vector<std::vector<float> > jet_SVEnergyRatio_;
-
-
-
-  // subjet of jets
-
-  std::vector<float> jetGenSDmass_; // build from genJets of subjets
-  std::vector<int>   nSubSDJet_;
-  std::vector<std::vector<int> >   subjetSDFatJetIndex_; 
-  std::vector<std::vector<float> > subjetSDPx_;
-  std::vector<std::vector<float> > subjetSDPy_;
-  std::vector<std::vector<float> > subjetSDPz_;
-  std::vector<std::vector<float> > subjetSDE_;
-  std::vector<std::vector<float> > subjetSDRawFactor_;
-  std::vector<std::vector<int> >   subjetSDCharge_; 
-  std::vector<std::vector<int> >   subjetSDPartonFlavor_;
-  std::vector<std::vector<int> >   subjetSDHadronFlavor_;
-  std::vector<std::vector<float> > subjetSDCSV_;        
-
 
  protected:
 
