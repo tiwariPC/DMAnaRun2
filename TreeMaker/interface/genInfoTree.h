@@ -57,7 +57,6 @@ class genInfoTree : public baseTree{
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_calo;
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_caloNonPrompt;
   edm::EDGetTokenT<reco::GenJetCollection>          ak4genJetsToken;
-  edm::EDGetTokenT<reco::GenJetCollection>          ak8genJetsToken;
 
   unsigned int MAXNGENPAR_;
   bool applyStatusSelection_;  // keep only particles with status code <=30
