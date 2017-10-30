@@ -338,7 +338,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
     jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));
-    jetDeepCSV_.push_back(jet->bDiscriminator("deepFlavourJetTags:probb"));
+    jetDeepCSV_.push_back(jet->bDiscriminator("TESTdeepFlavourJetTags"));
     jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));      
     jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
