@@ -320,9 +320,11 @@ updateJetCollection(
         jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
         btagDiscriminators = ['deepFlavourJetTags:probudsg', 'deepFlavourJetTags:probb', 'deepFlavourJetTags:probc', 'deepFlavourJetTags:probbb', 'deepFlavourJetTags:probcc'], ## to add discriminators
         btagPrefix = 'TEST',
-        outputModules = ['AODEventContent','AODSIMEventContent','FEVTDEBUGEventContent','FEVTDEBUGHLTEventContent','FEVTEventContent','FEVTHLTALLEventContent','FEVTSIMEventContent','RAWAODSIMEventContent','RAWRECODEBUGHLTEventContent','RAWRECOEventContent','RAWRECOSIMHLTEventContent','RECODEBUGEventContent','RECOEventContent','RECOSIMEventContent','RecoJetsAOD','RecoJetsFEVT','RecoJetsRECO']
         )
+outputModules = ['AODEventContent','AODSIMEventContent','FEVTDEBUGEventContent','FEVTDEBUGHLTEventContent','FEVTEventContent','FEVTHLTALLEventContent','FEVTSIMEventContent','RAWAODSIMEventContent','RAWRECODEBUGHLTEventContent','RAWRECOEventContent','RAWRECOSIMHLTEventContent','RECODEBUGEventContent','RECOEventContent','RECOSIMEventContent','RecoJetsAOD','RecoJetsFEVT','RecoJetsRECO']
 
+for module in outputModules:
+   process.module.outputCommands.append('keep *_selectedUpdatedPatJets_*_*')
 ##########
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
