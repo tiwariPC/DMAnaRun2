@@ -313,7 +313,7 @@ process.jetCorrSequenceAK4 = cms.Sequence( process.patJetCorrFactorsReapplyJECAK
 
 
 ###########
-'''
+
 updateJetCollection(
         process,
         jetSource = cms.InputTag('slimmedJets'),
@@ -322,7 +322,7 @@ updateJetCollection(
         btagPrefix = 'TEST'
         )
 process.out.outputCommands.append('keep *_selectedUpdatedPatJets_*_*')
-'''
+
 ##########
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
