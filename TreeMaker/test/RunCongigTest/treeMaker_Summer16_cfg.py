@@ -324,7 +324,7 @@ updateJetCollection(
 outputModules = ['AODEventContent','AODSIMEventContent','FEVTDEBUGEventContent','FEVTDEBUGHLTEventContent','FEVTEventContent','FEVTHLTALLEventContent','FEVTSIMEventContent','RAWAODSIMEventContent','RAWRECODEBUGHLTEventContent','RAWRECOEventContent','RAWRECOSIMHLTEventContent','RECODEBUGEventContent','RECOEventContent','RECOSIMEventContent','RecoJetsAOD','RecoJetsFEVT','RecoJetsRECO']
 
 for module in outputModules:
-   process.module.outputCommands.append('keep *_selectedUpdatedPatJets_*_*')
+   exec("process."+module+".outputCommands.append('keep *_selectedUpdatedPatJets_*_*')")
 ##########
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
