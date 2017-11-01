@@ -15,7 +15,7 @@ tree = cms.EDAnalyzer(
     fillPhotInfo        = cms.bool(True),
 
     fillJetInfo         = cms.bool(True),
-    filldeepCSVJetInfo  = cms.bool(True)
+    filldeepCSVJetInfo  = cms.bool(True),
     
     pvSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
 
