@@ -98,7 +98,14 @@ tree = cms.EDAnalyzer(
     # jec still need to be checked 
     
     THINdeepCSVJets         = cms.InputTag("selectedUpdatedPat"),
+    THINdeepCSVjecNames     = cms.vstring(
+        'Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt',
+        'Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt',
+        'Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt'
+        ),
+    THINdeepCSVjecUncName   = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt'),
     THINdeepCSVjecUncPayLoad= cms.string('AK4PFchs'),
+
     
     outFileName=cms.string('outputFileName.root')
 
