@@ -356,7 +356,9 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
     jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));
-    jetDeepCSV_.push_back((jet->bDiscriminator("TESTdeepFlavourJetTags:probb"))+(jet->bDiscriminator("TESTdeepFlavourJetTags:probbb")));
+    jetDeepCSV_b_.push_back((jet->bDiscriminator("TESTdeepFlavourJetTags:probb"))+(jet->bDiscriminator("TESTdeepFlavourJetTags:probbb")));
+    jetDeepCSV_c_.push_back((jet->bDiscriminator("TESTdeepFlavourJetTags:probc"))+(jet->bDiscriminator("TESTdeepFlavourJetTags:probcc")));
+    jetDeepCSV_light_.push_back(jet->bDiscriminator("TESTdeepFlavourJetTags:probudsg"));
     jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));      
     jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
@@ -436,7 +438,9 @@ jetTree::SetBranches(){
   }
   if(isTHINdeepCSVJet_){
     AddBranch(&PUJetID_,   "PUJetID");
-    AddBranch(&jetDeepCSV_,  "jetDeepCSV");
+    AddBranch(&jetDeepCSV_b_,  "jetDeepCSV_b");
+    AddBranch(&jetDeepCSV_c_,  "jetDeepCSV_c");
+    AddBranch(&jetDeepCSV_light_,  "jetDeepCSV_light");
     AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
     AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
@@ -512,7 +516,9 @@ jetTree::Clear(){
   // btag information
   jetSSV_.clear();
   jetCSV_.clear();
-  jetDeepCSV_.clear();
+  jetDeepCSV_b_.clear();
+  jetDeepCSV_c_.clear();
+  jetDeepCSV_light_.clear();
   jetSSVHE_.clear();
   jetCISVV2_.clear();
   jetTCHP_.clear();

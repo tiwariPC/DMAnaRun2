@@ -178,7 +178,9 @@ class jetTree  : public baseTree{
   // btag information
   std::vector<float> jetSSV_;
   std::vector<float> jetCSV_;
-  std::vector<float> jetDeepCSV_;
+  std::vector<float> jetDeepCSV_b_;
+  std::vector<float> jetDeepCSV_c_;
+  std::vector<float> jetDeepCSV_light_;
   std::vector<float> jetSSVHE_;
   std::vector<float> jetCISVV2_;
   std::vector<float> jetTCHP_;
