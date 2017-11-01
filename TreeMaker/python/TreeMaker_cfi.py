@@ -1,20 +1,21 @@
 import FWCore.ParameterSet.Config as cms
 tree = cms.EDAnalyzer(
     'TreeMaker',
-    fillPUweightInfo = cms.bool(True),
-    fillEventInfo    = cms.bool(True),
-    fillMetInfo      = cms.bool(True),
-    fillTrigInfo     = cms.bool(True),
-    fillFilterInfo   = cms.bool(True),
+    fillPUweightInfo    = cms.bool(True),
+    fillEventInfo       = cms.bool(True),
+    fillMetInfo         = cms.bool(True),
+    fillTrigInfo        = cms.bool(True),
+    fillFilterInfo      = cms.bool(True),
 
-    fillGenInfo      = cms.bool(True),
+    fillGenInfo         = cms.bool(True),
 
-    fillElecInfo     = cms.bool(True), 
-    fillMuonInfo     = cms.bool(True),
-    fillTauInfo      = cms.bool(True),
-    fillPhotInfo     = cms.bool(True),
+    fillElecInfo        = cms.bool(True), 
+    fillMuonInfo        = cms.bool(True),
+    fillTauInfo         = cms.bool(True),
+    fillPhotInfo        = cms.bool(True),
 
-    fillJetInfo      = cms.bool(True), 
+    fillJetInfo         = cms.bool(True),
+    filldeepCSVJetInfo  = cms.bool(True)
     
     pvSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
 
