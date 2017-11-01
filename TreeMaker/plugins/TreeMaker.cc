@@ -168,6 +168,12 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       THINjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
       THINjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
       THINjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
+      
+      std::string desc             = "THINdeepCSV";
+      THINdeepCSVjetTree_                 = new jetTree(desc,tree_,iConfig);
+      THINdeepCSVjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
+      THINdeepCSVjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
+      THINdeepCSVjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
     }
 
   
@@ -194,6 +200,7 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillTauInfo_ )      tauTree_       ->Fill(iEvent, iSetup);
   if( fillPhotInfo_ )     photonTree_    ->Fill(iEvent);
   if( fillJetInfo_ )      THINjetTree_   ->Fill(iEvent, iSetup);
+  if( fillJetInfo_ )      THINdeepCSVjetTree_   ->Fill(iEvent, iSetup);
   tree_->Fill();
 }
 

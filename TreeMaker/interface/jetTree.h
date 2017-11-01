@@ -100,6 +100,7 @@ class jetTree  : public baseTree{
   void SetBranches();
 
   bool isTHINJet_;
+  bool isTHINdeepCSVJet_
   bool useJECText_;
   
   std::string svTagInfosCstr_;

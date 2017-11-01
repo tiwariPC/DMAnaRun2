@@ -36,6 +36,7 @@ const math::XYZPoint & position(const reco::VertexCompositePtrCandidate & sv) {r
 jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(desc, tree),
   isTHINJet_(false),
+  isTHINdeepCSVJet_(false),
   useJECText_(iConfig.getParameter<bool>("useJECText")),
   jecUncPayLoadName_(iConfig.getParameter<std::string>(Form("%sjecUncPayLoad",desc.data()))),
   jecNames_(iConfig.getParameter<std::vector<std::string> >(Form("%sjecNames",desc.data()) )), 
@@ -45,7 +46,8 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   
   if (desc.find("THIN")!=std::string::npos)
     isTHINJet_=true;
-
+  if (desc.find("THINdeepCSV")!=std::string::npos)
+    isTHINdeepCSVJet_=true;
   std::cout << desc << std::endl;
   
   
@@ -290,6 +292,22 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       isPUJetIDTight_.push_back(
 				bool(jet->userInt("pileupJetId:fullId") & (1 << 0)));
     }
+    if(isTHINdeepCSVJet_){
+      float jpumva=0.;
+      jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
+      //std::cout<<" jpumva = "<<jpumva<<std::endl;
+      PUJetID_.push_back(jpumva);
+          
+      // float jpt = jet->pt();
+      // float jeta = jet->eta();
+
+      isPUJetIDLoose_.push_back(
+				bool(jet->userInt("pileupJetId:fullId") & (1 << 2)));
+      isPUJetIDMedium_.push_back(
+				 bool(jet->userInt("pileupJetId:fullId") & (1 << 1)));
+      isPUJetIDTight_.push_back(
+				bool(jet->userInt("pileupJetId:fullId") & (1 << 0)));
+    }
         
     jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
     jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
@@ -411,6 +429,12 @@ jetTree::SetBranches(){
 
 
   if(isTHINJet_){
+    AddBranch(&PUJetID_,   "PUJetID");
+    AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
+    AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
+    AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
+  }
+  if(isTHINdeepCSVJet_){
     AddBranch(&PUJetID_,   "PUJetID");
     AddBranch(&jetDeepCSV_,  "jetDeepCSV");
     AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");

@@ -325,6 +325,7 @@ outputModules = ['AODEventContent','AODSIMEventContent','FEVTDEBUGEventContent',
 
 for module in outputModules:
    exec("process."+module+".outputCommands.append('keep *_selectedUpdatedPatJets_*_*')")
+
 ##########
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
@@ -337,6 +338,7 @@ process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
 if options.useJECText:
 	#process.tree.THINJets      = cms.InputTag("slimmedJets")
 	process.tree.THINJets      = cms.InputTag("selectedUpdatedPatJets")
+	process.tree.THINdeepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
 
 
 
