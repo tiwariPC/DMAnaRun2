@@ -57,6 +57,7 @@ class TreeMaker : public edm::EDAnalyzer {
 
 
       bool fillJetInfo_;
+      bool filldeepCSVJetInfo_;
       
       puweight *puweight_;
       eventInfo   *eventInfo_;

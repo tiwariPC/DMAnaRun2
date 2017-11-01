@@ -19,30 +19,32 @@
 TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
 
 {
-  fillPUweightInfo_=false;
-  fillEventInfo_   =false;
-  fillMetInfo_     =false;
-  fillTrigInfo_    =false;
-  fillFilterInfo_  =false;
+  fillPUweightInfo_   =false;
+  fillEventInfo_      =false;
+  fillMetInfo_        =false;
+  fillTrigInfo_       =false;
+  fillFilterInfo_     =false;
 
-  fillGenInfo_     =false;
-  fillElecInfo_    =false;
-  fillMuonInfo_    =false;
-  fillTauInfo_     =false;
-  fillPhotInfo_    =false; 
-  fillJetInfo_     =false;
+  fillGenInfo_        =false;
+  fillElecInfo_       =false;
+  fillMuonInfo_       =false;
+  fillTauInfo_        =false;
+  fillPhotInfo_       =false; 
+  fillJetInfo_        =false;
+  filldeepCSVJetInfo_ =false;
 
-  fillPUweightInfo_ = iConfig.getParameter<bool>("fillPUweightInfo");
-  fillEventInfo_    = iConfig.getParameter<bool>("fillEventInfo");
-  fillMetInfo_      = iConfig.getParameter<bool>("fillMetInfo");
-  fillTrigInfo_     = iConfig.getParameter<bool>("fillTrigInfo");
-  fillFilterInfo_   = iConfig.getParameter<bool>("fillFilterInfo");
-  fillGenInfo_      = iConfig.getParameter<bool>("fillGenInfo");
-  fillElecInfo_     = iConfig.getParameter<bool>("fillElecInfo");
-  fillMuonInfo_     = iConfig.getParameter<bool>("fillMuonInfo");
-  fillTauInfo_      = iConfig.getParameter<bool>("fillTauInfo");
-  fillPhotInfo_     = iConfig.getParameter<bool>("fillPhotInfo");
-  fillJetInfo_      = iConfig.getParameter<bool>("fillJetInfo");
+  fillPUweightInfo_        = iConfig.getParameter<bool>("fillPUweightInfo");
+  fillEventInfo_           = iConfig.getParameter<bool>("fillEventInfo");
+  fillMetInfo_             = iConfig.getParameter<bool>("fillMetInfo");
+  fillTrigInfo_            = iConfig.getParameter<bool>("fillTrigInfo");
+  fillFilterInfo_          = iConfig.getParameter<bool>("fillFilterInfo");
+  fillGenInfo_             = iConfig.getParameter<bool>("fillGenInfo");
+  fillElecInfo_            = iConfig.getParameter<bool>("fillElecInfo");
+  fillMuonInfo_            = iConfig.getParameter<bool>("fillMuonInfo");
+  fillTauInfo_             = iConfig.getParameter<bool>("fillTauInfo");
+  fillPhotInfo_            = iConfig.getParameter<bool>("fillPhotInfo");
+  fillJetInfo_             = iConfig.getParameter<bool>("fillJetInfo");
+  filldeepCSVJetInfo_      = iConfig.getParameter<bool>("filldeepCSVJetInfo");
    
   
   edm::Service<TFileService> fs;
@@ -168,7 +170,10 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       THINjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
       THINjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
       THINjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
-      
+    }
+
+    if( filldeepCSVJetInfo_ )
+    {
       std::string desc             = "THINdeepCSV";
       THINdeepCSVjetTree_                 = new jetTree(desc,tree_,iConfig);
       THINdeepCSVjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
@@ -176,7 +181,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       THINdeepCSVjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
     }
 
-  
 }
 
 
@@ -200,7 +204,7 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   if( fillTauInfo_ )      tauTree_       ->Fill(iEvent, iSetup);
   if( fillPhotInfo_ )     photonTree_    ->Fill(iEvent);
   if( fillJetInfo_ )      THINjetTree_   ->Fill(iEvent, iSetup);
-  if( fillJetInfo_ )      THINdeepCSVjetTree_   ->Fill(iEvent, iSetup);
+  if( filldeepCSVJetInfo_ )      THINdeepCSVjetTree_   ->Fill(iEvent, iSetup);
   tree_->Fill();
 }
 
