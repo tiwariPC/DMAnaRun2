@@ -384,53 +384,52 @@ jetTree::SetBranches(){
   
   AddBranch(&nJet_,   "nJet");
   AddBranch(&jetP4_,       "jetP4");
-
-  AddBranch(&jetRho_, "jetRho");
-  AddBranch(&jetNPV_, "jetNPV");
-
   AddBranch(&genjetP4_,   "genjetP4");
-  AddBranch(&genjetEM_ ,  "genjetEM");
-  AddBranch(&genjetHAD_ , "genjetHAD");
-  AddBranch(&genjetINV_ , "genjetINV");
-  AddBranch(&genjetAUX_ , "genjetAUX");
-  AddBranch(&matchedDR_ , "matchedDR");
-
-  AddBranch(&jetRawFactor_, "jetRawFactor");
   AddBranch(&unCorrJetP4_, "unCorrJetP4");
 
-  AddBranch(&jetArea_,        "jetArea");
-  AddBranch(&jetCorrUncUp_,   "jetCorrUncUp");
-  AddBranch(&jetCorrUncDown_, "jetCorrUncDown");
-
-  AddBranch(&jetCharge_,       "jetCharge");
-  AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
-  AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
-  AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
-  AddBranch(&jetPassIDTight_,  "jetPassIDTight");
-
-  AddBranch(&jetCEmEF_,  "jetCEmEF");
-  AddBranch(&jetCHadEF_, "jetCHadEF");
-  AddBranch(&jetPhoEF_,  "jetPhoEF");
-  AddBranch(&jetNEmEF_,  "jetNEmEF");
-  AddBranch(&jetNHadEF_, "jetNHadEF");
-  AddBranch(&jetEleEF_,  "jetEleEF");
-  AddBranch(&jetMuoEF_,  "jetMuoEF");
-
-  AddBranch(&jetCMulti_, "jetCMulti");
-  AddBranch(&jetEleMultiplicity_,"jetEleMulti");
-  AddBranch(&jetMuoMultiplicity_,"jetMuoMulti");
-  
-  AddBranch(&jetSSV_,   "jetSSV");
-  AddBranch(&jetCSV_,   "jetCSV");        
-  AddBranch(&jetSSVHE_, "jetSSVHE");
-  AddBranch(&jetCISVV2_,"jetCISVV2");
-  AddBranch(&jetTCHP_,  "jetTCHP");
-  AddBranch(&jetTCHE_,  "jetTCHE");
-  AddBranch(&jetJP_,    "jetJP");
-  AddBranch(&jetJBP_,   "jetJBP");
-
-
   if(isTHINJet_){
+    AddBranch(&jetRho_, "jetRho");
+    AddBranch(&jetNPV_, "jetNPV");
+
+    AddBranch(&genjetEM_ ,  "genjetEM");
+    AddBranch(&genjetHAD_ , "genjetHAD");
+    AddBranch(&genjetINV_ , "genjetINV");
+    AddBranch(&genjetAUX_ , "genjetAUX");
+    AddBranch(&matchedDR_ , "matchedDR");
+
+    AddBranch(&jetRawFactor_, "jetRawFactor");
+
+    AddBranch(&jetArea_,        "jetArea");
+    AddBranch(&jetCorrUncUp_,   "jetCorrUncUp");
+    AddBranch(&jetCorrUncDown_, "jetCorrUncDown");
+
+    AddBranch(&jetCharge_,       "jetCharge");
+    AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
+    AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
+    AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
+    AddBranch(&jetPassIDTight_,  "jetPassIDTight");
+
+    AddBranch(&jetCEmEF_,  "jetCEmEF");
+    AddBranch(&jetCHadEF_, "jetCHadEF");
+    AddBranch(&jetPhoEF_,  "jetPhoEF");
+    AddBranch(&jetNEmEF_,  "jetNEmEF");
+    AddBranch(&jetNHadEF_, "jetNHadEF");
+    AddBranch(&jetEleEF_,  "jetEleEF");
+    AddBranch(&jetMuoEF_,  "jetMuoEF");
+
+    AddBranch(&jetCMulti_, "jetCMulti");
+    AddBranch(&jetEleMultiplicity_,"jetEleMulti");
+    AddBranch(&jetMuoMultiplicity_,"jetMuoMulti");
+  
+    AddBranch(&jetSSV_,   "jetSSV");
+    AddBranch(&jetCSV_,   "jetCSV");        
+    AddBranch(&jetSSVHE_, "jetSSVHE");
+    AddBranch(&jetCISVV2_,"jetCISVV2");
+    AddBranch(&jetTCHP_,  "jetTCHP");
+    AddBranch(&jetTCHE_,  "jetTCHE");
+    AddBranch(&jetJP_,    "jetJP");
+    AddBranch(&jetJBP_,   "jetJBP");
+
     AddBranch(&PUJetID_,   "PUJetID");
     AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
     AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
@@ -445,8 +444,6 @@ jetTree::SetBranches(){
     AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
-
-
 
 }
 
