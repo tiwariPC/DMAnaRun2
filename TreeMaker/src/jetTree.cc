@@ -387,7 +387,7 @@ jetTree::SetBranches(){
   AddBranch(&genjetP4_,   "genjetP4");
   AddBranch(&unCorrJetP4_, "unCorrJetP4");
 
-  if(isTHINJet_){
+  if(isTHINJet_&& !isTHINdeepCSVJet_){
     AddBranch(&jetRho_, "jetRho");
     AddBranch(&jetNPV_, "jetNPV");
 
@@ -435,7 +435,8 @@ jetTree::SetBranches(){
     AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
-  if(isTHINdeepCSVJet_){
+  
+  if(isTHINdeepCSVJet_ && !isTHINJet_){
     AddBranch(&PUJetID_,   "PUJetID");
     AddBranch(&jetDeepCSV_b_,  "jetDeepCSV_b");
     AddBranch(&jetDeepCSV_c_,  "jetDeepCSV_c");
