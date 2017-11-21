@@ -388,8 +388,8 @@ jetTree::SetBranches(){
   AddBranch(&unCorrJetP4_, "unCorrJetP4");
   std::cout<<isTHINdeepCSVJet_<<"Debug point 1  "<<std::endl;
 
-  if(!isTHINJet_&& isTHINdeepCSVJet_){
-	std::cout<<isTHINdeepCSVJet_<<std::endl;
+  if(isTHINJet_&& !isTHINdeepCSVJet_){
+	std::cout<<isTHINdeepCSVJet_<<"Debug point 2"<<std::endl;
     AddBranch(&jetRho_, "jetRho");
     AddBranch(&jetNPV_, "jetNPV");
 
