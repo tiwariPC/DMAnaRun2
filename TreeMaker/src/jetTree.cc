@@ -48,7 +48,7 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
     isTHINJet_=true;
   if (desc.find("THINdeepCSV")!=std::string::npos)
     isTHINdeepCSVJet_=true;
-  std::cout << desc << std::endl;
+  std::cout << desc << "  "<<isTHINdeepCSVJet_<<std::endl;
   
   
   genjetP4_    = new TClonesArray("TLorentzVector");
