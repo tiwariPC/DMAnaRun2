@@ -387,7 +387,7 @@ jetTree::SetBranches(){
   AddBranch(&genjetP4_,   "genjetP4");
   AddBranch(&unCorrJetP4_, "unCorrJetP4");
 
-  if(isTHINJet_&& !isTHINdeepCSVJet_){
+  if(!isTHINJet_&& isTHINdeepCSVJet_){
     AddBranch(&jetRho_, "jetRho");
     AddBranch(&jetNPV_, "jetNPV");
 
