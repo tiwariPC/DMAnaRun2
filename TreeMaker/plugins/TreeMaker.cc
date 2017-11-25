@@ -174,7 +174,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
 
     if( filldeepCSVJetInfo_ )
     {
-      std::string desc             = "AK4THINdeepCSV";
+      std::string desc             = "AK4deepCSV";
       THINdeepCSVjetTree_                 = new jetTree(desc,tree_,iConfig);
       THINdeepCSVjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
       THINdeepCSVjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));

@@ -337,7 +337,7 @@ process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
 
 if options.useJECText:
 	process.tree.THINJets      = cms.InputTag("slimmedJets")
-	process.tree.AK4THINdeepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
+	process.tree.AK4deepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
 
 
 
