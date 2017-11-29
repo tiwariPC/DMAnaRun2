@@ -63,7 +63,8 @@ listEventsToSkip = []
 #print listEventsToSkip
 
 MCJEC='Summer16_23Sep2016V3_MC'
-DATAJEC='Summer16_07Aug2017'+options.period+'_V1_DATA'
+DATAJEC='Summer16_23Feb2017'+options.period+'V3_DATA'
+#DATAJEC='Summer16_07Aug2017'+options.period+'_V1_DATA'
 
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
