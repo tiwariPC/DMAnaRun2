@@ -334,7 +334,8 @@ process.tree.filterLabel           = cms.InputTag(filterlabel)
 process.tree.useJECText            = cms.bool(options.useJECText)
 process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
-
+process.tree.AK4deepCSVjecNames          = cms.vstring(AK4JECTextFiles)
+process.tree.AK4deepCSVjecUncName        = cms.string(AK4JECUncTextFile)
 
 if options.useJECText:
 	process.tree.THINJets      = cms.InputTag("slimmedJets")
