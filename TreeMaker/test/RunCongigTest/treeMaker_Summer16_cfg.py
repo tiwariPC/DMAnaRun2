@@ -30,7 +30,7 @@ options.register ('useMiniAOD',
 		  "useMiniAOD")
 
 options.register ('useJECText',
-		  True,
+		  False,
 		  VarParsing.multiplicity.singleton,
 		  VarParsing.varType.bool,
 		  "useJECText")
@@ -337,10 +337,11 @@ process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
 process.tree.AK4deepCSVjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.AK4deepCSVjecUncName        = cms.string(AK4JECUncTextFile)
 
-if options.useJECText:
-	process.tree.THINJets      = cms.InputTag("slimmedJets")
-	process.tree.AK4deepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
-
+#if options.useJECText:
+#	process.tree.THINJets      = cms.InputTag("slimmedJets")
+#	process.tree.AK4deepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
+process.tree.THINJets      = cms.InputTag("slimmedJets")
+process.tree.AK4deepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
 
 
 process.TFileService = cms.Service("TFileService",
@@ -402,5 +403,4 @@ else:
 		process.tree
 		)
 
-open('pydump.py','w').write(process.dumpPython())
 #print process.dumpPython()
