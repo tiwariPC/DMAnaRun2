@@ -46,7 +46,7 @@ patMetTree::Fill(const edm::Event& iEvent){
   patMetCorrPt_    = met->et();
   patMetCorrPhi_   = met->phi();
   patMetCorrSumEt_ = met->sumEt();
-  genMetCorrPt_    = met->genMET()->pt()
+  genMetCorrPt_    = met->et()
   
   patMetCorrSig_   = met->significance() < 1.e10 ? met->significance() : 0;
 
