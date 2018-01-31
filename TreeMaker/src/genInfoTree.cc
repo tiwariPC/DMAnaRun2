@@ -316,8 +316,8 @@ genInfoTree::Clear(){
   ptHat_                = DUMMY;
   mcWeight_             = DUMMY; 
   HT_                   = DUMMY;
-#  genMET_true_          = DUMMY;
-#  genMET_calo_          = DUMMY;  
+//  genMET_true_          = DUMMY;
+//  genMET_calo_          = DUMMY;  
   genMET_caloNonPrompt_ = DUMMY; 
   genMET_true_.clear();
   genMET_calo_.clear(); 
