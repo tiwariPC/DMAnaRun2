@@ -239,7 +239,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
   Handle<reco::GenMETCollection> metHandle_true;
   if(iEvent.getByToken(genMETToken_true, metHandle_true))
     genMET_true_ = metHandle_true.product()->begin()->pt();
-    genMET_ = metHandle_true.product()->begin()->pt();
+    genMET_.push_back(metHandle_true.product()->begin()->pt());
     
   Handle<reco::GenMETCollection> metHandle_calo;
   if(iEvent.getByToken(genMETToken_calo, metHandle_calo))
