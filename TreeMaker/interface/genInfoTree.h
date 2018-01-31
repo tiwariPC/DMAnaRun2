@@ -94,6 +94,7 @@ class genInfoTree : public baseTree{
   std::vector<int>   genDa1_;
   std::vector<int>   genDa2_;
   std::vector<int>   genStFlag_;
+  std::vector<float> genMET_;
 
 
   // save this informatio if saveGenJets is true
