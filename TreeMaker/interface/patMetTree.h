@@ -59,6 +59,7 @@ class patMetTree : public baseTree{
   float patMetCorrPhi_; 
   float patMetCorrSumEt_;
   float patMetCorrSig_;
+  float genMETCorrPt_;
   std::vector<float> patMetCorrUnc_;
 
   float patMetRawPt_;
