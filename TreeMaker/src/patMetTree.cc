@@ -46,7 +46,7 @@ patMetTree::Fill(const edm::Event& iEvent){
   patMetCorrPt_    = met->et();
   patMetCorrPhi_   = met->phi();
   patMetCorrSumEt_ = met->sumEt();
-  genMetCorrPt_    = met->et()
+  patgenMetPt_     = met->et()
   
   patMetCorrSig_   = met->significance() < 1.e10 ? met->significance() : 0;
 
@@ -110,7 +110,7 @@ void
 patMetTree::SetBranches(){
 
   AddBranch(&patMetCorrPt_, "MetCorrPt");
-  AddBranch(&genMetCorrPt_, "genMetCorrPt");
+  AddBranch(&patgenMetPt_, "genMetCorrPt");
   AddBranch(&patMetCorrPhi_, "MetCorrPhi"); 
   AddBranch(&patMetCorrSumEt_, "MetCorrSumEt");
   AddBranch(&patMetCorrSig_, "MetCorrSig");
@@ -143,7 +143,7 @@ patMetTree::Clear(){
 
   float dummy = -99999;
   patMetCorrPt_= dummy;
-  genMetCorrPt_ = dummy;
+  patgenMetPt_ = dummy;
   patMetCorrPhi_= dummy; 
   patMetCorrSumEt_= dummy;
   patMetCorrSig_= dummy;
