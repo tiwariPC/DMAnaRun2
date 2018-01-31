@@ -25,7 +25,10 @@ patMetTree::Fill(const edm::Event& iEvent){
   if(not iEvent.getByToken(pfMETToken,patMetHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
 	     <<"pfMet"<<std::endl; exit(0);}
-
+  edm::Handle mets;
+  iEvent.getByToken(genMetToken, mets);
+  const pat::MET &genmet = mets->front();
+  genMETCorrPt_    = met.genMET()->pt();
   // adding PUPPI MET
   edm::Handle<pat::METCollection> puppiMetHandle;
   if(not iEvent.getByToken(puppimetToken, puppiMetHandle)){
@@ -46,7 +49,7 @@ patMetTree::Fill(const edm::Event& iEvent){
   patMetCorrPt_    = met->et();
   patMetCorrPhi_   = met->phi();
   patMetCorrSumEt_ = met->sumEt();
-  genMETCorrPt_    = met->genMET()->pt();
+  
   patMetCorrSig_   = met->significance() < 1.e10 ? met->significance() : 0;
 
   
