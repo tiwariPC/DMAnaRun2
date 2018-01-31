@@ -175,7 +175,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
    						 jet->genJet()->p4().px(),
    						 jet->genJet()->p4().py(),
    						 jet->genJet()->p4().pz(),
-   						 jet->genJet()->p4().energy()
+   						 jet->genJet()->p4().energy(),
                          jet->genJet()->p4().pt()
    						 );
     
