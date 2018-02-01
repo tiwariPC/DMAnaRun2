@@ -239,8 +239,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
   Handle<reco::GenMETCollection> metHandle_true;
   if(iEvent.getByToken(genMETToken_true, metHandle_true))
     genMET_true_ = metHandle_true.product()->begin()->pt();
-  if(iEvent.getByToken(genMETToken, metHandle_true))
-    genMET_.push_back(metHandle_true.product()->begin()->pt());
+  std::cout<<genMET_true_<<std::endl;
     
   Handle<reco::GenMETCollection> metHandle_calo;
   if(iEvent.getByToken(genMETToken_calo, metHandle_calo))
@@ -277,7 +276,6 @@ void
 genInfoTree::SetBranches(){
 
   AddBranch(&genMET_true_,"genMET_true");
-  AddBranch(&genMET_,"genMET_");
   AddBranch(&genMET_calo_,"genMET_calo");
   AddBranch(&genMET_caloNonPrompt_,"genMET_caloNonPrompt");
   
@@ -323,7 +321,6 @@ genInfoTree::Clear(){
   genMET_calo_          = DUMMY;  
   genMET_caloNonPrompt_ = DUMMY; 
 
-  genMET_.clear();
   pdf_.clear();
   originalLHEweight_ = 1;
   pdfscaleSysWeights_.clear();

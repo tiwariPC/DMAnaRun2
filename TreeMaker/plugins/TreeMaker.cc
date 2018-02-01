@@ -101,7 +101,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       genInfoTree_->lheRunToken              = consumes<LHERunInfoProduct,edm::InRun>(edm::InputTag("externalLHEProducer"));
       genInfoTree_->lheEventToken            = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));
       genInfoTree_->genMETToken_true         = consumes<reco::GenMETCollection>(edm::InputTag("genMetTrue"));
-      genInfoTree_->genMETToken              = consumes<reco::GenMETCollection>(edm::InputTag("genMet"));
       genInfoTree_->genMETToken_calo         = consumes<reco::GenMETCollection>(edm::InputTag("genMetCalo"));
       genInfoTree_->genMETToken_caloNonPrompt = consumes<reco::GenMETCollection>(edm::InputTag("genMetCaloAndNonPrompt"));
       genInfoTree_->ak4genJetsToken           = consumes<reco::GenJetCollection>(edm::InputTag("ak4GenJets"));

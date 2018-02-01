@@ -54,7 +54,6 @@ class genInfoTree : public baseTree{
   edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;
 
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_true;
-  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken;
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_calo;
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_caloNonPrompt;
   edm::EDGetTokenT<reco::GenJetCollection>          ak4genJetsToken;
@@ -95,7 +94,6 @@ class genInfoTree : public baseTree{
   std::vector<int>   genDa1_;
   std::vector<int>   genDa2_;
   std::vector<int>   genStFlag_;
-  std::vector<float> genMET_;
 
 
   // save this informatio if saveGenJets is true
