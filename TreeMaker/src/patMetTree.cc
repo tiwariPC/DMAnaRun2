@@ -32,6 +32,12 @@ patMetTree::Fill(const edm::Event& iEvent){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
              <<"slimmedMETsPuppi"<<std::endl; exit(0);}
   //slimmedMETsPuppi
+  
+  //adding generator MET
+  edm::Handle<pat::PackedGenParticle> genMetHandle;
+  if(not iEvent.getByToken(genmetToken, genMetHandle)){
+    std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
+    <<"generatorMET"<<std::endl; exit(0);}
 
   auto metraw=patMetRawHandle.product()->begin();
   patMetRawPt_ = metraw->et();
@@ -103,6 +109,9 @@ patMetTree::Fill(const edm::Event& iEvent){
   //puppiMETUnc_.push_back(metpuppi->shiftedPt(pat::MET::JetResDownSmear));
   //puppiMETUnc_.push_back(metpuppi->shiftedPt(pat::MET::METFullUncertaintySize));
   
+  auto metgen   = genMetHandle.product()->begin()
+  genMETPt_    = metgen->et();
+  
 } 
 
 void 
@@ -133,6 +142,8 @@ patMetTree::SetBranches(){
   AddBranch(&puppiMETSumEt_,  "puppiMETSumEt");
   AddBranch(&puppiMETSig_,    "puppiMETSig");
   AddBranch(&puppiMETUnc_,    "puppiMETUnc");
+  
+  AddBranch(&genMETPt_,       "genMET");
 }
 
 
@@ -165,6 +176,9 @@ patMetTree::Clear(){
   puppiMETSumEt_  = dummy ;
   puppiMETSig_    = dummy ;
   puppiMETUnc_.clear();
+  
+  
+  genMETPt_   = dummy ;
 
 
 
