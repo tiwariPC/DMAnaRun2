@@ -38,6 +38,32 @@ patMetTree::Fill(const edm::Event& iEvent){
   if(not iEvent.getByToken(genmetToken, genMetHandle)){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
     <<"generatorMET"<<std::endl; exit(0);}
+    
+    TLorentzVector vV;
+    bool found_a0 = false;
+    std::vector<const reco::Candidate*> cands;
+    std::vector<std::vector<reco::GenParticle>::const_iterator> myParticles;
+    trueMET = -99.;
+    for( std::vector<pat::PackedGenParticle>::const_iterator it_gen = genMetHandle->begin(); it_gen != genMetHandle->end(); it_gen++ )    {
+        pat::PackedGenParticle gen = *it_gen;
+        //  std::cout<<" px = "<<gen.px()<<std::endl;
+      if (abs(gen.pdgId())==18){
+          if (!found_a0){
+              if (idm < 3){
+                  TLorentzVector tmp_;
+                  tmp_.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
+                  vV += tmp_;
+                  //vV.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
+                  std::cout<<" inside dm"<<gen.pt()
+                  <<" " <<gen.status()<<std::endl;
+              }
+             idm++;
+          }
+      }
+    }
+    genMETPt_ = vV.Pt();
+    std::cout<<" trueMET = "<<trueMET
+    	    	    <<std::endl;
 
   auto metraw=patMetRawHandle.product()->begin();
   patMetRawPt_ = metraw->et();
@@ -108,10 +134,6 @@ patMetTree::Fill(const edm::Event& iEvent){
   //puppiMETUnc_.push_back(metpuppi->shiftedPt(pat::MET::JetResUpSmear));
   //puppiMETUnc_.push_back(metpuppi->shiftedPt(pat::MET::JetResDownSmear));
   //puppiMETUnc_.push_back(metpuppi->shiftedPt(pat::MET::METFullUncertaintySize));
-  
-  auto metgen   = genMetHandle.product()->begin()
-  genMETPt_    = metgen->et();
-  
 } 
 
 void 
