@@ -34,7 +34,7 @@ patMetTree::Fill(const edm::Event& iEvent){
   //slimmedMETsPuppi
   
   //adding generator MET
-  edm::Handle<pat::PackedGenParticleCollectionCollection> genMETParticleHandle;
+  edm::Handle<pat::PackedGenParticleCollection> genMETParticleHandle;
   if(not iEvent.getByToken(genMETpTToken, genMETParticleHandle))
   {
       std::cout<<
