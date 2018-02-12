@@ -128,9 +128,9 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 
 # Input source
 if options.runOnMC:
-	testFile='/store/mc/RunIISummer16MiniAODv2/BulkGravTohhTohbbhbb_narrow_M-2000_13TeV-madgraph/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/70000/EC905616-A5B5-E611-A1CB-008CFA14FA64.root'
+	testFile='root://cms-xrd-global.cern.ch///store/mc/RunIISummer16MiniAODv2/BBbarDMJets_pseudo_NLO_Mchi-1_Mphi-50_TuneCUETP8M1_13TeV-madgraph-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/100000/0470A659-F1CF-E611-BA86-002590E7DFD6.root'
 else:
-	testFile='/store/data/Run2016G/JetHT/MINIAOD/03Feb2017-v1/100000/006E7AF2-AEEC-E611-A88D-7845C4FC3B00.root'
+	testFile='root://cms-xrd-global.cern.ch//store/data/Run2016G/JetHT/MINIAOD/03Feb2017-v1/100000/006E7AF2-AEEC-E611-A88D-7845C4FC3B00.root'
 
 
 process.source = cms.Source("PoolSource",
