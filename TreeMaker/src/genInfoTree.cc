@@ -250,8 +250,8 @@ genInfoTree::Fill(const edm::Event& iEvent)
     genMET_caloNonPrompt_ = metHandle_caloNonPrompt.product()->begin()->pt();
   
   //adding generator MET
-  edm::Handle<reco::GenParticleCollection> genParticleHandle;
-  if(not iEvent.getByToken(genMETpTToken, genParticleHandle))
+  edm::Handle<reco::GenParticleCollection> genMETParticleHandle;
+  if(not iEvent.getByToken(genMETpTToken, genMETParticleHandle))
   {
       std::cout<<
       	 "GenAnalyzer: Generator Level Information not found\n"
@@ -260,9 +260,9 @@ genInfoTree::Fill(const edm::Event& iEvent)
     
     TLorentzVector vV;
     bool found_a0 = false;
-    std::vector<const reco::Candidate*> cands;
-    std::vector<std::vector<reco::GenParticle>::const_iterator> myParticles;
-    for( std::vector<reco::GenParticle>::const_iterator it_gen = genParticleHandle->begin(); it_gen != genParticleHandle->end(); it_gen++ )    {
+    std::vector<std::vector<reco::GenParticle>::const_iterator> myMETParticles;
+    int idm = 0;
+    for( std::vector<reco::GenParticle>::const_iterator it_gen = genMETParticleHandle->begin(); it_gen != genMETParticleHandle->end(); it_gen++ )    {
         reco::GenParticle gen = *it_gen;
         //  std::cout<<" px = "<<gen.px()<<std::endl;
       if (abs(gen.pdgId())==18){
