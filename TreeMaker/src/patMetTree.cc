@@ -34,7 +34,7 @@ patMetTree::Fill(const edm::Event& iEvent){
   //slimmedMETsPuppi
   
   //adding generator MET
-  edm::Handle<pat::PackedGenParticle> genMETParticleHandle;
+  edm::Handle<pat::PackedGenParticleCollectionCollection> genMETParticleHandle;
   if(not iEvent.getByToken(genMETpTToken, genMETParticleHandle))
   {
       std::cout<<
@@ -45,9 +45,9 @@ patMetTree::Fill(const edm::Event& iEvent){
     TLorentzVector vV;
     bool found_a0 = false;
     std::vector<const pat::PackedCandidate*> cands;
-    std::vector<std::vector<pat::PackedGenParticle>::const_iterator> myMETParticles;
+    std::vector<std::vector<pat::PackedGenParticleCollection>::const_iterator> myMETParticles;
     int idm = 0;
-    for( std::vector<pat::PackedGenParticle>::const_iterator it_gen = genMETParticleHandle->begin(); it_gen != genMETParticleHandle->end(); it_gen++ )    {
+    for( std::vector<pat::PackedGenParticleCollection>::const_iterator it_gen = genMETParticleHandle->begin(); it_gen != genMETParticleHandle->end(); it_gen++ )    {
         reco::GenParticle gen = *it_gen;
         //  std::cout<<" px = "<<gen.px()<<std::endl;
       if (abs(gen.pdgId())==18){

@@ -26,6 +26,8 @@
 
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
 #include "DataFormats/METReco/interface/PFMETCollection.h"
 
@@ -48,7 +50,7 @@ class patMetTree : public baseTree{
   edm::EDGetTokenT<pat::METCollection>              pfMETToken;
   edm::EDGetTokenT<reco::PFMETCollection>           pfMVAMETToken;
   edm::EDGetTokenT<pat::METCollection>             puppimetToken;
-  edm::EDGetTokenT<pat::PackedGenParticle>         genMETpTToken;
+  edm::EDGetTokenT<pat::PackedGenParticleCollection>         genMETpTToken;
 
   
   
