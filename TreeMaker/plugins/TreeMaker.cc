@@ -69,7 +69,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patMetTree_->pfMETRawToken  = consumes<reco::PFMETCollection>(iConfig.getParameter<edm::InputTag>("pfMetRaw"));
       patMetTree_->pfMETToken     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("pfType1Met"));
       patMetTree_->puppimetToken  = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("puppiMET"));
-      patMetTree_->genmetToken     = consumes<pat::PackedGenParticle>(iConfig.getParameter<edm::InputTag>("genMET"));
+      patMetTree_->genParticleToken     = consumes<pat::PackedGenParticle>(iConfig.getParameter<edm::InputTag>("genParticles"));
       // patMetTree_->pfMVAMETToken  = consumes<reco::PFMETCollection>(iConfig.getParameter<edm::InputTag>("pfMVAMET"));                                                        
     }
 
@@ -98,6 +98,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
     {
       genInfoTree_                           = new genInfoTree("",tree_,iConfig);
       genInfoTree_->genParticleToken         = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genPartLabel"));
+      genInfoTree_->genMETpTToken         = consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticles"));
       genInfoTree_->genEventToken            = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
       genInfoTree_->lheRunToken              = consumes<LHERunInfoProduct,edm::InRun>(edm::InputTag("externalLHEProducer"));
       genInfoTree_->lheEventToken            = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));

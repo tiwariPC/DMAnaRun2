@@ -48,7 +48,6 @@ class patMetTree : public baseTree{
   edm::EDGetTokenT<pat::METCollection>              pfMETToken;
   edm::EDGetTokenT<reco::PFMETCollection>           pfMVAMETToken;
   edm::EDGetTokenT<pat::METCollection>             puppimetToken;
-  edm::EDGetTokenT<pat::PackedGenParticle>         genmetToken;
 
   
   
@@ -83,7 +82,6 @@ class patMetTree : public baseTree{
   float puppiMETSig_; 
   std::vector<float>  puppiMETUnc_; 
   
-  float genMETPt_;
   
 };
 
