@@ -1,4 +1,5 @@
 #include "DelPanj/TreeMaker/interface/patMetTree.h"
+#include "TLorentzVector.h"
 patMetTree::patMetTree(std::string name, TTree* tree):
   baseTree(name,tree)
 {
@@ -43,7 +44,6 @@ patMetTree::Fill(const edm::Event& iEvent){
   }
     
     TLorentzVector vV;
-    bool found_a0 = false;
     std::vector<const pat::PackedCandidate*> cands;
     std::vector<std::vector<pat::PackedGenParticleCollection>::const_iterator> myMETParticles;
     int idm = 0;
@@ -51,22 +51,15 @@ patMetTree::Fill(const edm::Event& iEvent){
         pat::PackedGenParticle gen = *it_gen;
         //  std::cout<<" px = "<<gen.px()<<std::endl;
       if (abs(gen.pdgId())==18){
-          if (!found_a0){
-              if (idm < 3){
-                  TLorentzVector tmp_;
-                  tmp_.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
-                  vV += tmp_;
-                  //vV.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
-                  std::cout<<" inside dm"<<gen.pt()
-                  <<" " <<gen.status()<<std::endl;
-            }
-             idm++;
-          }
-      }
+          TLorentzVector tmp_;
+          tmp_.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
+          vV += tmp_;
+          //vV.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
+          std::cout<<" inside dm"<<gen.pt()<<" " <<gen.status()<<std::endl;
+        }
     }
     genMETPt_ = vV.Pt();
-    std::cout<<" trueMET = "<<genMETPt_
-                    <<std::endl;
+    std::cout<<" trueMET = "<<genMETPt_<<std::endl;
 
   auto metraw=patMetRawHandle.product()->begin();
   patMetRawPt_ = metraw->et();
