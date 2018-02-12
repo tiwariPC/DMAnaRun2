@@ -48,7 +48,7 @@ class patMetTree : public baseTree{
   edm::EDGetTokenT<pat::METCollection>              pfMETToken;
   edm::EDGetTokenT<reco::PFMETCollection>           pfMVAMETToken;
   edm::EDGetTokenT<pat::METCollection>             puppimetToken;
-  edm::EDGetTokenT<pat::PackedGenParticleCollection>         genMETpTToken;
+  edm::EDGetTokenT<reco::PackedGenParticleCollection>         genMETpTToken;
 
   
   
