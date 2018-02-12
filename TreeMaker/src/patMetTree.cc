@@ -43,7 +43,6 @@ patMetTree::Fill(const edm::Event& iEvent){
     bool found_a0 = false;
     std::vector<const reco::Candidate*> cands;
     std::vector<std::vector<reco::GenParticle>::const_iterator> myParticles;
-    trueMET = -99.;
     for( std::vector<pat::PackedGenParticle>::const_iterator it_gen = genMetHandle->begin(); it_gen != genMetHandle->end(); it_gen++ )    {
         pat::PackedGenParticle gen = *it_gen;
         //  std::cout<<" px = "<<gen.px()<<std::endl;
@@ -56,13 +55,13 @@ patMetTree::Fill(const edm::Event& iEvent){
                   //vV.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
                   std::cout<<" inside dm"<<gen.pt()
                   <<" " <<gen.status()<<std::endl;
-              }
+            }
              idm++;
           }
       }
     }
     genMETPt_ = vV.Pt();
-    std::cout<<" trueMET = "<<trueMET
+    std::cout<<" trueMET = "<<genMETPt_
     	    	    <<std::endl;
 
   auto metraw=patMetRawHandle.product()->begin();
