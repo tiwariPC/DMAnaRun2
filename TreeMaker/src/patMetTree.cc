@@ -54,11 +54,11 @@ patMetTree::Fill(const edm::Event& iEvent){
           tmp_.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
           vV += tmp_;
           //vV.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
-          std::cout<<" inside dm"<<gen.pt()<<" " <<gen.status()<<std::endl;
+          //std::cout<<" inside dm  "<<gen.pt()<<" " <<gen.status()<<std::endl;
         }
     }
     genMETPt_ = vV.Pt();
-    std::cout<<" trueMET = "<<genMETPt_<<std::endl;
+    //std::cout<<" trueMET = "<<genMETPt_<<std::endl;
 
   auto metraw=patMetRawHandle.product()->begin();
   patMetRawPt_ = metraw->et();
