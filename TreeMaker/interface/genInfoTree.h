@@ -49,7 +49,6 @@ class genInfoTree : public baseTree{
   void Clear();
 
   edm::EDGetTokenT<reco::GenParticleCollection>     genParticleToken;
-  edm::EDGetTokenT<reco::GenParticleCollection>     genMETpTToken;
   edm::EDGetTokenT<GenEventInfoProduct>             genEventToken;
   edm::EDGetTokenT<LHERunInfoProduct>               lheRunToken;
   edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;
@@ -76,7 +75,7 @@ class genInfoTree : public baseTree{
   float genMET_true_; // added by Eiko
   float genMET_calo_;  // added by Eiko
   float genMET_caloNonPrompt_; // added by Eiko
-  float genMETPt_; //Added by Praveen
+  
 
   std::vector<float>       pdf_;
   float                    originalLHEweight_;

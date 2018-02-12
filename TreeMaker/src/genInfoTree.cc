@@ -248,40 +248,6 @@ genInfoTree::Fill(const edm::Event& iEvent)
   Handle<reco::GenMETCollection> metHandle_caloNonPrompt;
   if(iEvent.getByToken(genMETToken_caloNonPrompt, metHandle_caloNonPrompt))
     genMET_caloNonPrompt_ = metHandle_caloNonPrompt.product()->begin()->pt();
-  
-  //adding generator MET
-  edm::Handle<reco::GenParticleCollection> genMETParticleHandle;
-  if(not iEvent.getByToken(genMETpTToken, genMETParticleHandle))
-  {
-      std::cout<<
-      	 "GenAnalyzer: Generator Level Information not found\n"
-         <<std::endl;
-  }
-    
-    TLorentzVector vV;
-    bool found_a0 = false;
-    std::vector<std::vector<reco::GenParticle>::const_iterator> myMETParticles;
-    int idm = 0;
-    for( std::vector<reco::GenParticle>::const_iterator it_gen = genMETParticleHandle->begin(); it_gen != genMETParticleHandle->end(); it_gen++ )    {
-        reco::GenParticle gen = *it_gen;
-        //  std::cout<<" px = "<<gen.px()<<std::endl;
-      if (abs(gen.pdgId())==18){
-          if (!found_a0){
-              if (idm < 3){
-                  TLorentzVector tmp_;
-                  tmp_.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
-                  vV += tmp_;
-                  //vV.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
-                  std::cout<<" inside dm"<<gen.pt()
-                  <<" " <<gen.status()<<std::endl;
-            }
-             idm++;
-          }
-      }
-    }
-    genMETPt_ = vV.Pt();
-    std::cout<<" trueMET = "<<genMETPt_
-    	    	    <<std::endl;
 
 
   //ak4genjets
@@ -338,7 +304,6 @@ genInfoTree::SetBranches(){
   AddBranch(&genDa2_,"genDa2");
   AddBranch(&genStFlag_,"genStFlag");
   
-  AddBranch(&genMETPt_,       "genMET");
 
   AddBranch(&ak4nGenJet_,  "ak4nGenJet");
   AddBranch(&ak4GenJetP4_, "ak4GenJetP4");
@@ -356,7 +321,6 @@ genInfoTree::Clear(){
   genMET_calo_          = DUMMY;  
   genMET_caloNonPrompt_ = DUMMY; 
   
-  genMETPt_   = DUMMY ;
 
   pdf_.clear();
   originalLHEweight_ = 1;

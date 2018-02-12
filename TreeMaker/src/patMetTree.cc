@@ -32,6 +32,41 @@ patMetTree::Fill(const edm::Event& iEvent){
     std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
              <<"slimmedMETsPuppi"<<std::endl; exit(0);}
   //slimmedMETsPuppi
+  
+  //adding generator MET
+  edm::Handle<pat::PackedGenParticle> genMETParticleHandle;
+  if(not iEvent.getByToken(genMETpTToken, genMETParticleHandle))
+  {
+      std::cout<<
+      	 "GenAnalyzer: Generator Level Information not found\n"
+         <<std::endl;
+  }
+    
+    TLorentzVector vV;
+    bool found_a0 = false;
+    std::vector<const pat::PackedCandidate*> cands;
+    std::vector<std::vector<pat::PackedGenParticle>::const_iterator> myMETParticles;
+    int idm = 0;
+    for( std::vector<pat::PackedGenParticle>::const_iterator it_gen = genMETParticleHandle->begin(); it_gen != genMETParticleHandle->end(); it_gen++ )    {
+        reco::GenParticle gen = *it_gen;
+        //  std::cout<<" px = "<<gen.px()<<std::endl;
+      if (abs(gen.pdgId())==18){
+          if (!found_a0){
+              if (idm < 3){
+                  TLorentzVector tmp_;
+                  tmp_.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
+                  vV += tmp_;
+                  //vV.SetPxPyPzE(gen.px(), gen.py(), gen.pz(), gen.energy());
+                  std::cout<<" inside dm"<<gen.pt()
+                  <<" " <<gen.status()<<std::endl;
+            }
+             idm++;
+          }
+      }
+    }
+    genMETPt_ = vV.Pt();
+    std::cout<<" trueMET = "<<genMETPt_
+                    <<std::endl;
 
   auto metraw=patMetRawHandle.product()->begin();
   patMetRawPt_ = metraw->et();
@@ -133,6 +168,8 @@ patMetTree::SetBranches(){
   AddBranch(&puppiMETSig_,    "puppiMETSig");
   AddBranch(&puppiMETUnc_,    "puppiMETUnc");
   
+  AddBranch(&genMETPt_,       "genMET");
+  
 }
 
 
@@ -165,6 +202,8 @@ patMetTree::Clear(){
   puppiMETSumEt_  = dummy ;
   puppiMETSig_    = dummy ;
   puppiMETUnc_.clear();
+  
+  genMETPt_   = dummy;
 
 
 }
