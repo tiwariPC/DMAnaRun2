@@ -41,6 +41,7 @@ const math::XYZPoint & position(const reco::VertexCompositePtrCandidate & sv) {r
 jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(desc, tree),
   isTHINJet_(false),
+  isTHINdeepCSVJet_(false),
   isFATJet_(false),
   isADDJet_(false),
   isAK4PuppiJet_(false),
@@ -56,6 +57,8 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
   
   if (desc.find("THIN")!=std::string::npos)
     isTHINJet_=true;
+  if (desc.find("AK4deepCSV")!=std::string::npos)
+    isTHINdeepCSVJet_=true;
   if (desc.find("FAT")!=std::string::npos)
     isFATJet_=true;
   if (desc.find("ADD")!=std::string::npos)
@@ -386,7 +389,22 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       isPUJetIDTight_.push_back(
 				bool(jet->userInt("pileupJetId:fullId") & (1 << 0)));
     }
-        
+    if(isTHINdeepCSVJet_){
+      float jpumva=0.;
+      jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
+      //std::cout<<" jpumva = "<<jpumva<<std::endl;
+      PUJetID_.push_back(jpumva);
+
+      // float jpt = jet->pt();
+      // float jeta = jet->eta();
+
+      isPUJetIDLoose_.push_back(
+				bool(jet->userInt("pileupJetId:fullId") & (1 << 2)));
+      isPUJetIDMedium_.push_back(
+				 bool(jet->userInt("pileupJetId:fullId") & (1 << 1)));
+      isPUJetIDTight_.push_back(
+				bool(jet->userInt("pileupJetId:fullId") & (1 << 0)));
+    }
     jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
     jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
     jetPhoEF_.push_back(jet->photonEnergyFraction());
@@ -434,8 +452,10 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
     jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));
-    jetDeepCSV_.push_back(jet->bDiscriminator("deepFlavourJetTags:probb"));
-    jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));      
+    jetDeepCSV_b_.push_back((jet->bDiscriminator("TESTdeepFlavourJetTags:probb"))+(jet->bDiscriminator("TESTdeepFlavourJetTags:probbb")));
+    jetDeepCSV_c_.push_back((jet->bDiscriminator("TESTdeepFlavourJetTags:probc"))+(jet->bDiscriminator("TESTdeepFlavourJetTags:probcc")));
+    jetDeepCSV_light_.push_back(jet->bDiscriminator("TESTdeepFlavourJetTags:probudsg"));
+    jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
     jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
     jetTCHE_.push_back(jet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
@@ -991,6 +1011,22 @@ jetTree::SetBranches(){
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
 
+  if(isTHINdeepCSVJet_ && !isTHINJet_){
+    AddBranch(&jetNPV_, "jetNPV");
+    AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
+    AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
+    AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
+    AddBranch(&jetPassIDTight_,  "jetPassIDTight");
+    AddBranch(&jetCHadEF_, "jetCHadEF");
+    AddBranch(&jetNHadEF_, "jetNHadEF");
+    AddBranch(&PUJetID_,   "PUJetID");
+    AddBranch(&jetDeepCSV_b_,  "jetDeepCSV_b");
+    AddBranch(&jetDeepCSV_c_,  "jetDeepCSV_c");
+    AddBranch(&jetDeepCSV_light_,  "jetDeepCSV_light");
+    AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
+    AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
+    AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
+  }
   if(isFATJet_ || isAK8PuppiJet_ || isCA15PuppiJet_){
 
     AddBranch(&jetTau1_,  "jetTau1");
@@ -1048,7 +1084,7 @@ jetTree::SetBranches(){
 
   }
   
-  if(!isTHINJet_ && !isAK4PuppiJet_)
+  if(!isTHINJet_ && !isAK4PuppiJet_ && !isTHINdeepCSVJet_)
     {
 
       AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
@@ -1126,7 +1162,9 @@ jetTree::Clear(){
   // btag information
   jetSSV_.clear();
   jetCSV_.clear();
-  jetDeepCSV_.clear();
+  jetDeepCSV_b_.clear();
+  jetDeepCSV_c_.clear();
+  jetDeepCSV_light_.clear();
   jetSSVHE_.clear();
   jetCISVV2_.clear();
   jetTCHP_.clear();
