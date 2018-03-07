@@ -557,11 +557,11 @@ process.tree.fillCA15PuppiJetInfo  = cms.bool(True)
 
 
 if options.useJECText:
-	process.tree.THINJets      = cms.InputTag("slimmedJets")
+    process.tree.THINJets      = cms.InputTag("slimmedJets")
     process.tree.AK4deepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
-	process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
-	process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
-	process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
+    process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
+    process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
+    process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
 
 
 
