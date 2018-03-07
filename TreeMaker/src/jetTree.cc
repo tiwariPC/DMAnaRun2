@@ -1005,21 +1005,12 @@ jetTree::SetBranches(){
 
   if(isTHINJet_){
     AddBranch(&PUJetID_,   "PUJetID");
-    AddBranch(&jetDeepCSV_,  "jetDeepCSV");
     AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
     AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
 
-  if(isTHINdeepCSVJet_ && !isTHINJet_){
-    AddBranch(&jetNPV_, "jetNPV");
-    AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
-    AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
-    AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
-    AddBranch(&jetPassIDTight_,  "jetPassIDTight");
-    AddBranch(&jetCHadEF_, "jetCHadEF");
-    AddBranch(&jetNHadEF_, "jetNHadEF");
-    AddBranch(&PUJetID_,   "PUJetID");
+  if(isTHINdeepCSVJet_){
     AddBranch(&jetDeepCSV_b_,  "jetDeepCSV_b");
     AddBranch(&jetDeepCSV_c_,  "jetDeepCSV_c");
     AddBranch(&jetDeepCSV_light_,  "jetDeepCSV_light");

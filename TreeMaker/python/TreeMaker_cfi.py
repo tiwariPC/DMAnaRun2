@@ -14,7 +14,8 @@ tree = cms.EDAnalyzer(
     fillTauInfo      = cms.bool(True),
     fillPhotInfo     = cms.bool(True),
 
-    fillJetInfo      = cms.bool(True), 
+    fillJetInfo      = cms.bool(True),
+    filldeepCSVJetInfo  = cms.bool(True),
     fillFATJetInfo   = cms.bool(True), 
     fillAddJetInfo   = cms.bool(False),
     fillAK4PuppiJetInfo = cms.bool(False),
@@ -101,6 +102,15 @@ tree = cms.EDAnalyzer(
     THINjecUncName   = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt'),
     THINjecUncPayLoad= cms.string('AK4PFchs'),
     # jec still need to be checked 
+    
+    AK4deepCSVJets         = cms.InputTag("selectedUpdatedPat"),
+    AK4deepCSVjecNames     = cms.vstring(
+        'Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt',
+        'Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt',
+        'Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt'
+        ),
+    AK4deepCSVjecUncName   = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt'),
+    AK4deepCSVjecUncPayLoad= cms.string('AK4PFchs'),
     
     ### FatJets  
 #    FATJets=cms.InputTag("slimmedJetsAK8"),

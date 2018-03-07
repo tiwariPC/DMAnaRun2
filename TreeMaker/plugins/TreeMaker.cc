@@ -31,6 +31,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillTauInfo_     =false;
   fillPhotInfo_    =false; 
   fillJetInfo_     =false;
+  filldeepCSVJetInfo_ =false;
   fillFATJetInfo_  =false;
   fillAddJetInfo_  =false;
   fillAK4PuppiJetInfo_ = false;
@@ -48,6 +49,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillTauInfo_      = iConfig.getParameter<bool>("fillTauInfo");
   fillPhotInfo_     = iConfig.getParameter<bool>("fillPhotInfo");
   fillJetInfo_      = iConfig.getParameter<bool>("fillJetInfo");
+  filldeepCSVJetInfo_      = iConfig.getParameter<bool>("filldeepCSVJetInfo");
   fillFATJetInfo_   = iConfig.getParameter<bool>("fillFATJetInfo"); 
   fillAddJetInfo_   = iConfig.getParameter<bool>("fillAddJetInfo");
   fillAK4PuppiJetInfo_   = iConfig.getParameter<bool>("fillAK4PuppiJetInfo");
@@ -183,6 +185,15 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       THINjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
     }
 
+  if( filldeepCSVJetInfo_ )
+    {
+      std::string desc             = "AK4deepCSV";
+      THINdeepCSVjetTree_                 = new jetTree(desc,tree_,iConfig);
+      THINdeepCSVjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
+      THINdeepCSVjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
+      THINdeepCSVjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
+    }
+
   if( fillFATJetInfo_ )
     {
       std::string desc            = "FAT";
@@ -258,6 +269,7 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
   if( fillFATJetInfo_ )   FATjetTree_    ->Fill(iEvent, iSetup);
   if( fillJetInfo_ )      THINjetTree_   ->Fill(iEvent, iSetup);
+  if( filldeepCSVJetInfo_ )      THINdeepCSVjetTree_   ->Fill(iEvent, iSetup);
   if( fillAddJetInfo_ )   ADDjetTree_    ->Fill(iEvent, iSetup);  
   if( fillAK4PuppiJetInfo_ ) AK4PuppijetTree_->Fill(iEvent, iSetup); 
   if( fillAK8PuppiJetInfo_ ) AK8PuppijetTree_->Fill(iEvent, iSetup); 

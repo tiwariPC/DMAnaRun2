@@ -57,6 +57,7 @@ class TreeMaker : public edm::EDAnalyzer {
 
 
       bool fillJetInfo_;
+      bool filldeepCSVJetInfo_;
       bool fillFATJetInfo_;
       bool fillAddJetInfo_; 
       bool fillAK4PuppiJetInfo_;
@@ -79,6 +80,7 @@ class TreeMaker : public edm::EDAnalyzer {
 
 
       jetTree     *THINjetTree_;
+      jetTree     *THINdeepCSVjetTree_;
       jetTree     *FATjetTree_;
       jetTree     *ADDjetTree_;     
       jetTree     *AK4PuppijetTree_;     
