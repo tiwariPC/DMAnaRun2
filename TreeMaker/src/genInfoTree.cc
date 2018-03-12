@@ -269,7 +269,7 @@ genInfoTree::Fill(const edm::Event& iEvent)
          <<std::endl;
   }
     TLorentzVector vV;
-    std::vector<const pat::PackedCandidate*> cands;
+    std::vector<const pat::PackedCandidate*> candis;
     std::vector<std::vector<pat::PackedGenParticle>::const_iterator> myMETParticles;
     for( std::vector<pat::PackedGenParticle>::const_iterator it_gen = genMETParticleHandle->begin(); it_gen != genMETParticleHandle->end(); it_gen++ )    {
         pat::PackedGenParticle gen = *it_gen;
