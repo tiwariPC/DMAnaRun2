@@ -23,6 +23,8 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/JetReco/interface/GenJet.h"
 #include "DataFormats/JetReco/interface/GenJetCollection.h"
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
 
@@ -60,16 +62,16 @@ class genInfoTree : public baseTree{
   void Fill(const edm::Event& iEvent);
   void Clear();
 
-  edm::EDGetTokenT<reco::GenParticleCollection>     genParticleToken;
-  edm::EDGetTokenT<GenEventInfoProduct>             genEventToken;
-  edm::EDGetTokenT<LHERunInfoProduct>               lheRunToken;
-  edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;
+  edm::EDGetTokenT<reco::GenParticleCollection>               genParticleToken;
+  edm::EDGetTokenT<GenEventInfoProduct>                       genEventToken;
+  edm::EDGetTokenT<LHERunInfoProduct>                         lheRunToken;
+  edm::EDGetTokenT<LHEEventProduct>                           lheEventToken;
 
-  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_true;
-  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_calo;
-  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_caloNonPrompt;
-  edm::EDGetTokenT<reco::GenJetCollection>          ak4genJetsToken;
-  edm::EDGetTokenT<reco::GenJetCollection>          ak8genJetsToken;
+  edm::EDGetTokenT<pat::PackedGenParticleCollection>          genMETToken_true;
+  edm::EDGetTokenT<reco::GenMETCollection>                    genMETToken_calo;
+  edm::EDGetTokenT<reco::GenMETCollection>                    genMETToken_caloNonPrompt;
+  edm::EDGetTokenT<reco::GenJetCollection>                    ak4genJetsToken;
+  edm::EDGetTokenT<reco::GenJetCollection>                    ak8genJetsToken;
 
   unsigned int MAXNGENPAR_;
   bool applyStatusSelection_;  // keep only particles with status code <=30
@@ -128,16 +130,16 @@ class genInfoTree : public baseTree{
   int ak8nGenJet_;
   TClonesArray       *ak8GenJetP4_;
   /// genjet substructure, added by Eiko
-  std::vector<float> ak8GenJetMSD_;        //softdropped jet mass 
+  std::vector<float> ak8GenJetMSD_;        //softdropped jet mass
   std::vector<float> ak8GenJetSDSJdR_;     //softdrop subjet deltaR
   std::vector<float> ak8GenJetSDSJSymm_;   //softdrop subjet pt symmetry
-  std::vector<float> ak8GenJetSDMassDrop_; //softdrop mass drop 
+  std::vector<float> ak8GenJetSDMassDrop_; //softdrop mass drop
   std::vector<float> ak8GenJettau1_;
   std::vector<float> ak8GenJettau2_;
   std::vector<float> ak8GenJettau3_;
 
 
-  
+
 };
 
 #endif
