@@ -23,6 +23,8 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/JetReco/interface/GenJet.h"
 #include "DataFormats/JetReco/interface/GenJetCollection.h"
+#include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
 
@@ -52,7 +54,7 @@ class genInfoTree : public baseTree{
   edm::EDGetTokenT<LHERunInfoProduct>               lheRunToken;
   edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;
 
-  edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_true;
+  edm::EDGetTokenT<reco::PackedGenParticleCollection>          genMETToken_true;
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_calo;
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_caloNonPrompt;
   edm::EDGetTokenT<reco::GenJetCollection>          ak4genJetsToken;
@@ -102,7 +104,7 @@ class genInfoTree : public baseTree{
   int ak8nGenJet_;
   TClonesArray       *ak8GenJetP4_;
 
-  
+
 };
 
 #endif
