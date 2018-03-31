@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
-## removed cleaning from Exo VV package 
-## 
+## removed cleaning from Exo VV package
+##
 
 process = cms.Process('NCUANA')
 process.options = cms.untracked.PSet(wantSummary = cms.untracked.bool(True))
@@ -102,7 +102,7 @@ process.maxEvents = cms.untracked.PSet(
 ##___________________________HCAL_Noise_Filter________________________________||
 process.load('CommonTools.RecoAlgos.HBHENoiseFilterResultProducer_cfi')
 process.HBHENoiseFilterResultProducer.minZeros = cms.int32(99999)
-process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False) 
+process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(False)
 #process.HBHENoiseFilterResultProducer.defaultDecision = cms.string("HBHENoiseFilterResultRun2Loose")
 '''
 ##process.ApplyBaselineHBHENoiseFilter = cms.EDFilter('BooleanFlagFilter',
@@ -127,13 +127,13 @@ else:
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
                             fileNames = cms.untracked.vstring(testFile),
-			    #skipEvents = cms.untracked.uint32(0)         
+			    #skipEvents = cms.untracked.uint32(0)
                             )
 
 
 
 
-## skip the events 
+## skip the events
 ## using the MET tails events
 if options.runOnMC:
     print "No events to skip"
@@ -149,7 +149,7 @@ else:
 from RecoMET.METProducers.PFMET_cfi import pfMet
 process.pfMet = pfMet.clone(src = "packedPFCandidates")
 process.pfMet.calculateSignificance = False # this can't be easily implemented on packed PF candidates at the moment
-## Uncorrected MET edns here 
+## Uncorrected MET edns here
 ##
 
 
@@ -184,6 +184,10 @@ bTagDiscriminators = [
     ,'softPFElectronBJetTags'
     ,'positiveSoftPFElectronBJetTags'
     ,'negativeSoftPFElectronBJetTags'
+	,'pfDeepCSVJetTags:probb'
+	,'pfDeepCSVJetTags:probc'
+	,'pfDeepCSVJetTags:probudsg'
+	,'pfDeepCSVJetTags:probbb'
 ]
 
 ## Jet energy corrections
@@ -211,7 +215,7 @@ if options.runOnMC:
 		MCJEC+'_L2Relative_AK8PFchs.txt',
 		MCJEC+'_L3Absolute_AK8PFchs.txt'
 		]
-	AK8JECUncTextFile = MCJEC+'_Uncertainty_AK8PFchs.txt'  
+	AK8JECUncTextFile = MCJEC+'_Uncertainty_AK8PFchs.txt'
 	prunedMassJECTextFiles = [
 		MCJEC+'_L2Relative_AK8PFchs.txt',
 		MCJEC+'_L3Absolute_AK8PFchs.txt'
@@ -221,13 +225,13 @@ if options.runOnMC:
 		MCJEC+'_L2Relative_AK4PFPuppi.txt',
 		MCJEC+'_L3Absolute_AK4PFPuppi.txt'
 		]
-	AK4PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK4PFPuppi.txt'  
+	AK4PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK4PFPuppi.txt'
 
 	AK8PuppiJECTextFiles = [
 		MCJEC+'_L2Relative_AK8PFPuppi.txt',
 		MCJEC+'_L3Absolute_AK8PFPuppi.txt'
 		]
-	AK8PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK8PFPuppi.txt'  
+	AK8PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK8PFPuppi.txt'
 else:
         jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
@@ -301,21 +305,21 @@ from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
 
 
 ### CA15Puppi
-jetToolbox( process, 'ca15', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
+jetToolbox( process, 'ca15', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC,
 	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexCA15BJetTags'])),
-	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi, 
-	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi, 
+	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi,
+	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi,
 	    Cut='pt>120',
 	    addSoftDrop=True,addSoftDropSubjets=True, betaCut=1.0, zCutSD=0.15,
-	    addNsub=True ) 
+	    addNsub=True )
 
 ### AK8Puppi
-#jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC, 
+#jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC,
 #	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
-#	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi, 
-#	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi, 
+#	    JETCorrPayload='AK8PFPuppi',JETCorrLevels=jetCorrectionLevelsPuppi,
+#	    subJETCorrPayload='AK4PFPuppi',subJETCorrLevels=jetCorrectionLevelsPuppi,
 #	    Cut='pt>170',
-#	    addSoftDrop=True,addSoftDropSubjets=True,addNsub=True ) 
+#	    addSoftDrop=True,addSoftDropSubjets=True,addNsub=True )
 
 
 ###end of add jet collection
@@ -330,7 +334,7 @@ if options.useMiniAOD:
 	dataFormat = DataFormat.MiniAOD
 else :
 	dataFormat = DataFormat.AOD
-    
+
 switchOnVIDElectronIdProducer(process, dataFormat)
 switchOnVIDPhotonIdProducer(process, dataFormat)
 # define which IDs we want to produce
@@ -449,8 +453,8 @@ if options.useJECText:
 
 
 process.TFileService = cms.Service("TFileService",
-				   fileName = cms.string("NCUGlobalTuples.root")          
-       
+				   fileName = cms.string("NCUGlobalTuples.root")
+
 				   )
 
 
@@ -481,7 +485,7 @@ if not options.useJECText:
 	process.analysis = cms.Path(
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
-		process.egmPhotonIDSequence+ 
+		process.egmPhotonIDSequence+
 		process.pfMet+
 		process.jetCorrSequenceAK4+
 		process.jetCorrSequenceAK8+
@@ -489,7 +493,7 @@ if not options.useJECText:
 		process.jetCorrSequenceForPrunedMass+
 		process.BadPFMuonFilter +
 		process.BadChargedCandidateFilter +
-		process.badGlobalMuonTaggerMAOD + 
+		process.badGlobalMuonTaggerMAOD +
 		process.cloneGlobalMuonTaggerMAOD +
 		#process.HBHENoiseFilterResultProducer+ ## by raman
 		process.tree
@@ -498,11 +502,11 @@ else:
 	process.analysis = cms.Path(
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
-		process.egmPhotonIDSequence+ 
+		process.egmPhotonIDSequence+
 		process.pfMet+
 		process.BadPFMuonFilter+
 		process.BadChargedCandidateFilter+
-		process.badGlobalMuonTaggerMAOD+ 
+		process.badGlobalMuonTaggerMAOD+
 		process.cloneGlobalMuonTaggerMAOD+
 		process.tree
 		)
