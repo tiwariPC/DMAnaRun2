@@ -54,7 +54,7 @@ class genInfoTree : public baseTree{
   edm::EDGetTokenT<LHERunInfoProduct>               lheRunToken;
   edm::EDGetTokenT<LHEEventProduct>                 lheEventToken;
 
-  edm::EDGetTokenT<reco::PackedGenParticleCollection>          genMETToken_true;
+  edm::EDGetTokenT<pat::PackedGenParticleCollection>          genMETToken_true;
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_calo;
   edm::EDGetTokenT<reco::GenMETCollection>          genMETToken_caloNonPrompt;
   edm::EDGetTokenT<reco::GenJetCollection>          ak4genJetsToken;
