@@ -82,9 +82,9 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 # Other statements
 if options.runOnMC:
 ### Needs to be updated
-	process.GlobalTag.globaltag='90X_upgrade2017_realistic_v20'
+	process.GlobalTag.globaltag=' 94X_mc2017_realistic_v12'
 else:## Data no global tag yet
-        process.GlobalTag.globaltag='92X_dataRun2_Prompt_v4'
+        process.GlobalTag.globaltag='94X_dataRun2_ReReco_EOY17_v2'
 
 
 
@@ -184,15 +184,16 @@ bTagDiscriminators = [
     ,'softPFElectronBJetTags'
     ,'positiveSoftPFElectronBJetTags'
     ,'negativeSoftPFElectronBJetTags'
-	,'pfDeepCSVJetTags:probb'
-	,'pfDeepCSVJetTags:probc'
-	,'pfDeepCSVJetTags:probudsg'
-	,'pfDeepCSVJetTags:probbb'
+    ,'pfDeepCSVJetTags:probb'
+    ,'pfDeepCSVJetTags:probc'
+    ,'pfDeepCSVJetTags:probudsg'
+    ,'pfDeepCSVJetTags:probbb'
 ]
 
 ## Jet energy corrections
 
 ## For jet energy correction
+'''
 if options.runOnMC:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
@@ -274,7 +275,7 @@ else:
 		DATAJEC+'_L2L3Residual_AK8PFPuppi.txt'
 		]
 	AK8PuppiJECUncTextFile = DATAJEC+'_Uncertainty_AK8PFPuppi.txt'
-
+'''
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
 
@@ -429,6 +430,7 @@ process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsRe
 
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
+'''
 process.tree.useJECText            = cms.bool(options.useJECText)
 process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
@@ -443,21 +445,22 @@ process.tree.CA15PuppijecNames     = cms.vstring(AK8PuppiJECTextFiles)
 process.tree.CA15PuppijecUncName   = cms.string(AK8PuppiJECUncTextFile)
 process.tree.fillCA15PuppiJetInfo  = cms.bool(True)
 
-
 if options.useJECText:
 	process.tree.THINJets      = cms.InputTag("slimmedJets")
 	process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
 	process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
 	process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
-
+'''
+process.tree.THINJets      = cms.InputTag("slimmedJets")
+process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
+process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
+process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
 
 
 process.TFileService = cms.Service("TFileService",
 				   fileName = cms.string("NCUGlobalTuples.root")
 
 				   )
-
-
 
 ## New MET Filters
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')

@@ -9,12 +9,12 @@ tree = cms.EDAnalyzer(
 
     fillGenInfo      = cms.bool(True),
 
-    fillElecInfo     = cms.bool(True), 
+    fillElecInfo     = cms.bool(True),
     fillMuonInfo     = cms.bool(True),
     fillTauInfo      = cms.bool(True),
     fillPhotInfo     = cms.bool(True),
 
-    fillJetInfo      = cms.bool(True), 
+    fillJetInfo      = cms.bool(True),
     fillFATJetInfo   = cms.bool(True), ## Default is now AK8Puppi
     fillAK4PuppiJetInfo = cms.bool(False),
     fillAK8PuppiJetInfo = cms.bool(False), ## Only if we need to recluster
@@ -28,7 +28,7 @@ tree = cms.EDAnalyzer(
     pfType1Met       = cms.InputTag("slimmedMETs"),
     pfMVAMET         = cms.InputTag("slimmedMETs"),
     puppiMET         = cms.InputTag("slimmedMETsPuppi"),
-    
+
     ## filter
 
     triggerLabel     = cms.InputTag("TriggerResults::HLT"),
@@ -43,8 +43,8 @@ tree = cms.EDAnalyzer(
     saveLHEWeights       = cms.bool(False),
     saveGenJets          = cms.bool(False),
 ##### when applyPromptSelection is True
-#    maxNumGenPar  =  cms.uint32(60), 
-    
+#    maxNumGenPar  =  cms.uint32(60),
+
     ## For electron and muon
     r_iso_min    = cms.double(0.05),
     r_iso_max    = cms.double(0.2),
@@ -68,40 +68,42 @@ tree = cms.EDAnalyzer(
     # ValueMaps with MVA results
     #
     mvaValuesMap     = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
-    mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Categories"),    
+    mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Categories"),
 
     muoLabel     = cms.InputTag("slimmedMuons"),
     tauLabel     = cms.untracked.InputTag("slimmedTaus"),
 
     ## Photons
     photonLabel  = cms.InputTag("slimmedPhotons"),
-    
+
     phoLooseIdMap        = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-loose"),
     phoMediumIdMap       = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-medium"),
     phoTightIdMap        = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-tight"),
     phoMVAValuesMapToken = cms.InputTag("photonMVAValueMapProducer:PhotonMVAEstimatorRun2Spring16NonTrigV1Values"),
-    
+
     phoChargedIsolationToken       = cms.InputTag("photonIDValueMapProducer:phoChargedIsolation"),
     phoNeutralHadronIsolationToken = cms.InputTag("photonIDValueMapProducer:phoNeutralHadronIsolation"),
     phoPhotonIsolationToken        = cms.InputTag("photonIDValueMapProducer:phoPhotonIsolation"),
     ## AllJet
     useJECText = cms.bool(False),
-    
     ### THINJet
 #    THINJets=cms.InputTag("slimmedJets"),
     THINJets         = cms.InputTag("patJetsReapplyJECAK4"),
+    '''
     THINjecNames     = cms.vstring(
         'Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt',
         'Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt',
         'Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt'
         ),
     THINjecUncName   = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt'),
+    '''
     THINjecUncPayLoad= cms.string('AK4PFchs'),
-    # jec still need to be checked 
-    
-    ### FatJets  
+    # jec still need to be checked
+
+    ### FatJets
 #    FATJets=cms.InputTag("slimmedJetsAK8"),
     FATJets              = cms.InputTag("patJetsReapplyJECAK8"),
+'''
     FATJetsForPrunedMass = cms.InputTag("patJetsReapplyJECForPrunedMass"),
     FATprunedMassJecNames= cms.vstring(
         'Summer16_23Sep2016V3_MC_L2Relative_AK8PFchs.txt',
@@ -113,37 +115,44 @@ tree = cms.EDAnalyzer(
         'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFPuppi.txt'
         ),
     FATjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFPuppi.txt'),
+'''
     FATjecUncPayLoad     = cms.string('AK8PFPuppi'), ## Uncertainty does not exist yet
 
-    svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),    
+    svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),
 
 
 #    AK4PuppiJets=cms.InputTag("slimmedJetsPuppi"),
     AK4PuppiJets              = cms.InputTag("patJetsReapplyJECAK4Puppi"),
+'''
     AK4PuppijecNames          = cms.vstring(
         'Summer16_23Sep2016V3_MC_L2Relative_AK4PFPuppi.txt',
         'Summer16_23Sep2016V3_MC_L3Absolute_AK4PFPuppi.txt'
         ),
     AK4PuppijecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFPuppi.txt'),
+'''
     AK4PuppijecUncPayLoad     = cms.string('AK4PFPuppi'),
 
     ### AK8PuppiJets
     AK8PuppiJets              = cms.InputTag("packedPatJetsAK8PFPuppiSoftDrop"),
+'''
     AK8PuppijecNames          = cms.vstring(
         'Summer16_23Sep2016V3_MC_L2Relative_AK8PFPuppi.txt',
         'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFPuppi.txt'
         ),
     AK8PuppijecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFPuppi.txt'),
-    AK8PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),    
+'''
+    AK8PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),
 
     ### CA15PuppiJets
     CA15PuppiJets              = cms.InputTag("packedPatJetsCA15PFPuppiSoftDrop"),
+'''
     CA15PuppijecNames          = cms.vstring(
         'Summer16_23Sep2016V3_MC_L2Relative_AK8PFPuppi.txt',
         'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFPuppi.txt'
         ),
     CA15PuppijecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFPuppi.txt'),
-    CA15PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),    
+'''
+    CA15PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),
 
     outFileName=cms.string('outputFileName.root')
 
