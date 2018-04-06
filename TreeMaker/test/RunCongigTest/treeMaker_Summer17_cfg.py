@@ -184,16 +184,15 @@ bTagDiscriminators = [
     ,'softPFElectronBJetTags'
     ,'positiveSoftPFElectronBJetTags'
     ,'negativeSoftPFElectronBJetTags'
-    ,'pfDeepCSVJetTags:probb'
-    ,'pfDeepCSVJetTags:probc'
-    ,'pfDeepCSVJetTags:probudsg'
-    ,'pfDeepCSVJetTags:probbb'
+	,'pfDeepCSVJetTags:probb'
+	,'pfDeepCSVJetTags:probc'
+	,'pfDeepCSVJetTags:probudsg'
+	,'pfDeepCSVJetTags:probbb'
 ]
 
 ## Jet energy corrections
 
 ## For jet energy correction
-
 if options.runOnMC:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
@@ -204,6 +203,35 @@ if options.runOnMC:
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
 	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute']
 
+	AK4JECTextFiles = [
+		MCJEC+'_L1FastJet_AK4PFchs.txt',
+		MCJEC+'_L2Relative_AK4PFchs.txt',
+		MCJEC+'_L3Absolute_AK4PFchs.txt'
+		]
+	AK4JECUncTextFile = MCJEC+'_Uncertainty_AK4PFchs.txt'
+
+	AK8JECTextFiles = [
+		MCJEC+'_L1FastJet_AK8PFchs.txt',
+		MCJEC+'_L2Relative_AK8PFchs.txt',
+		MCJEC+'_L3Absolute_AK8PFchs.txt'
+		]
+	AK8JECUncTextFile = MCJEC+'_Uncertainty_AK8PFchs.txt'
+	prunedMassJECTextFiles = [
+		MCJEC+'_L2Relative_AK8PFchs.txt',
+		MCJEC+'_L3Absolute_AK8PFchs.txt'
+		]
+
+	AK4PuppiJECTextFiles = [
+		MCJEC+'_L2Relative_AK4PFPuppi.txt',
+		MCJEC+'_L3Absolute_AK4PFPuppi.txt'
+		]
+	AK4PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK4PFPuppi.txt'
+
+	AK8PuppiJECTextFiles = [
+		MCJEC+'_L2Relative_AK8PFPuppi.txt',
+		MCJEC+'_L3Absolute_AK8PFPuppi.txt'
+		]
+	AK8PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK8PFPuppi.txt'
 else:
         jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
@@ -213,6 +241,39 @@ else:
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute','L2L3Residual']
+	AK4JECTextFiles = [
+		DATAJEC+'_L1FastJet_AK4PFchs.txt',
+		DATAJEC+'_L2Relative_AK4PFchs.txt',
+		DATAJEC+'_L3Absolute_AK4PFchs.txt',
+		DATAJEC+'_L2L3Residual_AK4PFchs.txt'
+		]
+	AK4JECUncTextFile = DATAJEC+'_Uncertainty_AK4PFchs.txt'
+	AK8JECTextFiles = [
+		DATAJEC+'_L1FastJet_AK8PFchs.txt',
+		DATAJEC+'_L2Relative_AK8PFchs.txt',
+		DATAJEC+'_L3Absolute_AK8PFchs.txt',
+		DATAJEC+'_L2L3Residual_AK8PFchs.txt'
+		]
+	AK8JECUncTextFile = DATAJEC+'_Uncertainty_AK8PFchs.txt'
+	prunedMassJECTextFiles = [
+		DATAJEC+'_L2Relative_AK8PFchs.txt',
+		DATAJEC+'_L3Absolute_AK8PFchs.txt',
+		DATAJEC+'_L2L3Residual_AK8PFchs.txt'
+		]
+
+	AK4PuppiJECTextFiles = [
+		DATAJEC+'_L2Relative_AK4PFPuppi.txt',
+		DATAJEC+'_L3Absolute_AK4PFPuppi.txt',
+		DATAJEC+'_L2L3Residual_AK4PFPuppi.txt'
+		]
+	AK4PuppiJECUncTextFile = DATAJEC+'_Uncertainty_AK4PFPuppi.txt'
+
+	AK8PuppiJECTextFiles = [
+		DATAJEC+'_L2Relative_AK8PFPuppi.txt',
+		DATAJEC+'_L3Absolute_AK8PFPuppi.txt',
+		DATAJEC+'_L2L3Residual_AK8PFPuppi.txt'
+		]
+	AK8PuppiJECUncTextFile = DATAJEC+'_Uncertainty_AK8PFPuppi.txt'
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
@@ -368,19 +429,35 @@ process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsRe
 
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
-
+process.tree.useJECText            = cms.bool(options.useJECText)
+process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
+process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
+process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
+process.tree.FATjecNames           = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.FATjecUncName         = cms.string(AK8PuppiJECUncTextFile)
+process.tree.AK4PuppijecNames      = cms.vstring(AK4PuppiJECTextFiles)
+process.tree.AK4PuppijecUncName    = cms.string(AK4PuppiJECUncTextFile)
+process.tree.AK8PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.AK8PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
+process.tree.CA15PuppijecNames     = cms.vstring(AK8PuppiJECTextFiles)
+process.tree.CA15PuppijecUncName   = cms.string(AK8PuppiJECUncTextFile)
 process.tree.fillCA15PuppiJetInfo  = cms.bool(True)
 
-#process.tree.THINJets      = cms.InputTag("slimmedJets")
-#process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
-#process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
-#process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
+
+if options.useJECText:
+	process.tree.THINJets      = cms.InputTag("slimmedJets")
+	process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
+	process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
+	process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")
+
 
 
 process.TFileService = cms.Service("TFileService",
 				   fileName = cms.string("NCUGlobalTuples.root")
 
 				   )
+
+
 
 ## New MET Filters
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
@@ -404,23 +481,35 @@ process.allEventsCounter = cms.EDFilter(
  )
 
 
-
-process.analysis = cms.Path(
-	process.allEventsCounter+
-	process.egmGsfElectronIDSequence+
-	process.egmPhotonIDSequence+
-	process.pfMet+
-	process.jetCorrSequenceAK4+
-	process.jetCorrSequenceAK8+
-	process.jetCorrSequenceAK4Puppi+
-	process.jetCorrSequenceForPrunedMass+
-	process.BadPFMuonFilter +
-	process.BadChargedCandidateFilter +
-	process.badGlobalMuonTaggerMAOD +
-	process.cloneGlobalMuonTaggerMAOD +
-	#process.HBHENoiseFilterResultProducer+ ## by raman
-	process.tree
-	)
+if not options.useJECText:
+	process.analysis = cms.Path(
+		process.allEventsCounter+
+		process.egmGsfElectronIDSequence+
+		process.egmPhotonIDSequence+
+		process.pfMet+
+		process.jetCorrSequenceAK4+
+		process.jetCorrSequenceAK8+
+		process.jetCorrSequenceAK4Puppi+
+		process.jetCorrSequenceForPrunedMass+
+		process.BadPFMuonFilter +
+		process.BadChargedCandidateFilter +
+		process.badGlobalMuonTaggerMAOD +
+		process.cloneGlobalMuonTaggerMAOD +
+		#process.HBHENoiseFilterResultProducer+ ## by raman
+		process.tree
+		)
+else:
+	process.analysis = cms.Path(
+		process.allEventsCounter+
+		process.egmGsfElectronIDSequence+
+		process.egmPhotonIDSequence+
+		process.pfMet+
+		process.BadPFMuonFilter+
+		process.BadChargedCandidateFilter+
+		process.badGlobalMuonTaggerMAOD+
+		process.cloneGlobalMuonTaggerMAOD+
+		process.tree
+		)
 
 
 #print process.dumpPython()
