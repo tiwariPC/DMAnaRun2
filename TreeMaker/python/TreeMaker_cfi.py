@@ -89,33 +89,14 @@ tree = cms.EDAnalyzer(
     ### THINJet
 #    THINJets=cms.InputTag("slimmedJets"),
     THINJets         = cms.InputTag("patJetsReapplyJECAK4"),
-    '''
-    THINjecNames     = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt'
-        ),
-    THINjecUncName   = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt'),
-    '''
     THINjecUncPayLoad= cms.string('AK4PFchs'),
     # jec still need to be checked
 
     ### FatJets
 #    FATJets=cms.InputTag("slimmedJetsAK8"),
     FATJets              = cms.InputTag("patJetsReapplyJECAK8"),
-'''
     FATJetsForPrunedMass = cms.InputTag("patJetsReapplyJECForPrunedMass"),
-    FATprunedMassJecNames= cms.vstring(
-        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFchs.txt'
-        ),
-    FATjecNames          = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L1FastJet_AK8PFPuppi.txt',
-        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFPuppi.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFPuppi.txt'
-        ),
-    FATjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFPuppi.txt'),
-'''
+
     FATjecUncPayLoad     = cms.string('AK8PFPuppi'), ## Uncertainty does not exist yet
 
     svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),
@@ -123,35 +104,17 @@ tree = cms.EDAnalyzer(
 
 #    AK4PuppiJets=cms.InputTag("slimmedJetsPuppi"),
     AK4PuppiJets              = cms.InputTag("patJetsReapplyJECAK4Puppi"),
-'''
-    AK4PuppijecNames          = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L2Relative_AK4PFPuppi.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK4PFPuppi.txt'
-        ),
-    AK4PuppijecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFPuppi.txt'),
-'''
+
     AK4PuppijecUncPayLoad     = cms.string('AK4PFPuppi'),
 
     ### AK8PuppiJets
     AK8PuppiJets              = cms.InputTag("packedPatJetsAK8PFPuppiSoftDrop"),
-'''
-    AK8PuppijecNames          = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFPuppi.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFPuppi.txt'
-        ),
-    AK8PuppijecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFPuppi.txt'),
-'''
+
     AK8PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),
 
     ### CA15PuppiJets
     CA15PuppiJets              = cms.InputTag("packedPatJetsCA15PFPuppiSoftDrop"),
-'''
-    CA15PuppijecNames          = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFPuppi.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFPuppi.txt'
-        ),
-    CA15PuppijecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFPuppi.txt'),
-'''
+
     CA15PuppijecUncPayLoad     = cms.string('AK8PFPuppi'),
 
     outFileName=cms.string('outputFileName.root')
