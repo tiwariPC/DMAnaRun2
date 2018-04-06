@@ -193,7 +193,7 @@ bTagDiscriminators = [
 ## Jet energy corrections
 
 ## For jet energy correction
-'''
+
 if options.runOnMC:
 	jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute'], 'None')
 	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute'], 'None')
@@ -203,7 +203,7 @@ if options.runOnMC:
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute']
 	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute']
-
+'''
 	AK4JECTextFiles = [
 		MCJEC+'_L1FastJet_AK4PFchs.txt',
 		MCJEC+'_L2Relative_AK4PFchs.txt',
@@ -233,8 +233,9 @@ if options.runOnMC:
 		MCJEC+'_L3Absolute_AK8PFPuppi.txt'
 		]
 	AK8PuppiJECUncTextFile = MCJEC+'_Uncertainty_AK8PFPuppi.txt'
+'''
 else:
-        jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
+    jetCorrectionsAK4CHS       = ('AK4PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK4Puppi     = ('AK4PFPuppi', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHS       = ('AK8PFchs', ['L1FastJet','L2Relative', 'L3Absolute','L2L3Residual'], 'None')
 	jetCorrectionsAK8CHSL23    = ('AK8PFchs', ['L2Relative', 'L3Absolute','L2L3Residual'], 'None')
@@ -242,6 +243,7 @@ else:
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute','L2L3Residual']
+'''
 	AK4JECTextFiles = [
 		DATAJEC+'_L1FastJet_AK4PFchs.txt',
 		DATAJEC+'_L2Relative_AK4PFchs.txt',
