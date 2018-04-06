@@ -242,6 +242,7 @@ else:
 	jetCorrectionLevelsFullCHS = ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual']
 	jetCorrectionLevels23CHS   = ['L2Relative', 'L3Absolute','L2L3Residual']
 	jetCorrectionLevelsPuppi   = ['L2Relative', 'L3Absolute','L2L3Residual']
+	'''
 	AK4JECTextFiles = [
 		DATAJEC+'_L1FastJet_AK4PFchs.txt',
 		DATAJEC+'_L2Relative_AK4PFchs.txt',
@@ -275,6 +276,7 @@ else:
 		DATAJEC+'_L2L3Residual_AK8PFPuppi.txt'
 		]
 	AK8PuppiJECUncTextFile = DATAJEC+'_Uncertainty_AK8PFPuppi.txt'
+	'''
 
 from PhysicsTools.PatAlgos.tools.jetTools import *
 
