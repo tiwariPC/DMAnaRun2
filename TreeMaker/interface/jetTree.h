@@ -191,7 +191,6 @@ class jetTree  : public baseTree{
   std::vector<float> jetDeepCSV_b_;
   std::vector<float> jetDeepCSV_c_;
   std::vector<float> jetDeepCSV_udsg_;
-  std::vector<float> jetDeepCSV_bb_;
   std::vector<float> jetTCHP_;
   std::vector<float> jetTCHE_;
   std::vector<float> jetJP_;

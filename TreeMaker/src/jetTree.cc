@@ -431,10 +431,9 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
     jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));
     jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
     jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
-    jetDeepCSV_b_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probb"));
+    jetDeepCSV_b_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probb")+jet->bDiscriminator("pfDeepCSVJetTags:probbb"));
     jetDeepCSV_c_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probc"));
     jetDeepCSV_udsg_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probudsg"));
-    jetDeepCSV_bb_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probbb"));
     jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
     jetTCHE_.push_back(jet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
     jetJP_.push_back(jet->bDiscriminator("pfJetProbabilityBJetTags"));
@@ -914,7 +913,6 @@ jetTree::SetBranches(){
   AddBranch(&jetDeepCSV_b_,"jetDeepCSV_b");
   AddBranch(&jetDeepCSV_c_,"jetDeepCSV_c");
   AddBranch(&jetDeepCSV_udsg_,"jetDeepCSV_udsg");
-  AddBranch(&jetDeepCSV_bb_,"jetDeepCSV_bb");
   AddBranch(&jetTCHP_,  "jetTCHP");
   AddBranch(&jetTCHE_,  "jetTCHE");
   AddBranch(&jetJP_,    "jetJP");
@@ -1056,7 +1054,6 @@ jetTree::Clear(){
   jetDeepCSV_b_.clear();
   jetDeepCSV_c_.clear();
   jetDeepCSV_udsg_.clear();
-  jetDeepCSV_bb_.clear();
   jetTCHP_.clear();
   jetTCHE_.clear();
   jetJP_.clear();
