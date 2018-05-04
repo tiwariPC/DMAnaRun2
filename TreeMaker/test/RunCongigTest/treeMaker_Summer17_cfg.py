@@ -82,9 +82,9 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 # Other statements
 if options.runOnMC:
 ### Needs to be updated
-	process.GlobalTag.globaltag='90X_upgrade2017_realistic_v20'
+	process.GlobalTag.globaltag='94X_mc2017_realistic_v12'
 else:## Data no global tag yet
-        process.GlobalTag.globaltag='92X_dataRun2_Prompt_v4'
+        process.GlobalTag.globaltag='92X_dataRun2_Prompt_v11'
 
 
 
