@@ -46,11 +46,11 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     //disc_againstElectronLoose.push_back(tau->tauID("againstElectronLoose"));
     //disc_againstElectronMedium.push_back(tau->tauID("againstElectronMedium"));
     //disc_againstElectronTight.push_back(tau->tauID("againstElectronTight"));
-    disc_againstElectronLooseMVA5.push_back(tau->tauID("againstElectronLooseMVA6"));
-    disc_againstElectronMediumMVA5.push_back(tau->tauID("againstElectronMediumMVA6"));
-    disc_againstElectronTightMVA5.push_back(tau->tauID("againstElectronTightMVA6"));
-    disc_againstElectronVLooseMVA5.push_back(tau->tauID("againstElectronVLooseMVA6"));
-    disc_againstElectronVTightMVA5.push_back(tau->tauID("againstElectronVTightMVA6"));
+    disc_againstElectronLooseMVA6.push_back(tau->tauID("againstElectronLooseMVA6"));
+    disc_againstElectronMediumMVA6.push_back(tau->tauID("againstElectronMediumMVA6"));
+    disc_againstElectronTightMVA6.push_back(tau->tauID("againstElectronTightMVA6"));
+    disc_againstElectronVLooseMVA6.push_back(tau->tauID("againstElectronVLooseMVA6"));
+    disc_againstElectronVTightMVA6.push_back(tau->tauID("againstElectronVTightMVA6"));
     //disc_againstMuonLoose.push_back(tau->tauID("againstMuonLoose"));
     //disc_againstMuonMedium.push_back(tau->tauID("againstMuonMedium"));
     //disc_againstMuonTight.push_back(tau->tauID("againstMuonTight"));
@@ -70,19 +70,19 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
     //disc_byLooseIsolation.push_back(tau->tauID("byLooseIsolation"));
 
-    disc_byVLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2v1DBoldDMwLTNew"));
-    disc_byLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byLooseIsolationMVArun2v1DBoldDMwLTNew"));
-    disc_byMediumIsolationMVA3newDMwLT.push_back(tau->tauID("byMediumIsolationMVArun2v1DBoldDMwLTNew"));
-    disc_byTightIsolationMVA3newDMwLT.push_back(tau->tauID("byTightIsolationMVArun2v1DBoldDMwLTNew"));
-    disc_byVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVTightIsolationMVArun2v1DBoldDMwLTNew"));
-    disc_byVVTightIsolationMVA3newDMwLT.push_back(tau->tauID("byVVTightIsolationMVArun2v1DBoldDMwLTNew"));
+    disc_byVLooseIsolationMVArun2v1DBoldDMwLTNew.push_back(tau->tauID("byVLooseIsolationMVArun2v1DBoldDMwLTNew"));
+    disc_byLooseIsolationMVArun2v1DBoldDMwLTNew.push_back(tau->tauID("byLooseIsolationMVArun2v1DBoldDMwLTNew"));
+    disc_byMediumIsolationMVArun2v1DBoldDMwLTNew.push_back(tau->tauID("byMediumIsolationMVArun2v1DBoldDMwLTNew"));
+    disc_byTightIsolationMVArun2v1DBoldDMwLTNew.push_back(tau->tauID("byTightIsolationMVArun2v1DBoldDMwLTNew"));
+    disc_byVTightIsolationMVArun2v1DBoldDMwLTNew.push_back(tau->tauID("byVTightIsolationMVArun2v1DBoldDMwLTNew"));
+    disc_byVVTightIsolationMVArun2v1DBoldDMwLTNew.push_back(tau->tauID("byVVTightIsolationMVArun2v1DBoldDMwLTNew"));
 
-    disc_byVLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2017v2DBoldDMwLT2017"));
-    disc_byLooseIsolationMVA3oldDMwLT.push_back(tau->tauID("byLooseIsolationMVArun2017v2DBoldDMwLT2017"));
-    disc_byMediumIsolationMVA3oldDMwLT.push_back(tau->tauID("byMediumIsolationMVArun2017v2DBoldDMwLT2017"));
-    disc_byTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byTightIsolationMVArun2017v2DBoldDMwLT2017"));
-    disc_byVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVTightIsolationMVArun2017v2DBoldDMwLT2017"));
-    disc_byVVTightIsolationMVA3oldDMwLT.push_back(tau->tauID("byVVTightIsolationMVArun2017v2DBoldDMwLT2017"));
+    disc_byVLooseIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byVLooseIsolationMVArun2017v2DBoldDMwLT2017"));
+    disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byLooseIsolationMVArun2017v2DBoldDMwLT2017"));
+    disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byMediumIsolationMVArun2017v2DBoldDMwLT2017"));
+    disc_byTightIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byTightIsolationMVArun2017v2DBoldDMwLT2017"));
+    disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byVTightIsolationMVArun2017v2DBoldDMwLT2017"));
+    disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byVVTightIsolationMVArun2017v2DBoldDMwLT2017"));
 
     disc_byLooseCombinedIsolationDeltaBetaCorr3Hits.push_back(tau->tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits"));
     disc_byMediumCombinedIsolationDeltaBetaCorr3Hits.push_back(tau->tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"));
@@ -98,7 +98,7 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
     HPSTau_leadPFChargedHadrCand.push_back(tau->leadPFChargedHadrCand().isNonnull() );
     HPSTau_leadPFChargedHadrCand_trackRef.push_back(tau->leadPFChargedHadrCand().isNonnull() &&  tau->leadPFChargedHadrCand()->trackRef().isNonnull());
-    
+
     //std::cout<<" middle pt = "<<tau->pt()<<std::endl;
 
     using namespace reco;
@@ -157,11 +157,11 @@ void hpstauInfo::SetBranches(){
   AddBranch(&disc_againstElectronLoose ,"disc_againstElectronLoose");
   AddBranch(&disc_againstElectronMedium ,"disc_againstElectronMedium");
   AddBranch(&disc_againstElectronTight ,"disc_againstElectronTight");
-  AddBranch(&disc_againstElectronLooseMVA5 ,"disc_againstElectronLooseMVA5");
-  AddBranch(&disc_againstElectronMediumMVA5 ,"disc_againstElectronMediumMVA5");
-  AddBranch(&disc_againstElectronTightMVA5 ,"disc_againstElectronTightMVA5");
-  AddBranch(&disc_againstElectronVLooseMVA5 ,"disc_againstElectronVLooseMVA5");
-  AddBranch(&disc_againstElectronVTightMVA5 ,"disc_againstElectronVTightMVA5");
+  AddBranch(&disc_againstElectronLooseMVA6 ,"disc_againstElectronLooseMVA6");
+  AddBranch(&disc_againstElectronMediumMVA6 ,"disc_againstElectronMediumMVA6");
+  AddBranch(&disc_againstElectronTightMVA6 ,"disc_againstElectronTightMVA6");
+  AddBranch(&disc_againstElectronVLooseMVA6 ,"disc_againstElectronVLooseMVA6");
+  AddBranch(&disc_againstElectronVTightMVA6 ,"disc_againstElectronVTightMVA6");
   AddBranch(&disc_againstMuonLoose ,"disc_againstMuonLoose");
   AddBranch(&disc_againstMuonMedium ,"disc_againstMuonMedium");
   AddBranch(&disc_againstMuonTight ,"disc_againstMuonTight");
@@ -181,12 +181,12 @@ void hpstauInfo::SetBranches(){
 
   AddBranch(&disc_byLooseIsolation ,"disc_byLooseIsolation");
 
-  AddBranch(&disc_byVLooseIsolationMVA3newDMwLT ,"disc_byVLooseIsolationMVA3newDMwLT");
-  AddBranch(&disc_byLooseIsolationMVA3newDMwLT ,"disc_byLooseIsolationMVA3newDMwLT");
-  AddBranch(&disc_byMediumIsolationMVA3newDMwLT ,"disc_byMediumIsolationMVA3newDMwLT");
-  AddBranch(&disc_byTightIsolationMVA3newDMwLT ,"disc_byTightIsolationMVA3newDMwLT");
-  AddBranch(&disc_byVTightIsolationMVA3newDMwLT ,"disc_byVTightIsolationMVA3newDMwLT");
-  AddBranch(&disc_byVVTightIsolationMVA3newDMwLT ,"disc_byVVTightIsolationMVA3newDMwLT");
+  AddBranch(&disc_byVLooseIsolationMVArun2v1DBoldDMwLTNew ,"disc_byVLooseIsolationMVArun2v1DBoldDMwLTNew");
+  AddBranch(&disc_byLooseIsolationMVArun2v1DBoldDMwLTNew ,"disc_byLooseIsolationMVArun2v1DBoldDMwLTNew");
+  AddBranch(&disc_byMediumIsolationMVArun2v1DBoldDMwLTNew ,"disc_byMediumIsolationMVArun2v1DBoldDMwLTNew");
+  AddBranch(&disc_byTightIsolationMVArun2v1DBoldDMwLTNew ,"disc_byTightIsolationMVArun2v1DBoldDMwLTNew");
+  AddBranch(&disc_byVTightIsolationMVArun2v1DBoldDMwLTNew ,"disc_byVTightIsolationMVArun2v1DBoldDMwLTNew");
+  AddBranch(&disc_byVVTightIsolationMVArun2v1DBoldDMwLTNew ,"disc_byVVTightIsolationMVArun2v1DBoldDMwLTNew");
 
   AddBranch(&disc_byVLooseIsolationMVA3newDMwoLT ,"disc_byVLooseIsolationMVA3newDMwoLT");
   AddBranch(&disc_byLooseIsolationMVA3newDMwoLT ,"disc_byLooseIsolationMVA3newDMwoLT");
@@ -195,12 +195,12 @@ void hpstauInfo::SetBranches(){
   AddBranch(&disc_byVTightIsolationMVA3newDMwoLT ,"disc_byVTightIsolationMVA3newDMwoLT");
   AddBranch(&disc_byVVTightIsolationMVA3newDMwoLT ,"disc_byVVTightIsolationMVA3newDMwoLT");
 
-  AddBranch(&disc_byVLooseIsolationMVA3oldDMwLT ,"disc_byVLooseIsolationMVA3oldDMwLT");
-  AddBranch(&disc_byLooseIsolationMVA3oldDMwLT ,"disc_byLooseIsolationMVA3oldDMwLT");
-  AddBranch(&disc_byMediumIsolationMVA3oldDMwLT ,"disc_byMediumIsolationMVA3oldDMwLT");
-  AddBranch(&disc_byTightIsolationMVA3oldDMwLT ,"disc_byTightIsolationMVA3oldDMwLT");
-  AddBranch(&disc_byVTightIsolationMVA3oldDMwLT ,"disc_byVTightIsolationMVA3oldDMwLT");
-  AddBranch(&disc_byVVTightIsolationMVA3oldDMwLT ,"disc_byVVTightIsolationMVA3oldDMwLT");
+  AddBranch(&disc_byVLooseIsolationMVArun2017v2DBoldDMwLT2017 ,"disc_byVLooseIsolationMVArun2017v2DBoldDMwLT2017");
+  AddBranch(&disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017 ,"disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017");
+  AddBranch(&disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017 ,"disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017");
+  AddBranch(&disc_byTightIsolationMVArun2017v2DBoldDMwLT2017 ,"disc_byTightIsolationMVArun2017v2DBoldDMwLT2017");
+  AddBranch(&disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017 ,"disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017");
+  AddBranch(&disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017 ,"disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017");
 
   AddBranch(&disc_byVLooseIsolationMVA3oldDMwoLT ,"disc_byVLooseIsolationMVA3oldDMwoLT");
   AddBranch(&disc_byLooseIsolationMVA3oldDMwoLT ,"disc_byLooseIsolationMVA3oldDMwoLT");
@@ -243,11 +243,11 @@ void hpstauInfo::Clear(){
   disc_againstElectronLoose.clear();
   disc_againstElectronMedium.clear();
   disc_againstElectronTight.clear();
-  disc_againstElectronLooseMVA5.clear();
-  disc_againstElectronMediumMVA5.clear();
-  disc_againstElectronTightMVA5.clear();
-  disc_againstElectronVLooseMVA5.clear();
-  disc_againstElectronVTightMVA5.clear();
+  disc_againstElectronLooseMVA6.clear();
+  disc_againstElectronMediumMVA6.clear();
+  disc_againstElectronTightMVA6.clear();
+  disc_againstElectronVLooseMVA6.clear();
+  disc_againstElectronVTightMVA6.clear();
   disc_againstMuonLoose.clear();
   disc_againstMuonMedium.clear();
   disc_againstMuonTight.clear();
@@ -267,12 +267,12 @@ void hpstauInfo::Clear(){
 
   disc_byLooseIsolation.clear();
 
-  disc_byVLooseIsolationMVA3newDMwLT.clear();
-  disc_byLooseIsolationMVA3newDMwLT.clear();
-  disc_byMediumIsolationMVA3newDMwLT.clear();
-  disc_byTightIsolationMVA3newDMwLT.clear();
-  disc_byVTightIsolationMVA3newDMwLT.clear();
-  disc_byVVTightIsolationMVA3newDMwLT.clear();
+  disc_byVLooseIsolationMVArun2v1DBoldDMwLTNew.clear();
+  disc_byLooseIsolationMVArun2v1DBoldDMwLTNew.clear();
+  disc_byMediumIsolationMVArun2v1DBoldDMwLTNew.clear();
+  disc_byTightIsolationMVArun2v1DBoldDMwLTNew.clear();
+  disc_byVTightIsolationMVArun2v1DBoldDMwLTNew.clear();
+  disc_byVVTightIsolationMVArun2v1DBoldDMwLTNew.clear();
 
   disc_byVLooseIsolationMVA3newDMwoLT.clear();
   disc_byLooseIsolationMVA3newDMwoLT.clear();
@@ -281,12 +281,12 @@ void hpstauInfo::Clear(){
   disc_byVTightIsolationMVA3newDMwoLT.clear();
   disc_byVVTightIsolationMVA3newDMwoLT.clear();
 
-  disc_byVLooseIsolationMVA3oldDMwLT.clear();
-  disc_byLooseIsolationMVA3oldDMwLT.clear();
-  disc_byMediumIsolationMVA3oldDMwLT.clear();
-  disc_byTightIsolationMVA3oldDMwLT.clear();
-  disc_byVTightIsolationMVA3oldDMwLT.clear();
-  disc_byVVTightIsolationMVA3oldDMwLT.clear();
+  disc_byVLooseIsolationMVArun2017v2DBoldDMwLT2017.clear();
+  disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017.clear();
+  disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017.clear();
+  disc_byTightIsolationMVArun2017v2DBoldDMwLT2017.clear();
+  disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017.clear();
+  disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017.clear();
 
   disc_byVLooseIsolationMVA3oldDMwoLT.clear();
   disc_byLooseIsolationMVA3oldDMwoLT.clear();
