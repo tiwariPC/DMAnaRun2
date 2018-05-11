@@ -86,12 +86,12 @@ class hpstauInfo : public baseTree{
 
   std::vector<bool> disc_byLooseIsolation;
 
-  std::vector<bool> disc_byVLooseIsolationMVArun2v1DBoldDMwLTNew;
-  std::vector<bool> disc_byLooseIsolationMVArun2v1DBoldDMwLTNew;
-  std::vector<bool> disc_byMediumIsolationMVArun2v1DBoldDMwLTNew;
-  std::vector<bool> disc_byTightIsolationMVArun2v1DBoldDMwLTNew;
-  std::vector<bool> disc_byVTightIsolationMVArun2v1DBoldDMwLTNew;
-  std::vector<bool> disc_byVVTightIsolationMVArun2v1DBoldDMwLTNew;
+  std::vector<bool> disc_byVLooseIsolationMVArun2v1DBoldDMwLT;
+  std::vector<bool> disc_byLooseIsolationMVArun2v1DBoldDMwLT;
+  std::vector<bool> disc_byMediumIsolationMVArun2v1DBoldDMwLT;
+  std::vector<bool> disc_byTightIsolationMVArun2v1DBoldDMwLT;
+  std::vector<bool> disc_byVTightIsolationMVArun2v1DBoldDMwLT;
+  std::vector<bool> disc_byVVTightIsolationMVArun2v1DBoldDMwLT;
 
   std::vector<bool> disc_byVLooseIsolationMVA3newDMwoLT;
   std::vector<bool> disc_byLooseIsolationMVA3newDMwoLT;
@@ -100,12 +100,12 @@ class hpstauInfo : public baseTree{
   std::vector<bool> disc_byVTightIsolationMVA3newDMwoLT;
   std::vector<bool> disc_byVVTightIsolationMVA3newDMwoLT;
 
-  std::vector<bool> disc_byVLooseIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byTightIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byVLooseIsolationMVArun2v1DBnewDMwLT;
+  std::vector<bool> disc_byLooseIsolationMVArun2v1DBnewDMwLT;
+  std::vector<bool> disc_byMediumIsolationMVArun2v1DBnewDMwLT;
+  std::vector<bool> disc_byTightIsolationMVArun2v1DBnewDMwLT;
+  std::vector<bool> disc_byVTightIsolationMVArun2v1DBnewDMwLT;
+  std::vector<bool> disc_byVVTightIsolationMVArun2v1DBnewDMwLT;
 
   std::vector<bool> disc_byVLooseIsolationMVA3oldDMwoLT;
   std::vector<bool> disc_byLooseIsolationMVA3oldDMwoLT;
