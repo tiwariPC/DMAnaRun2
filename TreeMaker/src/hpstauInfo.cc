@@ -85,15 +85,15 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     disc_byTightIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byTightIsolationMVArun2017v2DBoldDMwLT2017"));
     disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byVTightIsolationMVArun2017v2DBoldDMwLT2017"));
     disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017.push_back(tau->tauID("byVVTightIsolationMVArun2017v2DBoldDMwLT2017"));
-    // 2017 v2 new DM
-    disc_byIsolationMVArun2017v2DBnewDMwLTraw2017.push_back(tau->tauID("byIsolationMVArun2017v2DBnewDMwLTraw2017"));
-    disc_byVVLooseIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVVLooseIsolationMVArun2017v2DBnewDMwLT2017"));
-    disc_byVLooseIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVLooseIsolationMVArun2017v2DBnewDMwLT2017"));
-    disc_byLooseIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byLooseIsolationMVArun2017v2DBnewDMwLT2017"));
-    disc_byMediumIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byMediumIsolationMVArun2017v2DBnewDMwLT2017"));
-    disc_byTightIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byTightIsolationMVArun2017v2DBnewDMwLT2017"));
-    disc_byVTightIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVTightIsolationMVArun2017v2DBnewDMwLT2017"));
-    disc_byVVTightIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVVTightIsolationMVArun2017v2DBnewDMwLT2017"));
+    // // 2017 v2 new DM
+    // disc_byIsolationMVArun2017v2DBnewDMwLTraw2017.push_back(tau->tauID("byIsolationMVArun2017v2DBnewDMwLTraw2017"));
+    // disc_byVVLooseIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVVLooseIsolationMVArun2017v2DBnewDMwLT2017"));
+    // disc_byVLooseIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVLooseIsolationMVArun2017v2DBnewDMwLT2017"));
+    // disc_byLooseIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byLooseIsolationMVArun2017v2DBnewDMwLT2017"));
+    // disc_byMediumIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byMediumIsolationMVArun2017v2DBnewDMwLT2017"));
+    // disc_byTightIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byTightIsolationMVArun2017v2DBnewDMwLT2017"));
+    // disc_byVTightIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVTightIsolationMVArun2017v2DBnewDMwLT2017"));
+    // disc_byVVTightIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVVTightIsolationMVArun2017v2DBnewDMwLT2017"));
 
     // disc_byVLooseIsolationMVArun2v1DBnewDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2v1DBnewDMwLT"));
     // disc_byLooseIsolationMVArun2v1DBnewDMwLT.push_back(tau->tauID("byLooseIsolationMVArun2v1DBnewDMwLT"));
