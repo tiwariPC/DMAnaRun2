@@ -357,7 +357,12 @@ for idmod in my_phoid_modules:
 #process.egmPhotonIDs.physicsObjectSrc = cms.InputTag("ncuslimmedPhoton")
 #process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
 
-
+from DelPanj.TreeMaker.runTauIdMVA import *
+na = TauIDEmbedder(process, cms,
+    debug=True,
+    toKeep = ["2017v1", "2017v2", "newDM2017v2", "dR0p32017v2", "2016v1", "newDM2016v1"]
+)
+na.runTauID()
 
 ## For normal AK4 jets jet energy correction on top of miniAOD
 from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
@@ -472,7 +477,11 @@ process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
 process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
 ##
+process.newtauid = cms.Path(process.rerunMvaIsolationSequence
+    * process.NewTauIDsEmbedded # *getattr(process, "NewTauIDsEmbedded")
+    * process.produceTauIdMVATrainingNtupleMiniAODSequence)
 
+##
 process.allEventsCounter = cms.EDFilter(
 	"EventCounter"
  )
@@ -483,6 +492,7 @@ if not options.useJECText:
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
 		process.egmPhotonIDSequence+
+		process.newtauid+
 		process.pfMet+
 		process.jetCorrSequenceAK4+
 		process.jetCorrSequenceAK8+
@@ -500,6 +510,7 @@ else:
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
 		process.egmPhotonIDSequence+
+		process.newtauid+
 		process.pfMet+
 		process.BadPFMuonFilter+
 		process.BadChargedCandidateFilter+
