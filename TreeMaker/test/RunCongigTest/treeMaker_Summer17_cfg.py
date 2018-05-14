@@ -477,11 +477,10 @@ process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
 process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
 ##
-process.load('DelPanj.TreeMaker.produceTauIdMVATrainingNtupleMiniAOD_cfg')
-process.newtauid = cms.Path(process.rerunMvaIsolationSequence
+process.newtauid = cms.Path(
+    * process.rerunMvaIsolationSequence
     * process.NewTauIDsEmbedded # *getattr(process, "NewTauIDsEmbedded")
-    * process.produceTauIdMVATrainingNtupleMiniAODSequence)
-
+)
 ##
 process.allEventsCounter = cms.EDFilter(
 	"EventCounter"
