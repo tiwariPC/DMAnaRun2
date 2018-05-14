@@ -486,9 +486,6 @@ process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
 process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
 ##
-process.newtauid = cms.Path(process.rerunMvaIsolationSequence
-	*process.NewTauIDsEmbedded # *getattr(process, "NewTauIDsEmbedded")
-)
 ##
 process.allEventsCounter = cms.EDFilter(
 	"EventCounter"
@@ -500,7 +497,8 @@ if not options.useJECText:
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
 		process.egmPhotonIDSequence+
-		process.newtauid+
+		process.rerunMvaIsolationSequence
+		*process.NewTauIDsEmbedded+
 		process.pfMet+
 		process.jetCorrSequenceAK4+
 		process.jetCorrSequenceAK8+
@@ -518,7 +516,8 @@ else:
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
 		process.egmPhotonIDSequence+
-		process.newtauid+
+		process.rerunMvaIsolationSequence*
+		process.NewTauIDsEmbedded+
 		process.pfMet+
 		process.BadPFMuonFilter+
 		process.BadChargedCandidateFilter+
