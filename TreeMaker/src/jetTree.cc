@@ -355,9 +355,9 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
 
-    std::map<std::string, bool> Pass = jet2012ID_.LooseJetCut(*jet);
-    bool passOrNot = PassAll(Pass);
-    jetPassIDLoose_.push_back(passOrNot);
+    // std::map<std::string, bool> Pass = jet2012ID_.LooseJetCut(*jet);
+    // bool passOrNot = PassAll(Pass);
+    // jetPassIDLoose_.push_back(passOrNot);
 
 
     std::map<std::string, bool> PassT = jet2012ID_.TightJetCut(*jet);
@@ -891,7 +891,7 @@ jetTree::SetBranches(){
   AddBranch(&jetCharge_,       "jetCharge");
   AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
   AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
-  AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
+//  AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
   AddBranch(&jetPassIDTight_,  "jetPassIDTight");
 
   AddBranch(&jetCEmEF_,  "jetCEmEF");
@@ -1010,7 +1010,7 @@ jetTree::Clear(){
   jetCharge_.clear();
   jetPartonFlavor_.clear();
   jetHadronFlavor_.clear();
-  jetPassIDLoose_.clear();
+//  jetPassIDLoose_.clear();
   jetPassIDTight_.clear();
   PUJetID_.clear();
   isPUJetIDLoose_.clear();
