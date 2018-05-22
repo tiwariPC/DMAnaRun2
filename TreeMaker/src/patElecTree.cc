@@ -70,7 +70,8 @@ patElecTree::Fill(const edm::Event& iEvent){
   std::vector<std::string> maskCutBasedCuts;
   maskCutBasedCuts.push_back("GsfEleEffAreaPFIsoCut_0");
   std::vector<std::string> maskHEEPCuts;
-  maskHEEPCuts.push_back("GsfEleTrkPtIsoCut_0"); maskHEEPCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
+  //maskHEEPCuts.push_back("GsfEleTrkPtIsoCut_0");
+  maskHEEPCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
 
   iEvent.getByToken(eleMVAMediumIdMapToken, medium_MVAid_decisions);
   iEvent.getByToken(eleMVATightIdMapToken,  tight_MVAid_decisions);
