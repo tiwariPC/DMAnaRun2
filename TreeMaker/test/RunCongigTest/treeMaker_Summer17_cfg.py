@@ -119,9 +119,9 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 
 # Input source
 if options.runOnMC:
-	testFile='/store/relval/CMSSW_9_2_7/RelValZpTT_1500_13/MINIAODSIM/92X_upgrade2017_realistic_v7-v2/00000/E23D8E5C-B470-E711-8040-0CC47A4D76C6.root'
+	testFile='/store/mc/RunIIFall17MiniAOD/QCD_Pt_120to170_TuneCP5_13TeV_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/00000/16E915A2-E60E-E811-AD53-001E67A3EF70.root'
 else:
-	testFile='/store/data/Run2017B/MET/MINIAOD/17Nov2017-v1/40000/AABBD56B-30FD-E711-B788-0CC47A4D75F6.root'
+	testFile='/store/data/Run2017B/MET/MINIAOD/31Mar2018-v1/100000/16963797-0937-E811-ABE2-     008CFAE45134.root'
 
 
 process.source = cms.Source("PoolSource",
