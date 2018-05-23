@@ -121,7 +121,7 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 if options.runOnMC:
 	testFile='/store/mc/RunIIFall17MiniAOD/QCD_Pt_120to170_TuneCP5_13TeV_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/00000/16E915A2-E60E-E811-AD53-001E67A3EF70.root'
 else:
-	testFile='/store/data/Run2017B/MET/MINIAOD/31Mar2018-v1/100000/16963797-0937-E811-ABE2-     008CFAE45134.root'
+	testFile='/store/data/Run2017B/MET/MINIAOD/31Mar2018-v1/100000/16963797-0937-E811-ABE2-008CFAE45134.root'
 
 
 process.source = cms.Source("PoolSource",
