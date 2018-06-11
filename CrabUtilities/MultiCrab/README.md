@@ -25,7 +25,7 @@ Script to automatically submit CRAB jobs for all samples in a list.
    ```
    $ cp $CMSSW_BASE/src/DelPanj/TreeMaker/test/RunConfigTest/treeMaker_Summer17_cfg.py .
 
-6. To submit CRAB jobs for all background samples listed in allbkgsamples.txt:
+6. To submit CRAB jobs for all background samples listed in allbkg_2017.txt:
    ```
    $ python MultiCrab_bkg.py
    ```  
