@@ -4,7 +4,7 @@ from CRABClient.UserUtilities import getUsernameFromSiteDB
 config = Configuration()
 
 """  Once the Configuration object is created, it is possible to add new sections into it with corresponding parameters."""
-datestr = datetime.date.today().strftime("%Y%m%d")
+datestr = '20180611'
 workname='bbDM_data_'+datestr
 
 config.section_("General")
