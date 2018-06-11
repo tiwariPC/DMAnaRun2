@@ -84,8 +84,8 @@ if options.runOnMC:
 ### Needs to be updated
 	process.GlobalTag.globaltag='94X_mc2017_realistic_v12'
 else:## Data no global tag yet
-        process.GlobalTag.globaltag='92X_dataRun2_Prompt_v11'
-
+    #process.GlobalTag.globaltag='92X_dataRun2_Prompt_v11'  #Conditions for prompt Prompt GT
+    process.GlobalTag.globaltag='94X_dataRun2_ReReco_EOY17_v2'   #Conditions for the data reprocessing Rereco_GT
 
 
 
