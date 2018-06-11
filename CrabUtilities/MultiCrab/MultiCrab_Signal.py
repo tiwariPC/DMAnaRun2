@@ -5,7 +5,7 @@ f = open('NLO-Samples.txt','r')
 for line in f:
 
 	if line.startswith("/BBbarDMJets"):
-		workname='bbDM_signal'+datestr
+		workname='bbDM_signal_'+datestr
 
 		spt=line.split()
 		spt2=line.split("_")
