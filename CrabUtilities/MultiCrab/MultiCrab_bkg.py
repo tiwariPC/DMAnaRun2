@@ -1,4 +1,5 @@
-import os
+import os, datetime
+datestr = datetime.date.today().strftime("%Y%m%d")
 
 f = open('allbkg_2017.txt','r')
 for line in f:
@@ -8,7 +9,7 @@ for line in f:
 	c=line.split()[2]
 	d=line.split()[3]
 
-	workname='bbDM_bkg'
+	workname='bbDM_bkg'+datestr
 
 	if len(a)>100:
 		reqname=a[0:100]
