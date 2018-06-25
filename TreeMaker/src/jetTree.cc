@@ -442,8 +442,15 @@ jetTree::SetBranches(){
     AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
     AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
     AddBranch(&jetPassIDTight_,  "jetPassIDTight");
+
+    AddBranch(&jetCEmEF_,  "jetCEmEF");
     AddBranch(&jetCHadEF_, "jetCHadEF");
+    AddBranch(&jetPhoEF_,  "jetPhoEF");
+    AddBranch(&jetNEmEF_,  "jetNEmEF");
     AddBranch(&jetNHadEF_, "jetNHadEF");
+    AddBranch(&jetEleEF_,  "jetEleEF");
+    AddBranch(&jetMuoEF_,  "jetMuoEF");
+    
     AddBranch(&PUJetID_,   "PUJetID");
     AddBranch(&jetDeepCSV_b_,  "jetDeepCSV_b");
     AddBranch(&jetDeepCSV_c_,  "jetDeepCSV_c");
