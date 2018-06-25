@@ -438,6 +438,9 @@ jetTree::SetBranches(){
 
   if(isTHINdeepCSVJet_ && !isTHINJet_){
     AddBranch(&jetNPV_, "jetNPV");
+    AddBranch(&jetArea_,        "jetArea");
+    AddBranch(&jetCorrUncUp_,   "jetCorrUncUp");
+    AddBranch(&jetCorrUncDown_, "jetCorrUncDown");
     AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
     AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
     AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
