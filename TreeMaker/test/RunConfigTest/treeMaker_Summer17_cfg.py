@@ -83,9 +83,10 @@ from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
 ### Needs to be updated
 	process.GlobalTag.globaltag='94X_mc2017_realistic_v12'
-else:## Data no global tag yet
+else:
     #process.GlobalTag.globaltag='92X_dataRun2_Prompt_v11'  #Conditions for prompt Prompt GT
-    process.GlobalTag.globaltag='94X_dataRun2_ReReco_EOY17_v2'   #Conditions for the data reprocessing Rereco_GT
+    process.GlobalTag.globaltag='94X_dataRun2_ReReco_EOY17_v6'   #Conditions for the data reprocessing Rereco_GT
+    #process.GlobalTag.globaltag='94X_dataRun2_v6'   #recommended here: https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD#2017_Data_re_miniAOD_31Mar2018_9
 
 
 
