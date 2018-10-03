@@ -142,8 +142,14 @@ else:
     rangeEventsToSkip = cms.untracked.VEventRange(listEventsToSkip)
     process.source.eventsToSkip = rangeEventsToSkip
 
-
-
+from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+runMetCorAndUncFromMiniAOD (
+    process,
+    isData = True, # false for MC
+    fixEE2017 = True,
+    fixEE2017Params = {'userawPt': True, 'PtThreshold':50.0, 'MinEtaThreshold':2.65, 'MaxEtaThreshold': 3.139} ,
+    postfix = "ModifiedMET"
+    )
 
 ##
 ## This is for Uncorrected MET
@@ -153,13 +159,11 @@ process.pfMet.calculateSignificance = False # this can't be easily implemented o
 ## Uncorrected MET edns here
 ##
 
-
-
 pvSource = 'offlineSlimmedPrimaryVertices'
 
 
 bTagDiscriminators = [
-     'pfJetBProbabilityBJetTags'
+    'pfJetBProbabilityBJetTags'
     ,'pfJetProbabilityBJetTags'
     ,'pfPositiveOnlyJetBProbabilityBJetTags'
     ,'pfPositiveOnlyJetProbabilityBJetTags'
@@ -185,10 +189,10 @@ bTagDiscriminators = [
     ,'softPFElectronBJetTags'
     ,'positiveSoftPFElectronBJetTags'
     ,'negativeSoftPFElectronBJetTags'
-	,'pfDeepCSVJetTags:probb'
-	,'pfDeepCSVJetTags:probc'
-	,'pfDeepCSVJetTags:probudsg'
-	,'pfDeepCSVJetTags:probbb'
+    ,'pfDeepCSVJetTags:probb'
+    ,'pfDeepCSVJetTags:probc'
+    ,'pfDeepCSVJetTags:probudsg'
+    ,'pfDeepCSVJetTags:probbb'
 ]
 
 ## Jet energy corrections
@@ -500,6 +504,7 @@ if not options.useJECText:
 		process.egmPhotonIDSequence+
 		process.rerunMvaIsolationSequence
 		*process.NewTauIDsEmbedded+
+		process.fullPatMetSequenceModifiedMET+
 		process.pfMet+
 		process.jetCorrSequenceAK4+
 		process.jetCorrSequenceAK8+
@@ -519,6 +524,7 @@ else:
 		process.egmPhotonIDSequence+
 		process.rerunMvaIsolationSequence*
 		process.NewTauIDsEmbedded+
+		process.fullPatMetSequenceModifiedMET+
 		process.pfMet+
 		process.BadPFMuonFilter+
 		process.BadChargedCandidateFilter+
