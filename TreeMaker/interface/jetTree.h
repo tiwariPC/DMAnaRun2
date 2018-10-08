@@ -147,7 +147,7 @@ class jetTree  : public baseTree{
   std::vector<int>   jetCharge_;
   std::vector<int>   jetPartonFlavor_;
   std::vector<int>   jetHadronFlavor_;
-  std::vector<bool>  jetPassIDLoose_;
+  // std::vector<bool>  jetPassIDLoose_;
   std::vector<bool>  jetPassIDTight_;
   std::vector<float> PUJetID_;
   std::vector<bool>  isPUJetIDLoose_;
