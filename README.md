@@ -1,11 +1,11 @@
 
 # DMAnaRun2
 
-# For CMSSW_9_2_7
+# For CMSSW_10_2_6
 ```
-setenv SCRAM_ARCH slc6_amd64_gcc530
-cmsrel CMSSW_9_2_7
-cd CMSSW_9_2_7/src
+setenv SCRAM_ARCH slc6_amd64_gcc700
+cmsrel CMSSW_10_2_6
+cd CMSSW_10_2_6/src
 cmsenv
 ```
 
@@ -22,7 +22,7 @@ git clone git@github.com:tiwariPC/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 92X_2017data_deepCSV_genMet
+git checkout 102x_2018data
 
 cd -
 
@@ -70,8 +70,8 @@ mv jec/*PFPuppi.txt .
 rm -rf jec
 
 voms-proxy-init --voms cms
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer17_cfg.py runOnMC=True
-cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer17_cfg.py runOnMC=False period=G
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer18_cfg.py runOnMC=True
+cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer18_cfg.py runOnMC=False period=G
 
 ```
 
@@ -83,7 +83,7 @@ Note, you need to add these text files as extra input files when submitting CRAB
 modify directories in crabConfig.py and dataset in MultiCrab_dihiggs.py according to your need
 ```
 cd DelPanj/CrabUtilities
-cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py .
+cp -p ../TreeMaker/test/RunCongigTest/treeMaker_Summer18_cfg.py .
 cp -p ../miniIso_effectiveArea/*txt .
 
 mkdir jec
