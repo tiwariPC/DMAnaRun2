@@ -81,11 +81,9 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 # Other statements
 if options.runOnMC:
-### Needs to be updated
-	process.GlobalTag.globaltag='94X_mc2017_realistic_v12'
+	process.GlobalTag.globaltag='102X_upgrade2018_realistic_v12'
 else:
-    #process.GlobalTag.globaltag='92X_dataRun2_Prompt_v11'  #Conditions for prompt Prompt GT
-    process.GlobalTag.globaltag='94X_dataRun2_ReReco_EOY17_v6'   #Conditions for the data reprocessing Rereco_GT
+    process.GlobalTag.globaltag='101X_dataRun2_Prompt_v11'   #Conditions for the data reprocessing Rereco_GT
     #process.GlobalTag.globaltag='94X_dataRun2_v6'   #recommended here: https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD#2017_Data_re_miniAOD_31Mar2018_9
 
 
@@ -120,9 +118,9 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 
 # Input source
 if options.runOnMC:
-	testFile='/store/mc/RunIIFall17MiniAOD/QCD_Pt_120to170_TuneCP5_13TeV_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/00000/16E915A2-E60E-E811-AD53-001E67A3EF70.root'
+	testFile='/store/mc/RunIIFall18MiniAOD/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v12-v1/00000/06D252E3-0F0C-FA4B-9ABC-ACE8F7F93DE9.root '
 else:
-	testFile='/store/data/Run2017B/MET/MINIAOD/31Mar2018-v1/100000/16963797-0937-E811-ABE2-008CFAE45134.root'
+	testFile='/store/data/Run2018B/MET/MINIAOD/17Sep2018-v1/270000/FEC93B96-3A34-9549-A48B-32869FE312F5.root '
 
 
 process.source = cms.Source("PoolSource",
