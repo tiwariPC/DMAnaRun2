@@ -77,7 +77,7 @@ cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer18_cfg.py runOnMC=Fa
 
 Note, you need to add these text files as extra input files when submitting CRAB jobs.
 
-# The instruction below needs to be updated for 2017 data when more information is available
+# The instruction below needs to be updated for 2018 data when more information is available
 
 ## To submit MC crab jobs
 modify directories in crabConfig.py and dataset in MultiCrab_dihiggs.py according to your need
