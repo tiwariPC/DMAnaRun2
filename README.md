@@ -59,7 +59,20 @@ cp -p DelPanj/tempfix/badGlobalMuonTaggersMiniAOD_cff.py RecoMET/METFilters/pyth
 git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_80X
 ```
 
+## Get the code for deepCSV
+```
+git cms-merge-topic -u mverzett:DeepFlavour-from-CMSSW_8_0_21 
+```
+## Get the training 
+```
+mkdir RecoBTag/DeepFlavour/data/
 
+cd RecoBTag/DeepFlavour/data/ 
+
+wget http://home.fnal.gov/~verzetti//DeepFlavour/training/DeepFlavourNoSL.json 
+
+cd - 
+```
 ## Compile (due to the external packages, will take about 15-20 mins)
 ```
 scramv1 b clean
