@@ -42,7 +42,7 @@ git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
 ## For DelPanj
 
 ```
-git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
+git clone git@github.com:tiwariPC/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
