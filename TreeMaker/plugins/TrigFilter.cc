@@ -50,6 +50,8 @@ class TrigFilter : public edm::EDFilter {
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
+      edm::EDGetTokenT<edm::TriggerResults>       trigResultToken;
+
    private:
       virtual void beginJob() ;
       virtual bool filter(edm::Event&, const edm::EventSetup&);
