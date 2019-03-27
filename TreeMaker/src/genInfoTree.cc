@@ -381,58 +381,54 @@ genInfoTree::Fill(const edm::Event& iEvent)
 
 }
 
-
-
+bool gen_extra=false;
 void
 genInfoTree::SetBranches(){
 
-  AddBranch(&genMET_true_,"genMET_true");
-  AddBranch(&genMET_calo_,"genMET_calo");
-  AddBranch(&genMET_caloNonPrompt_,"genMET_caloNonPrompt");
-
-
-  AddBranch(&ptHat_, "ptHat");
-  AddBranch(&mcWeight_, "mcWeight");
-
-  AddBranch(&HT_, "HT");
-  AddBranch(&pdf_, "pdf");
-  AddBranch(&originalLHEweight_, "originalLHEweight");
-  AddBranch(&pdfscaleSysWeights_, "pdfscaleSysWeights");
-
   AddBranch(&nGenPar_, "nGenPar");
   AddBranch(&genParP4_, "genParP4");
-  AddBranch(&genParQ_,"genParQ");
   AddBranch(&genParId_,"genParId");
   AddBranch(&genParSt_,"genParSt");
   AddBranch(&genMomParId_,"genMomParId");
-  AddBranch(&genParIndex_,"genParIndex");
+  AddBranch(&mcWeight_, "mcWeight");
 
-  AddBranch(&genNMo_,"genNMo");
-  AddBranch(&genNDa_,"genNDa");
-  AddBranch(&genMo1_,"genMo1");
-  AddBranch(&genMo2_,"genMo2");
-  AddBranch(&genDa1_,"genDa1");
-  AddBranch(&genDa2_,"genDa2");
-  AddBranch(&genStFlag_,"genStFlag");
+  if (gen_extra){
+    AddBranch(&genMET_true_,"genMET_true");
+    AddBranch(&genMET_calo_,"genMET_calo");
+    AddBranch(&genMET_caloNonPrompt_,"genMET_caloNonPrompt");
 
+    AddBranch(&ptHat_, "ptHat");
+    AddBranch(&HT_, "HT");
+    AddBranch(&pdf_, "pdf");
+    AddBranch(&originalLHEweight_, "originalLHEweight");
+    AddBranch(&pdfscaleSysWeights_, "pdfscaleSysWeights");
 
-  AddBranch(&ak4nGenJet_,  "ak4nGenJet");
-  AddBranch(&ak4GenJetP4_, "ak4GenJetP4");
+    AddBranch(&genParQ_,"genParQ");
+    AddBranch(&genParIndex_,"genParIndex");
 
-  AddBranch(&ak8nGenJet_,  "ak8nGenJet");
-  AddBranch(&ak8GenJetP4_, "ak8GenJetP4");
+    AddBranch(&genNMo_,"genNMo");
+    AddBranch(&genNDa_,"genNDa");
+    AddBranch(&genMo1_,"genMo1");
+    AddBranch(&genMo2_,"genMo2");
+    AddBranch(&genDa1_,"genDa1");
+    AddBranch(&genDa2_,"genDa2");
+    AddBranch(&genStFlag_,"genStFlag");
 
+    AddBranch(&ak4nGenJet_,  "ak4nGenJet");
+    AddBranch(&ak4GenJetP4_, "ak4GenJetP4");
 
- /// genjet substructure, added by Eiko
-  AddBranch(&ak8GenJetMSD_, "ak8GenJetMSD");
-  AddBranch(&ak8GenJetSDSJdR_, "ak8GenJetSDSJdR");
-  AddBranch(&ak8GenJetSDSJSymm_, "ak8GenJetSDSJSymm");
-  AddBranch(&ak8GenJetSDMassDrop_, "ak8GenJetSDMassDrop");
-  AddBranch(&ak8GenJettau1_, "ak8GenJettau1");
-  AddBranch(&ak8GenJettau2_, "ak8GenJettau2");
-  AddBranch(&ak8GenJettau3_, "ak8GenJettau3");
+    AddBranch(&ak8nGenJet_,  "ak8nGenJet");
+    AddBranch(&ak8GenJetP4_, "ak8GenJetP4");
 
-
+   /// genjet substructure, added by Eiko
+    AddBranch(&ak8GenJetMSD_, "ak8GenJetMSD");
+    AddBranch(&ak8GenJetSDSJdR_, "ak8GenJetSDSJdR");
+    AddBranch(&ak8GenJetSDSJSymm_, "ak8GenJetSDSJSymm");
+    AddBranch(&ak8GenJetSDMassDrop_, "ak8GenJetSDMassDrop");
+    AddBranch(&ak8GenJettau1_, "ak8GenJettau1");
+    AddBranch(&ak8GenJettau2_, "ak8GenJettau2");
+    AddBranch(&ak8GenJettau3_, "ak8GenJettau3");
+  }
 }
 
 

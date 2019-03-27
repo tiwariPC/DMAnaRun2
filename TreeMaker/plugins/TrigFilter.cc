@@ -2,7 +2,7 @@
 //
 // Package:    TrigFilter
 // Class:      TrigFilter
-// 
+//
 /**\class TrigFilter TrigFilter.cc DelPanj/TrigFilter/src/TrigFilter.cc
 
  Description: [one line class summary]
@@ -33,7 +33,7 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "DataFormats/HLTReco/interface/TriggerObject.h"
-#include "FWCore/Common/interface/TriggerNames.h" 
+#include "FWCore/Common/interface/TriggerNames.h"
 #include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
 
 
@@ -54,7 +54,7 @@ class TrigFilter : public edm::EDFilter {
       virtual void beginJob() ;
       virtual bool filter(edm::Event&, const edm::EventSetup&);
       virtual void endJob() ;
-      
+
       virtual bool beginRun(edm::Run&, edm::EventSetup const&);
       virtual bool endRun(edm::Run&, edm::EventSetup const&);
       virtual bool beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&);
@@ -62,8 +62,8 @@ class TrigFilter : public edm::EDFilter {
 
       // ----------member data ---------------------------
       edm::InputTag trigTag_;
-      std::vector<std::string> trigPaths_;
-  
+      std::vector<std::string> triglist;
+
       bool isValidHltConfig_;
       HLTConfigProvider  hltConfigProvider_;
 
@@ -82,18 +82,19 @@ class TrigFilter : public edm::EDFilter {
 //
 TrigFilter::TrigFilter(const edm::ParameterSet& iConfig):
  trigTag_(iConfig.getParameter<edm::InputTag> ("TrigTag")),//, edm::InputTag("TriggerResults::HLT"))),
- trigPaths_(iConfig.getParameter<std::vector< std::string > >("TrigPaths"))
- 
+ triglist(iConfig.getParameter<std::vector< std::string > >("TrigPaths"))
+
 {
    //now do what ever initialization is needed
    isValidHltConfig_ = false;
+   trigResultToken = consumes<edm::TriggerResults>(trigTag_);
 
 }
 
 
 TrigFilter::~TrigFilter()
 {
- 
+
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
 
@@ -108,53 +109,51 @@ TrigFilter::~TrigFilter()
 bool
 TrigFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-  
+
   edm::Handle<edm::TriggerResults> trigResults;
   //edm::InputTag trigTag("TriggerResults::HLT");
-  if (not iEvent.getByLabel(trigTag_, trigResults)) {
+  if (not iEvent.getByToken(trigResultToken, trigResults)) {
     std::cout << ">>> TRIGGER collection does not exist !!!\n";
     return false;
-  } 
-  
-     const edm::TriggerNames & trigNames 
-       = iEvent.triggerNames(*trigResults);
-     bool decision = false;
-     for (unsigned int i=0; i<trigResults->size(); i++)
-       {
+  }
+  const edm::TriggerNames & trigNames = iEvent.triggerNames(*trigResults);
+  bool decision = false;
+  for (unsigned int i=0; i<trigResults->size(); i++){
 	 std::string trigName   = trigNames.triggerName(i);
 	 bool  trigResult = trigResults->accept(i);
-         //std::vector<std::string>::const_iterator iter = trigPaths_.begin();
-         //Not interested in presclaed paths. 
-         bool prescaled = 0;
-         const unsigned int prescaleSize=  hltConfigProvider_.prescaleSize();
-         for(unsigned int ps=0; ps<prescaleSize;ps++){
-           const unsigned int prescaleValue=hltConfigProvider_.prescaleValue(ps,trigName);
-           if(prescaleValue !=1 )prescaled = true;
-          }
-         if(prescaled) continue;
-         //std::cout<<trigName<<std::endl; 
-	 if( find(trigPaths_.begin(), trigPaths_.end(), trigName)  == trigPaths_.end() )continue;
-         //std::cout<<trigName<<std::endl; 
+   //std::vector<std::string>::const_iterator iter = triglist.begin();
+   //Not interested in presclaed paths.
+   bool prescaled = 0;
+   const unsigned int prescaleSize=  hltConfigProvider_.prescaleSize();
+   for(unsigned int ps=0; ps<prescaleSize;ps++){
+     const unsigned int prescaleValue=hltConfigProvider_.prescaleValue(ps,trigName);
+     if(prescaleValue !=1 )prescaled = true;
+    }
+   if(prescaled) continue;
+   //std::cout<<trigName<<std::endl;
+   std::string trigName_1234 = trigName.substr(0, trigName.find("_v"));
+	if( find(triglist.begin(), triglist.end(), trigName_1234)  == triglist.end() ) continue;
+   //std::cout<<trigName<<std::endl;
 	 decision = decision||trigResult;
-       }
+   }
   return decision;
 }
 
 // ------------ method called once each job just before starting event loop  ------------
-void 
+void
 TrigFilter::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
-void 
+void
 TrigFilter::endJob() {
 }
 
 // ------------ method called when starting to processes a run  ------------
-bool 
+bool
 TrigFilter::beginRun(edm::Run& r, edm::EventSetup const& iSetup)
-{ 
+{
   bool isConfigChanged = false;
   isValidHltConfig_ = hltConfigProvider_.init( r, iSetup, trigTag_.process(), isConfigChanged );
 //  return isValidHltConfig_;
@@ -162,21 +161,21 @@ TrigFilter::beginRun(edm::Run& r, edm::EventSetup const& iSetup)
 }
 
 // ------------ method called when ending the processing of a run  ------------
-bool 
+bool
 TrigFilter::endRun(edm::Run&, edm::EventSetup const& iSetup)
 {
   return true;
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
-bool 
+bool
 TrigFilter::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
   return true;
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
-bool 
+bool
 TrigFilter::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&)
 {
   return true;

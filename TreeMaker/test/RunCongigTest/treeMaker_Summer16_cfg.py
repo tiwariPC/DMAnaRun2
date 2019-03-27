@@ -570,7 +570,11 @@ process.TFileService = cms.Service("TFileService",
 				   # fileName = cms.string('$outputFileName')
 				   )
 
-
+##Trigger Filter
+process.trigFilter = cms.EDFilter('TrigFilter',
+                                  TrigTag = cms.InputTag("TriggerResults::HLT"),
+                                  TrigPaths = cms.vstring('HLT_PFMET170_','HLT_PFMET170_NoiseCleaned','HLT_PFMET170_JetIdCleaned','HLT_PFMET170_HBHECleaned','HLT_PFMETNoMu90_PFMHTNoMu90_IDTight','HLT_PFMETNoMu100_PFMHTNoMu100_IDTight','HLT_PFMETNoMu110_PFMHTNoMu110_IDTight','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight','HLT_PFMET110_PFMHT110_','HLT_IsoMu24','HLT_IsoTkMu24','HLT_IsoMu27','HLT_IsoTkMu27','HLT_Ele27_WPTight_Gsf','HLT_Ele105_CaloIdVT_GsfTrkIdT','HLT_Ele115_CaloIdVT_GsfTrkIdT','HLT_Ele32_WPTight_Gsf','HLT_IsoMu20','HLT_Ele27_eta2p1_WPTight_Gsf','HLT_Ele27_WPLoose_Gsf_v','HLT_Ele32_eta2p1_WPTight_Gsf','HLT_Photon165_HE10','HLT_Photon175')
+                                  )
 
 ## New MET Filters
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
@@ -597,6 +601,7 @@ process.allEventsCounter = cms.EDFilter(
 if not options.useJECText:
 	process.analysis = cms.Path(
 		process.allEventsCounter+
+		process.trigFilter+
 		process.egmGsfElectronIDSequence+## by raman
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
@@ -615,6 +620,7 @@ if not options.useJECText:
 else:
 	process.analysis = cms.Path(
 		process.allEventsCounter+
+		process.trigFilter+
 		process.egmGsfElectronIDSequence+## by raman
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
