@@ -600,8 +600,8 @@ process.allEventsCounter = cms.EDFilter(
 
 if not options.useJECText:
 	process.analysis = cms.Path(
-		process.allEventsCounter+
 		process.trigFilter+
+		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+## by raman
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
@@ -619,8 +619,8 @@ if not options.useJECText:
 		)
 else:
 	process.analysis = cms.Path(
-		process.allEventsCounter+
 		process.trigFilter+
+		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+## by raman
 		process.egmPhotonIDSequence+ ## by raman
 		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
