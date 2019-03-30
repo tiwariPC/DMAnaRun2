@@ -64,6 +64,7 @@ class TrigFilter : public edm::EDFilter {
 
       // ----------member data ---------------------------
       edm::InputTag trigTag_;
+      bool isMC_;
       std::vector<std::string> triglist;
 
       bool isValidHltConfig_;
@@ -84,6 +85,7 @@ class TrigFilter : public edm::EDFilter {
 //
 TrigFilter::TrigFilter(const edm::ParameterSet& iConfig):
  trigTag_(iConfig.getParameter<edm::InputTag> ("TrigTag")),//, edm::InputTag("TriggerResults::HLT"))),
+ isMC_( iConfig.getParameter<bool>( "isMC_" ) ),
  triglist(iConfig.getParameter<std::vector< std::string > >("TrigPaths"))
 
 {
@@ -133,8 +135,10 @@ TrigFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
     }
    if(prescaled) continue;
    //std::cout<<trigName<<std::endl;
-   std::string trigName_1234 = trigName.substr(0, trigName.find("_v"));
-	if( find(triglist.begin(), triglist.end(), trigName_1234)  == triglist.end() ) continue;
+   if (!isMC_){
+       std::string trigName_1234 = trigName.substr(0, trigName.find("_v"));
+       if( find(triglist.begin(), triglist.end(), trigName_1234)  == triglist.end() ) continue;
+   }
    //std::cout<<trigName<<std::endl;
 	 decision = decision||trigResult;
    }
