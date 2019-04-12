@@ -119,7 +119,7 @@ patElecTree::Fill(const edm::Event& iEvent){
 
   for (edm::View<pat::Electron>::const_iterator ele = electronHandle->begin(); ele != electronHandle->end(); ++ele) {
 
-    if(ele->pt() < 5.) continue;
+    if(ele->pt() < 10.) continue;
     if(TMath::Abs(ele->eta()) > 2.5) continue;
     nEle_++;
 
@@ -284,106 +284,101 @@ patElecTree::Fill(const edm::Event& iEvent){
 
   }
 }
-
+bool ele_extra = false;
 
 void
 patElecTree::SetBranches(){
 
   AddBranch(&patElecRho_, "eleRho");
   AddBranch(&nEle_, "nEle");
-
   AddBranch(&patElecP4_,"eleP4");
-
-  AddBranch(&patElecInBarrel_,"eleInBarrel");
-  AddBranch(&patElecInEndcap_,"eleInEndcap");
-
-
   AddBranch(&patElecCharge_, "eleCharge");
-  AddBranch(&patElecChargeConsistent_,"eleChargeConsistent");
-
-
-  AddBranch(&patElecaloEnergy_,"elecaloEnergy");
-
-  AddBranch(&patElecScEt_,"eleScEt");
-  AddBranch(&patElecScEn_,"eleScEn");
-  AddBranch(&patElecScPreEn_,"eleScPreEn");
-  AddBranch(&patElecScEta_,"eleScEta");
-  AddBranch(&patElecScPhi_,"eleScPhi");
-  AddBranch(&patElecScRawEn_,"eleScRawEn");
-  AddBranch(&patElecScEtaWidth_,"eleScEtaWidth");
-  AddBranch(&patElecScPhiWidth_,"eleScPhiWidth");
-
-  AddBranch(&patElecR9_,"eleR9");
-  AddBranch(&patElecHoverE_,"eleHoverE");
-
-  AddBranch(&patElecD0_,"eleD0");
-  AddBranch(&patElecDz_,"eleDz");
-
-  AddBranch(&patElecEoverP_,"eleEoverP");
-  AddBranch(&patElecBrem_,"eleBrem");
-  AddBranch(&patElecdEtaAtVtx_,"eledEtaAtVtx");
-  AddBranch(&patElecdPhiAtVtx_,"eledPhiAtVtx");
-  AddBranch(&patElecSigmaIEtaIEta_,"eleSigmaIEtaIEta");
-  AddBranch(&patElecSigmaIEtaIPhi_,"eleSigmaIEtaIPhi");
-  AddBranch(&patElecSigmaIPhiIPhi_,"eleSigmaIPhiIPhi");
-
-  AddBranch(&patElecConvVeto_,"eleConvVeto");
-  AddBranch(&patElecMissHits_,"eleMissHits");
-  AddBranch(&patElecEoverPInv_,"eleEoverPInv");
-
-  AddBranch(&patElecdEtaseedAtVtx_,"eleEtaseedAtVtx");
-  AddBranch(&patElecE1x5_,"eleE1x5");
-  AddBranch(&patElecE2x5_,"eleE2x5");
-  AddBranch(&patElecE5x5_,"eleE5x5");
-
-  AddBranch(&patElecSigmaIEtaIEtaFull5x5_,"eleSigmaIEtaIEtaFull5x5");
-  AddBranch(&patElecE1x5Full5x5_,"eleE1x5Full5x5");
-  AddBranch(&patElecE2x5Full5x5_,"eleE2x5Full5x5");
-  AddBranch(&patElecE5x5Full5x5_,"eleE5x5Full5x5");
-  AddBranch(&patElecR9Full5x5_,"eleR9Full5x5");
-
-  AddBranch(&patElecChHadIso_, "eleChHadIso");
-  AddBranch(&patElecNeHadIso_, "eleNeHadIso");
-  AddBranch(&patElecGamIso_, "eleGamIso");
-  AddBranch(&patElecPUPt_, "elePUPt");
-  AddBranch(&patElecEcalPFClusterIso_, "eleEcalPFClusterIso");
-  AddBranch(&patElecHcalPFClusterIso_, "eleHcalPFClusterIso");
-
-  AddBranch(&patElecMiniIso_ch_,"eleMiniIso_ch");
-  AddBranch(&patElecMiniIso_nh_,"eleMiniIso_nh");
-  AddBranch(&patElecMiniIso_ph_,"eleMiniIso_ph");
-  AddBranch(&patElecMiniIso_pu_,"eleMiniIso_pu");
-  AddBranch(&patElecMiniIso_r_,"eleMiniIso_r");
-  AddBranch(&patElecMiniIsoBeta_,"eleMiniIsoBeta");
-  AddBranch(&patElecMiniIsoEA_,"eleMiniIsoEA");
-
-  AddBranch(&patElecEcalDrivenSeed_,"eleEcalDrivenSeed");
-  AddBranch(&patElecEcalDriven_,"eleEcalDriven");
-  AddBranch(&patElecDr03EcalRecHitSumEt_,"eleDr03EcalRecHitSumEt");
-  AddBranch(&patElecDr03HcalDepth1TowerSumEt_,"eleDr03HcalDepth1TowerSumEt");
-  AddBranch(&patElecDr03HcalDepth2TowerSumEt_,"eleDr03HcalDepth2TowerSumEt");
-  AddBranch(&patElecDr03HcalTowerSumEt_,"eleDr03HcalTowerSumEt");
-  AddBranch(&patElecDr03TkSumPt_,"eleDr03TkSumPt");
-
   AddBranch(&isPassVeto_,"eleIsPassVeto");
   AddBranch(&isPassLoose_,"eleIsPassLoose");
   AddBranch(&isPassMedium_,"eleIsPassMedium");
   AddBranch(&isPassTight_,"eleIsPassTight");
   AddBranch(&isPassHEEP_,"eleIsPassHEEP");
-  AddBranch(&isPassVetoNoIso_,"eleIsPassVetoNoIso");
-  AddBranch(&isPassLooseNoIso_,"eleIsPassLooseNoIso");
-  AddBranch(&isPassMediumNoIso_,"eleIsPassMediumNoIso");
-  AddBranch(&isPassTightNoIso_,"eleIsPassTightNoIso");
-  AddBranch(&isPassHEEPNoIso_,"eleIsPassHEEPNoIso");
-  AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
-  AddBranch(&isPassMVATight_,"eleIsPassMVATight");
 
-  AddBranch(&mvaValue_,"eleMVAValue");
-  AddBranch(&mvaCategory_,"eleMVACategory");
+  if (ele_extra){
+    AddBranch(&patElecChargeConsistent_,"eleChargeConsistent");
+    AddBranch(&patElecInBarrel_,"eleInBarrel");
+    AddBranch(&patElecInEndcap_,"eleInEndcap");
+
+    AddBranch(&patElecaloEnergy_,"elecaloEnergy");
+
+    AddBranch(&patElecScEt_,"eleScEt");
+    AddBranch(&patElecScEn_,"eleScEn");
+    AddBranch(&patElecScPreEn_,"eleScPreEn");
+    AddBranch(&patElecScEta_,"eleScEta");
+    AddBranch(&patElecScPhi_,"eleScPhi");
+    AddBranch(&patElecScRawEn_,"eleScRawEn");
+    AddBranch(&patElecScEtaWidth_,"eleScEtaWidth");
+    AddBranch(&patElecScPhiWidth_,"eleScPhiWidth");
+
+    AddBranch(&patElecR9_,"eleR9");
+    AddBranch(&patElecHoverE_,"eleHoverE");
+
+    AddBranch(&patElecD0_,"eleD0");
+    AddBranch(&patElecDz_,"eleDz");
+
+    AddBranch(&patElecEoverP_,"eleEoverP");
+    AddBranch(&patElecBrem_,"eleBrem");
+    AddBranch(&patElecdEtaAtVtx_,"eledEtaAtVtx");
+    AddBranch(&patElecdPhiAtVtx_,"eledPhiAtVtx");
+    AddBranch(&patElecSigmaIEtaIEta_,"eleSigmaIEtaIEta");
+    AddBranch(&patElecSigmaIEtaIPhi_,"eleSigmaIEtaIPhi");
+    AddBranch(&patElecSigmaIPhiIPhi_,"eleSigmaIPhiIPhi");
+
+    AddBranch(&patElecConvVeto_,"eleConvVeto");
+    AddBranch(&patElecMissHits_,"eleMissHits");
+    AddBranch(&patElecEoverPInv_,"eleEoverPInv");
+
+    AddBranch(&patElecdEtaseedAtVtx_,"eleEtaseedAtVtx");
+    AddBranch(&patElecE1x5_,"eleE1x5");
+    AddBranch(&patElecE2x5_,"eleE2x5");
+    AddBranch(&patElecE5x5_,"eleE5x5");
+
+    AddBranch(&patElecSigmaIEtaIEtaFull5x5_,"eleSigmaIEtaIEtaFull5x5");
+    AddBranch(&patElecE1x5Full5x5_,"eleE1x5Full5x5");
+    AddBranch(&patElecE2x5Full5x5_,"eleE2x5Full5x5");
+    AddBranch(&patElecE5x5Full5x5_,"eleE5x5Full5x5");
+    AddBranch(&patElecR9Full5x5_,"eleR9Full5x5");
+
+    AddBranch(&patElecChHadIso_, "eleChHadIso");
+    AddBranch(&patElecNeHadIso_, "eleNeHadIso");
+    AddBranch(&patElecGamIso_, "eleGamIso");
+    AddBranch(&patElecPUPt_, "elePUPt");
+    AddBranch(&patElecEcalPFClusterIso_, "eleEcalPFClusterIso");
+    AddBranch(&patElecHcalPFClusterIso_, "eleHcalPFClusterIso");
+
+    AddBranch(&patElecMiniIso_ch_,"eleMiniIso_ch");
+    AddBranch(&patElecMiniIso_nh_,"eleMiniIso_nh");
+    AddBranch(&patElecMiniIso_ph_,"eleMiniIso_ph");
+    AddBranch(&patElecMiniIso_pu_,"eleMiniIso_pu");
+    AddBranch(&patElecMiniIso_r_,"eleMiniIso_r");
+    AddBranch(&patElecMiniIsoBeta_,"eleMiniIsoBeta");
+    AddBranch(&patElecMiniIsoEA_,"eleMiniIsoEA");
+
+    AddBranch(&patElecEcalDrivenSeed_,"eleEcalDrivenSeed");
+    AddBranch(&patElecEcalDriven_,"eleEcalDriven");
+    AddBranch(&patElecDr03EcalRecHitSumEt_,"eleDr03EcalRecHitSumEt");
+    AddBranch(&patElecDr03HcalDepth1TowerSumEt_,"eleDr03HcalDepth1TowerSumEt");
+    AddBranch(&patElecDr03HcalDepth2TowerSumEt_,"eleDr03HcalDepth2TowerSumEt");
+    AddBranch(&patElecDr03HcalTowerSumEt_,"eleDr03HcalTowerSumEt");
+    AddBranch(&patElecDr03TkSumPt_,"eleDr03TkSumPt");
 
 
+    AddBranch(&isPassVetoNoIso_,"eleIsPassVetoNoIso");
+    AddBranch(&isPassLooseNoIso_,"eleIsPassLooseNoIso");
+    AddBranch(&isPassMediumNoIso_,"eleIsPassMediumNoIso");
+    AddBranch(&isPassTightNoIso_,"eleIsPassTightNoIso");
+    AddBranch(&isPassHEEPNoIso_,"eleIsPassHEEPNoIso");
+    AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
+    AddBranch(&isPassMVATight_,"eleIsPassMVATight");
 
-
+    AddBranch(&mvaValue_,"eleMVAValue");
+    AddBranch(&mvaCategory_,"eleMVACategory");
+  }
 }
 void
 patElecTree::Clear(){

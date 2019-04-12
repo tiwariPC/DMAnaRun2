@@ -468,13 +468,14 @@ if options.useJECText:
 
 
 
-process.TFileService = cms.Service("TFileService",
-				   fileName = cms.string("NCUGlobalTuples.root")
+process.TFileService = cms.Service("TFileService",fileName = cms.string("NCUGlobalTuples.root"))
 
-				   )
-
-
-
+##Trigger Filter
+process.trigFilter = cms.EDFilter('TrigFilter',
+                                 TrigTag = cms.InputTag("TriggerResults::HLT"),
+                                 TrigPaths = cms.vstring("HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60_v","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v","HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v","HLT_IsoMu27_v","HLT_IsoTkMu27","HLT_IsoMu24_v","HLT_IsoTkMu24_v","HLT_Ele27_WPTight_Gsf_v","HLT_Ele32_WPTight_Gsf_L1DoubleEG_v',HLT_Ele35_WPTight_Gsf_v,'HLT_Photon200_v"),
+                                 isMC_ = cms.bool(options.runOnMC)
+                                 )
 ## New MET Filters
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
 process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
@@ -499,6 +500,7 @@ process.allEventsCounter = cms.EDFilter(
 
 if not options.useJECText:
 	process.analysis = cms.Path(
+        process.trigFilter+
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
 		process.egmPhotonIDSequence+
@@ -519,6 +521,7 @@ if not options.useJECText:
 		)
 else:
 	process.analysis = cms.Path(
+        process.trigFilter+
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+
 		process.egmPhotonIDSequence+
