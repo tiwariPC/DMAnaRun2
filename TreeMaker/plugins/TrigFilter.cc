@@ -47,8 +47,8 @@ class TrigFilter : public edm::EDFilter {
    public:
       explicit TrigFilter(const edm::ParameterSet&);
       ~TrigFilter();
-
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
+      edm::EDGetTokenT<edm::TriggerResults>       trigResultToken;
 
    private:
       virtual void beginJob() ;
