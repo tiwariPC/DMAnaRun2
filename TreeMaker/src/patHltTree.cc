@@ -30,7 +30,7 @@ patHltTree::Fill(const edm::Event& iEvent)
     std::cout << ">>> TRIGGER collection does not exist !!!\n";
     return;
   }
-  std::vector<std::string> triggerlist={"HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMETNoMu140_PFMHTNoMu140_IDTight","HLT_IsoMu27","HLT_IsoTkMu27","HLT_IsoMu24","HLT_IsoTkMu24","HLT_Ele27_WPTight_Gsf","HLT_Ele32_WPTight_Gsf_L1DoubleEG',HLT_Ele35_WPTight_Gsf,'HLT_Photon200"};
+  std::vector<std::string> triggerlist={"HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMETNoMu140_PFMHTNoMu140_IDTight","HLT_IsoMu27","HLT_IsoTkMu27","HLT_IsoMu24","HLT_IsoTkMu24","HLT_Ele27_WPTight_Gsf","HLT_Ele32_WPTight_Gsf_L1DoubleEG","HLT_Ele35_WPTight_Gsf","HLT_Photon200"};
 
   const edm::TriggerNames & trigNames = iEvent.triggerNames(*trigResults);
 
