@@ -85,6 +85,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patHltTree_                             = new patHltTree("hlt_",tree_,iConfig);
       patHltTree_->trigResultsToken           = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("triggerLabel"));
       patHltTree_->triggerPrescalesToken      = consumes<pat::PackedTriggerPrescales>(edm::InputTag("patTrigger"));
+      patHltTree_->triggerObjectsToken         = consumes<pat::TriggerObjectStandAloneCollection>(edm::InputTag("slimmedPatTrigger"));
 
     }
   if( fillFilterInfo_ )
@@ -97,8 +98,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patFilterTree_->BadPFMuonFilterToken_   = consumes<bool>(edm::InputTag("BadPFMuonFilter"));
       patFilterTree_->BadGlobalMuonFilterToken_     = consumes<bool>(edm::InputTag("badGlobalMuonTaggerMAOD"));
       patFilterTree_->CloneGlobalMuonFilterToken_   = consumes<bool>(edm::InputTag("cloneGlobalMuonTaggerMAOD"));
-
-
       patFilterTree_->filterTrigResultsToken  = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("filterLabel"));
     }
 
