@@ -247,7 +247,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
   for(;jet!=jets.end();jet++){
 
-    if(jet->pt() < 10.) continue;
+    if(jet->pt() < 30.) continue;
     if((isFATJet_ || isAK8PuppiJet_ || isCA15PuppiJet_) && jet->pt() < 170.) continue;
 
     nJet_++;
@@ -863,8 +863,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
 
 }
-
-
+bool jet_extra = false;
 
 void
 jetTree::SetBranches(){
@@ -875,24 +874,37 @@ jetTree::SetBranches(){
   AddBranch(&jetRho_, "jetRho");
   AddBranch(&jetNPV_, "jetNPV");
 
-  AddBranch(&genjetP4_,   "genjetP4");
-  AddBranch(&genjetEM_ ,  "genjetEM");
-  AddBranch(&genjetHAD_ , "genjetHAD");
-  AddBranch(&genjetINV_ , "genjetINV");
-  AddBranch(&genjetAUX_ , "genjetAUX");
-  AddBranch(&matchedDR_ , "matchedDR");
+  if(jet_extra){
+    AddBranch(&genjetP4_,   "genjetP4");
+    AddBranch(&genjetEM_ ,  "genjetEM");
+    AddBranch(&genjetHAD_ , "genjetHAD");
+    AddBranch(&genjetINV_ , "genjetINV");
+    AddBranch(&genjetAUX_ , "genjetAUX");
+    AddBranch(&matchedDR_ , "matchedDR");
 
-  AddBranch(&jetRawFactor_, "jetRawFactor");
-  AddBranch(&unCorrJetP4_, "unCorrJetP4");
+    AddBranch(&jetRawFactor_, "jetRawFactor");
+    AddBranch(&unCorrJetP4_, "unCorrJetP4");
 
-  AddBranch(&jetArea_,        "jetArea");
+    AddBranch(&jetArea_,        "jetArea");
+    AddBranch(&jetCharge_,       "jetCharge");
+    AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
+
+    AddBranch(&jetCMulti_, "jetCMulti");
+    AddBranch(&jetEleMultiplicity_,"jetEleMulti");
+    AddBranch(&jetMuoMultiplicity_,"jetMuoMulti");
+
+    AddBranch(&jetSSV_,   "jetSSV");
+    AddBranch(&jetCSV_,   "jetCSV");
+    AddBranch(&jetSSVHE_, "jetSSVHE");
+    AddBranch(&jetTCHP_,  "jetTCHP");
+    AddBranch(&jetTCHE_,  "jetTCHE");
+    AddBranch(&jetJP_,    "jetJP");
+    AddBranch(&jetJBP_,   "jetJBP");
+  }
+
   AddBranch(&jetCorrUncUp_,   "jetCorrUncUp");
   AddBranch(&jetCorrUncDown_, "jetCorrUncDown");
-
-  AddBranch(&jetCharge_,       "jetCharge");
-  AddBranch(&jetPartonFlavor_, "jetPartonFlavor");
   AddBranch(&jetHadronFlavor_, "jetHadronFlavor");
-//  AddBranch(&jetPassIDLoose_,  "jetPassIDLoose");
   AddBranch(&jetPassIDTight_,  "jetPassIDTight");
 
   AddBranch(&jetCEmEF_,  "jetCEmEF");
@@ -903,24 +915,11 @@ jetTree::SetBranches(){
   AddBranch(&jetEleEF_,  "jetEleEF");
   AddBranch(&jetMuoEF_,  "jetMuoEF");
 
-  AddBranch(&jetCMulti_, "jetCMulti");
-  AddBranch(&jetEleMultiplicity_,"jetEleMulti");
-  AddBranch(&jetMuoMultiplicity_,"jetMuoMulti");
-
-  AddBranch(&jetSSV_,   "jetSSV");
-  AddBranch(&jetCSV_,   "jetCSV");
-  AddBranch(&jetSSVHE_, "jetSSVHE");
-  AddBranch(&jetCISVV2_,"jetCISVV2");
-  AddBranch(&jetDeepCSV_b_,"jetDeepCSV_b");
-  AddBranch(&jetDeepCSV_c_,"jetDeepCSV_c");
-  AddBranch(&jetDeepCSV_udsg_,"jetDeepCSV_udsg");
-  AddBranch(&jetTCHP_,  "jetTCHP");
-  AddBranch(&jetTCHE_,  "jetTCHE");
-  AddBranch(&jetJP_,    "jetJP");
-  AddBranch(&jetJBP_,   "jetJBP");
-
-
   if(isTHINJet_){
+    AddBranch(&jetCISVV2_,"jetCISVV2");
+    AddBranch(&jetDeepCSV_b_,"jetDeepCSV_b");
+    AddBranch(&jetDeepCSV_c_,"jetDeepCSV_c");
+    AddBranch(&jetDeepCSV_udsg_,"jetDeepCSV_udsg");
     AddBranch(&PUJetID_,   "PUJetID");
     AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
     AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
@@ -928,32 +927,30 @@ jetTree::SetBranches(){
   }
 
   if(isFATJet_ || isAK8PuppiJet_ || isCA15PuppiJet_){
+    if (jet_extra){
+      AddBranch(&jetTau1_,  "jetTau1");
+      AddBranch(&jetTau2_,  "jetTau2");
+      AddBranch(&jetTau3_,  "jetTau3");
+      AddBranch(&jetTau21_, "jetTau21");
+      AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
+      AddBranch(&jet_nSV_,     "jet_nSV");
+      AddBranch(&jet_SVMass_,  "jet_SVMass");
 
+      // subjet information
+      AddBranch(&jetGenSDmass_,         "jetGenSDmass");
+      AddBranch(&nSubSDJet_,            "nSubSDJet");
+      AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
+      AddBranch(&subjetSDPx_,           "subjetSDPx");
+      AddBranch(&subjetSDPy_,           "subjetSDPy");
+      AddBranch(&subjetSDPz_,           "subjetSDPz");
+      AddBranch(&subjetSDE_,            "subjetSDE");
+      AddBranch(&subjetSDRawFactor_,    "subjetSDRawFactor");
+      AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
+    }
     AddBranch(&jetSDRawP4_, "jetSDRawP4");
-
-    AddBranch(&jetTau1_,  "jetTau1");
-    AddBranch(&jetTau2_,  "jetTau2");
-    AddBranch(&jetTau3_,  "jetTau3");
-    AddBranch(&jetTau21_, "jetTau21");
     AddBranch(&jetSDmass_, "jetSDmass");
-
-    AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
-    AddBranch(&jet_nSV_,     "jet_nSV");
-    AddBranch(&jet_SVMass_,  "jet_SVMass");
-
-    // subjet information
-    AddBranch(&jetGenSDmass_,         "jetGenSDmass");
-    AddBranch(&nSubSDJet_,            "nSubSDJet");
-    AddBranch(&subjetSDFatJetIndex_,  "subjetSDFatJetIndex");
-    AddBranch(&subjetSDPx_,           "subjetSDPx");
-    AddBranch(&subjetSDPy_,           "subjetSDPy");
-    AddBranch(&subjetSDPz_,           "subjetSDPz");
-    AddBranch(&subjetSDE_,            "subjetSDE");
-    AddBranch(&subjetSDRawFactor_,    "subjetSDRawFactor");
-    AddBranch(&subjetSDPartonFlavor_, "subjetSDPartonFlavor");
     AddBranch(&subjetSDHadronFlavor_, "subjetSDHadronFlavor");
-    AddBranch(&subjetSDCSV_,          "subjetSDCSV");
-
+    AddBranch(&subjetSDCSV_, "subjetSDCSV");
 
     if(isCA15PuppiJet_){
       AddBranch(&ca15_doublebtag, "_doublebtag");
@@ -964,25 +961,20 @@ jetTree::SetBranches(){
   } // for AK8 and CA15 jets
 
   if(isFATJet_){
-
-
-    AddBranch(&jetCHSSDmass_,         "jetCHSSDmass");
-    AddBranch(&jetCHSPRmass_,         "jetCHSPRmass");
-    AddBranch(&jetCHSPRmassL2L3Corr_, "jetCHSPRmassL2L3Corr");
-
-
-
-    // puppi information
-    AddBranch(&jetCHSTau1_,   "jetCHSTau1");
-    AddBranch(&jetCHSTau2_,   "jetCHSTau2");
-    AddBranch(&jetCHSTau3_,   "jetCHSTau3");
-
-    AddBranch(&jetCHSP4_, "jetCHSP4");
-
+    if (jet_extra){
+      AddBranch(&jetCHSSDmass_,         "jetCHSSDmass");
+      AddBranch(&jetCHSPRmass_,         "jetCHSPRmass");
+      AddBranch(&jetCHSPRmassL2L3Corr_, "jetCHSPRmassL2L3Corr");
+      AddBranch(&jetCHSTau1_,   "jetCHSTau1");
+      AddBranch(&jetCHSTau2_,   "jetCHSTau2");
+      AddBranch(&jetCHSTau3_,   "jetCHSTau3");
+      AddBranch(&jetCHSP4_, "jetCHSP4");
+    }
   } // only for AK8CHS jets
 
 
 }
+
 
 
 void

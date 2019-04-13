@@ -468,7 +468,12 @@ process.TFileService = cms.Service("TFileService",
 				   )
 
 
-
+##Trigger Filter
+process.trigFilter = cms.EDFilter('TrigFilter',
+                                TrigTag = cms.InputTag("TriggerResults::HLT"),
+                                TrigPaths = cms.vstring("HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight","HLT_PFMETNoMu140_PFMHTNoMu140_IDTight","HLT_IsoMu27","HLT_IsoTkMu27","HLT_IsoMu24","HLT_IsoTkMu24","HLT_Ele27_WPTight_Gsf","HLT_Ele32_WPTight_Gsf_L1DoubleEG","HLT_Ele35_WPTight_Gsf","HLT_Photon200"),
+                                isMC_ = cms.bool(options.runOnMC)
+                                )
 ## New MET Filters
 process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
 process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
@@ -492,38 +497,39 @@ process.allEventsCounter = cms.EDFilter(
 
 
 if not options.useJECText:
-	process.analysis = cms.Path(
-		process.allEventsCounter+
-		process.egmGsfElectronIDSequence+
-		process.egmPhotonIDSequence+
-		process.rerunMvaIsolationSequence
-		*process.NewTauIDsEmbedded+
-		process.pfMet+
-		process.jetCorrSequenceAK4+
-		process.jetCorrSequenceAK8+
-		process.jetCorrSequenceAK4Puppi+
-		process.jetCorrSequenceForPrunedMass+
-		process.BadPFMuonFilter +
-		process.BadChargedCandidateFilter +
-		process.badGlobalMuonTaggerMAOD +
-		process.cloneGlobalMuonTaggerMAOD +
-		#process.HBHENoiseFilterResultProducer+ ## by raman
-		process.tree
-		)
+    process.analysis = cms.Path(
+        process.trigFilter+
+        process.allEventsCounter+
+        process.egmGsfElectronIDSequence+
+        process.egmPhotonIDSequence+
+        process.rerunMvaIsolationSequence
+        *process.NewTauIDsEmbedded+
+        process.pfMet+
+        process.jetCorrSequenceAK4+
+        process.jetCorrSequenceAK8+
+        process.jetCorrSequenceAK4Puppi+
+        process.jetCorrSequenceForPrunedMass+
+        process.BadPFMuonFilter +
+        process.BadChargedCandidateFilter +
+        process.badGlobalMuonTaggerMAOD +
+        process.cloneGlobalMuonTaggerMAOD +
+        #process.HBHENoiseFilterResultProducer+ ## by raman
+        process.tree
+        )
 else:
-	process.analysis = cms.Path(
-		process.allEventsCounter+
-		process.egmGsfElectronIDSequence+
-		process.egmPhotonIDSequence+
-		process.rerunMvaIsolationSequence*
-		process.NewTauIDsEmbedded+
-		process.pfMet+
-		process.BadPFMuonFilter+
-		process.BadChargedCandidateFilter+
-		process.badGlobalMuonTaggerMAOD+
-		process.cloneGlobalMuonTaggerMAOD+
-		process.tree
-		)
-
+    process.analysis = cms.Path(
+        process.trigFilter+
+        process.allEventsCounter+
+        process.egmGsfElectronIDSequence+
+        process.egmPhotonIDSequence+
+        process.rerunMvaIsolationSequence*
+        process.NewTauIDsEmbedded+
+        process.pfMet+
+        process.BadPFMuonFilter+
+        process.BadChargedCandidateFilter+
+        process.badGlobalMuonTaggerMAOD+
+        process.cloneGlobalMuonTaggerMAOD+
+        process.tree
+        )
 
 #print process.dumpPython()
