@@ -138,9 +138,6 @@ TrigFilter::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
         std::string trigName_1234 = trigName.substr(0, trigName.find("_v"));
         if( find(triglist.begin(), triglist.end(), trigName_1234)  == triglist.end() ) continue;
       }
-      //std::cout<<trigName<<std::endl;
-      if( find(triglist.begin(), triglist.end(), trigName)  == triglist.end() )continue;
-      //std::cout<<trigName<<std::endl;
       decision = decision||trigResult;
     }
   return decision;
