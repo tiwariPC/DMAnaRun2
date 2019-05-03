@@ -15,9 +15,7 @@ tree = cms.EDAnalyzer(
     fillPhotInfo     = cms.bool(True),
 
     fillJetInfo      = cms.bool(True),
-    filldeepCSVJetInfo  = cms.bool(True),
     fillFATJetInfo   = cms.bool(True),
-    fillAddJetInfo   = cms.bool(False),
     fillAK4PuppiJetInfo = cms.bool(False),
     fillAK8PuppiJetInfo = cms.bool(True),
     fillCA15PuppiJetInfo = cms.bool(False),
@@ -102,16 +100,7 @@ tree = cms.EDAnalyzer(
         ),
     THINjecUncName   = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt'),
     THINjecUncPayLoad= cms.string('AK4PFchs'),
-    # jec still need to be checked
-
-    AK4deepCSVJets         = cms.InputTag("selectedUpdatedPat"),
-    AK4deepCSVjecNames     = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt'
-        ),
-    AK4deepCSVjecUncName   = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt'),
-    AK4deepCSVjecUncPayLoad= cms.string('AK4PFchs'),
+    # jec still need to be checke
 
     ### FatJets
 #    FATJets=cms.InputTag("slimmedJetsAK8"),
@@ -128,17 +117,6 @@ tree = cms.EDAnalyzer(
         ),
     FATjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFchs.txt'),
     FATjecUncPayLoad     = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
-
-    ### AddJets
-    ADDJets              = cms.InputTag("selectedPatJetsAK8PFCHS"),
-    svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),
-    ADDjecNames          = cms.vstring(
-        'Summer16_23Sep2016V3_MC_L1FastJet_AK8PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L2Relative_AK8PFchs.txt',
-        'Summer16_23Sep2016V3_MC_L3Absolute_AK8PFchs.txt'
-        ),
-    ADDjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFchs.txt'),
-    ADDjecUncPayLoad     = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
 
 
 #    AK4PuppiJets=cms.InputTag("slimmedJetsPuppi"),

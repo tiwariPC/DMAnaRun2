@@ -31,9 +31,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillTauInfo_     =false;
   fillPhotInfo_    =false;
   fillJetInfo_     =false;
-  filldeepCSVJetInfo_ =false;
   fillFATJetInfo_  =false;
-  fillAddJetInfo_  =false;
   fillAK4PuppiJetInfo_ = false;
   fillAK8PuppiJetInfo_ = false;
   fillCA15PuppiJetInfo_ = false;
@@ -49,9 +47,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   fillTauInfo_      = iConfig.getParameter<bool>("fillTauInfo");
   fillPhotInfo_     = iConfig.getParameter<bool>("fillPhotInfo");
   fillJetInfo_      = iConfig.getParameter<bool>("fillJetInfo");
-  filldeepCSVJetInfo_      = iConfig.getParameter<bool>("filldeepCSVJetInfo");
   fillFATJetInfo_   = iConfig.getParameter<bool>("fillFATJetInfo");
-  fillAddJetInfo_   = iConfig.getParameter<bool>("fillAddJetInfo");
   fillAK4PuppiJetInfo_   = iConfig.getParameter<bool>("fillAK4PuppiJetInfo");
   fillAK8PuppiJetInfo_   = iConfig.getParameter<bool>("fillAK8PuppiJetInfo");
   fillCA15PuppiJetInfo_   = iConfig.getParameter<bool>("fillCA15PuppiJetInfo");
@@ -93,12 +89,12 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
     }
   if( fillFilterInfo_ )
     {
-      patFilterTree_                          = new patFilters("hlt_",tree_);
-      patFilterTree_->HBHETToken              = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET"));
-      patFilterTree_->HBHELToken              = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Loose","MVAMET"));
-      patFilterTree_->HBHEIsoToken            = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHEIsoNoiseFilterResult","MVAMET"));
-      patFilterTree_->BadChCandFilterToken_   = consumes<bool>(edm::InputTag("BadChargedCandidateFilter"));
-      patFilterTree_->BadPFMuonFilterToken_   = consumes<bool>(edm::InputTag("BadPFMuonFilter"));
+      patFilterTree_                                = new patFilters("hlt_",tree_);
+      patFilterTree_->HBHETToken                    = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET"));
+      patFilterTree_->HBHELToken                    = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Loose","MVAMET"));
+      patFilterTree_->HBHEIsoToken                  = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHEIsoNoiseFilterResult","MVAMET"));
+      patFilterTree_->BadChCandFilterToken_         = consumes<bool>(edm::InputTag("BadChargedCandidateFilter"));
+      patFilterTree_->BadPFMuonFilterToken_         = consumes<bool>(edm::InputTag("BadPFMuonFilter"));
       patFilterTree_->BadGlobalMuonFilterToken_     = consumes<bool>(edm::InputTag("badGlobalMuonTaggerMAOD"));
       patFilterTree_->CloneGlobalMuonFilterToken_   = consumes<bool>(edm::InputTag("cloneGlobalMuonTaggerMAOD"));
 
@@ -113,7 +109,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       genInfoTree_->genEventToken            = consumes<GenEventInfoProduct>(edm::InputTag("generator"));
       genInfoTree_->lheRunToken              = consumes<LHERunInfoProduct,edm::InRun>(edm::InputTag("externalLHEProducer"));
       genInfoTree_->lheEventToken            = consumes<LHEEventProduct>(edm::InputTag("externalLHEProducer"));
-      genInfoTree_->genMETToken_true         = consumes<pat::PackedGenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticles"));
+      genInfoTree_->genMETToken_true         = consumes<reco::GenMETCollection>(edm::InputTag("genMetTrue"));
       genInfoTree_->genMETToken_calo         = consumes<reco::GenMETCollection>(edm::InputTag("genMetCalo"));
       genInfoTree_->genMETToken_caloNonPrompt = consumes<reco::GenMETCollection>(edm::InputTag("genMetCaloAndNonPrompt"));
       genInfoTree_->ak4genJetsToken           = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetLabel"));
@@ -185,15 +181,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       THINjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
     }
 
-  if( filldeepCSVJetInfo_ )
-    {
-      std::string desc             = "AK4deepCSV";
-      THINdeepCSVjetTree_                 = new jetTree(desc,tree_,iConfig);
-      THINdeepCSVjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
-      THINdeepCSVjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
-      THINdeepCSVjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
-    }
-
   if( fillFATJetInfo_ )
     {
       std::string desc            = "FAT";
@@ -202,16 +189,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       FATjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
       FATjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
       FATjetTree_->prunedMToken   = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJetsForPrunedMass",desc.data())));
-    }
-
-  if( fillAddJetInfo_)
-    {
-      std::string desc            = "ADD";
-      ADDjetTree_                 = new jetTree(desc,tree_,iConfig);
-      ADDjetTree_->jetToken       = consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>(Form("%sJets",desc.data())));
-      ADDjetTree_->vertexToken    = consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("pvSrc"));
-      ADDjetTree_->rhoForJetToken = consumes<double>(edm::InputTag("fixedGridRhoFastjetAll"));
-
     }
 
   if( fillAK4PuppiJetInfo_)
@@ -269,8 +246,6 @@ TreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
   if( fillFATJetInfo_ )   FATjetTree_    ->Fill(iEvent, iSetup);
   if( fillJetInfo_ )      THINjetTree_   ->Fill(iEvent, iSetup);
-  if( filldeepCSVJetInfo_ )      THINdeepCSVjetTree_   ->Fill(iEvent, iSetup);
-  if( fillAddJetInfo_ )   ADDjetTree_    ->Fill(iEvent, iSetup);
   if( fillAK4PuppiJetInfo_ ) AK4PuppijetTree_->Fill(iEvent, iSetup);
   if( fillAK8PuppiJetInfo_ ) AK8PuppijetTree_->Fill(iEvent, iSetup);
   if( fillCA15PuppiJetInfo_ ) CA15PuppijetTree_->Fill(iEvent, iSetup);

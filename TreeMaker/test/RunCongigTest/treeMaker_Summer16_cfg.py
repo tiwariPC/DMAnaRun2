@@ -71,16 +71,18 @@ process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
 process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
-process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+process.load('Configuration.StandardSequences.MagneticField_cff')
+#process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+#process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
-	process.GlobalTag = GlobalTag(process.GlobalTag, '80X_mcRun2_asymptotic_2016_TrancheIV_v8', '')
-else:## Data no global tag yet
-        process.GlobalTag = GlobalTag(process.GlobalTag, '80X_dataRun2_2016SeptRepro_v7', '')
+	process.GlobalTag.globaltag='94X_mcRun2_asymtotic_v3'
+else:
+    process.GlobalTag.globaltag='94X_dataRun2_v10'
 
 
 
@@ -127,9 +129,9 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 
 # Input source
 if options.runOnMC:
-	testFile='root://cms-xrd-global.cern.ch///store/mc/RunIISummer16MiniAODv2/BBbarDMJets_pseudo_NLO_Mchi-1_Mphi-50_TuneCUETP8M1_13TeV-madgraph-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/100000/0470A659-F1CF-E611-BA86-002590E7DFD6.root'
+	testFile='root://cms-xrd-global.cern.ch//store/mc/RunIISummer16MiniAODv3/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v2/110000/FC23A1C1-1BEA-E811-9671-0025905C445A.root '
 else:
-	testFile='/store/data/Run2016G/JetHT/MINIAOD/03Feb2017-v1/100000/006E7AF2-AEEC-E611-A88D-7845C4FC3B00.root'
+	testFile='root://cms-xrd-global.cern.ch//store/data/Run2016H/SingleElectron/MINIAOD/17Jul2018-v1/00000/68E48B61-558B-E811-9D30-0025905B858A.root '
 
 
 process.source = cms.Source("PoolSource",
@@ -172,37 +174,6 @@ process.genJetsNoNuAK8 = ak4GenJets.clone(
     rParam = cms.double(0.8),
     src = cms.InputTag("packedGenParticlesForJetsNoNu")
 )
-
-'''
-## produce Pruned ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
-from RecoJets.JetProducers.SubJetParameters_cfi import SubJetParameters
-
-## Produce SoftDrop ak8 fat jets (Gen and Reco) (each module produces two jet collections, fat jets and subjets)
-process.genJetsNoNuSoftDrop = ak4GenJets.clone(
-    jetAlgorithm = cms.string('AntiKt'),
-    rParam = cms.double(0.8),
-    src = cms.InputTag("packedGenParticlesForJetsNoNu"),
-    useSoftDrop = cms.bool(False),# because it crashes for PHYS14 samples
-    zcut = cms.double(0.1),
-    beta = cms.double(0.0),
-    R0 = cms.double(0.8),
-    writeCompound = cms.bool(True),
-    jetCollInstanceName=cms.string("SubJets")
-)
-from RecoJets.JetProducers.ak4PFJetsSoftDrop_cfi import ak4PFJetsSoftDrop
-process.PFJetsCHSSoftDrop = ak4PFJetsSoftDrop.clone(
-    jetAlgorithm = cms.string('AntiKt'),
-    rParam = cms.double(0.8),
-    R0 = cms.double(0.8),
-    src = getattr(process,"ak4PFJets").src,
-    srcPVs = getattr(process,"ak4PFJets").srcPVs,
-    doAreaFastjet = cms.bool(True),
-    writeCompound = cms.bool(True),
-    jetCollInstanceName=cms.string("SubJets"),
-    jetPtMin = cms.double(170.0)
-)
-'''
-
 
 postfix = "PFlow"
 pfCandidates = 'packedPFCandidates'
@@ -250,11 +221,10 @@ bTagDiscriminators = [
     ,'softPFElectronBJetTags'
     ,'positiveSoftPFElectronBJetTags'
     ,'negativeSoftPFElectronBJetTags'
-    #,'deepFlavourJetTags:probudsg'
-    #,'deepFlavourJetTags:probb'
-    #,'deepFlavourJetTags:probc'
-    #,'deepFlavourJetTags:probbb'
-    #,'deepFlavourJetTags:probcc'
+    ,'pfDeepCSVJetTags:probb'
+    ,'pfDeepCSVJetTags:probc'
+    ,'pfDeepCSVJetTags:probudsg'
+    ,'pfDeepCSVJetTags:probbb'
 ]
 
 ## Jet energy corrections
@@ -400,22 +370,6 @@ jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='Puppi', miniAOD=opti
 	    Cut='pt>170',
 	    addSoftDrop=True,addSoftDropSubjets=True,addNsub=True )
 
-### ADDjet for doubleb-tagger
-jetToolbox( process, 'ak8', 'jetSequence', 'out', PUMethod='CHS', miniAOD=options.useMiniAOD, runOnMC=options.runOnMC,
-	    bTagDiscriminators=(bTagDiscriminators + ([] if NOTADDHBBTag else ['pfBoostedDoubleSecondaryVertexAK8BJetTags'])),
-	    JETCorrPayload="AK8PFchs", JETCorrLevels=jetCorrectionLevelsFullCHS,
-	    Cut='pt>170')
-
-
-###end of add jet collection
-### FOR adding new hbb b-tags in miniaod?
-
-#process.load("PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff")
-#process.load("PhysicsTools.PatAlgos.selectionLayer1.selectedPatCandidates_cff")
-
-#from RecoJets.Configuration.RecoPFJets_cff import ak8PFJetsCHS
-
-
 
 
 ## add value maps for electron IDs
@@ -518,47 +472,26 @@ process.patJetsReapplyJECForPrunedMass = updatedPatJets.clone(
 
 process.jetCorrSequenceForPrunedMass = cms.Sequence( process.patJetCorrFactorsReapplyJECForPrunedMass + process.patJetsReapplyJECForPrunedMass )
 
-###########
-
-updateJetCollection(
-        process,
-        jetSource = cms.InputTag('slimmedJets'),
-        jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
-        btagDiscriminators = ['deepFlavourJetTags:probudsg', 'deepFlavourJetTags:probb', 'deepFlavourJetTags:probc', 'deepFlavourJetTags:probbb', 'deepFlavourJetTags:probcc'], ## to add discriminators
-        btagPrefix = 'TEST',
-        )
-outputModules = ['AODEventContent','AODSIMEventContent','FEVTDEBUGEventContent','FEVTDEBUGHLTEventContent','FEVTEventContent','FEVTHLTALLEventContent','FEVTSIMEventContent','RAWAODSIMEventContent','RAWRECODEBUGHLTEventContent','RAWRECOEventContent','RAWRECOSIMHLTEventContent','RECODEBUGEventContent','RECOEventContent','RECOSIMEventContent','RecoJetsAOD','RecoJetsFEVT','RecoJetsRECO']
-
-for module in outputModules:
-   exec("process."+module+".outputCommands.append('keep *_selectedUpdatedPatJets_*_*')")
-
-##########
 
 process.load('DelPanj.TreeMaker.TreeMaker_cfi')
 process.tree.filterLabel           = cms.InputTag(filterlabel)
 process.tree.useJECText            = cms.bool(options.useJECText)
 process.tree.THINjecNames          = cms.vstring(AK4JECTextFiles)
 process.tree.THINjecUncName        = cms.string(AK4JECUncTextFile)
-process.tree.AK4deepCSVjecNames          = cms.vstring(AK4JECTextFiles)
-process.tree.AK4deepCSVjecUncName        = cms.string(AK4JECUncTextFile)
 process.tree.FATprunedMassJecNames = cms.vstring(prunedMassJECTextFiles)
 process.tree.FATjecNames           = cms.vstring(AK8JECTextFiles)
 process.tree.FATjecUncName         = cms.string(AK8JECUncTextFile)
-process.tree.ADDjecNames           = cms.vstring(AK8JECTextFiles)
-process.tree.ADDjecUncName         = cms.string(AK8JECUncTextFile)
 process.tree.AK4PuppijecNames      = cms.vstring(AK4PuppiJECTextFiles)
 process.tree.AK4PuppijecUncName    = cms.string(AK4PuppiJECUncTextFile)
 process.tree.AK8PuppijecNames      = cms.vstring(AK8PuppiJECTextFiles)
 process.tree.AK8PuppijecUncName    = cms.string(AK8PuppiJECUncTextFile)
 process.tree.CA15PuppijecNames     = cms.vstring(AK8PuppiJECTextFiles)
 process.tree.CA15PuppijecUncName   = cms.string(AK8PuppiJECUncTextFile)
-process.tree.fillAddJetInfo        = cms.bool(True)
 process.tree.fillCA15PuppiJetInfo  = cms.bool(True)
 
 
 if options.useJECText:
     process.tree.THINJets      = cms.InputTag("slimmedJets")
-    process.tree.AK4deepCSVJets      = cms.InputTag("selectedUpdatedPatJets")
     process.tree.FATJets       = cms.InputTag("slimmedJetsAK8")
     process.tree.FATJetsForPrunedMass       = cms.InputTag("slimmedJetsAK8")
     process.tree.AK4PuppiJets  = cms.InputTag("slimmedJetsPuppi")

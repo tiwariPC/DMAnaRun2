@@ -41,9 +41,7 @@ const math::XYZPoint & position(const reco::VertexCompositePtrCandidate & sv) {r
 jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig):
   baseTree(desc, tree),
   isTHINJet_(false),
-  isTHINdeepCSVJet_(false),
   isFATJet_(false),
-  isADDJet_(false),
   isAK4PuppiJet_(false),
   isAK8PuppiJet_(false),
   isCA15PuppiJet_(false),
@@ -57,12 +55,8 @@ jetTree::jetTree(std::string desc, TTree* tree, const edm::ParameterSet& iConfig
 
   if (desc.find("THIN")!=std::string::npos)
     isTHINJet_=true;
-  if (desc.find("AK4deepCSV")!=std::string::npos)
-    isTHINdeepCSVJet_=true;
   if (desc.find("FAT")!=std::string::npos)
     isFATJet_=true;
-  if (desc.find("ADD")!=std::string::npos)
-    isADDJet_=true;
   if (desc.find("AK4Puppi")!=std::string::npos)
     isAK4PuppiJet_=true;
   if (desc.find("AK8Puppi")!=std::string::npos)
@@ -392,22 +386,7 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       isPUJetIDTight_.push_back(
 				bool(jet->userInt("pileupJetId:fullId") & (1 << 0)));
     }
-    if(isTHINdeepCSVJet_){
-      float jpumva=0.;
-      jpumva= jet->userFloat("pileupJetId:fullDiscriminant");
-      //std::cout<<" jpumva = "<<jpumva<<std::endl;
-      PUJetID_.push_back(jpumva);
 
-      // float jpt = jet->pt();
-      // float jeta = jet->eta();
-
-      isPUJetIDLoose_.push_back(
-				bool(jet->userInt("pileupJetId:fullId") & (1 << 2)));
-      isPUJetIDMedium_.push_back(
-				 bool(jet->userInt("pileupJetId:fullId") & (1 << 1)));
-      isPUJetIDTight_.push_back(
-				bool(jet->userInt("pileupJetId:fullId") & (1 << 0)));
-    }
     jetCEmEF_.push_back(jet->chargedEmEnergyFraction());
     jetCHadEF_.push_back(jet->chargedHadronEnergyFraction());
     jetPhoEF_.push_back(jet->photonEnergyFraction());
@@ -455,11 +434,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 
     jetSSV_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags"));
     jetCSV_.push_back(jet->bDiscriminator("combinedSecondaryVertexBJetTags"));
-    jetDeepCSV_b_.push_back((jet->bDiscriminator("TESTdeepFlavourJetTags:probb"))+(jet->bDiscriminator("TESTdeepFlavourJetTags:probbb")));
-    jetDeepCSV_c_.push_back((jet->bDiscriminator("TESTdeepFlavourJetTags:probc"))+(jet->bDiscriminator("TESTdeepFlavourJetTags:probcc")));
-    jetDeepCSV_light_.push_back(jet->bDiscriminator("TESTdeepFlavourJetTags:probudsg"));
     jetSSVHE_.push_back(jet->bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags"));
     jetCISVV2_.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+    jetDeepCSV_b_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probb")+jet->bDiscriminator("pfDeepCSVJetTags:probbb"));
+    jetDeepCSV_c_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probc"));
+    jetDeepCSV_udsg_.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probudsg"));
     jetTCHP_.push_back(jet->bDiscriminator("pfTrackCountingHighPurBJetTags"));
     jetTCHE_.push_back(jet->bDiscriminator("pfTrackCountingHighEffBJetTags"));
     jetJP_.push_back(jet->bDiscriminator("pfJetProbabilityBJetTags"));
@@ -958,7 +937,6 @@ jetTree::SetBranches(){
   AddBranch(&nJet_,   "nJet");
   AddBranch(&jetP4_,       "jetP4");
 
-  if(!isADDJet_){
   AddBranch(&jetRho_, "jetRho");
   AddBranch(&jetNPV_, "jetNPV");
 
@@ -1006,24 +984,18 @@ jetTree::SetBranches(){
   AddBranch(&jetEleEF_,  "jetEleEF");
   AddBranch(&jetMuoEF_,  "jetMuoEF");
 
-  AddBranch(&jetCISVV2_,"jetCISVV2");
-  }
 
   if(isTHINJet_){
+    AddBranch(&jetCISVV2_,"jetCISVV2");
+    AddBranch(&jetDeepCSV_b_,"jetDeepCSV_b");
+    AddBranch(&jetDeepCSV_c_,"jetDeepCSV_c");
+    AddBranch(&jetDeepCSV_udsg_,"jetDeepCSV_udsg");
     AddBranch(&PUJetID_,   "PUJetID");
     AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
     AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
     AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
   }
 
-  if(isTHINdeepCSVJet_){
-    AddBranch(&jetDeepCSV_b_,  "jetDeepCSV_b");
-    AddBranch(&jetDeepCSV_c_,  "jetDeepCSV_c");
-    AddBranch(&jetDeepCSV_light_,  "jetDeepCSV_light");
-    AddBranch(&isPUJetIDLoose_,  "isPUJetIDLoose");
-    AddBranch(&isPUJetIDMedium_, "isPUJetIDMedium");
-    AddBranch(&isPUJetIDTight_,  "isPUJetIDTight");
-  }
   if(isFATJet_ || isAK8PuppiJet_ || isCA15PuppiJet_){
 
     if (jet_extra){
@@ -1060,39 +1032,16 @@ jetTree::SetBranches(){
   if(isFATJet_){
 
     if (jet_extra){
+      AddBranch(&jetPuppiSDmass_,         "jetPuppiSDmass");
       AddBranch(&jetPRmass_,         "jetPRmass");
       AddBranch(&jetPRmassL2L3Corr_, "jetPRmassL2L3Corr");
-
-
-      // puppi information
       AddBranch(&jetPuppiTau1_,   "jetPuppiTau1");
       AddBranch(&jetPuppiTau2_,   "jetPuppiTau2");
       AddBranch(&jetPuppiTau3_,   "jetPuppiTau3");
-
-      AddBranch(&jetPuppiSDmass_,         "jetPuppiSDmass");
-
       AddBranch(&jetPuppiP4_, "jetPuppiP4");
-      AddBranch(&jetPuppiSDRawP4_, "jetPuppiSDRawP4");
-
-      AddBranch(&nSubSDPuppiJet_,           "nSubSDPuppiJet");
-      AddBranch(&subjetSDPuppiFatJetIndex_, "subjetSDPuppiFatJetIndex");
-      AddBranch(&subjetSDPuppiPx_,          "subjetSDPuppiPx");
-      AddBranch(&subjetSDPuppiPy_,          "subjetSDPuppiPy");
-      AddBranch(&subjetSDPuppiPz_,          "subjetSDPuppiPz");
-      AddBranch(&subjetSDPuppiE_,           "subjetSDPuppiE");
-      AddBranch(&subjetSDPuppiCSV_,           "subjetSDPuppiCSV");
     }
 
   }
-
-  if(!isTHINJet_ && !isAK4PuppiJet_ && !isTHINdeepCSVJet_)
-    {
-
-      AddBranch(&jet_DoubleSV_,"jet_DoubleSV");
-      AddBranch(&jet_nSV_,     "jet_nSV");
-      AddBranch(&jet_SVMass_,  "jet_SVMass");
-    }
-
 
 
 }
@@ -1163,11 +1112,11 @@ jetTree::Clear(){
   // btag information
   jetSSV_.clear();
   jetCSV_.clear();
-  jetDeepCSV_b_.clear();
-  jetDeepCSV_c_.clear();
-  jetDeepCSV_light_.clear();
   jetSSVHE_.clear();
   jetCISVV2_.clear();
+  jetDeepCSV_b_.clear();
+  jetDeepCSV_c_.clear();
+  jetDeepCSV_udsg_.clear();
   jetTCHP_.clear();
   jetTCHE_.clear();
   jetJP_.clear();
