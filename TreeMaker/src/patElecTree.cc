@@ -166,7 +166,7 @@ patElecTree::Fill(const edm::Event& iEvent){
 
 
     patElecConvVeto_.push_back(ele->passConversionVeto()); // ConvVtxFit || missHit == 0
-    patElecMissHits_.push_back(ele->gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS));
+    patElecMissHits_.push_back(ele->gsfTrack()->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS));
     if (ele->ecalEnergy() == 0) {
       patElecEoverPInv_.push_back(1e30);
     } else if (!std::isfinite(ele->ecalEnergy())) {
