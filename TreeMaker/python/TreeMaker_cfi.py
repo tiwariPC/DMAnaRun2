@@ -117,8 +117,9 @@ tree = cms.EDAnalyzer(
         ),
     FATjecUncName        = cms.string('Summer16_23Sep2016V3_MC_Uncertainty_AK8PFchs.txt'),
     FATjecUncPayLoad     = cms.string('AK8PFchs'), ## Uncertainty does not exist yet
-
-
+    
+    svTagInfosPY         = cms.string('pfInclusiveSecondaryVertexFinder'),
+    
 #    AK4PuppiJets=cms.InputTag("slimmedJetsPuppi"),
     AK4PuppiJets              = cms.InputTag("patJetsReapplyJECAK4Puppi"),
     AK4PuppijecNames          = cms.vstring(
