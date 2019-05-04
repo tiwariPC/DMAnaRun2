@@ -80,7 +80,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 # Other statements
 from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
 if options.runOnMC:
-	process.GlobalTag.globaltag='94X_mcRun2_asymtotic_v3'
+	process.GlobalTag.globaltag='94X_mcRun2_asymptotic_v3'
 else:
     process.GlobalTag.globaltag='94X_dataRun2_v10'
 
