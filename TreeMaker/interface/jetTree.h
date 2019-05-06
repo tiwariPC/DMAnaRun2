@@ -9,7 +9,7 @@
   Updated by: Raman Khurana
   Date      : 27 Jan 2017
   Adding CA15 doble b-tagger
-  ECF variables 
+  ECF variables
 */
 
 
@@ -74,23 +74,23 @@ class jetTree  : public baseTree{
  public:
   jetTree(std::string name, TTree* tree, const edm::ParameterSet& cfg );//name=patJetAk05
   ~jetTree();
-  
 
-  void Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup) ; 
+
+  void Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup) ;
   void Clear();
-  
+
   BoostedBtaggingMVACalculator mJetBoostedBtaggingMVACalc;
 
   edm::EDGetTokenT<reco::VertexCollection>          vertexToken;
   edm::EDGetTokenT<double>                          rhoForJetToken;
   edm::EDGetTokenT<pat::JetCollection>              jetToken;
   edm::EDGetTokenT<pat::JetCollection>              prunedMToken;
-  
-    
+
+
  private:
 
   jetTree(){};
-  
+
   /* For ECF: starts here  */
   fastjet::AreaDefinition *areaDef;
   fastjet::GhostedAreaSpec *activeArea;
@@ -108,7 +108,7 @@ class jetTree  : public baseTree{
   bool isAK8PuppiJet_;
   bool isCA15PuppiJet_;
   bool useJECText_;
-  
+
   std::string svTagInfosCstr_;
 
   std::string jecUncPayLoadName_; // for global tag
@@ -141,6 +141,11 @@ class jetTree  : public baseTree{
   TClonesArray *jetP4_;
   TClonesArray *unCorrJetP4_;
 
+  std::vector<float>  jetPx_;
+  std::vector<float>  jetPy_;
+  std::vector<float>  jetPz_;
+  std::vector<float>  jetE_;
+
   std::vector<float> jetArea_;
   std::vector<float> jetCorrUncUp_;
   std::vector<float> jetCorrUncDown_;
@@ -154,7 +159,7 @@ class jetTree  : public baseTree{
   std::vector<bool>  isPUJetIDMedium_;
   std::vector<bool>  isPUJetIDTight_;
 
-  //Energy Fraction and Multiplicity 
+  //Energy Fraction and Multiplicity
 
   std::vector<float> jetCEmEF_;
   std::vector<float> jetCHadEF_;
@@ -224,15 +229,15 @@ class jetTree  : public baseTree{
     betas = {0.5,1.,2.,4.};
     Ns = {1,2,3,4};
     orders = {1,2,3};
-    ECF( O, N, beta) 
+    ECF( O, N, beta)
   */
   std::vector<float> ca15_doublebtag;
   std::vector<float> ECF_2_3_10;
   std::vector<float> ECF_1_2_10;
-  
+
   // For CA15 double b-tagger and ECFs: ends here
-  
-  
+
+
   //jet  Hbb tagger for fat and add jet
 
   std::vector<float> jet_DoubleSV_;

@@ -60,6 +60,11 @@ class patMuonTree : public baseTree {
   int nMu;
   TClonesArray *patMuonP4;
 
+  std::vector<int> patMuonPx_;
+  std::vector<int> patMuonPy_;
+  std::vector<int> patMuonPz_;
+  std::vector<int> patMuonE_;
+
   std::vector<int> patMuonType;
   std::vector<int> patMuonCharge;
 
@@ -67,14 +72,14 @@ class patMuonTree : public baseTree {
   std::vector<bool> isGlobalMuon;
   std::vector<bool> isTrackerMuon;
   std::vector<bool> isPFMuon;
-  
+
   std::vector<bool> isTightMuon;
   std::vector<bool> isLooseMuon;
   std::vector<bool> isMediumMuon;
   std::vector<bool> isSoftMuon;
   std::vector<bool> isHighPtMuon;
   std::vector<bool> isCustomTrackerMuon;
-  
+
   std::vector<int>   patMuonITrkIndex;
   std::vector<int>   patMuonSegIndex;
   std::vector<int>   patMuonNSeg;
@@ -118,7 +123,7 @@ class patMuonTree : public baseTree {
   std::vector<float> patMuonMiniIsoBeta; // subtracting pu via beta
   std::vector<float> patMuonMiniIsoEA; // subtracting pu via rho/EA
 
- 
-  
+
+
 };
 #endif

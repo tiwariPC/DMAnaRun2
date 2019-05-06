@@ -40,7 +40,7 @@ class hpstauInfo : public baseTree{
   void Clear();
   bool debug_;
 
-  //tau tokens                                                                                                                                                              
+  //tau tokens
   edm::EDGetTokenT<pat::TauCollection>              tauToken;
   edm::EDGetTokenT<reco::BeamSpot>                  theBeamSpotToken;
 
@@ -50,15 +50,20 @@ class hpstauInfo : public baseTree{
   hpstauInfo(){};
   void SetBranches();
   //variables which would become branches
-  
+
   int HPSTau_n;
   TClonesArray *HPSTau_4Momentum, *HPSTau_Vposition ;
   std::vector<float> taupt;
 
+  std::vector<float> TauPx_;
+  std::vector<float> TauPy_;
+  std::vector<float> TauPz_;
+  std::vector<float> TauE_;
+  
   std::vector<bool>  HPSTau_leadPFChargedHadrCand;
   std::vector<bool> HPSTau_leadPFChargedHadrCand_trackRef;
 
-  std::vector<bool> disc_againstElectronLoose;                                 
+  std::vector<bool> disc_againstElectronLoose;
   std::vector<bool> disc_againstElectronMedium;
   std::vector<bool> disc_againstElectronTight;
   std::vector<bool> disc_againstElectronLooseMVA5;
@@ -85,56 +90,55 @@ class hpstauInfo : public baseTree{
 
 
   std::vector<bool> disc_byLooseIsolation;
-  		    
+
   std::vector<bool> disc_byVLooseIsolationMVA3newDMwLT;
   std::vector<bool> disc_byLooseIsolationMVA3newDMwLT;
   std::vector<bool> disc_byMediumIsolationMVA3newDMwLT;
   std::vector<bool> disc_byTightIsolationMVA3newDMwLT;
   std::vector<bool> disc_byVTightIsolationMVA3newDMwLT;
   std::vector<bool> disc_byVVTightIsolationMVA3newDMwLT;
-  		    
+
   std::vector<bool> disc_byVLooseIsolationMVA3newDMwoLT;
   std::vector<bool> disc_byLooseIsolationMVA3newDMwoLT;
   std::vector<bool> disc_byMediumIsolationMVA3newDMwoLT;
   std::vector<bool> disc_byTightIsolationMVA3newDMwoLT;
   std::vector<bool> disc_byVTightIsolationMVA3newDMwoLT;
   std::vector<bool> disc_byVVTightIsolationMVA3newDMwoLT;
-  		    
+
   std::vector<bool> disc_byVLooseIsolationMVA3oldDMwLT;
   std::vector<bool> disc_byLooseIsolationMVA3oldDMwLT;
   std::vector<bool> disc_byMediumIsolationMVA3oldDMwLT;
   std::vector<bool> disc_byTightIsolationMVA3oldDMwLT;
   std::vector<bool> disc_byVTightIsolationMVA3oldDMwLT;
   std::vector<bool> disc_byVVTightIsolationMVA3oldDMwLT;
-  		    
+
   std::vector<bool> disc_byVLooseIsolationMVA3oldDMwoLT;
   std::vector<bool> disc_byLooseIsolationMVA3oldDMwoLT;
   std::vector<bool> disc_byMediumIsolationMVA3oldDMwoLT;
   std::vector<bool> disc_byTightIsolationMVA3oldDMwoLT;
   std::vector<bool> disc_byVTightIsolationMVA3oldDMwoLT;
   std::vector<bool> disc_byVVTightIsolationMVA3oldDMwoLT;
-  		    
+
   std::vector<bool> disc_byLooseCombinedIsolationDeltaBetaCorr3Hits;
   std::vector<bool> disc_byMediumCombinedIsolationDeltaBetaCorr3Hits;
   std::vector<bool> disc_byTightCombinedIsolationDeltaBetaCorr3Hits;
-  		    
+
   std::vector<bool> disc_decayModeFinding;
   std::vector<bool> disc_decayModeFindingNewDMs;
-  
+
   std::vector<float> disc_chargedIsoPtSum;
   std::vector<float> disc_neutralIsoPtSum;
-  std::vector<float> disc_puCorrPtSum; 
+  std::vector<float> disc_puCorrPtSum;
 
 
   std::vector<float> HPSTau_NewVz;
   std::vector<int> HPSTau_charge;
-  
-  
-  
-  		    
-  		    
-  
+
+
+
+
+
+
 };
 
 #endif
-

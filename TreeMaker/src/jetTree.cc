@@ -332,6 +332,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
       jecUncText_->setJetPt( corr_jet * uncorrJet.pt() );
       jetCorrUncDown_.push_back(jecUncText_->getUncertainty(false));
 
+// add px, py, pz , energy
+      jetPx_.push_back(uncorrJet.px()*corr_jet);
+      jetPy_.push_back(uncorrJet.py()*corr_jet);
+      jetPz_.push_back(uncorrJet.pz()*corr_jet);
+      jetE_.push_back(uncorrJet.energy()*corr_jet);
     }
     else
       new( (*jetP4_)[nJet_-1]) TLorentzVector(jet->p4().px(),
@@ -339,6 +344,11 @@ jetTree::Fill(const edm::Event& iEvent, edm::EventSetup const& iSetup){
 					      jet->p4().pz(),
 					      jet->p4().energy());
 
+
+    jetPx_.push_back(jet->p4().px());
+    jetPy_.push_back(jet->p4().py());
+    jetPz_.push_back(jet->p4().pz());
+    jetE_.push_back(jet->p4().energy());
 
     // get jet energy scale uncertainty and related input variables
     // fat jet uncertainty does not exist yet, if using database
@@ -874,6 +884,11 @@ jetTree::SetBranches(){
   AddBranch(&nJet_,   "nJet");
   AddBranch(&jetP4_,       "jetP4");
 
+  AddBranch(&jetPx_, "jetPx");
+  AddBranch(&jetPy_, "jetPy");
+  AddBranch(&jetPz_, "jetPz");
+  AddBranch(&jetE_, "jetEnergy");
+
   AddBranch(&jetRho_, "jetRho");
   AddBranch(&jetNPV_, "jetNPV");
 
@@ -1007,6 +1022,11 @@ jetTree::Clear(){
 
   jetP4_->Clear();
   unCorrJetP4_->Clear();
+
+  jetPx_.clear();
+  jetPy_.clear();
+  jetPz_.clear();
+  jetE_.clear();
 
   jetArea_.clear();
   jetCorrUncUp_.clear();

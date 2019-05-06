@@ -4,7 +4,7 @@
 /*
 Log:
 Sep 10, 2011
-Anil Singh: Empty template created. 
+Anil Singh: Empty template created.
 -----
 30 December 2015
 Raman Khurana: Added Photon ID Variables
@@ -42,9 +42,9 @@ class photonTree : public baseTree{
   edm::EDGetTokenT<edm::ValueMap<bool>>    phoTightIdMapToken;
 
   edm::EDGetTokenT<edm::ValueMap<float>>   phoMVAValuesMapToken;
-  edm::EDGetTokenT<edm::ValueMap<float>>   phoChargedIsolationToken; 
-  edm::EDGetTokenT<edm::ValueMap<float>>   phoNeutralHadronIsolationToken; 
-  edm::EDGetTokenT<edm::ValueMap<float>>   phoPhotonIsolationToken; 
+  edm::EDGetTokenT<edm::ValueMap<float>>   phoChargedIsolationToken;
+  edm::EDGetTokenT<edm::ValueMap<float>>   phoNeutralHadronIsolationToken;
+  edm::EDGetTokenT<edm::ValueMap<float>>   phoPhotonIsolationToken;
 
  private:
 
@@ -53,16 +53,21 @@ class photonTree : public baseTree{
   bool usePFObjects_;
 
 
-  
+
   //variables which would become branches
   int nPho_;
   TClonesArray *photonP4_;
+
+  std::vector<float> phoPx_;
+  std::vector<float> phoPy_;
+  std::vector<float> phoPz_;
+  std::vector<float> phoE_;
 
   std::vector<bool> isPassLoose;
   std::vector<bool> isPassMedium;
   std::vector<bool> isPassTight;
   std::vector<float> phoIDMVA_;
-  
+
   vector<float>  phoSCE_;
   vector<float>  phoSCRawE_;
   vector<float>  phoSCEta_;
@@ -87,4 +92,3 @@ class photonTree : public baseTree{
 };
 
 #endif
-
