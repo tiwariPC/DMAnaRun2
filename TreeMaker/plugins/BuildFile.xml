@@ -1,3 +1,5 @@
+<use   name="DNN/Base" />
+<use   name="DNN/Tensorflow" />
 <use   name="FWCore/Framework"/>
 <use   name="FWCore/MessageLogger"/>
 <use   name="FWCore/ParameterSet"/>
