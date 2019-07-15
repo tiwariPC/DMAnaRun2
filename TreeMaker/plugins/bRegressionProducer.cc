@@ -121,7 +121,7 @@ using namespace edm;
       //jetToken_= consumes<pat::JetCollection>(inputTagJets_);
 
       std::string cmssw_base = getenv("CMSSW_BASE");
-      std::string bRegressionWeightfileName_ = cmssw_base+"/src/DelPanj/TreeMaker/data/model-18";
+      std::string bRegressionWeightfileName_ = cmssw_base+"/src/DelPanj/MetaData/data/DNN_models/model-18";
 
       NNgraph_ = *(new dnn::tf::Graph(bRegressionWeightfileName_.c_str())); //FIXME make this configurable, for variables for breg check this PR https://github.com/cms-analysis/flashgg/pull/968 REMEMBER TO ADD THE LAST CONE!
       Jet_pt = 0.;
