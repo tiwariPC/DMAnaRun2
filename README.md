@@ -22,7 +22,7 @@ git clone git@github.com:tiwariPC/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 102x_2018data
+git checkout 102x_2018data_reduction
 
 cd -
 
