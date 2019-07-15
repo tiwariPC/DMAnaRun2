@@ -76,6 +76,7 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
     //disc_byLooseIsolation.push_back(tau->tauID("byLooseIsolation"));
 
+    disc_byVLooseIsolationMVArun2v1DBnewDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2v1DBnewDMwLT"));
     disc_byVLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2v1PWnewDMwLT"));
     disc_byLooseIsolationMVA3newDMwLT.push_back(tau->tauID("byLooseIsolationMVArun2v1PWnewDMwLT"));
     disc_byMediumIsolationMVA3newDMwLT.push_back(tau->tauID("byMediumIsolationMVArun2v1PWnewDMwLT"));
@@ -160,6 +161,7 @@ void hpstauInfo::SetBranches(){
   AddBranch(&disc_againstMuonTight3 ,"disc_againstMuonTight3");
   AddBranch(&disc_byLooseIsolationMVA3oldDMwLT ,"disc_byLooseIsolationMVA3oldDMwLT");
   AddBranch(&disc_decayModeFinding ,"disc_decayModeFinding");
+  AddBranch(&disc_byVLooseIsolationMVArun2v1DBnewDMwLT,"disc_byVLooseIsolationMVArun2v1DBnewDMwLT");
 
   AddBranch(&disc_byVLooseIsolationMVArun2v1DBoldDMwLT,'disc_byVLooseIsolationMVArun2v1DBoldDMwLT')
   AddBranch(&disc_byLooseIsolationMVArun2v1DBoldDMwLT,'disc_byLooseIsolationMVArun2v1DBoldDMwLT')
@@ -291,6 +293,7 @@ void hpstauInfo::Clear(){
 
   disc_byLooseIsolation.clear();
 
+  disc_byVLooseIsolationMVArun2v1DBnewDMwLT.clear();
   disc_byVLooseIsolationMVA3newDMwLT.clear();
   disc_byLooseIsolationMVA3newDMwLT.clear();
   disc_byMediumIsolationMVA3newDMwLT.clear();

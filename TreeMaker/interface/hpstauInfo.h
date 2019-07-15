@@ -86,6 +86,7 @@ class hpstauInfo : public baseTree{
 
   std::vector<bool> disc_byLooseIsolation;
 
+  std::vector<bool> disc_byVLooseIsolationMVArun2v1DBnewDMwLT;  		    
   std::vector<bool> disc_byVLooseIsolationMVA3newDMwLT;
   std::vector<bool> disc_byLooseIsolationMVA3newDMwLT;
   std::vector<bool> disc_byMediumIsolationMVA3newDMwLT;

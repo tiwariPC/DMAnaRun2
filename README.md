@@ -35,23 +35,23 @@ git cms-merge-topic ikrav:egm_id_80X_v2
 ```
 ## For MET Filters
 
-``` 
+```
 git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
 ```
 
 ## For DelPanj
 
 ```
-git clone git@github.com:tiwariPC/DMAnaRun2.git DelPanj
+git clone git@github.com:syuvivida/DMAnaRun2.git DelPanj
 
 cd DelPanj
 
-git checkout 80X_puppi+deepCSV
+git checkout 80X_monoH_bbDM_reduced_15072019
 
 cd -
 
 cp -p DelPanj/tempfix/BadGlobalMuonTagger.cc RecoMET/METFilters/plugins/BadGlobalMuonTagger.cc
-cp -p DelPanj/tempfix/badGlobalMuonTaggersMiniAOD_cff.py RecoMET/METFilters/python/badGlobalMuonTaggersMiniAOD_cff.py 
+cp -p DelPanj/tempfix/badGlobalMuonTaggersMiniAOD_cff.py RecoMET/METFilters/python/badGlobalMuonTaggersMiniAOD_cff.py
 ```
 
 ## For jetToolBox
@@ -59,20 +59,7 @@ cp -p DelPanj/tempfix/badGlobalMuonTaggersMiniAOD_cff.py RecoMET/METFilters/pyth
 git clone git@github.com:cms-jet/JetToolbox.git JMEAnalysis/JetToolbox -b jetToolbox_80X
 ```
 
-## Get the code for deepCSV
-```
-git cms-merge-topic -u mverzett:DeepFlavour-from-CMSSW_8_0_21 
-```
-## Get the training 
-```
-mkdir RecoBTag/DeepFlavour/data/
 
-cd RecoBTag/DeepFlavour/data/ 
-
-wget http://home.fnal.gov/~verzetti//DeepFlavour/training/DeepFlavourNoSL.json 
-
-cd - 
-```
 ## Compile (due to the external packages, will take about 15-20 mins)
 ```
 scramv1 b clean
@@ -129,12 +116,12 @@ rm -rf jec
 voms-proxy-init --voms cms
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=True
 cmsRun DelPanj/TreeMaker/test/RunCongigTest/treeMaker_Summer16_cfg.py runOnMC=False period=G
- 
+
 ```
 
 Note, you need to add these text files as extra input files when submitting CRAB jobs.
 
-## To submit MC crab jobs 
+## To submit MC crab jobs
 modify directories in crabConfig.py and dataset in MultiCrab_dihiggs.py according to your need
 ```
 cd DelPanj/CrabUtilities
@@ -154,7 +141,7 @@ rm -rf jec
 
 cp -p crabConfig_MC.py crabConfig.py
 
-source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
+source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh
 voms-proxy-init --voms cms
 python MultiCrab_dihiggs.py submit
 ```
@@ -162,7 +149,7 @@ python MultiCrab_dihiggs.py submit
 ## To submit data crab jobs (Remember to update your JSON file)
 modify directories in crabConfig_data.py and dataset in MultiCrab_2016data.py according to your need
 
-Check this hypernews for the latest JSON file name: 
+Check this hypernews for the latest JSON file name:
 https://hypernews.cern.ch/HyperNews/CMS/get/physics-validation.html
 
 If you are adding data, you do not need to re-run the full dataset, you could just add data by comparing the difference between the updated JSON and the old JSON files
@@ -198,11 +185,11 @@ Change workdirectory and dataset names
 ```
 wget https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt
 
-or 
+or
 
 cp -p /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt .
 
-source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh 
+source /cvmfs/cms.cern.ch/crab3/crab.csh or source /cvmfs/cms.cern.ch/crab3/crab.sh
 voms-proxy-init --voms cms
 python MultiCrab_2016data.py submit
 ```

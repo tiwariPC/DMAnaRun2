@@ -453,7 +453,7 @@ for idmod in my_phoid_modules:
 #process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag("ncuslimmedElectron")
 ## Jet Energy Resolution
 process.patSmearedJets = cms.EDProducer("SmearedPATJetProducer",
-    src = cms.InputTag("slimmedJets"),
+    src = cms.InputTag("appliedRegJets"),
 
     enabled = cms.bool(True),  # If False, no smearing is performed
 
@@ -637,6 +637,13 @@ process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidate
 process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
 ##
 
+process.appliedRegJets     = cms.EDProducer('bRegressionProducer',
+                                           JetTag=cms.InputTag("slimmedJets"),
+                                           rhoFixedGridCollection = cms.InputTag('fixedGridRhoFastjetAll'),
+                                           #bRegressionWeightfile= cms.untracked.string("../../../MetaData/data/DNN_models/model-18"),
+                                           y_mean = cms.untracked.double(1.0454729795455933) ,
+                                           y_std = cms.untracked.double( 0.31628304719924927)
+                                           )
 process.allEventsCounter = cms.EDFilter(
 	"EventCounter"
  )
@@ -644,6 +651,7 @@ process.allEventsCounter = cms.EDFilter(
 
 if not options.useJECText:
 	process.analysis = cms.Path(
+        process.appliedRegJets+
 		process.trigFilter+
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+## by raman
@@ -664,6 +672,7 @@ if not options.useJECText:
 		)
 else:
 	process.analysis = cms.Path(
+        process.appliedRegJets+
 		process.trigFilter+
 		process.allEventsCounter+
 		process.egmGsfElectronIDSequence+## by raman
