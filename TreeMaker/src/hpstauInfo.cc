@@ -42,6 +42,12 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     new( (*HPSTau_Vposition)[HPSTau_n]) TVector3(v3);
     HPSTau_charge.push_back((int)tau->charge());
 
+    disc_byVLooseIsolationMVArun2v1DBoldDMwLT.push_back(tau->tauID("byVLooseIsolationMVArun2v1DBoldDMwLT"));
+    disc_byLooseIsolationMVArun2v1DBoldDMwLT.push_back(tau->tauID("byLooseIsolationMVArun2v1DBoldDMwLT"));
+    disc_byMediumIsolationMVArun2v1DBoldDMwLT.push_back(tau->tauID("byMediumIsolationMVArun2v1DBoldDMwLT"));
+    disc_byTightIsolationMVArun2v1DBoldDMwLT.push_back(tau->tauID("byTightIsolationMVArun2v1DBoldDMwLT"));
+    disc_byVTightIsolationMVArun2v1DBoldDMwLT.push_back(tau->tauID("byVTightIsolationMVArun2v1DBoldDMwLT"));
+
     //new disc for CSA14
     //disc_againstElectronLoose.push_back(tau->tauID("againstElectronLoose"));
     //disc_againstElectronMedium.push_back(tau->tauID("againstElectronMedium"));
@@ -155,6 +161,15 @@ void hpstauInfo::SetBranches(){
   AddBranch(&disc_byLooseIsolationMVA3oldDMwLT ,"disc_byLooseIsolationMVA3oldDMwLT");
   AddBranch(&disc_decayModeFinding ,"disc_decayModeFinding");
 
+  AddBranch(&disc_byVLooseIsolationMVArun2v1DBoldDMwLT,'disc_byVLooseIsolationMVArun2v1DBoldDMwLT')
+  AddBranch(&disc_byLooseIsolationMVArun2v1DBoldDMwLT,'disc_byLooseIsolationMVArun2v1DBoldDMwLT')
+  AddBranch(&disc_byMediumIsolationMVArun2v1DBoldDMwLT,'disc_byMediumIsolationMVArun2v1DBoldDMwLT')
+  AddBranch(&disc_byTightIsolationMVArun2v1DBoldDMwLT,'disc_byTightIsolationMVArun2v1DBoldDMwLT')
+  AddBranch(&disc_byVTightIsolationMVArun2v1DBoldDMwLT,'disc_byVTightIsolationMVArun2v1DBoldDMwLT')
+
+  AddBranch(&disc_byVTightIsolationMVA3newDMwLT ,"disc_byVTightIsolationMVA3newDMwLT");
+
+
   if (tau_extra){
     AddBranch(&taupt  ,"taupt");
     AddBranch(&HPSTau_Vposition,"HPSTau_Vposition");
@@ -178,7 +193,6 @@ void hpstauInfo::SetBranches(){
     AddBranch(&disc_againstMuonMediumMVA ,"disc_againstMuonMediumMVA");
     AddBranch(&disc_againstMuonTightMVA ,"disc_againstMuonTightMVA");
 
-
     AddBranch(&disc_byVLooseCombinedIsolationDeltaBetaCorr ,"disc_byVLooseCombinedIsolationDeltaBetaCorr");
     AddBranch(&disc_byLooseCombinedIsolationDeltaBetaCorr ,"disc_byLooseCombinedIsolationDeltaBetaCorr");
     AddBranch(&disc_byMediumCombinedIsolationDeltaBetaCorr ,"disc_byMediumCombinedIsolationDeltaBetaCorr");
@@ -190,7 +204,7 @@ void hpstauInfo::SetBranches(){
     AddBranch(&disc_byLooseIsolationMVA3newDMwLT ,"disc_byLooseIsolationMVA3newDMwLT");
     AddBranch(&disc_byMediumIsolationMVA3newDMwLT ,"disc_byMediumIsolationMVA3newDMwLT");
     AddBranch(&disc_byTightIsolationMVA3newDMwLT ,"disc_byTightIsolationMVA3newDMwLT");
-    AddBranch(&disc_byVTightIsolationMVA3newDMwLT ,"disc_byVTightIsolationMVA3newDMwLT");
+
     AddBranch(&disc_byVVTightIsolationMVA3newDMwLT ,"disc_byVVTightIsolationMVA3newDMwLT");
 
     AddBranch(&disc_byVLooseIsolationMVA3newDMwoLT ,"disc_byVLooseIsolationMVA3newDMwoLT");
@@ -243,6 +257,11 @@ void hpstauInfo::Clear(){
   HPSTau_leadPFChargedHadrCand.clear();
   HPSTau_leadPFChargedHadrCand_trackRef.clear();
 
+  disc_byVLooseIsolationMVArun2v1DBoldDMwLT.clear();
+  disc_byLooseIsolationMVArun2v1DBoldDMwLT.clear();
+  disc_byMediumIsolationMVArun2v1DBoldDMwLT.clear();
+  disc_byTightIsolationMVArun2v1DBoldDMwLT.clear();
+  disc_byVTightIsolationMVArun2v1DBoldDMwLT.clear();
 
 
   disc_againstElectronLoose.clear();
