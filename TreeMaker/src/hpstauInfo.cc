@@ -163,11 +163,11 @@ void hpstauInfo::SetBranches(){
   AddBranch(&disc_decayModeFinding ,"disc_decayModeFinding");
   AddBranch(&disc_byVLooseIsolationMVArun2v1DBnewDMwLT,"disc_byVLooseIsolationMVArun2v1DBnewDMwLT");
 
-  AddBranch(&disc_byVLooseIsolationMVArun2v1DBoldDMwLT,"disc_byVLooseIsolationMVArun2v1DBoldDMwLT")
-  AddBranch(&disc_byLooseIsolationMVArun2v1DBoldDMwLT,"disc_byLooseIsolationMVArun2v1DBoldDMwLT")
-  AddBranch(&disc_byMediumIsolationMVArun2v1DBoldDMwLT,"disc_byMediumIsolationMVArun2v1DBoldDMwLT")
-  AddBranch(&disc_byTightIsolationMVArun2v1DBoldDMwLT,"disc_byTightIsolationMVArun2v1DBoldDMwLT")
-  AddBranch(&disc_byVTightIsolationMVArun2v1DBoldDMwLT,"disc_byVTightIsolationMVArun2v1DBoldDMwLT")
+  AddBranch(&disc_byVLooseIsolationMVArun2v1DBoldDMwLT,"disc_byVLooseIsolationMVArun2v1DBoldDMwLT");
+  AddBranch(&disc_byLooseIsolationMVArun2v1DBoldDMwLT,"disc_byLooseIsolationMVArun2v1DBoldDMwLT");
+  AddBranch(&disc_byMediumIsolationMVArun2v1DBoldDMwLT,"disc_byMediumIsolationMVArun2v1DBoldDMwLT");
+  AddBranch(&disc_byTightIsolationMVArun2v1DBoldDMwLT,"disc_byTightIsolationMVArun2v1DBoldDMwLT");
+  AddBranch(&disc_byVTightIsolationMVArun2v1DBoldDMwLT,"disc_byVTightIsolationMVArun2v1DBoldDMwLT");
 
   AddBranch(&disc_byVTightIsolationMVA3newDMwLT ,"disc_byVTightIsolationMVA3newDMwLT");
 
