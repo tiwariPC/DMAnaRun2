@@ -86,6 +86,10 @@ patMuonTree::Fill(const edm::Event& iEvent){
 					       mu->p4().pz(),
 					       mu->p4().energy()
 					       );
+    patMuonPx_.push_back(mu->p4().px());
+    patMuonPy_.push_back(mu->p4().py());
+    patMuonPz_.push_back(mu->p4().pz());
+    patMuonE_.push_back(mu->p4().energy());
 
     //id global tracker and PF
     isGlobalMuon.push_back(mu->isGlobalMuon());
@@ -214,6 +218,11 @@ patMuonTree::SetBranches(){
   AddBranch(&patMuonType, "muType");
   AddBranch(&patMuonCharge, "muCharge");
 
+  AddBranch(&patMuonPx_,"muPx");
+  AddBranch(&patMuonPy_,"muPy");
+  AddBranch(&patMuonPz_,"muPz");
+  AddBranch(&patMuonE_,"muEnergy");
+
   AddBranch(&isGlobalMuon, "isGlobalMuon");
   AddBranch(&isTrackerMuon, "isTrackerMuon");
   AddBranch(&isPFMuon,"isPFMuon");
@@ -230,7 +239,7 @@ patMuonTree::SetBranches(){
 	  AddBranch(&isSoftMuon,"isSoftMuon");
 	  AddBranch(&isHighPtMuon,"isHighPtMuon");
 	  AddBranch(&isCustomTrackerMuon,"isCustomTrackerMuon");
-	  
+
 	  AddBranch(&patMuonITrkIndex, "muITrkID");
 	  AddBranch(&patMuonSegIndex, "muSegID");
 	  AddBranch(&patMuonNSeg, "muNSegs");
@@ -281,6 +290,11 @@ patMuonTree::Clear(){
   patMuonType.clear();
   patMuonCharge.clear();
 
+  patMuonPx_.clear();
+  patMuonPy_.clear();
+  patMuonPz_.clear();
+  patMuonE_.clear();
+  
   isGlobalMuon.clear();
   isTrackerMuon.clear();
   isPFMuon.clear();

@@ -128,6 +128,11 @@ patElecTree::Fill(const edm::Event& iEvent){
 						ele->p4().pz(),
 						ele->p4().energy()
 						);
+//   px,py,pz,e
+    patElecPx_.push_back(ele->p4().px());
+    patElecPy_.push_back(ele->p4().py());
+    patElecPz_.push_back(ele->p4().pz());
+    patElecE_.push_back(ele->p4().energy());
 
     patElecInBarrel_.push_back(ele->isEB());
     patElecInEndcap_.push_back(ele->isEE());
@@ -294,6 +299,11 @@ patElecTree::SetBranches(){
   AddBranch(&patElecP4_,"eleP4");
   AddBranch(&patElecCharge_, "eleCharge");
 
+  AddBranch(&patElecPx_, "elePx");
+  AddBranch(&patElecPy_, "elePy");
+  AddBranch(&patElecPz_, "elePz");
+  AddBranch(&patElecE_, "eleEnergy");
+
   AddBranch(&isPassVeto_,"eleIsPassVeto");
   AddBranch(&isPassLoose_,"eleIsPassLoose");
   AddBranch(&isPassMedium_,"eleIsPassMedium");
@@ -390,6 +400,11 @@ patElecTree::Clear(){
   nEle_ =0;
   patElecP4_->Clear();
 
+  patElecPx_.clear();
+  patElecPy_.clear();
+  patElecPz_.clear();
+  patElecE_.clear();
+  
   patElecInBarrel_.clear();
   patElecInEndcap_.clear();
 

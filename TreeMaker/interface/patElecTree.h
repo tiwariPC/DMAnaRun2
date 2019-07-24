@@ -74,12 +74,12 @@ class patElecTree : public baseTree {
   edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleMediumIdCFToken;
   edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleTightIdCFToken;
   edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult>> eleHEEPIdCFToken;
-  
+
 
   // MVA based
   edm::EDGetTokenT<edm::ValueMap<bool>> eleMVAMediumIdMapToken;
   edm::EDGetTokenT<edm::ValueMap<bool>> eleMVATightIdMapToken;
-  
+
   // MVA values and categories (optional)
   edm::EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken;
   edm::EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken;
@@ -98,11 +98,16 @@ class patElecTree : public baseTree {
   bool charged_only_;
   EffectiveAreas eAreasElectrons;
 
-  // ntuple variables 
+  // ntuple variables
   float patElecRho_;
   int nEle_;
 
   TClonesArray *patElecP4_;
+
+  std::vector<float> patElecPx_;
+  std::vector<float> patElecPy_;
+  std::vector<float> patElecPz_;
+  std::vector<float> patElecE_;
 
   std::vector<bool> patElecInBarrel_;
   std::vector<bool> patElecInEndcap_;
@@ -157,7 +162,7 @@ class patElecTree : public baseTree {
 
   // for MVA preselection
   std::vector<float> patElecEcalPFClusterIso_;
-  std::vector<float> patElecHcalPFClusterIso_;  
+  std::vector<float> patElecHcalPFClusterIso_;
 
   // miniIso input
   std::vector<float> patElecMiniIso_ch_;
@@ -191,12 +196,12 @@ class patElecTree : public baseTree {
   std::vector<bool> isPassHEEPNoIso_;
   std::vector<bool> isPassMVAMedium_;
   std::vector<bool> isPassMVATight_;
-  
+
 
   std::vector<float> mvaValue_;
   std::vector<int>   mvaCategory_;
-  
-  
+
+
 
 
 };
