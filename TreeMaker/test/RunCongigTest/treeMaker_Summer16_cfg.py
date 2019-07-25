@@ -439,7 +439,7 @@ process.patSmearedJets = cms.EDProducer("SmearedPATJetProducer",
 ## For normal AK4 jets jet energy correction on top of miniAOD
 from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
 process.patJetCorrFactorsReapplyJECAK4 = updatedPatJetCorrFactors.clone(
-	src = cms.InputTag("slimmedJets"),
+	src = cms.InputTag("patSmearedJets"),
 	levels = jetCorrectionLevelsFullCHS,
 	payload = 'AK4PFchs' ) # Make sure to choose the appropriate levels and payload here!
 
