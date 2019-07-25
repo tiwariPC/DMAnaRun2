@@ -129,7 +129,7 @@ process.HBHENoiseFilterResultProducer.IgnoreTS4TS5ifJetInLowBVRegion=cms.bool(Fa
 
 # Input source
 if options.runOnMC:
-	testFile='root://cms-xrd-global.cern.ch//store/mc/RunIISummer16MiniAODv3/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v2/110000/FC23A1C1-1BEA-E811-9671-0025905C445A.root '
+	testFile='/store/mc/RunIISummer16MiniAODv3/DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v2/110000/FC23A1C1-1BEA-E811-9671-0025905C445A.root '
 else:
 	testFile='root://cms-xrd-global.cern.ch//store/data/Run2016H/SingleElectron/MINIAOD/17Jul2018-v1/00000/68E48B61-558B-E811-9D30-0025905B858A.root '
 
