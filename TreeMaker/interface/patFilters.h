@@ -12,7 +12,7 @@
 #include<vector>
 
 #include "TTree.h"
-#include "FWCore/Framework/interface/Event.h" 
+#include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/Common/interface/TriggerResults.h"
@@ -29,10 +29,10 @@ class patFilters : public baseTree{
   edm::EDGetTokenT<bool>                            HBHEIsoToken;
   edm::EDGetTokenT<edm::TriggerResults>             filterTrigResultsToken;
 
-  edm::EDGetTokenT<bool> BadChCandFilterToken_;
-  edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
-  edm::EDGetTokenT<bool> BadGlobalMuonFilterToken_;
-  edm::EDGetTokenT<bool> CloneGlobalMuonFilterToken_;
+  // edm::EDGetTokenT<bool> BadChCandFilterToken_;
+  // edm::EDGetTokenT<bool> BadPFMuonFilterToken_;
+  // edm::EDGetTokenT<bool> BadGlobalMuonFilterToken_;
+  // edm::EDGetTokenT<bool> CloneGlobalMuonFilterToken_;
 
  private:
 
@@ -44,10 +44,10 @@ class patFilters : public baseTree{
   bool hbhet_;
   bool hbhel_;
   bool hbheIso_;
-  bool  filterbadChCandidate;
-  bool filterbadPFMuon;
-  bool filterbadGlobalMuon;
-  bool filtercloneGlobalMuon;
+  // bool  filterbadChCandidate;
+  // bool filterbadPFMuon;
+  // bool filterbadGlobalMuon;
+  // bool filtercloneGlobalMuon;
   std::vector<std::string> filterName_;
   edm::InputTag filterTag;
 };

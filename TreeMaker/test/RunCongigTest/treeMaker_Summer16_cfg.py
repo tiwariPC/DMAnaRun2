@@ -532,22 +532,22 @@ process.trigFilter = cms.EDFilter('TrigFilter',
                                   isMC_ = cms.bool(options.runOnMC)
                                   )
 
-## New MET Filters
-process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
-process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
-process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-process.BadPFMuonFilter.taggingMode = cms.bool(True)
-
-process.load('RecoMET.METFilters.badGlobalMuonTaggersMiniAOD_cff')
-process.badGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
-process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
-
-##
-process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
-process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
-process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
-##
+# ## New MET Filters
+# process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+# process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+# process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+# process.BadPFMuonFilter.taggingMode = cms.bool(True)
+#
+# process.load('RecoMET.METFilters.badGlobalMuonTaggersMiniAOD_cff')
+# process.badGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
+# process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
+#
+# ##
+# process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+# process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+# process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+# process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
+# ##
 
 process.allEventsCounter = cms.EDFilter(
 	"EventCounter"
@@ -555,41 +555,41 @@ process.allEventsCounter = cms.EDFilter(
 
 
 if not options.useJECText:
-	process.analysis = cms.Path(
-		process.trigFilter+
-		process.allEventsCounter+
-		process.egmGsfElectronIDSequence+## by raman
-		process.egmPhotonIDSequence+ ## by raman
-		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
-        process.patSmearedJets+
-		process.pfMet+
-		process.jetCorrSequenceAK4+
-		process.jetCorrSequenceAK8+
-		process.jetCorrSequenceAK4Puppi+
-		process.jetCorrSequenceForPrunedMass+
-		process.BadPFMuonFilter +
-		process.BadChargedCandidateFilter +
-		process.badGlobalMuonTaggerMAOD +
-		process.cloneGlobalMuonTaggerMAOD +
-		#process.HBHENoiseFilterResultProducer+ ## by raman
-		process.tree
-		)
-else:
-	process.analysis = cms.Path(
-		process.trigFilter+
-		process.allEventsCounter+
-		process.egmGsfElectronIDSequence+## by raman
-		process.egmPhotonIDSequence+ ## by raman
-		#    process.pfMVAMEtSequence+   # disabled before the official code is fixed
+    process.analysis = cms.Path(
+        process.trigFilter+
+        process.allEventsCounter+
+        process.egmGsfElectronIDSequence+## by raman
+        process.egmPhotonIDSequence+ ## by raman
+        #process.pfMVAMEtSequence+   # disabled before the official code is fixed
         process.patSmearedJets+
         process.pfMet+
-		process.BadPFMuonFilter +
-		process.BadChargedCandidateFilter +
-		process.badGlobalMuonTaggerMAOD +
-		process.cloneGlobalMuonTaggerMAOD +
-		#process.HBHENoiseFilterResultProducer+ ## by raman
-		process.tree
-		)
+        process.jetCorrSequenceAK4+
+        process.jetCorrSequenceAK8+
+        process.jetCorrSequenceAK4Puppi+
+        process.jetCorrSequenceForPrunedMass+
+        #process.BadPFMuonFilter +
+        #process.BadChargedCandidateFilter +
+        #process.badGlobalMuonTaggerMAOD +
+        #process.cloneGlobalMuonTaggerMAOD +
+        #process.HBHENoiseFilterResultProducer+ ## by raman
+        process.tree
+        )
+else:
+    process.analysis = cms.Path(
+        process.trigFilter+
+        process.allEventsCounter+
+        process.egmGsfElectronIDSequence+## by raman
+        process.egmPhotonIDSequence+ ## by raman
+        #    process.pfMVAMEtSequence+   # disabled before the official code is fixed
+        process.patSmearedJets+
+        process.pfMet+
+        #process.BadPFMuonFilter +
+        #process.BadChargedCandidateFilter +
+        #process.badGlobalMuonTaggerMAOD +
+        #process.cloneGlobalMuonTaggerMAOD +
+        #process.HBHENoiseFilterResultProducer+ ## by raman
+        process.tree
+        )
 
 #open('pydump.py','w').write(process.dumpPython())
 #print process.dumpPython()
