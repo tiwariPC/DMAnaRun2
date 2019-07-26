@@ -88,7 +88,7 @@ void hpstauInfo::Fill(const edm::Event& iEvent, const edm::EventSetup& iSetup){
     disc_byTightIsolationMVArun2v1DBoldDMwLT2016.push_back(tau->tauID("byMediumIsolationMVArun2017v2DBoldDMwLT2017"));
     disc_byVTightIsolationMVArun2v1DBoldDMwLT2016.push_back(tau->tauID("byVTightIsolationMVArun2v1DBoldDMwLT2016"));
     disc_byVVTightIsolationMVArun2v1DBoldDMwLT2016.push_back(tau->tauID("byVVTightIsolationMVArun2v1DBoldDMwLT2016"));
-    
+
     // // 2017 v2 new DM
     // disc_byIsolationMVArun2017v2DBnewDMwLTraw2017.push_back(tau->tauID("byIsolationMVArun2017v2DBnewDMwLTraw2017"));
     // disc_byVVLooseIsolationMVArun2017v2DBnewDMwLT2017.push_back(tau->tauID("byVVLooseIsolationMVArun2017v2DBnewDMwLT2017"));
@@ -328,11 +328,11 @@ void hpstauInfo::Clear(){
   disc_byVTightIsolationMVA3newDMwLT.clear();
   disc_byVVTightIsolationMVA3newDMwLT.clear();
 
-  byIsolationMVArun2v1DBoldDMwLTraw2016.clear();
-  byVLooseIsolationMVArun2v1DBoldDMwLT2016.clear();
-  byLooseIsolationMVArun2v1DBoldDMwLT2016.clear();
-  byMediumIsolationMVArun2v1DBoldDMwLT2016.clear();
-  byTightIsolationMVArun2v1DBoldDMwLT2016.clear();
+  disc_byIsolationMVArun2v1DBoldDMwLTraw2016.clear();
+  disc_byVLooseIsolationMVArun2v1DBoldDMwLT2016.clear();
+  disc_byLooseIsolationMVArun2v1DBoldDMwLT2016.clear();
+  disc_byMediumIsolationMVArun2v1DBoldDMwLT2016.clear();
+  disc_byTightIsolationMVArun2v1DBoldDMwLT2016.clear();
   disc_byVTightIsolationMVArun2v1DBoldDMwLT2016.clear();
   disc_byVVTightIsolationMVArun2v1DBoldDMwLT2016.clear();
 
