@@ -74,7 +74,7 @@ tree = cms.EDAnalyzer(
     mvaCategoriesMap = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Categories"),
 
     muoLabel     = cms.InputTag("slimmedMuons"),
-    tauLabel     = cms.untracked.InputTag("slimmedTaus"),
+    tauLabel     = cms.untracked.InputTag("NewTauIDsEmbedded"),
 
     ## Photons
     photonLabel  = cms.InputTag("slimmedPhotons"),
