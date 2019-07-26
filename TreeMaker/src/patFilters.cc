@@ -96,10 +96,10 @@ void patFilters::SetBranches(){
   AddBranch(&filterResult_,"filterResult");
   AddBranch(&hbhet_,"hbhet");
   AddBranch(&filterName_,"filterName");
-  AddBranch(&filterbadChCandidate,"filterbadChCandidate");
-  AddBranch(&filterbadPFMuon,"filterbadPFMuon");
-  AddBranch(&filterbadGlobalMuon,"filterbadGlobalMuon");
-  AddBranch(&filtercloneGlobalMuon,"filtercloneGlobalMuon");
+  // AddBranch(&filterbadChCandidate,"filterbadChCandidate");
+  // AddBranch(&filterbadPFMuon,"filterbadPFMuon");
+  // AddBranch(&filterbadGlobalMuon,"filterbadGlobalMuon");
+  // AddBranch(&filtercloneGlobalMuon,"filtercloneGlobalMuon");
 
 }
 
@@ -109,8 +109,8 @@ patFilters::Clear(){
   filterResult_.clear();
   filterName_.clear();
   hbhet_ = false;
-  filterbadChCandidate  = false;
-  filterbadPFMuon       = false;
-  filterbadGlobalMuon       = false;
-  filtercloneGlobalMuon       = false;
+  // filterbadChCandidate  = false;
+  // filterbadPFMuon       = false;
+  // filterbadGlobalMuon       = false;
+  // filtercloneGlobalMuon       = false;
 }
