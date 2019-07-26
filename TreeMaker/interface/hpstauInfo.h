@@ -98,12 +98,15 @@ class hpstauInfo : public baseTree{
   std::vector<bool> disc_byVTightIsolationMVA3newDMwLT;
   std::vector<bool> disc_byVVTightIsolationMVA3newDMwLT;
 
-  std::vector<bool> disc_byVLooseIsolationMVA3newDMwoLT;
-  std::vector<bool> disc_byLooseIsolationMVA3newDMwoLT;
-  std::vector<bool> disc_byMediumIsolationMVA3newDMwoLT;
-  std::vector<bool> disc_byTightIsolationMVA3newDMwoLT;
-  std::vector<bool> disc_byVTightIsolationMVA3newDMwoLT;
-  std::vector<bool> disc_byVVTightIsolationMVA3newDMwoLT;
+  std::vector<bool> disc_byIsolationMVArun2017v2DBoldDMwLTraw2017;
+  std::vector<bool> disc_byVVLooseIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byVLooseIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byTightIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017;
+
 
   std::vector<bool> disc_byVLooseIsolationMVA3oldDMwLT;
   std::vector<bool> disc_byLooseIsolationMVA3oldDMwLT;
