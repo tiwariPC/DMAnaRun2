@@ -59,7 +59,7 @@ class hpstauInfo : public baseTree{
   std::vector<float> TauPy_;
   std::vector<float> TauPz_;
   std::vector<float> TauE_;
-  
+
   std::vector<bool>  HPSTau_leadPFChargedHadrCand;
   std::vector<bool> HPSTau_leadPFChargedHadrCand_trackRef;
 
@@ -98,14 +98,14 @@ class hpstauInfo : public baseTree{
   std::vector<bool> disc_byVTightIsolationMVA3newDMwLT;
   std::vector<bool> disc_byVVTightIsolationMVA3newDMwLT;
 
-  std::vector<bool> disc_byIsolationMVArun2017v2DBoldDMwLTraw2017;
-  std::vector<bool> disc_byVVLooseIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byVLooseIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byLooseIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byMediumIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byTightIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byVTightIsolationMVArun2017v2DBoldDMwLT2017;
-  std::vector<bool> disc_byVVTightIsolationMVArun2017v2DBoldDMwLT2017;
+  std::vector<bool> disc_byIsolationMVArun2v1DBoldDMwLTraw2016;
+  std::vector<bool> disc_byVLooseIsolationMVArun2v1DBoldDMwLT2016;
+  std::vector<bool> disc_byLooseIsolationMVArun2v1DBoldDMwLT2016;
+  std::vector<bool> disc_byMediumIsolationMVArun2v1DBoldDMwLT2016;
+  std::vector<bool> disc_byTightIsolationMVArun2v1DBoldDMwLT2016;
+  std::vector<bool> disc_byVTightIsolationMVArun2v1DBoldDMwLT2016;
+  std::vector<bool> disc_byVVTightIsolationMVArun2v1DBoldDMwLT2016;
+
 
 
   std::vector<bool> disc_byVLooseIsolationMVA3oldDMwLT;
