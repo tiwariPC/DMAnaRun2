@@ -149,13 +149,13 @@ else:
     process.source.eventsToSkip = rangeEventsToSkip
 
 
-##
-## This is for Uncorrected MET
-from RecoMET.METProducers.PFMET_cfi import pfMet
-process.pfMet = pfMet.clone(src = "packedPFCandidates")
-process.pfMet.calculateSignificance = False # this can't be easily implemented on packed PF candidates at the moment
-## Uncorrected MET edns here
-##
+# ##
+# ## This is for Uncorrected MET
+# from RecoMET.METProducers.PFMET_cfi import pfMet
+# process.pfMet = pfMet.clone(src = "packedPFCandidates")
+# process.pfMet.calculateSignificance = False # this can't be easily implemented on packed PF candidates at the moment
+# ## Uncorrected MET edns here
+# ##
 
 ### for adding jet collection
 
@@ -309,12 +309,12 @@ from PhysicsTools.PatAlgos.tools.jetTools import *
 
 NOTADDHBBTag=False
 ## Filter for good primary vertex
-process.primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
-    vertexCollection = cms.InputTag(pvSource),
-    minimumNDOF = cms.uint32(4) ,
-    maxAbsZ = cms.double(24),
-    maxd0 = cms.double(2)
-)
+# process.primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
+#     vertexCollection = cms.InputTag(pvSource),
+#     minimumNDOF = cms.uint32(4) ,
+#     maxAbsZ = cms.double(24),
+#     maxd0 = cms.double(2)
+# )
 
 #-------------------------------------
 from PhysicsTools.PatAlgos.tools.pfTools import *
@@ -322,22 +322,6 @@ from PhysicsTools.PatAlgos.tools.pfTools import *
 adaptPVs(process, pvCollection=cms.InputTag(pvSource))
 
 
-
-#### Add reclustered AK8 Puppi jet by Eiko
-
-### For AK8 puppi (imported from Bacon)
-#process.load("RecoBTag.ImpactParameter.impactParameter_cff")
-
-#process.load('DelPanj.TreeMaker.myPUPPICorrections_cff')
-#process.load('DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff')
-
-#from DelPanj.TreeMaker.myJetExtrasAK8Puppi_cff  import setMiniAODAK8Puppi
-#from DelPanj.TreeMaker.myBtagging_cff           import addBTagging
-
-#process.btagging = cms.Sequence()
-#addBTagging(process,'AK8PFJetsPuppi' ,0.8,'AK8' ,'Puppi')
-
-#setMiniAODAK8Puppi (process)
 
 process.load('CommonTools/PileupAlgos/Puppi_cff')
 process.puppi.candName       = cms.InputTag('packedPFCandidates')
@@ -377,21 +361,28 @@ else :
 switchOnVIDElectronIdProducer(process, dataFormat)
 switchOnVIDPhotonIdProducer(process, dataFormat)
 # define which IDs we want to produce
-my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
-                 'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-		 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff']
+# my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
+#                  'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
+# 		 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff']
+#
+#
+# #add them to the VID producer
+# for idmod in my_id_modules:
+#     setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
+#
+# my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring16_V2p2_cff',
+# 		    'RecoEgamma.PhotonIdentification.Identification.mvaPhotonID_Spring16_nonTrig_V1_cff']
+#
+# #add them to the VID producer
+# for idmod in my_phoid_modules:
+# 	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
+from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+setupEgammaPostRecoSeq(process,
+                       runVID=True,
+                       runEnergyCorrections=False, #no point in re-running them, they are already fine
+                       era='2016-Legacy')  #era is new to select between 2016 / 2017,  it defaults to 2017
+#a sequence egammaPostRecoSeq has now been created and should be added to your path, eg process.p=cms.Path(process.egammaPostRecoSeq)
 
-
-#add them to the VID producer
-for idmod in my_id_modules:
-    setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
-
-my_phoid_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring16_V2p2_cff',
-		    'RecoEgamma.PhotonIdentification.Identification.mvaPhotonID_Spring16_nonTrig_V1_cff']
-
-#add them to the VID producer
-for idmod in my_phoid_modules:
-	setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection)
 
 #Jet Energy Resolution
 process.patSmearedJets = cms.EDProducer("SmearedPATJetProducer",
@@ -443,13 +434,6 @@ na = TauIDEmbedder(process, cms,
 )
 na.runTauID()
 
-byIsolationMVArun2v1DBoldDMwLTraw2016 = cms.string("byIsolationMVArun2v1DBoldDMwLTraw2016"),
-byVLooseIsolationMVArun2v1DBoldDMwLT2016 = cms.string("byVLooseIsolationMVArun2v1DBoldDMwLT2016"),
-byLooseIsolationMVArun2v1DBoldDMwLT2016 = cms.string("byLooseIsolationMVArun2v1DBoldDMwLT2016"),
-byMediumIsolationMVArun2v1DBoldDMwLT2016 = cms.string("byMediumIsolationMVArun2v1DBoldDMwLT2016"),
-byTightIsolationMVArun2v1DBoldDMwLT2016 = cms.string("byTightIsolationMVArun2v1DBoldDMwLT2016"),
-byVTightIsolationMVArun2v1DBoldDMwLT2016 = cms.string("byVTightIsolationMVArun2v1DBoldDMwLT2016"),
-byVVTightIsolationMVArun2v1DBoldDMwLT2016 = cms.string("byVVTightIsolationMVArun2v1DBoldDMwLT2016"),
 
 ## For normal AK4 jets jet energy correction on top of miniAOD
 from PhysicsTools.PatAlgos.producersLayer1.jetUpdater_cff import updatedPatJetCorrFactors
@@ -547,23 +531,6 @@ process.trigFilter = cms.EDFilter('TrigFilter',
                                   isMC_ = cms.bool(options.runOnMC)
                                   )
 
-# ## New MET Filters
-# process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
-# process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
-# process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-# process.BadPFMuonFilter.taggingMode = cms.bool(True)
-#
-# process.load('RecoMET.METFilters.badGlobalMuonTaggersMiniAOD_cff')
-# process.badGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
-# process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
-#
-# ##
-# process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
-# process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
-# process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
-# process.BadChargedCandidateFilter.taggingMode = cms.bool(True)
-# ##
-
 process.allEventsCounter = cms.EDFilter(
 	"EventCounter"
  )
@@ -571,42 +538,26 @@ process.allEventsCounter = cms.EDFilter(
 
 if not options.useJECText:
     process.analysis = cms.Path(
-        process.trigFilter+
-        process.allEventsCounter+
-        process.egmGsfElectronIDSequence+## by raman
-        process.egmPhotonIDSequence+ ## by raman
-        #process.pfMVAMEtSequence+   # disabled before the official code is fixed
+        process.allEventsCounter*
+        process.trigFilter*
         process.rerunMvaIsolationSequence
-		*process.NewTauIDsEmbedded+
+        *process.NewTauIDsEmbedded+
         process.patSmearedJets+
         process.pfMet+
         process.jetCorrSequenceAK4+
         process.jetCorrSequenceAK8+
         process.jetCorrSequenceAK4Puppi+
         process.jetCorrSequenceForPrunedMass+
-        #process.BadPFMuonFilter +
-        #process.BadChargedCandidateFilter +
-        #process.badGlobalMuonTaggerMAOD +
-        #process.cloneGlobalMuonTaggerMAOD +
-        #process.HBHENoiseFilterResultProducer+ ## by raman
         process.tree
         )
 else:
     process.analysis = cms.Path(
-        process.trigFilter+
-        process.allEventsCounter+
-        process.egmGsfElectronIDSequence+## by raman
-        process.egmPhotonIDSequence+ ## by raman
-        #    process.pfMVAMEtSequence+   # disabled before the official code is fixed
+        process.allEventsCounter*
+        process.trigFilter*
         process.rerunMvaIsolationSequence
-		*process.NewTauIDsEmbedded+
+        *process.NewTauIDsEmbedded+
         process.patSmearedJets+
         process.pfMet+
-        #process.BadPFMuonFilter +
-        #process.BadChargedCandidateFilter +
-        #process.badGlobalMuonTaggerMAOD +
-        #process.cloneGlobalMuonTaggerMAOD +
-        #process.HBHENoiseFilterResultProducer+ ## by raman
         process.tree
         )
 
