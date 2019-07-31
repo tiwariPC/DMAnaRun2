@@ -382,7 +382,7 @@ setupEgammaPostRecoSeq(process,
                        runEnergyCorrections=False, #no point in re-running them, they are already fine
                        era='2016-Legacy')  #era is new to select between 2016 / 2017,  it defaults to 2017
 #a sequence egammaPostRecoSeq has now been created and should be added to your path, eg process.p=cms.Path(process.egammaPostRecoSeq)
-
+my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff']
 
 #Jet Energy Resolution
 process.patSmearedJets = cms.EDProducer("SmearedPATJetProducer",

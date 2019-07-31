@@ -41,7 +41,7 @@ class photonTree : public baseTree{
   edm::EDGetTokenT<edm::ValueMap<bool>>    phoMediumIdMapToken;
   edm::EDGetTokenT<edm::ValueMap<bool>>    phoTightIdMapToken;
 
-  edm::EDGetTokenT<edm::ValueMap<float>>   phoMVAValuesMapToken;
+  // edm::EDGetTokenT<edm::ValueMap<float>>   phoMVAValuesMapToken;
   edm::EDGetTokenT<edm::ValueMap<float>>   phoChargedIsolationToken;
   edm::EDGetTokenT<edm::ValueMap<float>>   phoNeutralHadronIsolationToken;
   edm::EDGetTokenT<edm::ValueMap<float>>   phoPhotonIsolationToken;
@@ -66,7 +66,7 @@ class photonTree : public baseTree{
   std::vector<bool> isPassLoose;
   std::vector<bool> isPassMedium;
   std::vector<bool> isPassTight;
-  std::vector<float> phoIDMVA_;
+  // std::vector<float> phoIDMVA_;
 
   vector<float>  phoSCE_;
   vector<float>  phoSCRawE_;

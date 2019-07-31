@@ -49,8 +49,8 @@ patElecTree::Fill(const edm::Event& iEvent){
   edm::Handle<ValueMap<vid::CutFlowResult>> tight_id_cutflow;
   edm::Handle<ValueMap<vid::CutFlowResult>> heep_id_cutflow;
 
-  edm::Handle<edm::ValueMap<bool> > medium_MVAid_decisions;
-  edm::Handle<edm::ValueMap<bool> > tight_MVAid_decisions;
+  // edm::Handle<edm::ValueMap<bool> > medium_MVAid_decisions;
+  // edm::Handle<edm::ValueMap<bool> > tight_MVAid_decisions;
 
   iEvent.getByToken(eleVetoIdMapToken,   veto_id_decisions);
   iEvent.getByToken(eleVetoIdCFToken,    veto_id_cutflow);
@@ -72,14 +72,14 @@ patElecTree::Fill(const edm::Event& iEvent){
   std::vector<std::string> maskHEEPCuts;
   maskHEEPCuts.push_back("GsfEleTrkPtIsoCut_0"); maskHEEPCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
 
-  iEvent.getByToken(eleMVAMediumIdMapToken, medium_MVAid_decisions);
-  iEvent.getByToken(eleMVATightIdMapToken,  tight_MVAid_decisions);
-
-  // Get MVA values and categories (optional)
-  edm::Handle<edm::ValueMap<float> > mvaValues;
-  edm::Handle<edm::ValueMap<int> > mvaCategories;
-  iEvent.getByToken(mvaValuesMapToken,      mvaValues);
-  iEvent.getByToken(mvaCategoriesMapToken,  mvaCategories);
+  // iEvent.getByToken(eleMVAMediumIdMapToken, medium_MVAid_decisions);
+  // iEvent.getByToken(eleMVATightIdMapToken,  tight_MVAid_decisions);
+  //
+  // // Get MVA values and categories (optional)
+  // edm::Handle<edm::ValueMap<float> > mvaValues;
+  // edm::Handle<edm::ValueMap<int> > mvaCategories;
+  // iEvent.getByToken(mvaValuesMapToken,      mvaValues);
+  // iEvent.getByToken(mvaCategoriesMapToken,  mvaCategories);
 
   edm::Handle<reco::VertexCollection> recVtxs;
   if(not iEvent.getByToken(vertexToken, recVtxs))return;
@@ -241,9 +241,9 @@ patElecTree::Fill(const edm::Event& iEvent){
     patElecDr03TkSumPt_ .push_back(ele->dr03TkSumPt());
 
 
-    // for MVA preselection
-    patElecEcalPFClusterIso_.push_back(ele->ecalPFClusterIso());
-    patElecHcalPFClusterIso_.push_back(ele->hcalPFClusterIso());
+    // // for MVA preselection
+    // patElecEcalPFClusterIso_.push_back(ele->ecalPFClusterIso());
+    // patElecHcalPFClusterIso_.push_back(ele->hcalPFClusterIso());
 
 
     // reco::GsfTrackRef trackref = ele->gsfTrack();
@@ -280,11 +280,11 @@ patElecTree::Fill(const edm::Event& iEvent){
     vid::CutFlowResult heep_noiso = (*heep_id_cutflow)[el].getCutFlowResultMasking(maskHEEPCuts);
     isPassHEEPNoIso_.push_back(heep_noiso.cutFlowPassed());
 
-    isPassMVAMedium_.push_back( (*medium_MVAid_decisions)[el]);
-    isPassMVATight_.push_back( (*tight_MVAid_decisions)[el]);
-
-    mvaValue_.push_back( (*mvaValues)[el] );
-    mvaCategory_.push_back( (*mvaCategories)[el] );
+    // isPassMVAMedium_.push_back( (*medium_MVAid_decisions)[el]);
+    // isPassMVATight_.push_back( (*tight_MVAid_decisions)[el]);
+    //
+    // mvaValue_.push_back( (*mvaValues)[el] );
+    // mvaCategory_.push_back( (*mvaCategories)[el] );
 
   }
 }
@@ -384,11 +384,11 @@ patElecTree::SetBranches(){
     AddBranch(&isPassMediumNoIso_,"eleIsPassMediumNoIso");
     AddBranch(&isPassTightNoIso_,"eleIsPassTightNoIso");
     AddBranch(&isPassHEEPNoIso_,"eleIsPassHEEPNoIso");
-    AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
-    AddBranch(&isPassMVATight_,"eleIsPassMVATight");
-
-    AddBranch(&mvaValue_,"eleMVAValue");
-    AddBranch(&mvaCategory_,"eleMVACategory");
+    // AddBranch(&isPassMVAMedium_,"eleIsPassMVAMedium");
+    // AddBranch(&isPassMVATight_,"eleIsPassMVATight");
+    //
+    // AddBranch(&mvaValue_,"eleMVAValue");
+    // AddBranch(&mvaCategory_,"eleMVACategory");
   }
 
 }
@@ -404,7 +404,7 @@ patElecTree::Clear(){
   patElecPy_.clear();
   patElecPz_.clear();
   patElecE_.clear();
-  
+
   patElecInBarrel_.clear();
   patElecInEndcap_.clear();
 
@@ -484,10 +484,10 @@ patElecTree::Clear(){
   isPassMediumNoIso_.clear();
   isPassTightNoIso_.clear();
   isPassHEEPNoIso_.clear();
-  isPassMVAMedium_.clear();
-  isPassMVATight_.clear();
-
-  mvaValue_.clear();
-  mvaCategory_.clear();
+  // isPassMVAMedium_.clear();
+  // isPassMVATight_.clear();
+  //
+  // mvaValue_.clear();
+  // mvaCategory_.clear();
 
 }

@@ -93,10 +93,6 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patFilterTree_->HBHETToken                    = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Tight","MVAMET"));
       patFilterTree_->HBHELToken                    = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHENoiseFilterResultRun2Loose","MVAMET"));
       patFilterTree_->HBHEIsoToken                  = consumes<bool>(edm::InputTag("HBHENoiseFilterResultProducer","HBHEIsoNoiseFilterResult","MVAMET"));
-      // patFilterTree_->BadChCandFilterToken_         = consumes<bool>(edm::InputTag("BadChargedCandidateFilter"));
-      // patFilterTree_->BadPFMuonFilterToken_         = consumes<bool>(edm::InputTag("BadPFMuonFilter"));
-      // patFilterTree_->BadGlobalMuonFilterToken_     = consumes<bool>(edm::InputTag("badGlobalMuonTaggerMAOD"));
-      // patFilterTree_->CloneGlobalMuonFilterToken_   = consumes<bool>(edm::InputTag("cloneGlobalMuonTaggerMAOD"));
 
 
       patFilterTree_->filterTrigResultsToken  = consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("filterLabel"));
@@ -135,11 +131,10 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       patElecTree_->eleMediumIdCFToken          = consumes<edm::ValueMap<vid::CutFlowResult>>(iConfig.getParameter<edm::InputTag>("eleMediumIdMap"));
       patElecTree_->eleTightIdCFToken           = consumes<edm::ValueMap<vid::CutFlowResult>>(iConfig.getParameter<edm::InputTag>("eleTightIdMap"));
       patElecTree_->eleHEEPIdCFToken            = consumes<edm::ValueMap<vid::CutFlowResult>>(iConfig.getParameter<edm::InputTag>("eleHEEPIdMap"));
-
-      patElecTree_->eleMVAMediumIdMapToken      = consumes<edm::ValueMap<bool>>(iConfig.getParameter<edm::InputTag>("eleMVAMediumIdMap"));
-      patElecTree_->eleMVATightIdMapToken       = consumes<edm::ValueMap<bool>>(iConfig.getParameter<edm::InputTag>("eleMVATightIdMap"));
-      patElecTree_->mvaValuesMapToken           = consumes<edm::ValueMap<float>>(iConfig.getParameter<edm::InputTag>("mvaValuesMap"));
-      patElecTree_->mvaCategoriesMapToken       = consumes<edm::ValueMap<int>>(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
+      // patElecTree_->eleMVAMediumIdMapToken      = consumes<edm::ValueMap<bool>>(iConfig.getParameter<edm::InputTag>("eleMVAMediumIdMap"));
+      // patElecTree_->eleMVATightIdMapToken       = consumes<edm::ValueMap<bool>>(iConfig.getParameter<edm::InputTag>("eleMVATightIdMap"));
+      // patElecTree_->mvaValuesMapToken           = consumes<edm::ValueMap<float>>(iConfig.getParameter<edm::InputTag>("mvaValuesMap"));
+      // patElecTree_->mvaCategoriesMapToken       = consumes<edm::ValueMap<int>>(iConfig.getParameter<edm::InputTag>("mvaCategoriesMap"));
 
     }
 
@@ -166,7 +161,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
       photonTree_->phoLooseIdMapToken             = consumes<edm::ValueMap<bool>>(iConfig.getParameter<edm::InputTag>("phoLooseIdMap"));
       photonTree_->phoMediumIdMapToken            = consumes<edm::ValueMap<bool>>(iConfig.getParameter<edm::InputTag>("phoMediumIdMap"));
       photonTree_->phoTightIdMapToken             = consumes<edm::ValueMap<bool>>(iConfig.getParameter<edm::InputTag>("phoTightIdMap"));
-      photonTree_->phoMVAValuesMapToken           = consumes<edm::ValueMap<float>>(iConfig.getParameter<edm::InputTag>("phoMVAValuesMapToken"));
+      // photonTree_->phoMVAValuesMapToken           = consumes<edm::ValueMap<float>>(iConfig.getParameter<edm::InputTag>("phoMVAValuesMapToken"));
       photonTree_->phoChargedIsolationToken       = consumes<edm::ValueMap<float>>(iConfig.getParameter<edm::InputTag>("phoChargedIsolationToken"));
       photonTree_->phoNeutralHadronIsolationToken = consumes<edm::ValueMap<float>>(iConfig.getParameter<edm::InputTag>("phoNeutralHadronIsolationToken"));
       photonTree_->phoPhotonIsolationToken        = consumes<edm::ValueMap<float>>(iConfig.getParameter<edm::InputTag>("phoPhotonIsolationToken"));

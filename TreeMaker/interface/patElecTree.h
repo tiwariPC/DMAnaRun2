@@ -77,12 +77,12 @@ class patElecTree : public baseTree {
 
 
   // MVA based
-  edm::EDGetTokenT<edm::ValueMap<bool>> eleMVAMediumIdMapToken;
-  edm::EDGetTokenT<edm::ValueMap<bool>> eleMVATightIdMapToken;
-
-  // MVA values and categories (optional)
-  edm::EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken;
-  edm::EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken;
+  // edm::EDGetTokenT<edm::ValueMap<bool>> eleMVAMediumIdMapToken;
+  // edm::EDGetTokenT<edm::ValueMap<bool>> eleMVATightIdMapToken;
+  //
+  // // MVA values and categories (optional)
+  // edm::EDGetTokenT<edm::ValueMap<float>> mvaValuesMapToken;
+  // edm::EDGetTokenT<edm::ValueMap<int>> mvaCategoriesMapToken;
 
 
  private:
@@ -160,9 +160,9 @@ class patElecTree : public baseTree {
   std::vector<float> patElecGamIso_;
   std::vector<float> patElecPUPt_;
 
-  // for MVA preselection
-  std::vector<float> patElecEcalPFClusterIso_;
-  std::vector<float> patElecHcalPFClusterIso_;
+  // // for MVA preselection
+  // std::vector<float> patElecEcalPFClusterIso_;
+  // std::vector<float> patElecHcalPFClusterIso_;
 
   // miniIso input
   std::vector<float> patElecMiniIso_ch_;
@@ -194,12 +194,12 @@ class patElecTree : public baseTree {
   std::vector<bool> isPassMediumNoIso_;
   std::vector<bool> isPassTightNoIso_;
   std::vector<bool> isPassHEEPNoIso_;
-  std::vector<bool> isPassMVAMedium_;
-  std::vector<bool> isPassMVATight_;
-
-
-  std::vector<float> mvaValue_;
-  std::vector<int>   mvaCategory_;
+  // std::vector<bool> isPassMVAMedium_;
+  // std::vector<bool> isPassMVATight_;
+  //
+  //
+  // std::vector<float> mvaValue_;
+  // std::vector<int>   mvaCategory_;
 
 
 

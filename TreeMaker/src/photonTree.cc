@@ -31,7 +31,7 @@ void photonTree::Fill(const edm::Event& iEvent){
   edm::Handle<edm::ValueMap<bool> >  medium_id_decisions;
   edm::Handle<edm::ValueMap<bool> >  tight_id_decisions;
 
-  edm::Handle<edm::ValueMap<float> > mvaValues;
+  // edm::Handle<edm::ValueMap<float> > mvaValues;
 
   edm::Handle<edm::ValueMap<float> > phoChargedIsolationMap;
   edm::Handle<edm::ValueMap<float> > phoNeutralHadronIsolationMap;
@@ -41,7 +41,7 @@ void photonTree::Fill(const edm::Event& iEvent){
   iEvent.getByToken(phoLooseIdMapToken,  loose_id_decisions);
   iEvent.getByToken(phoMediumIdMapToken,  medium_id_decisions);
   iEvent.getByToken(phoTightIdMapToken,  tight_id_decisions);
-  iEvent.getByToken(phoMVAValuesMapToken, mvaValues);
+  // iEvent.getByToken(phoMVAValuesMapToken, mvaValues);
 
 
   iEvent.getByToken(phoChargedIsolationToken,       phoChargedIsolationMap);
@@ -74,7 +74,7 @@ void photonTree::Fill(const edm::Event& iEvent){
     isPassLoose.push_back((*loose_id_decisions)[pho]);
     isPassMedium.push_back((*medium_id_decisions)[pho]);
     isPassTight.push_back((*tight_id_decisions)[pho]);
-    phoIDMVA_.push_back((*mvaValues)[pho]);
+    // phoIDMVA_.push_back((*mvaValues)[pho]);
 
 
     phoPFChIso_              .push_back((*phoChargedIsolationMap)[pho]);
@@ -123,7 +123,7 @@ void photonTree::SetBranches(){
   AddBranch(&phoE_, "phoEnergy");
 
   if (pho_extra){
-    AddBranch(&phoIDMVA_,"phoIDMVA");
+    // AddBranch(&phoIDMVA_,"phoIDMVA");
     AddBranch(&phoSCE_,"phoSCE");
     AddBranch(&phoSCRawE_,"phoSCRawE");
     AddBranch(&phoSCEta_,"phoSCEta");
@@ -158,7 +158,7 @@ void photonTree::Clear(){
   phoPz_.clear();
   phoE_.clear();
 
-  phoIDMVA_.clear();
+  // phoIDMVA_.clear();
   phoSCE_.clear();
   phoSCRawE_.clear();
   phoSCEta_.clear();
