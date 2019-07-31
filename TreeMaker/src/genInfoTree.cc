@@ -209,6 +209,12 @@ genInfoTree::Fill(const edm::Event& iEvent)
    TLorentzVector p4(geni->px(),geni->py(),geni->pz(),geni->energy());
     new( (*genParP4_)[nGenPar_-1]) TLorentzVector(p4);
 
+    // px,py,pz,E
+    genPx_.push_back(geni->px());
+    genPy_.push_back(geni->py());
+    genPz_.push_back(geni->pz());
+    genE_.push_back(geni->energy());
+
     genParQ_.push_back(geni->charge());
     genParId_.push_back(geni->pdgId());
     genParSt_.push_back(geni->status());
@@ -392,6 +398,11 @@ genInfoTree::SetBranches(){
   AddBranch(&genMomParId_,"genMomParId");
   AddBranch(&mcWeight_, "mcWeight");
 
+  AddBranch(&genPx_, "genPx");
+  AddBranch(&genPy_, "genPy");
+  AddBranch(&genPz_, "genPz");
+  AddBranch(&genE_, "genEnergy");
+
   if (gen_extra){
     AddBranch(&genMET_true_,"genMET_true");
     AddBranch(&genMET_calo_,"genMET_calo");
@@ -447,6 +458,11 @@ genInfoTree::Clear(){
   pdfscaleSysWeights_.clear();
   nGenPar_ =0;
   genParP4_->Clear();
+
+  genPx_.clear();
+  genPy_.clear();
+  genPz_.clear();
+  genE_.clear();
 
   genParQ_.clear();
   genParId_.clear();
