@@ -360,8 +360,8 @@ patElecTree::SetBranches(){
     AddBranch(&patElecNeHadIso_, "eleNeHadIso");
     AddBranch(&patElecGamIso_, "eleGamIso");
     AddBranch(&patElecPUPt_, "elePUPt");
-    AddBranch(&patElecEcalPFClusterIso_, "eleEcalPFClusterIso");
-    AddBranch(&patElecHcalPFClusterIso_, "eleHcalPFClusterIso");
+    //AddBranch(&patElecEcalPFClusterIso_, "eleEcalPFClusterIso");
+    //AddBranch(&patElecHcalPFClusterIso_, "eleHcalPFClusterIso");
 
     AddBranch(&patElecMiniIso_ch_,"eleMiniIso_ch");
     AddBranch(&patElecMiniIso_nh_,"eleMiniIso_nh");
@@ -456,8 +456,8 @@ patElecTree::Clear(){
   patElecNeHadIso_.clear();
   patElecGamIso_.clear();
   patElecPUPt_.clear();
-  patElecEcalPFClusterIso_.clear();
-  patElecHcalPFClusterIso_.clear();
+  //patElecEcalPFClusterIso_.clear();
+  //patElecHcalPFClusterIso_.clear();
   patElecMiniIso_ch_.clear();
   patElecMiniIso_nh_.clear();
   patElecMiniIso_ph_.clear();
