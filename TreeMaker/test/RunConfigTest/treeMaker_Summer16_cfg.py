@@ -543,7 +543,7 @@ if not options.useJECText:
         process.rerunMvaIsolationSequence
         *process.NewTauIDsEmbedded+
         process.patSmearedJets+
-        process.pfMet+
+        #process.pfMet+
         process.jetCorrSequenceAK4+
         process.jetCorrSequenceAK8+
         process.jetCorrSequenceAK4Puppi+
@@ -557,7 +557,7 @@ else:
         process.rerunMvaIsolationSequence
         *process.NewTauIDsEmbedded+
         process.patSmearedJets+
-        process.pfMet+
+        #process.pfMet+
         process.tree
         )
 
