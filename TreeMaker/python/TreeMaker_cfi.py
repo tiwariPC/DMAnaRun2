@@ -24,7 +24,7 @@ tree = cms.EDAnalyzer(
 
     patMetRaw        = cms.InputTag("pfMet"),
     patMet           = cms.InputTag("slimmedMETs"),
-    pfMetRaw         = cms.InputTag("pfMet"),
+    #pfMetRaw         = cms.InputTag("pfMet"),
     pfType1Met       = cms.InputTag("slimmedMETs"),
     pfMVAMET         = cms.InputTag("slimmedMETs"),
     puppiMET         = cms.InputTag("slimmedMETsPuppi"),

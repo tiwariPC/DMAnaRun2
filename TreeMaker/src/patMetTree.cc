@@ -15,10 +15,10 @@ patMetTree::Fill(const edm::Event& iEvent){
   Clear();
 
   // adding Raw PF MET to the tree
-  edm::Handle<reco::PFMETCollection> patMetRawHandle;
-  if(not iEvent.getByToken(pfMETRawToken,patMetRawHandle)){
-    std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
-	     <<"pfMetRaw" <<std::endl; exit(0);}
+  // edm::Handle<reco::PFMETCollection> patMetRawHandle;
+  // if(not iEvent.getByToken(pfMETRawToken,patMetRawHandle)){
+  //   std::cout<<"FATAL EXCEPTION: "<<"Following Not Found: "
+	//      <<"pfMetRaw" <<std::endl; exit(0);}
 
   // adding Type-1 MET to the tree
   edm::Handle<pat::METCollection> patMetHandle;

@@ -73,7 +73,7 @@ TreeMaker::TreeMaker(const edm::ParameterSet& iConfig)
   if( fillMetInfo_ )
     {
       patMetTree_                 = new patMetTree("pf",tree_);
-      patMetTree_->pfMETRawToken  = consumes<reco::PFMETCollection>(iConfig.getParameter<edm::InputTag>("pfMetRaw"));
+      //patMetTree_->pfMETRawToken  = consumes<reco::PFMETCollection>(iConfig.getParameter<edm::InputTag>("pfMetRaw"));
       patMetTree_->pfMETToken     = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("pfType1Met"));
       patMetTree_->puppimetToken  = consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("puppiMET"));
       // patMetTree_->pfMVAMETToken  = consumes<reco::PFMETCollection>(iConfig.getParameter<edm::InputTag>("pfMVAMET"));

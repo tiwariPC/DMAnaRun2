@@ -1,10 +1,10 @@
 #ifndef __MET_TREE_H_
 #define __MET_TREE_H_
 /*
-  Updated By: Raman Khurana 
+  Updated By: Raman Khurana
   Date      : 24 June 2015.
 
- -- it can save three types of MET now : 
+ -- it can save three types of MET now :
    = PFMET uncorrected
    = PFMET corrected
    = MVA MET
@@ -44,19 +44,19 @@ class patMetTree : public baseTree{
   void Fill(const edm::Event& iEvent);
   void Clear();
 
-  edm::EDGetTokenT<reco::PFMETCollection>           pfMETRawToken;
+  //edm::EDGetTokenT<reco::PFMETCollection>           pfMETRawToken;
   edm::EDGetTokenT<pat::METCollection>              pfMETToken;
   edm::EDGetTokenT<reco::PFMETCollection>           pfMVAMETToken;
   edm::EDGetTokenT<pat::METCollection>             puppimetToken;
-  
-  
+
+
  private:
 
   patMetTree(){};
   void SetBranches();
-    
-  float patMetCorrPt_;  
-  float patMetCorrPhi_; 
+
+  float patMetCorrPt_;
+  float patMetCorrPhi_;
   float patMetCorrSumEt_;
   float patMetCorrSig_;
   std::vector<float> patMetCorrUnc_;
@@ -75,13 +75,12 @@ class patMetTree : public baseTree{
   float mvaMetSumEt_;
   float mvaMetSig_;
 
-  float puppiMETPt_; 
-  float puppiMETPhi_; 
-  float puppiMETSumEt_; 
-  float puppiMETSig_; 
-  std::vector<float>  puppiMETUnc_; 
-  
+  float puppiMETPt_;
+  float puppiMETPhi_;
+  float puppiMETSumEt_;
+  float puppiMETSig_;
+  std::vector<float>  puppiMETUnc_;
+
 };
 
 #endif
-
