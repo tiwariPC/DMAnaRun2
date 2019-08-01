@@ -61,13 +61,13 @@ class patMetTree : public baseTree{
   float patMetCorrSig_;
   std::vector<float> patMetCorrUnc_;
 
-  float patMetRawPt_;
-  float patMetRawPhi_;
-  float patMetRawSumEt_;
-  float patMetRawCov00_;
-  float patMetRawCov01_;
-  float patMetRawCov10_;
-  float patMetRawCov11_;
+  // float patMetRawPt_;
+  // float patMetRawPhi_;
+  // float patMetRawSumEt_;
+  // float patMetRawCov00_;
+  // float patMetRawCov01_;
+  // float patMetRawCov10_;
+  // float patMetRawCov11_;
 
 
   float mvaMetPt_;

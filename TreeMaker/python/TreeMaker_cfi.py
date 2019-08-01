@@ -22,7 +22,7 @@ tree = cms.EDAnalyzer(
 
     pvSrc            = cms.InputTag('offlineSlimmedPrimaryVertices'),
 
-    patMetRaw        = cms.InputTag("pfMet"),
+    #patMetRaw        = cms.InputTag("pfMet"),
     patMet           = cms.InputTag("slimmedMETs"),
     #pfMetRaw         = cms.InputTag("pfMet"),
     pfType1Met       = cms.InputTag("slimmedMETs"),

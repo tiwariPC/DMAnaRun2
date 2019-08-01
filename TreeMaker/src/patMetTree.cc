@@ -33,14 +33,14 @@ patMetTree::Fill(const edm::Event& iEvent){
              <<"slimmedMETsPuppi"<<std::endl; exit(0);}
   //slimmedMETsPuppi
 
-  auto metraw=patMetRawHandle.product()->begin();
-  patMetRawPt_ = metraw->et();
-  patMetRawPhi_ = metraw->phi();
-  patMetRawSumEt_ = metraw->sumEt();
-  patMetRawCov00_ = metraw->getSignificanceMatrix()(0,0);
-  patMetRawCov01_ = metraw->getSignificanceMatrix()(0,1);
-  patMetRawCov10_ = metraw->getSignificanceMatrix()(1,0);
-  patMetRawCov11_ = metraw->getSignificanceMatrix()(1,1);
+  // auto metraw=patMetRawHandle.product()->begin();
+  // patMetRawPt_ = metraw->et();
+  // patMetRawPhi_ = metraw->phi();
+  // patMetRawSumEt_ = metraw->sumEt();
+  // patMetRawCov00_ = metraw->getSignificanceMatrix()(0,0);
+  // patMetRawCov01_ = metraw->getSignificanceMatrix()(0,1);
+  // patMetRawCov10_ = metraw->getSignificanceMatrix()(1,0);
+  // patMetRawCov11_ = metraw->getSignificanceMatrix()(1,1);
 
   pat::METCollection::const_iterator met=patMetHandle.product()->begin();
   patMetCorrPt_    = met->et();
@@ -114,13 +114,13 @@ patMetTree::SetBranches(){
     AddBranch(&patMetCorrSumEt_, "MetCorrSumEt");
     AddBranch(&patMetCorrSig_, "MetCorrSig");
 
-    AddBranch(&patMetRawPt_, "MetRawPt");
-    AddBranch(&patMetRawPhi_, "MetRawPhi");
-    AddBranch(&patMetRawSumEt_, "MetRawSumEt");
-    AddBranch(&patMetRawCov00_, "MetRawCov00");
-    AddBranch(&patMetRawCov01_, "MetRawCov01");
-    AddBranch(&patMetRawCov10_, "MetRawCov10");
-    AddBranch(&patMetRawCov11_, "MetRawCov11");
+    // AddBranch(&patMetRawPt_, "MetRawPt");
+    // AddBranch(&patMetRawPhi_, "MetRawPhi");
+    // AddBranch(&patMetRawSumEt_, "MetRawSumEt");
+    // AddBranch(&patMetRawCov00_, "MetRawCov00");
+    // AddBranch(&patMetRawCov01_, "MetRawCov01");
+    // AddBranch(&patMetRawCov10_, "MetRawCov10");
+    // AddBranch(&patMetRawCov11_, "MetRawCov11");
 
     AddBranch(&mvaMetPt_,     "mvaMetPt");
     AddBranch(&mvaMetPhi_,    "mvaMetPhi");
@@ -146,13 +146,13 @@ patMetTree::Clear(){
   patMetCorrSig_= dummy;
   patMetCorrUnc_.clear();
 
-  patMetRawPt_= dummy;
-  patMetRawPhi_= dummy;
-  patMetRawSumEt_= dummy;
-  patMetRawCov00_= dummy;
-  patMetRawCov01_= dummy;
-  patMetRawCov10_= dummy;
-  patMetRawCov11_= dummy;
+  // patMetRawPt_= dummy;
+  // patMetRawPhi_= dummy;
+  // patMetRawSumEt_= dummy;
+  // patMetRawCov00_= dummy;
+  // patMetRawCov01_= dummy;
+  // patMetRawCov10_= dummy;
+  // patMetRawCov11_= dummy;
 
   mvaMetPt_     = dummy ;
   mvaMetPhi_    = dummy ;
