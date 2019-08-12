@@ -116,7 +116,7 @@ class jetTree  : public baseTree{
   std::vector<std::string> jecNames_; // for reading text file
   std::string              jecUncName_; // for reading text file
 
-  jetSelector jet2012ID_;
+  jetSelector jet2016ID_;
 
 
   boost::shared_ptr<FactorizedJetCorrector> prunedjecText_;
